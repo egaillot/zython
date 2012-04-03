@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<h2>{% trans "Add a new recipe" %}</h2>
+<form action="." method="POST" class='form-horizontal'>{% csrf_token %}
+	{% for field in form %}
+		<div class="control-group {% if field.errors %}error{% endif %}">
+			<label for="{{ field.auto_id }}" class='control-label'>{{ field.label }}</label>
+			<div class="controls">
+				{{ field }}
+				{% if field.help_text %}
+					<span class="help-inline">{{ field.help_text }}</span>
+				{% endif %}
+				{{ field.errors }}
+			</div>
+		</div>
+	{% endfor %}
+	<div class="form-actions">
+		<input type="submit" class="btn" value="{% trans "Save" %}">
+	</div>
+</form>
+{% endblock content %}
+
+{% block extrahead %}
+<style type="text/css">
+#id_batch_size{width:60px;}
+</style>
+{% endblock extrahead %}

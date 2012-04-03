@@ -1,0 +1,89 @@
+{% extends "accounts/base_creation.html" %}
+{% load i18n image_thumbnail %}
+
+{% block linkclass %}register{%endblock%}
+{% block bodyclass %}register{% endblock %}
+
+
+
+{% block content %}
+<h1>
+{% block title %}
+    {% trans "Créez un compte" %}
+{% endblock %}</h1>
+
+{% if licencies %}
+	<div id="licencie_list">
+		<div class='messages'>
+		    <strong>ATTENTION</strong> UN COMPTE EXISTE DÉJÀ AVEC CE NUMÉRO DE LICENCE !!!!!
+		</div>
+	    {% for licencie in licencies %}
+	        	<div class='float_left' style="display:table;">
+					<img src="{{licencie.avatar|thumbnail:"50,50"}}" class='logo' />
+		        </div>
+		        <div>
+			        <a href='javascript:void(0);' id="click_auth_{{ licencie.pk }}" class='bigblack click_auth'>{{licencie.get_full_name}}</a><br />
+			        <div class='grey' style='font-size:11px'>
+					
+				        {% if licencie.club %}
+					        <b>{{ licencie.club }}</b><br />
+				        {% endif %}
+				        <span class='grey'>
+					        {% blocktrans with licencie.date_joined|date:"d F Y" as date_joined %}
+						        Inscrit depuis le {{date_joined}}
+					        {% endblocktrans %}
+				        </span><br />
+				        Nom de connexion : <b>{{ licencie.username }}</b><br />
+				        Email : <b>{{ licencie.email }}</b>
+			        </div>
+		        </div>
+		<hr class='clear' />
+	    {% endfor %}
+	</div>
+	{% for licencie in licencies %}
+		<div id="auth_login_{{ licencie.pk }}" style="display:none;clear:both;">
+			<img src="{{licencie.avatar|thumbnail:"50,50"}}" class='float_right' />
+			<form method="POST" action="{% url auth_login %}">{% csrf_token %}
+				<h3>Se connecter avec {{ licencie.get_full_name }} ({{ licencie.username }})</h3>
+				<p>
+				<input type="hidden" name="username" value="{{ licencie.username }}" />
+				{% trans "Saisissez votre mot de passe" %} : <input type="password" name="password" value="" />
+				<input type="submit" value="Connexion" /><br />
+				</p>
+				<a href="javascript:void(0);" class='close_auth' id="close_auth_{{ licencie.pk }}">{% trans "Fermer" %}</a>
+			</form>
+			
+		</div>
+	{% endfor %}
+
+{% else %}
+	<form action="." method="POST">{% csrf_token %}
+	    <div class="center" style="padding:15px;margin:0 auto;width:450px;text-align:center;">
+	        <div style="font-size:16px;margin:0 auto;">
+		        {% trans "Saisissez votre numéro de licence : " %}<br />
+		        <input style="width:80px;" type="text" name="licence_num" value="" id="id_licence_num" />
+	        </div>
+	    </div>
+		<div class="registration_submiters">
+			<a class="registration_escape" href="{% url  registration_real_register %}">
+				{% trans "Je n'ai pas encore de licence" %}
+			</a>
+			<input type="submit" value="{% trans "Continuer" %} &rarr;" class="registration_submit btn primary" />
+		</div>
+	</form>
+
+{% endif %}
+{% endblock %}
+
+
+{% block extrahead %}
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		$("#id_licence_num").focus();
+	});
+</script>
+
+
+
+
+{% endblock %}

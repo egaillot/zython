@@ -1,0 +1,77 @@
+{% extends "accounts/base_creation.html" %}
+{% load i18n %}
+
+{% block linkclass %}register{%endblock%}
+{% block bodyclass %}register{% endblock %}
+
+
+
+
+
+{% block content %}
+
+<h1>
+{% block title %}
+    {% trans "Créez un compte" %}
+{% endblock %}</h1>
+
+<div class="messages center">
+{% url auth_password_reset as reseturl %}
+{% blocktrans %}<strong>Merci de ne pas créer plusieurs comptes à votre nom</strong><br />
+Si vous n'arrivez pas à vous connecter à votre compte, <a href="{{reseturl}}">réinitialisez votre mot de passe</a>. Les cas échéant, <a href="/contact/">contactez nous</a>.
+{%endblocktrans%}
+</div>
+<p><br /></p>
+{% if form.non_field_errors %}
+	{{ form.non_field_errors }}<br/><br/>
+{% endif %}
+
+<form action="." method="POST" class="form-large">{% csrf_token %}
+
+<div style="padding-left:180px;">
+		{% for field in form %}
+			<div class='clearfix {% if field.errors %}error{% endif %}'>
+				{{ field.label_tag }}
+				<div class="input">
+					{{ field }}
+					<br/><span class='help-inline'>
+					{% if field.name == "username" %}
+							{% trans "Saisi en minuscules, sans espace ni accents.<br/>Tiret bas (du 8) accepté" %}
+					{% endif %}
+					{% if field.name == "first_name" %}
+							{% trans "Ex : Jean René, Noël, Jérôme..." %}
+					{% endif %}
+					{% if field.name == "last_name" %}
+							{% trans "En majuscule. Ex : DUPONT, DE CAMARETOU..." %}
+					{% endif %}
+					</span>
+					{{ field.errors }}
+				</div>
+			</div>
+		{% endfor %}
+</div>
+
+
+<div class="registration_submiters">
+	<span class='help-inline'>
+		{% trans "Après validation, vous recevrez un email de confirmation" %}
+	</span>
+	<input type="submit" value="{% trans "Créer un compte maintenant" %} &rarr;" class="registration_submit btn primary" />
+</div>
+
+</form>
+
+{% endblock %}
+
+
+{% block extrahead %}
+{% if not request.POST %}
+	<script type="text/javascript" charset="utf-8">
+		$(document).ready(function() {
+			$("#id_username").focus();
+			alert('1 compte pour 1 licencié, ne créez pas plusieurs comptes, merci.');
+		});
+		
+	</script>
+{% endif %}
+{% endblock %}

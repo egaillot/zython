@@ -1,0 +1,80 @@
+{% extends "accounts/base_creation.html" %}
+{% load i18n %}
+
+{% block content %}
+<h1>{%trans "Votre compte est créé"%}</h1>
+<br/><br/>
+
+{% if request.session.existing_users %}
+	<div class='messages' style="background:#FCFFCD url({{MEDIA_URL}}images/static/error_button.png) 10px 15px no-repeat; padding:10px 10px 10px 50px;">
+		
+	{% ifequal request.session.existing_users.count 1 %}
+		<p>Un utilisateur portant le même nom existe déjà dans notre base<br/>
+		Voir la fiche de <a target="_blank" href="{{request.session.existing_users.0.get_absolute_url}}">{{request.session.existing_users.0}}</a>. </p><br/>
+	{%else%}
+		{{request.session.existing_users.count}} utilisateurs portant le même nom existent déjà dans notre base :<br/>
+		<ul>{% for ext in request.session.existing_users %}
+			<li><a href="{{ext.get_absolute_url}}">{{ext.get_full_name}}</a>&nbsp;<span class='grey'>({{ext.username}})</span></li>
+		{% endfor %}</ul>
+	{% endifequal %}
+	<p>
+	Merci de ne pas créer une fiche licencié en double. <br/>
+	Un compte sur engage est personnel et unique pour la justesse de votre palmarès et vos résultats.<br/>
+	Si vous êtes un homonyme et souhaitez poursuivre votre inscription, <a id="follower_force" href="javascript:void(0);">suivez ces indications</a>.
+	</p>
+</div>
+{% endif %}
+
+
+
+<div style="font-size:14px;">
+<div class='messages center'>
+<strong>{% blocktrans %}<u>[IMPORTANT]</u>, avant de continuer vérifiez votre boîte email
+{% endblocktrans %}</strong>
+</div>
+<div id="instructional_follow" class='center' style='background-image:none;'><p><br />
+{%blocktrans%}Vous allez recevoir un email contenant un lien de confirmation.<br />
+Activez votre compte en cliquant sur ce lien.
+{%endblocktrans%}<br/><br/></p>
+
+<hr>
+<br />
+<div class=' center'><strong>
+{% blocktrans %}Vous n'avez pas reçu l'email de confirmation ?
+{% endblocktrans %}</strong>
+</div><br />
+
+<p>
+{% blocktrans  %}
+Si le message n'est pas dans votre boite de réception, patientez, <br />l'opération peut prendre parfois jusqu'à 30 secondes.<br/>
+Ensuite, vérifiez votre dossier <i>"Spam"</i> ou <i>"Courrier indésirable"</i>
+{% endblocktrans %}
+</p>
+<p>
+{% url registration_reactivate as reactiv_url %}{% blocktrans %}
+Si n'avez toujours rien reçu ? <a href="{{ reactiv_url }}">Obtenez à nouveau votre clé d'activation</a>{% endblocktrans %}
+</p>
+
+</div>
+</div>
+
+<br/><br/>
+
+
+
+{% endblock %}
+
+{% block extrahead %}
+<script type="text/javascript" charset="utf-8">
+{% if request.session.existing_users %}
+	$(document).ready(function() {
+		$("#instructional_follow").hide();
+		$("#follower_force").click(function(){
+			$("#instructional_follow").show();
+		});
+	});
+{%endif%}
+</script>	
+{% endblock %}
+
+

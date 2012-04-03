@@ -1,0 +1,58 @@
+{% extends "accounts/base_creation.html" %}
+{% load i18n %}
+
+{% block content %}
+	{% if account %}
+		<h1>{%trans "Votre compte est maintenant activé"%}</h1>
+		{% if user.is_anonymous %}
+			
+			
+			<form method="POST" action="{% url auth_login %}">{% csrf_token %}
+				<input type="hidden" name="username" value="{{ account.username }}" />
+				<div class='clear' style="margin:0 auto; width:550px;">
+				<p>
+					{% trans "Vous pouvez vous connecter ci-dessous" %}</a>
+				</p>
+				<table class='noborder'>
+					<tr>
+						<td>{% trans "Nom d'utilisateur" %} : </td>
+						<td><strong>{{ account.username }}</strong></td>
+					</tr>
+					
+					<tr>
+						<td>{% trans "Mot de passe" %} : </td>
+						<td><input type="password" name="password" value="" /></td>
+					</tr>
+					
+				</table>
+				</div>
+				<div class="registration_submiters">
+					<input type="submit" value="{% trans "Connexion" %}" class="registration_submit grubmit" />
+				</div>
+					
+					
+			</form>
+		{% else %}
+			{% trans "Vous êtes connecté" %}
+		{% endif %}
+	{% else %}
+		<h1>{% trans "Clé invalide" %}</h1>
+		<p>
+		{%trans "La clé que vous avez saisi est invalide, ceci pour une des deux raisons : "%}
+		</p>
+		<ol>
+			<li><strong>Vous avez déjà activé votre compte</strong> : <br/>
+				La clé de validation ne peut être utilisée qu'une fois, il se peut que vous aillez déjà validé votre compte. 
+				<br/>Dans ce cas : <a href="{% url auth_login %}">connectez-vous</a>.<br/>&nbsp;
+				
+			<li><strong>La clé n'est pas correcte</strong>:<br/>
+				Une clé de validation a une durée de vie limitée, celle ci peut être périmée. Il est possible que l'url saisie comporte une erreur dans la clé. <br/>Dans ce cas : <a href="{% url registration_reactivate %}">obtenez à nouveau une clé d'activation</a>
+			</li>
+		</ol>
+		
+		<p><br/></p>
+		
+		
+	{% endif %}
+{% endblock %}
+

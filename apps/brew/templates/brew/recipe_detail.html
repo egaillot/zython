@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load i18n unit_tags increment %}
+{% load url from future %}
+
+{% block title %}{{ object.name }}, by {{ object.user.get_full_name}}	
+{% endblock title %}
+
+{% block content %}
+<div class="well">
+	<h1>{{ object.name }} <small>{{ object.style}}</small></h1>
+	<p><hr /></p>
+
+	<div class="row">
+		<div class="span6">
+			<b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }}
+		</div>
+		<div class="span5">
+			<b>{% trans "Created date" %}</b> : {{ object.created|date }}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span6">
+			<b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}
+		</div>
+		<div class="span5">
+			<b>{% trans "Created by" %}</b> : {{ object.user.get_full_name }}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="span6">
+			<b>{% trans "Est. original gravity" %}</b> : {{ object.get_original_gravity }} <br>
+			<b>IBU</b> : {{ object.get_ibu }}
+		</div>
+		<div class="span5">
+			<b>{% trans "Color" %}</b> : {% local_unit "color" object.get_ebc %}
+			<div style="width:100px;height:20px;background-color:{{ object.get_hex }};"></div>
+		</div>
+
+	</div>
+</div>
+
+<hr/>
+
+<h2>{% trans "Ingredients" %}</h2>
+<div class="row">
+	<div class="span10">
+		<table class='table'>
+			<thead>
+				<tr>
+					<th>Amount</th>
+					<th>Name</th>
+					<th>Type</th>
+					<th>#</th>
+					<th>%/IBU</th>
+					<th>{% trans "Actions" %}</th>
+				</tr>
+			</thead>
+		{% for malt in object.recipemalt_set.all %}
+			<tr>
+				<td>
+					{% local_unit "weight" malt.amount 0 %}
+				</td>
+				<td>{{ malt.name }} ({% local_unit "color" malt.color %})</td>
+				<td>{{ malt.get_malt_type_display }}</td>
+				<td><span class="position"></span></td>
+				<td>{{ malt.percent }}%</td>
+				<td>
+					<a href="{% url "brew_recipe_removemalt" object.id malt.id %}">{% trans "Delete" %}</a>
+				</td>
+			</tr>
+		{% empty %}
+			&nbsp;
+		{% endfor %}
+
+		{% for hop in object.recipehop_set.all %}
+			<tr>
+				<td>
+					{% local_unit "hop" hop.amount 0 %}
+				</td>
+				<td>{{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.boil_time }} min</td>
+				<td>{% trans "Hop" %}</td>
+				<td><span class="position"></span></td>
+				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
+				<td><a href="{% url "brew_recipe_removehop" object.id hop.id %}">{% trans "Delete" %}</a></td>
+			</tr>
+		{% endfor %}
+		
+		{% for misc in object.recipemisc_set.all %}
+		<tr>
+				<td>
+					{% local_unit "hop" misc.amount 0 %}
+				</td>
+				<td>{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}</td>
+				<td>{% trans "Hop" %}</td>
+				<td><span class="position"></span></td>
+				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
+				<td><a href="{% url "brew_recipe_removemisc" object.id misc.id %}">{% trans "Delete" %}</a></td>
+			</tr>
+		{% endfor %}
+		</table>
+
+		{% for yeast in object.recipeyeast_set.all %}
+			<li>{{ yeast }}</li>
+		{% endfor %}
+	</div>
+	<div class="span2">
+		<ul class="nav nav-list ingredient-list">
+			{% if object.user == request.user %}
+				<li class="nav-header">{% trans "Add" %}</li>
+				<li><a data-toggle="modal" href="#modal_grain">{% trans "Grain" %}</a></li>
+				<li><a data-toggle="modal" href="#modal_hop">{% trans "Hop" %}</a></li>
+				<li><a data-toggle="modal" href="#modal_misc">{% trans "Misc" %}</a></li>
+				<li><a href="#">{% trans "Yeast" %}</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+
+{% include "brew/modal_ingredients.html" %}
+
+{% endblock content %}
+
+
+
+{% block js %}
+{% if object.user == request.user %}
+	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
+	<script type="text/javascript">
+	function handleResponse(responseText, statusText, xhr, $form){
+		is_valid = parseInt(responseText.valid);
+		if (is_valid == 1){
+			document.location.href = ".";
+		}else{
+			$('.error_frame').html("");
+			for(i=0; i<responseText.errors.length; i++){
+				error = responseText.errors[i];
+				$('.error_frame').append(error);
+				$('.error_frame').addClass("alert");
+				$('.error_frame').addClass("alert-error");
+			}
+		}
+	}
+	$(document).ready(function() { 
+	    $('.ajaxform').ajaxForm({success: handleResponse});
+	    $('.modal').on('shown', function(){
+	    	$(this).find('input.quicksearch:first').focus();
+	    });
+	    $("#search_grain").quicksearch('table#table_grain tbody tr');
+	    $("#search_hop").quicksearch('table#table_hop tbody tr');
+	    $("#search_misc").quicksearch('table#table_misc tbody tr');
+	});
+	</script>
+{% endif %}
+<script type="text/javascript">
+$(document).ready(function() { 
+	i = 0;
+	$('.position').each(function(){
+		i++;
+		$(this).text(i);
+	});
+});
+</script>
+{% endblock js %}
+
+
+
+{% block extrahead %}
+	<style type="text/css">
+	.error_frame{
+		text-align:left;
+	}
+	.inline_field input[type="text"]{width:30px;}
+	.inline_field select{width:80px}
+	</style>
+{% endblock extrahead %}

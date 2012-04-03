@@ -1,0 +1,172 @@
+{% load i18n %}
+{% load url from future %}
+
+
+{# GRAIN #}
+<div class="modal hide fade" id="modal_grain">
+    <form action="{% url "brew_recipe_addmalt" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <div class="pull-right">
+        <input placeholder="{% trans "Search" %}" type="text" id="search_grain" class="quicksearch" />
+        &nbsp;&nbsp;&nbsp;
+        </div>
+        <h3>{% trans "Grains" %}</h3>
+      </div>
+      <div class="modal-body">
+         
+        <table class="table table-bordered table-striped table-condensed" id="table_grain">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Origin" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Color" %}</th>
+                    <th>{% trans "Max" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for malt in malt_list %}
+            <tr>
+                <td>
+                    <input type="radio" name="malt_id" value="{{ malt.id }}" />
+                </td>
+                <td>{{ malt.name }}</td>
+                <td>{{ malt.origin }}</td>
+                <td>{{ malt.get_malt_type_display }}</td>
+                <td>{{ malt.color }}EBC</td>
+                <td>{{ malt.max_in_batch }}%</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="error_frame"></div>
+        <div class="row pull-right">
+            <div class="span3 inline_field">
+                {% trans "Amount" %} {{ malt_form.amount }} {{ malt_form.amount.help_text }}
+            </div>
+            <div class="span1">
+                <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend'>
+            </div>
+        </div>
+      </div>
+    </form>
+</div>
+{# ENDGRAIN #}
+
+
+{# HOP #}
+<div class="modal hide fade" id="modal_hop">
+    <form action="{% url "brew_recipe_addhop" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <div class="pull-right">
+        <input placeholder="{% trans "Search" %}" type="text" id="search_hop" class="quicksearch" />
+        &nbsp;&nbsp;&nbsp;
+        </div>
+        <h3>{% trans "Hops" %}</h3>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-striped table-condensed" id="table_hop">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Origin" %}</th>
+                    <th>{% trans "Alpha" %}</th>
+                    <th>{% trans "Beta" %}</th>
+                    <th>{% trans "Type" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for hop in hop_list %}
+            <tr>
+                <td>
+                    <input type="radio" name="hop_id" value="{{ hop.id }}" />
+                </td>
+                <td>{{ hop.name }}</td>
+                <td>{{ hop.origin }}</td>
+                <td>{{ hop.acid_alpha }}</td>
+                <td>{{ hop.acid_beta }}</td>
+                <td>{{ malt.max_in_batch }}%</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="error_frame"></div>
+        <div class="row pull-right inline_field">
+            <div class="span3">
+                {% trans "Amount" %} {{ hop_form.amount }} {{ hop_form.amount.help_text }}
+            </div>
+            <div class="span2">
+                {% trans "Boil time" %} {{ hop_form.boil_time }} min
+            </div>
+            <div class="span1">
+                <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend' style="width:50px;">
+            </div>
+        </div>
+      </div>
+    </form>
+</div>
+{# ENDHOP #}
+
+
+
+{# MISC #}
+<div class="modal hide fade" id="modal_misc">
+    <form action="{% url "brew_recipe_addmisc" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+      <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <div class="pull-right">
+        <input placeholder="{% trans "Search" %}" type="text" id="search_misc" class="quicksearch" />
+        &nbsp;&nbsp;&nbsp;
+        </div>
+        <h3>{% trans "Misc" %}</h3>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered table-striped table-condensed" id="table_misc">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "Name" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Use for" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for misc in misc_list %}
+            <tr>
+                <td>
+                    <input type="radio" name="misc_id" value="{{ misc.id }}" />
+                </td>
+                <td>{{ misc.name }}</td>
+                <td>{{ misc.misc_type }}</td>
+                <td>{{ misc.get_use_in_display }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <div class="error_frame"></div>
+        <div class="row pull-right inline_field">
+            <div class="span5">
+                {% trans "Amount" %} {{ misc_form.amount }} {{ misc_form.amount.help_text }}
+
+                {{ misc_form.use_in }}
+                {{ misc_form.time }}
+                {{ misc_form.time_unit }}
+            </div>
+            <div class="span1">
+                <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend'>
+            </div>
+        </div>
+      </div>
+    </form>
+</div>
+{# ENDMISC #}

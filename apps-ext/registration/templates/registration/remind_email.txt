@@ -1,0 +1,52 @@
+{% load i18n %}
+{% url registration_activate activation_key as activation_url %}
+{% url accounts_licencie_search as search_url %}
+{% url auth_login as login_url %}
+{% url registration_reactivate as activ_url %}
+{% url auth_password_reset as reset_url %}
+
+{% blocktrans with site as site and user.first_name as prenom and user.last_name as nom and user.username as username %}
+Bonjour {{ prenom }} {{ nom }},
+
+Vous possédez déjà compte personnel sur le portail engage-sports.com.
+Rappel de nom d'utilisateur : {{ username }}
+
+Vous avez tenté de créer un nouveau compte certainement pour une des raisons suivantes : 
+- Vous ne vous rappelez pas avoir créé un compte sur engage-sports
+- Vous voulez gérer le compte d'un proche
+- Vous n'arrivez pas / plus à vous connecter
+
+Vous trouverez les réponses à ces questions ci-dessous :
+
+
+
+=== GÉRER UN COMPTE SUR ENGAGE-SPORTS POUR UN PROCHE ===
+
+Nous vous rappelons qu'un compte sur engage-sports est personnel et unique pour la cohérence et la justesse des résultats.
+Vous pouvez tout à fait gérer le compte d'un proche si vous êtes sûr que : 
+- Votre proche n'a pas déjà un compte, vous pouvez le vérifier en recherchant son nom/prénom à l'adresse http://{{ site }}{{ search_url }}
+- Votre proche est au courant et d'accord
+- Ce compte soit repris par votre proche et qu'il n'en créera pas un nouveau par la suite.
+
+
+
+=== JE NE SAIS PAS SI J'AI CRÉÉ UN COMPTE ===
+
+Si vous recevez ce message, vous avez déjà un compte sur engage-sports.com
+Pour vous connecter : http://{{ site }}{{ login_url }}
+Votre nom d'utilisateur : {{ username }}
+
+
+
+=== JE N'ARRIVE PAS (PLUS) À ME CONNECTER ===
+
+A la création de votre compte vous avez dû recevoir un email contenant un lien d'activation de votre compte.
+Si vous ne l'avez pas reçu ou égaré par mégarde, vous pouvez demander à nouveau une clé d'activation ici http://{{ site }}{{ activ_url}},
+seule votre adresse email vous sera semandée.
+Si vous avez perdu votre mot de passe, réinitialisez le sur http://{{ site }}{{ reset_url }}
+
+
+
+Si vous n'avez pas trouvé réponse à vos questions, contactez-nous sur http://{{ site }} rubrique "Nous contacter".
+L'équipe engage-sports.com
+{% endblocktrans %}

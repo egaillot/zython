@@ -1,0 +1,11 @@
+syntax: glob
+*.pyc
+*~
+*.tmpl
+*.tmproj
+*.orig
+.DS_Store
+.directory
+.hg/
+*local_settings*
+
