@@ -4,7 +4,7 @@
 
 {# GRAIN #}
 <div class="modal hide fade" id="modal_grain">
-    <form action="{% url "brew_recipe_addmalt" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+    <form action="{% url "brew_recipe_addingredient" object.id "malt" %}" class='ajaxform' method="POST">{% csrf_token %}
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <div class="pull-right">
@@ -60,7 +60,7 @@
 
 {# HOP #}
 <div class="modal hide fade" id="modal_hop">
-    <form action="{% url "brew_recipe_addhop" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+    <form action="{% url "brew_recipe_addingredient" object.id "hop" %}" class='ajaxform' method="POST">{% csrf_token %}
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <div class="pull-right">
@@ -119,7 +119,7 @@
 
 {# MISC #}
 <div class="modal hide fade" id="modal_misc">
-    <form action="{% url "brew_recipe_addmisc" object.id %}" class='ajaxform' method="POST">{% csrf_token %}
+    <form action="{% url "brew_recipe_addingredient" object.id "misc" %}" class='ajaxform' method="POST">{% csrf_token %}
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
         <div class="pull-right">

@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.models import fields_for_model
 from inspect_model import InspectModel
 from brew.models import *
 from units.forms import UnitModelForm
@@ -6,13 +7,11 @@ from units.forms import UnitModelForm
 
 __all__ = (
     'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 
-    'RecipeMiscForm'
+    'RecipeMiscForm', 'RecipeYeastForm'
 )
 
 class RecipeForm(UnitModelForm):
-    unit_fields = {
-        'volume': ['batch_size',]
-    }
+    unit_fields = {'volume': ['batch_size',]}
 
     class Meta:
         model = Recipe
@@ -20,6 +19,17 @@ class RecipeForm(UnitModelForm):
 
 
 class RecipeIngredientForm(UnitModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RecipeIngredientForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            fields = fields_for_model(self.instance.__class__)
+            for field_name, field in fields.iteritems():
+                self.fields[field_name] = field
+                if not self.data:
+                    self.initial[field_name] = getattr(self.instance, field_name)
+            del self.fields[self.ingredient_name]
+            del self.fields["recipe"]
+
     def save(self, *args, **kwargs):
         base_ingr = self.cleaned_data[self.ingredient_name]
         recipe_ingr = self.instance
@@ -39,15 +49,9 @@ class RecipeIngredientForm(UnitModelForm):
 
 
 class RecipeMaltForm(RecipeIngredientForm):
-    unit_fields = {
-        'weight': ['amount',]
-    }
-
+    ingredient_name = "malt_id"
+    unit_fields = {'weight': ['amount',]}
     malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())   
-
-    def __init__(self, *args, **kwargs):
-        self.ingredient_name = "malt_id"
-        super(RecipeMaltForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = RecipeMalt
@@ -55,10 +59,8 @@ class RecipeMaltForm(RecipeIngredientForm):
 
 
 class RecipeHopForm(RecipeIngredientForm):
-    unit_fields = {
-        'hop': ['amount',]
-    }
     ingredient_name = "hop_id"
+    unit_fields = {'hop': ['amount',]}
     hop_id = forms.ModelChoiceField(queryset=Hop.objects.all())
 
     class Meta:
@@ -67,16 +69,22 @@ class RecipeHopForm(RecipeIngredientForm):
 
 
 class RecipeMiscForm(RecipeIngredientForm):
-    unit_fields = {
-        'hop': ['amount',]
-    }
     ingredient_name = "misc_id"
+    unit_fields = {'hop': ['amount',]}
     misc_id = forms.ModelChoiceField(queryset=Misc.objects.all())
 
     class Meta:
         model = RecipeMisc
         fields = ('misc_id', 'amount', 'use_in', 'time', 'time_unit')
 
+
+class RecipeYeastForm(RecipeIngredientForm):
+    ingredient_name = "yeast_id"
+    yeast_id = forms.ModelChoiceField(queryset=Yeast.objects.all())
+
+    class Meta:
+        model = RecipeYeast
+        fields = ('yeast_id', )
 
 
 

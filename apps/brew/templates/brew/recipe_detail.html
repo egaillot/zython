@@ -62,12 +62,12 @@
 				<td>
 					{% local_unit "weight" malt.amount 0 %}
 				</td>
-				<td>{{ malt.name }} ({% local_unit "color" malt.color %})</td>
+				<td><a href="#modal_edit_ingredient" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">{{ malt.name }} ({% local_unit "color" malt.color %})</a></td>
 				<td>{{ malt.get_malt_type_display }}</td>
 				<td><span class="position"></span></td>
 				<td>{{ malt.percent }}%</td>
 				<td>
-					<a href="{% url "brew_recipe_removemalt" object.id malt.id %}">{% trans "Delete" %}</a>
+					<a href="{% url "brew_recipe_removeingredient" object.id "malt" malt.id %}">{% trans "Delete" %}</a>
 				</td>
 			</tr>
 		{% empty %}
@@ -83,7 +83,7 @@
 				<td>{% trans "Hop" %}</td>
 				<td><span class="position"></span></td>
 				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
-				<td><a href="{% url "brew_recipe_removehop" object.id hop.id %}">{% trans "Delete" %}</a></td>
+				<td><a href="{% url "brew_recipe_removeingredient" object.id "hop" hop.id %}">{% trans "Delete" %}</a></td>
 			</tr>
 		{% endfor %}
 		
@@ -96,7 +96,7 @@
 				<td>{% trans "Hop" %}</td>
 				<td><span class="position"></span></td>
 				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
-				<td><a href="{% url "brew_recipe_removemisc" object.id misc.id %}">{% trans "Delete" %}</a></td>
+				<td><a href="{% url "brew_recipe_removeingredient" object.id "misc" misc.id %}">{% trans "Delete" %}</a></td>
 			</tr>
 		{% endfor %}
 		</table>
@@ -119,6 +119,20 @@
 </div>
 
 {% include "brew/modal_ingredients.html" %}
+
+
+<div class="modal hide fade" id="modal_edit_ingredient">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">×</a>
+    <h3></h3>
+  </div>
+  <div class="modal-body">
+    <div id="xhr_form"></div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary">Action</a>
+  </div>
+</div>
 
 {% endblock content %}
 
@@ -159,6 +173,13 @@ $(document).ready(function() {
 	$('.position').each(function(){
 		i++;
 		$(this).text(i);
+	});
+	$('.edit_ingredient').click(function(){
+		form_url = $(this).attr('data-url');
+		$.get(form_url, function(html){
+			alert(html);
+			$("#xhr_form").html(html);
+		});
 	});
 });
 </script>
