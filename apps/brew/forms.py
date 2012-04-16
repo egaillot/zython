@@ -6,8 +6,8 @@ from units.forms import UnitModelForm
 
 
 __all__ = (
-    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 
-    'RecipeMiscForm', 'RecipeYeastForm'
+    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 'RecipePreferencesForm', 
+    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm'
 )
 
 class RecipeForm(UnitModelForm):
@@ -15,7 +15,17 @@ class RecipeForm(UnitModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('name', 'batch_size', 'style', 'recipe_type')
+        fields = ('name', 'batch_size', 'efficiency', 'private', 'style', 'recipe_type')
+
+
+class RecipePreferencesForm(UnitModelForm):
+    unit_fields = {'volume': ['boiler_tun_deadspace','mash_tun_deadspace', ], 
+                    'temperature': ['grain_temperature', ]}
+    class Meta:
+        model = Recipe
+        fields = ('mash_tun_deadspace', 'boiler_tun_deadspace', 
+            'evaporation_rate', 'grain_temperature'
+        )
 
 
 class RecipeIngredientForm(UnitModelForm):
@@ -23,39 +33,53 @@ class RecipeIngredientForm(UnitModelForm):
         super(RecipeIngredientForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             fields = fields_for_model(self.instance.__class__)
+            unit_fields = self.get_unit_fieldnames()
             for field_name, field in fields.iteritems():
-                self.fields[field_name] = field
-                if not self.data:
-                    self.initial[field_name] = getattr(self.instance, field_name)
+                if field_name not in unit_fields:
+                    self.fields[field_name] = field
+                    if not self.data:
+                        self.initial[field_name] = getattr(self.instance, field_name)
             del self.fields[self.ingredient_name]
             del self.fields["recipe"]
+            self.model_fields = list(self.fields.iterkeys())
 
     def save(self, *args, **kwargs):
-        base_ingr = self.cleaned_data[self.ingredient_name]
         recipe_ingr = self.instance
-        copy_fields = InspectModel(recipe_ingr.__class__).fields
-        copy_fields.remove('id')
         add_default = recipe_ingr.pk is None
-        for field in copy_fields:
-            old_value = getattr(recipe_ingr, field, None)
-            if add_default:
-                new_value = getattr(base_ingr, field, None)
-                setattr(recipe_ingr, field, new_value)
-        for field in self.Meta.fields:
-            if field != self.ingredient_name:
-                setattr(recipe_ingr, field, self.cleaned_data[field])
-        recipe_ingr.save()
+        if add_default:
+            copy_fields = InspectModel(recipe_ingr.__class__).fields
+            copy_fields.remove('id')
+            base_ingr = self.cleaned_data[self.ingredient_name]
+            for field in copy_fields:
+                old_value = getattr(recipe_ingr, field, None)
+                if add_default:
+                    new_value = getattr(base_ingr, field, None)
+                    setattr(recipe_ingr, field, new_value)
+            for field in self.fields.iterkeys():
+                if field != self.ingredient_name:
+                    setattr(recipe_ingr, field, self.cleaned_data[field])
+            recipe_ingr.save()
+        else:
+            recipe_ingr = super(RecipeIngredientForm, self).save(*args, **kwargs)
+            for f in self.model_fields:
+                setattr(recipe_ingr, f, self.cleaned_data[f])
+            recipe_ingr.save()
         return recipe_ingr  
 
 
 class RecipeMaltForm(RecipeIngredientForm):
     ingredient_name = "malt_id"
-    unit_fields = {'weight': ['amount',]}
+    unit_fields = {'weight': ['amount',], 'color': ['color',]}
     malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())   
+
+    def __init__(self, *args, **kwargs):
+        super(RecipeMaltForm, self).__init__(*args, **kwargs)
+        if not self.instance.pk:
+            del self.fields['color']
 
     class Meta:
         model = RecipeMalt
-        fields = ('malt_id', 'amount')
+        fields = ('malt_id', 'amount', 'color')
 
 
 class RecipeHopForm(RecipeIngredientForm):
@@ -87,5 +111,16 @@ class RecipeYeastForm(RecipeIngredientForm):
         fields = ('yeast_id', )
 
 
+class MashStepForm(UnitModelForm):
+    unit_fields = {
+        'volume': ['water_added',],
+        'temperature': ['temperature',],
+    }
 
+    class Meta:
+        model = MashStep
+        fields = (
+            'name', 'step_type', 'temperature', 
+            'step_time', 'rise_time', 'water_added'
+        )
 

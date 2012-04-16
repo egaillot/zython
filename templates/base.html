@@ -4,16 +4,18 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Bibir - {% block title %}{% endblock title %}</title>
+    <title>2Beer - {% block title %}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
+    <link href='http://fonts.googleapis.com/css?family=Crafty+Girls' rel='stylesheet' type='text/css'>
     <link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-image-gallery.min.css" rel="stylesheet">
     <style type="text/css">
       body {
-        padding-top: 60px;
+        padding-top: 90px;
         padding-bottom: 40px;
       }
       .sidebar-nav {
@@ -30,8 +32,10 @@
 
     {% block extrahead %}{% endblock extrahead %}
   </head>
-
   <body>
+    <form name='langform' style='margin:0px;display:inline;width:200px' action='/i18n/setlang/' method='POST'>{% csrf_token %}
+                <input name='language' type="hidden" value="{{ LANGUAGE_CODE }}">
+              </form>
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -41,46 +45,81 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/">Project name</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="/">Home</a></li>
-
-              <li class="dropdown">
-                <a href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown">
-                      {% trans "Unit preferences" %}
-                      <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  {% for group in unit_menu %}
-                    <li class="nav-header">{{ group.title }}</li>
-                    {% for item in group.items %}
-                      <li>
-                        <a href="{% url "unit_set" group.key item.key %}">
-                        {% if item.is_active %}<b>{% endif %}
-                        {{ item.title }}
-                        {% if item.is_active %}&larr;</b>{% endif %}
-                        </a>
-
-                      </li>
+          <a class="brand" href="/">
+            <img src="{{ MEDIA_URL }}images/logo_48.png" alt="">
+            2beer.com
+          </a>
+          
+            <div class="nav-collapse">
+              
+              <ul class="nav pull-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {% get_language_info for LANGUAGE_CODE as lang %}
+                    {{ lang.name_local }}
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% for LANG in LANGUAGES  %}
+                      <li><a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a></li>
                     {% endfor %}
-                  {% endfor %}
-                </ul>
-              </li>
-            </ul>
+                  </ul>
+                </li>
+                {% if user.is_active %}
+                <li class="dropdown">
+                  <a href="#"
+                        class="dropdown-toggle"
+                        data-toggle="dropdown">
+                        {% trans "Unit preferences" %}
+                        <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% for group in unit_menu %}
+                      <li class="nav-header">{{ group.title }}</li>
+                      {% for item in group.items %}
+                        <li>
+                          <a href="{% url "unit_set" group.key item.key %}">
+                          {% if item.is_active %}<b>{% endif %}
+                          {{ item.title }}
+                          {% if item.is_active %}&larr;</b>{% endif %}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    {% endfor %}
+                  </ul>
+                </li>
 
-            <p class="navbar-text pull-right">
-              {% if request.user.is_anonymous %}
-                <a href="/accounts/register/">Register</a>
-                &nbsp;
-                <a href="/accounts/login/">Login</a>
-              {% else %}                
-              Logged in as <a href="/accounts/logout/">{{ request.user.username }}</a>
-              {% endif %}
-            </p>
-          </div><!--/.nav-collapse -->
+                <li>
+                  <a href="{% url "invitation_invite" %}">{% trans "Invite a friend" %}</a>
+                </li>
+                {% endif %}
+
+                {% if request.user.is_anonymous %}
+                  {% comment %}
+                  <a href="/accounts/register/">Register</a>
+                  &nbsp;
+                  {% endcomment %}
+                  <li>
+                    <a href="/accounts/login/">{% trans "Log in" %}</a>
+                  </li>
+                {% else %}            
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle"
+                      data-toggle="dropdown">
+                      {{ request.user.get_full_name }}<b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% url "brew_recipe_user" request.user.username %}">{% trans "My recipes" %}</a></li>
+                    <li><a href="/accounts/logout/">{% trans "Log out" %}</a></li>
+                  </ul>
+                </li>
+                {% endif %}
+
+              </ul>
+
+                
+            </div><!--/.nav-collapse -->
+
         </div>
       </div>
     </div>
@@ -89,27 +128,51 @@
       <div class="row">
           {% block content %}{% endblock content %}
       </div><!--/row-->
-      <hr>
-      <footer>
-        <p>&copy; Company 2012</p>
+
+      <footer class='center'>
+        <p>
+          Martyn CLEMENT 2012
+        </p>
+        <p>
+          <a href="">{% trans "About 2beer.com" %}</a> • <a href="">{% trans "Contact" %}</a> • <a href="">{% trans "Contribute" %}</a> • <a href="">Source code</a>
+        </p>
       </footer>
 
     </div><!--/.fluid-container-->
 
-    <script src="{{ MEDIA_URL }}js/jquery.js"></script>
-    <script src="{{ MEDIA_URL }}js/jquery.form.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-transition.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-alert.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-modal.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-dropdown.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-scrollspy.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-tab.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-tooltip.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-popover.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-button.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-collapse.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-carousel.js"></script>
-    <script src="{{ MEDIA_URL }}js/bootstrap-typeahead.js"></script>
-    {% block js %}{% endblock js %}
+
+
+<div id="modal-gallery" class="modal modal-gallery hide fade">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body"><div class="modal-image"></div></div>
+    <div class="modal-footer">
+        <a class="btn modal-download" target="_blank">
+            <i class="icon-download"></i>
+            <span>{% trans "Download" %}</span>
+        </a>
+    </div>
+</div><!-- /#modal-gallery -->
+
+<script src="{{ MEDIA_URL }}js/jquery.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-transition.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-alert.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-modal.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-dropdown.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-scrollspy.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-tab.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-tooltip.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-popover.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-button.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-collapse.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-carousel.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-typeahead.js"></script>
+<script src="{{ MEDIA_URL }}js//load-image.min.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-image-gallery.min.js"></script>
+<script type="text/javascript">$(function(){$('.tip').tooltip();});</script>
+{% block js %}{% endblock js %}
   </body>
 </html>

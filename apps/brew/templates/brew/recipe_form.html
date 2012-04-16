@@ -3,27 +3,66 @@
 
 {% block content %}
 <h2>{% trans "Add a new recipe" %}</h2>
-<form action="." method="POST" class='form-horizontal'>{% csrf_token %}
-	{% for field in form %}
-		<div class="control-group {% if field.errors %}error{% endif %}">
-			<label for="{{ field.auto_id }}" class='control-label'>{{ field.label }}</label>
-			<div class="controls">
-				{{ field }}
-				{% if field.help_text %}
-					<span class="help-inline">{{ field.help_text }}</span>
-				{% endif %}
-				{{ field.errors }}
-			</div>
+<form action="." method="POST" autocomplete="off">{% csrf_token %}
+<p><br><br></p>
+<div class="offset2">
+	<div class="row">
+		<div class="span2">
+			<label for="{{ form.batch_size.auto_id }}" class='control-label'>{{ form.batch_size.label }}</label> 
+			{{ form.batch_size }}&nbsp;{{ form.batch_size.help_text }}
+			{{ form.batch_size.errors }}
 		</div>
-	{% endfor %}
-	<div class="form-actions">
-		<input type="submit" class="btn" value="{% trans "Save" %}">
+		<div class="span6">
+			<label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
+			{{ form.name }}
+			{{ form.name.errors }}
+		</div>
 	</div>
+
+	<div class="row">
+		<div class="span2">
+			<label for="{{ form.efficiency.auto_id }}" class='control-label'>{{ form.efficiency.label }}</label> 
+			{{ form.efficiency }}&nbsp;{{ form.efficiency.help_text }}
+			{{ form.efficiency.errors }}
+		</div>
+		<div class="span3">
+			<label for="{{ form.recipe_type.auto_id }}" class='control-label'>{{ form.recipe_type.label }}</label>
+			{{ form.recipe_type }}
+			{{ form.recipe_type.errors }}
+		</div>
+		<div class="span4">
+			<label for="{{ form.style.auto_id }}" class='control-label'>{{ form.style.label }}</label>
+			{{ form.style }}
+			{{ form.style.errors }}
+		</div>
+	</div>
+
+
+	<div class="row row-private">
+		<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="">
+		{{ form.private }}
+		{% trans "Private recipe ?" %} <span class="help-inline">({% trans "If checked, this recipe will not be listed to other users." %})</span>
+	</div>
+		 
+
+
+
+</div>
+
+<hr>
+<div class="center">
+	<input type="submit" class="btn btn-success" value="{% trans "Add a new recipe" %}">
+</div>
+
 </form>
 {% endblock content %}
 
 {% block extrahead %}
 <style type="text/css">
-#id_batch_size{width:60px;}
+#id_name{font-size:30px;height:40px;width:450px;}
+#id_batch_size{font-size:30px;height:40px;width:60px;text-align:center;}
+#id_efficiency{width:60px;text-align:center;}
+.row-private {margin:20px 0px;}
+.row-private img{margin-bottom:4px;}
 </style>
 {% endblock extrahead %}

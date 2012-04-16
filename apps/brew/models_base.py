@@ -79,13 +79,13 @@ class BaseMalt(models.Model):
     
     # Yield
     potential_gravity = GravityField()
-    malt_yield = models.DecimalField(max_digits=5, decimal_places=2)
+    malt_yield = models.DecimalField(max_digits=5, decimal_places=2, help_text="%")
 
     # Properties
     color = ColorField()
-    diastatic_power = models.DecimalField(max_digits=4, decimal_places=1)
-    protein = models.DecimalField(max_digits=4, decimal_places=1)
-    max_in_batch = models.DecimalField(max_digits=4, decimal_places=1)
+    diastatic_power = models.DecimalField(max_digits=4, decimal_places=1, help_text="Lint.")
+    protein = models.DecimalField(max_digits=4, decimal_places=1, help_text="%")
+    max_in_batch = models.DecimalField(max_digits=4, decimal_places=1, help_text="%")
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
@@ -127,6 +127,9 @@ class BaseYeast(models.Model):
     best_for = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
 
+    def attenuation(self):
+        return (self.min_attenuation+self.max_attenuation)/2
+
     class Meta:
         abstract = True
 
@@ -134,7 +137,7 @@ class BaseYeast(models.Model):
 class BaseMisc(models.Model):
     name = models.CharField(max_length=100)
     misc_type = models.CharField(choices=MISC_TYPE_CHOICES, max_length=50)
-    usage = models.CharField(max_length=100)
+    usage = models.CharField("Use in", max_length=100)
     use_in = models.CharField(choices=MISC_USEIN_CHOICES, default="boil", max_length=50)
     notes = models.TextField(null=True, blank=True)
 

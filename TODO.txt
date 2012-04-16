@@ -1,0 +1,2 @@
+* Add support for user recipe preferences (water, evaporation, loss...)
+* Calculate the mashin water temperature depending on grain temperature

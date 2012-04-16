@@ -1,5 +1,7 @@
-# Django static settings
+ # -*- coding: utf-8 -*-
+ # Django static settings
 from local_settings import *
+from django.utils.translation import gettext_lazy as _
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,7 +13,17 @@ ADMINS = (
 MANAGERS = ADMINS
 
 TIME_ZONE = 'Europe/Paris'
+
+
 LANGUAGE_CODE = 'en'
+LOCALE_PATHS = (
+    "%slocale/" % ROOT_PROJECT,
+)
+LANGUAGES = (
+    ('en', u'English'),
+    ('fr', u'Français')
+)
+
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -45,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -53,10 +66,11 @@ MIDDLEWARE_CLASSES = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.request',
+    'django.core.context_processors.i18n',
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
     'units.context_processors.user_units',
-    'units.context_processors.unit_menu'
+    'units.context_processors.unit_menu',
 )
 
 TEMPLATE_DIRS = (
@@ -78,9 +92,14 @@ INSTALLED_APPS = (
     'units',
 
     'registration',
-    'inspect_model'
+    'inspect_model',
+    'invitation'
 )
 
+INVITE_MODE = 1
+ACCOUNT_INVITATION_DAYS = 1
+INVITATIONS_PER_USER = 5
+ACCOUNT_ACTIVATION_DAYS = 7
 
 LOGGING = {
     'version': 1,

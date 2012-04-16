@@ -1,0 +1,132 @@
+{% load i18n %}
+<form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
+
+
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+        <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
+        <div class="controls">
+            {{ form.name }}
+            {% if form.name.help_text %}
+                <span class="help-inline">{{ form.name.help_text }}</span>
+            {% endif %}
+            {{ form.name.errors }}
+        </div>
+    </div>
+
+    <div class="control-group {% if form.origin.errors %}error{% endif %}">
+        <label for="{{ form.origin.auto_id }}" class='control-label'>{{ form.origin.label }}</label>
+        <div class="controls">
+            {{ form.origin }}
+            {% if form.origin.help_text %}
+                <span class="help-inline">{{ form.origin.help_text }}</span>
+            {% endif %}
+            {{ form.origin.errors }}
+        </div>
+    </div>  
+    <hr>
+    <div class="row">
+        <div class="span3">
+            <div class="control-group {% if form.amount.errors %}error{% endif %}">
+                <label for="{{ form.amount.auto_id }}" class='control-label'>{{ form.amount.label }}</label>
+                <div class="controls">
+                    {{ form.amount }}
+                    {% if form.amount.help_text %}
+                        <span class="help-inline">{{ form.amount.help_text }}</span>
+                    {% endif %}
+                    {{ form.amount.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.form.errors %}error{% endif %}">
+                <label for="{{ form.form.auto_id }}" class='control-label'>{{ form.form.label }}</label>
+                <div class="controls">
+                    {{ form.form }}
+                    {% if form.form.help_text %}
+                        <span class="help-inline">{{ form.form.help_text }}</span>
+                    {% endif %}
+                    {{ form.form.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.usage.errors %}error{% endif %}">
+                <label for="{{ form.usage.auto_id }}" class='control-label'>{{ form.usage.label }}</label>
+                <div class="controls">
+                    {{ form.usage }}
+                    {% if form.usage.help_text %}
+                        <span class="help-inline">{{ form.usage.help_text }}</span>
+                    {% endif %}
+                    {{ form.usage.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.hop_type.errors %}error{% endif %}">
+                <label for="{{ form.hop_type.auto_id }}" class='control-label'>{{ form.hop_type.label }}</label>
+                <div class="controls">
+                    {{ form.hop_type }}
+                    {% if form.hop_type.help_text %}
+                        <span class="help-inline">{{ form.hop_type.help_text }}</span>
+                    {% endif %}
+                    {{ form.hop_type.errors }}
+                </div>
+            </div> 
+        </div>
+
+
+
+
+        <div class="span3">
+            <div class="control-group {% if form.boil_time.errors %}error{% endif %}">
+                <label for="{{ form.boil_time.auto_id }}" class='control-label'>{{ form.boil_time.label }}</label>
+                <div class="controls">
+                    {{ form.boil_time }}
+                    {% if form.boil_time.help_text %}
+                        <span class="help-inline">{{ form.boil_time.help_text }}</span>
+                    {% endif %}
+                    {{ form.boil_time.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.dry_days.errors %}error{% endif %}">
+                <label for="{{ form.dry_days.auto_id }}" class='control-label'>{{ form.dry_days.label }}</label>
+                <div class="controls">
+                    {{ form.dry_days }}
+                    {% if form.dry_days.help_text %}
+                        <span class="help-inline">{{ form.dry_days.help_text }}</span>
+                    {% endif %}
+                    {{ form.dry_days.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.acid_alpha.errors %}error{% endif %}">
+                <label for="{{ form.acid_alpha.auto_id }}" class='control-label'>{{ form.acid_alpha.label }}</label>
+                <div class="controls">
+                    {{ form.acid_alpha }}
+                    {% if form.acid_alpha.help_text %}
+                        <span class="help-inline">{{ form.acid_alpha.help_text }}</span>
+                    {% endif %}
+                    {{ form.acid_alpha.errors }}
+                </div>
+            </div> 
+            <div class="control-group {% if form.acid_beta.errors %}error{% endif %}">
+                <label for="{{ form.acid_beta.auto_id }}" class='control-label'>{{ form.acid_beta.label }}</label>
+                <div class="controls">
+                    {{ form.acid_beta }}
+                    {% if form.acid_beta.help_text %}
+                        <span class="help-inline">{{ form.acid_beta.help_text }}</span>
+                    {% endif %}
+                    {{ form.acid_beta.errors }}
+                </div>
+            </div> 
+        </div>
+    </div>
+    <div class="control-group {% if form.notes.errors %}error{% endif %}">
+        {{ form.notes }}
+        {% if form.notes.help_text %}
+            <span class="help-inline">{{ form.notes.help_text }}</span>
+        {% endif %}
+        {{ form.notes.errors }}
+    </div>
+</form>
+
+<style type="text/css">
+    .span3 div.control-group div.controls input{width:50px;}
+    .span3 div.control-group div.controls select{width:90px;}
+    .span3 div.control-group label{width:100px;}
+    .span3 div.control-group div.controls{margin-left:120px;}
+    #id_notes{width:480px;height:80px;}
+</style>

@@ -16,7 +16,7 @@ def get_converted_value(value, user_unit, group, long_term=True, raw_output=Fals
             function = '%s_to_%s' % (user_unit, source_unit)
         convers_function = getattr(conversions, function)
         value = convers_function(value)
-    value = precision % value
+    value = precision % float(value)
     if raw_output:
         return value
     return "%s %s" % (value,verbose_unit)
@@ -24,7 +24,6 @@ def get_converted_value(value, user_unit, group, long_term=True, raw_output=Fals
 def get_full_unit_name(group_name, unit_short):
      unit_group = app_settings.UNITS.get(group_name)
      return dict(unit_group.get('choices')).get(unit_short)
-
 
 def get_convert_to_default(*args, **kwargs):
     return get_converted_value(reverse=True, *args, **kwargs)

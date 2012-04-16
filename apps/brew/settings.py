@@ -31,3 +31,5 @@ SRM_TO_HEX = {
 	"29": "#100B0A",
 	"30": "#050B0A"
 }
+
+WATER_GAL_PER_GRAIN_LBS = 0.33

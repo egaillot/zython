@@ -1,0 +1,125 @@
+{% load i18n %}
+
+<form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
+    <div class="control-group {% if form.name.errors %}error{% endif %}">
+        <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
+        <div class="controls">
+            {{ form.name }}
+            {% if form.name.help_text %}
+                <span class="help-inline">{{ form.name.help_text }}</span>
+            {% endif %}
+            {{ form.name.errors }}
+        </div>
+    </div>
+     <div class="control-group {% if form.origin.errors %}error{% endif %}">
+        <label for="{{ form.origin.auto_id }}" class='control-label'>{{ form.origin.label }}</label>
+        <div class="controls">
+            {{ form.origin }}
+            {% if form.origin.help_text %}
+                <span class="help-inline">{{ form.origin.help_text }}</span>
+            {% endif %}
+            {{ form.origin.errors }}
+        </div>
+    </div>
+     <div class="control-group {% if form.malt_type.errors %}error{% endif %}">
+        <label for="{{ form.malt_type.auto_id }}" class='control-label'>{{ form.malt_type.label }}</label>
+        <div class="controls">
+            {{ form.malt_type }}
+            {% if form.malt_type.help_text %}
+                <span class="help-inline">{{ form.malt_type.help_text }}</span>
+            {% endif %}
+            {{ form.malt_type.errors }}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="span3">
+
+                <div class="control-group {% if form.amount.errors %}error{% endif %}">
+                    <label for="{{ form.amount.auto_id }}" class='control-label'>{{ form.amount.label }}</label>
+                    <div class="controls">
+                        {{ form.amount }}
+                        {% if form.amount.help_text %}
+                            <span class="help-inline">{{ form.amount.help_text }}</span>
+                        {% endif %}
+                        {{ form.amount.errors }}
+                    </div>
+                </div><div class="control-group {% if form.potential_gravity.errors %}error{% endif %}">
+                    <label for="{{ form.potential_gravity.auto_id }}" class='control-label'>{{ form.potential_gravity.label }}</label>
+                    <div class="controls">
+                        {{ form.potential_gravity }}
+                        {% if form.potential_gravity.help_text %}
+                            <span class="help-inline">{{ form.potential_gravity.help_text }}</span>
+                        {% endif %}
+                        {{ form.potential_gravity.errors }}
+                    </div>
+                </div><div class="control-group {% if form.color.errors %}error{% endif %}">
+                    <label for="{{ form.color.auto_id }}" class='control-label'>{{ form.color.label }}</label>
+                    <div class="controls">
+                        {{ form.color }}
+                        {% if form.color.help_text %}
+                            <span class="help-inline">{{ form.color.help_text }}</span>
+                        {% endif %}
+                        {{ form.color.errors }}
+                    </div>
+                </div>
+        </div>
+        <div class="span3">
+                <div class="control-group {% if form.malt_yield.errors %}error{% endif %}">
+                    <label for="{{ form.malt_yield.auto_id }}" class='control-label'>{{ form.malt_yield.label }}</label>
+                    <div class="controls">
+                        {{ form.malt_yield }}
+                        {% if form.malt_yield.help_text %}
+                            <span class="help-inline">{{ form.malt_yield.help_text }}</span>
+                        {% endif %}
+                        {{ form.malt_yield.errors }}
+                    </div>
+                </div>
+                <div class="control-group {% if form.diastatic_power.errors %}error{% endif %}">
+                    <label for="{{ form.diastatic_power.auto_id }}" class='control-label'>{{ form.diastatic_power.label }}</label>
+                    <div class="controls">
+                        {{ form.diastatic_power }}
+                        {% if form.diastatic_power.help_text %}
+                            <span class="help-inline">{{ form.diastatic_power.help_text }}</span>
+                        {% endif %}
+                        {{ form.diastatic_power.errors }}
+                    </div>
+                </div>
+                <div class="control-group {% if form.protein.errors %}error{% endif %}">
+                    <label for="{{ form.protein.auto_id }}" class='control-label'>{{ form.protein.label }}</label>
+                    <div class="controls">
+                        {{ form.protein }}
+                        {% if form.protein.help_text %}
+                            <span class="help-inline">{{ form.protein.help_text }}</span>
+                        {% endif %}
+                        {{ form.protein.errors }}
+                    </div>
+                </div>
+                <div class="control-group {% if form.max_in_batch.errors %}error{% endif %}">
+                    <label for="{{ form.max_in_batch.auto_id }}" class='control-label'>{{ form.max_in_batch.label }}</label>
+                    <div class="controls">
+                        {{ form.max_in_batch }}
+                        {% if form.max_in_batch.help_text %}
+                            <span class="help-inline">{{ form.max_in_batch.help_text }}</span>
+                        {% endif %}
+                        {{ form.max_in_batch.errors }}
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="control-group {% if form.notes.errors %}error{% endif %}">
+        {{ form.notes }}
+        {% if form.notes.help_text %}
+            <span class="help-inline">{{ form.notes.help_text }}</span>
+        {% endif %}
+        {{ form.notes.errors }}
+    </div>
+</form>
+
+<style type="text/css">
+    .span3 div.control-group div.controls input{width:50px;}
+    .span3 div.control-group label{width:100px;}
+    .span3 div.control-group div.controls{margin-left:120px;}
+    #id_notes{width:480px;height:80px;}
+</style>
+

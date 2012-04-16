@@ -28,7 +28,7 @@ from registration.views import register
 urlpatterns = patterns('',
                        url(r'^register/$',
                            register,
-                           {'backend': 'registration.backends.simple.SimpleBackend'},
+                           {'backend': 'registration.backends.simple.SimpleBackend', 'success_url':"/"},
                            name='registration_register'),
                        url(r'^register/closed/$',
                            direct_to_template,

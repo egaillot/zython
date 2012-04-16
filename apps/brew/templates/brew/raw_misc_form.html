@@ -1,0 +1,81 @@
+{% load i18n %}
+<form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
+
+{{ form.errors }}
+
+<div class="control-group {% if form.name.errors %}error{% endif %}">
+    <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
+    <div class="controls">
+        {{ form.name }}
+        {% if form.name.help_text %}
+            <span class="help-inline">{{ form.name.help_text }}</span>
+        {% endif %}
+        {{ form.name.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.misc_type.errors %}error{% endif %}">
+    <label for="{{ form.misc_type.auto_id }}" class='control-label'>{{ form.misc_type.label }}</label>
+    <div class="controls">
+        {{ form.misc_type }}
+        {% if form.misc_type.help_text %}
+            <span class="help-inline">{{ form.misc_type.help_text }}</span>
+        {% endif %}
+        {{ form.misc_type.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.amount.errors %}error{% endif %}">
+    <label for="{{ form.amount.auto_id }}" class='control-label'>{{ form.amount.label }}</label>
+    <div class="controls">
+        {{ form.amount }}
+        {% if form.amount.help_text %}
+            <span class="help-inline">{{ form.amount.help_text }}</span>
+        {% endif %}
+        {{ form.amount.errors }}
+    </div>
+</div>
+
+<div class="control-group">
+    <label for="{{ field.auto_id }}" class='control-label'>{% trans "Usage" %}</label>
+    <div class="controls">
+        {{ form.use_in }}
+        {{ form.time }}
+        {{ form.time_unit }}
+        {{ form.use_in.errors }}
+        {{ form.time.errors }}
+        {{ form.time_unit.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.usage.errors %}error{% endif %}">
+    <label for="{{ form.usage.auto_id }}" class='control-label'>{{ form.usage.label }}</label>
+    <div class="controls">
+        {{ form.usage }}
+        {% if form.usage.help_text %}
+            <span class="help-inline">{{ form.usage.help_text }}</span>
+        {% endif %}
+        {{ form.usage.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.notes.errors %}error{% endif %}">
+    <label for="{{ form.notes.auto_id }}" class='control-label'>{{ form.notes.label }}</label>
+    <div class="controls">
+        {{ form.notes }}
+        {% if form.notes.help_text %}
+            <span class="help-inline">{{ form.notes.help_text }}</span>
+        {% endif %}
+        {{ form.notes.errors }}
+    </div>
+</div>
+
+
+</form>
+
+<style type="text/css">
+#id_use_in{width:90px;}
+#id_time,
+#id_time_unit, #id_amount{width:60px;}
+
+</style>

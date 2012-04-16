@@ -8,7 +8,6 @@ def user_units(request):
         user_val = request.session.get(key)
         if not user_val:
             user_val = d['choices'][0][0]
-        
         request.session[key]= user_val
         resp[key] = user_val
     return resp

@@ -2,14 +2,43 @@
 {% load i18n unit_tags increment %}
 {% load url from future %}
 
+
 {% block title %}{{ object.name }}, by {{ object.user.get_full_name}}	
 {% endblock title %}
 
-{% block content %}
-<div class="well">
-	<h1>{{ object.name }} <small>{{ object.style}}</small></h1>
-	<p><hr /></p>
 
+{% block content %}
+{% if object.get_ebc %}
+	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
+	 	<a rel="gallery" title="{{ object.name }} : {% trans "Beer color" %} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
+			<img src="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png" alt="" style="width:50px;" >
+		</a>
+		<br>
+		<div class="est_abv">
+	 		{{ object.get_abv|floatformat:1 }}%
+	 	</div>
+	</div>
+{% endif %}
+<h1>{{ object.name }} 
+	{% if object.style %}<small>{{ object.style}}</small>{% endif %}
+	{% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
+
+</h1>
+<p><br></p>
+<ul class="nav nav-pills">
+  <li {% if page == "recipe" %}class="active"{% endif %}>
+    <a href="{{ object.get_absolute_url }}">{% trans "Recipe" %}</a>
+  </li>
+  {% if object.user == request.user %}
+  	<li {% if page == "preferences" %}class="active"{% endif %}><a href="{% url "brew_recipe_preferences" object.id %}">{% trans "Preferences" %}</a></li>
+  {% endif %}
+
+  <li><a href="#">{% trans "Print" %}</a></li>
+</ul>
+{% block inner_content %}
+	
+
+<div class="well">
 	<div class="row">
 		<div class="span6">
 			<b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }}
@@ -31,17 +60,18 @@
 	<div class="row">
 		<div class="span6">
 			<b>{% trans "Est. original gravity" %}</b> : {{ object.get_original_gravity }} <br>
-			<b>IBU</b> : {{ object.get_ibu }}
+			<b>{% trans "Est. final gravity" %}</b> : {{ object.get_final_gravity }}
+			
 		</div>
 		<div class="span5">
+			<b>IBU</b> : {{ object.get_ibu }} <br>
 			<b>{% trans "Color" %}</b> : {% local_unit "color" object.get_ebc %}
-			<div style="width:100px;height:20px;background-color:{{ object.get_hex }};"></div>
 		</div>
 
 	</div>
 </div>
 
-<hr/>
+<p><br></p>
 
 <h2>{% trans "Ingredients" %}</h2>
 <div class="row">
@@ -49,26 +79,31 @@
 		<table class='table'>
 			<thead>
 				<tr>
-					<th>Amount</th>
-					<th>Name</th>
-					<th>Type</th>
+					<th>{% trans "Amount" %}</th>
+					<th>{% trans "Name" %}</th>
+					<th>{% trans "Type" %}</th>
 					<th>#</th>
 					<th>%/IBU</th>
-					<th>{% trans "Actions" %}</th>
+					{% if object.user == request.user %}
+					<th class="action_col">{% trans "Actions" %}</th>
+					{% endif %}
 				</tr>
 			</thead>
+
+
 		{% for malt in object.recipemalt_set.all %}
 			<tr>
 				<td>
+					<img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon">&nbsp;
 					{% local_unit "weight" malt.amount 0 %}
 				</td>
-				<td><a href="#modal_edit_ingredient" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">{{ malt.name }} ({% local_unit "color" malt.color %})</a></td>
+				<td><a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">{{ malt.name }} ({% local_unit "color" malt.color %})</a></td>
 				<td>{{ malt.get_malt_type_display }}</td>
 				<td><span class="position"></span></td>
 				<td>{{ malt.percent }}%</td>
-				<td>
+				{% if object.user == request.user %}<td>
 					<a href="{% url "brew_recipe_removeingredient" object.id "malt" malt.id %}">{% trans "Delete" %}</a>
-				</td>
+				</td>{% endif %}
 			</tr>
 		{% empty %}
 			&nbsp;
@@ -77,62 +112,159 @@
 		{% for hop in object.recipehop_set.all %}
 			<tr>
 				<td>
+					<img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon">&nbsp;
 					{% local_unit "hop" hop.amount 0 %}
 				</td>
-				<td>{{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.boil_time }} min</td>
+				<td>
+					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" hop.id %}">
+					{{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.unit_time }}
+					</a>
+
+				</td>
 				<td>{% trans "Hop" %}</td>
 				<td><span class="position"></span></td>
 				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
-				<td><a href="{% url "brew_recipe_removeingredient" object.id "hop" hop.id %}">{% trans "Delete" %}</a></td>
+				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "hop" hop.id %}">{% trans "Delete" %}</a></td>{% endif %}
 			</tr>
 		{% endfor %}
 		
 		{% for misc in object.recipemisc_set.all %}
-		<tr>
-				<td>
+			<tr>
+				<td><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;
 					{% local_unit "hop" misc.amount 0 %}
 				</td>
-				<td>{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}</td>
+				<td>
+					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" misc.id %}">
+					{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}
+					</a>
+				</td>
 				<td>{% trans "Hop" %}</td>
 				<td><span class="position"></span></td>
 				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
-				<td><a href="{% url "brew_recipe_removeingredient" object.id "misc" misc.id %}">{% trans "Delete" %}</a></td>
+				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "misc" misc.id %}">{% trans "Delete" %}</a></td>{% endif %}
+			</tr>
+		{% endfor %}
+
+		{% for yeast in object.recipeyeast_set.all %}
+			<tr>
+				<td><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;
+					Yeast
+				</td>
+				<td>
+					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" yeast.id %}">
+					{{ yeast.product_id }} {{ yeast.name }} - {{ yeast.laboratory }}
+					</a>
+				</td>
+				<td>{% trans "Yeast" %}</td>
+				<td><span class="position"></span></td>
+				<td>-</td>
+				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "yeast" yeast.id %}">{% trans "Delete" %}</a></td>{% endif %}
 			</tr>
 		{% endfor %}
 		</table>
 
-		{% for yeast in object.recipeyeast_set.all %}
-			<li>{{ yeast }}</li>
-		{% endfor %}
+	</div>
+	<div class="span2">
+
+
+
+		<ul class="nav nav-list ingredient-list">
+			{% if object.user == request.user %}
+				<li
+				{% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
+					class="popover-menu nav-header" 
+					title="{% trans "Add ingredient" %}" 
+					data-content="{% trans "Start adding ingredients with this menu" %}"
+				{% else %}
+					class="nav-header" 
+				{% endif %}
+
+				>{% trans "Add" %}</li>
+				<li><a data-toggle="modal" href="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
+				<li><a data-toggle="modal" href="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
+				<li><a data-toggle="modal" href="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
+				<li><a data-toggle="modal" href="#add_yeast">
+					<img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="span10">
+		<h2>{% trans "Mash detail" %}</h2>
+
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>{% trans "Name" %}</th>
+					<th>{% trans "Description" %}</th>
+					<th>{% trans "Step temperature" %}</th>
+					<th>{% trans "Step time" %}</th>
+					{% if object.user == request.user %}<th class="action_col">{% trans "Actions" %}</th>{% endif %}
+				</tr>
+			</thead>
+			{% for mash in object.mashstep_set.all %}
+				<tr>
+						<td>
+							{{ mash.name }}
+							({{ mash.get_step_type_display }})
+						</td>
+						<td>
+							{% if mash.water_added %}
+								Add {% local_unit "volume" mash.water_added 0 %} of water.
+							{% endif %}
+
+							{% if forloop.first %}
+								Heat over {% local_unit "temperature" mash.initial_heat 0 %}
+							{% else %}
+								Heat over {% local_unit "temperature" mash.temperature 0 %}
+							{% endif %}
+						</td>
+						<td>
+							{% local_unit "temperature" mash.temperature 0 %}
+						</td>
+						<td>
+							{{ mash.step_time }} min
+						</td>
+						{% if object.user == request.user %}<td>
+							<a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
+						</td>{% endif %}
+					</tr>	
+			{% endfor %}
+		</table>
+
 	</div>
 	<div class="span2">
 		<ul class="nav nav-list ingredient-list">
 			{% if object.user == request.user %}
-				<li class="nav-header">{% trans "Add" %}</li>
-				<li><a data-toggle="modal" href="#modal_grain">{% trans "Grain" %}</a></li>
-				<li><a data-toggle="modal" href="#modal_hop">{% trans "Hop" %}</a></li>
-				<li><a data-toggle="modal" href="#modal_misc">{% trans "Misc" %}</a></li>
-				<li><a href="#">{% trans "Yeast" %}</a></li>
+				<li class="nav-header">{% trans "Mash" %}</li>
+				<li><a data-toggle="modal" href="#add_mash">
+
+<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
+
+					{% trans "Add mash step" %}</a>
+				</li>
 			{% endif %}
-		</ul>
 	</div>
 </div>
 
 {% include "brew/modal_ingredients.html" %}
 
-
-<div class="modal hide fade" id="modal_edit_ingredient">
+<div class="modal hide fade" id="doform">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
-    <h3></h3>
+      	<h3>{% trans "Edit" %} <span></span></h3>
   </div>
   <div class="modal-body">
     <div id="xhr_form"></div>
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-primary">Action</a>
+    <a href="#" id="model_edit_submit" class="btn btn-primary">{% trans "Save" %}</a>
   </div>
 </div>
+{% endblock inner_content %}
 
 {% endblock content %}
 
@@ -142,10 +274,14 @@
 {% if object.user == request.user %}
 	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
 	<script type="text/javascript">
+	function reload_page(){
+		document.location.href = ".";
+	}
+
 	function handleResponse(responseText, statusText, xhr, $form){
 		is_valid = parseInt(responseText.valid);
 		if (is_valid == 1){
-			document.location.href = ".";
+			reload_page();
 		}else{
 			$('.error_frame').html("");
 			for(i=0; i<responseText.errors.length; i++){
@@ -164,10 +300,45 @@
 	    $("#search_grain").quicksearch('table#table_grain tbody tr');
 	    $("#search_hop").quicksearch('table#table_hop tbody tr');
 	    $("#search_misc").quicksearch('table#table_misc tbody tr');
+	    $("#search_yeast").quicksearch('table#table_yeast tbody tr');
+	    $('.popover-menu').popover({placement:'left'}).popover('show');
 	});
 	</script>
 {% endif %}
 <script type="text/javascript">
+function show_ajax_form(html){
+	$("#xhr_form").html(html);
+}
+
+function load_ajax_form(elmt){
+	$("#doform h3 span").text(elmt.text());
+	form_url = elmt.attr('data-url');
+	$.get(form_url, function(html){
+		show_ajax_form(html);
+		$("#model_edit_submit").click(function(){
+			send_ajax_form();
+		});
+	});
+}
+
+function send_ajax_form(elmt){
+	form_id = "id_ingredient_form";
+	form = $("#"+form_id);
+	url = form.attr("action");
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: $('#' + form_id).serialize(),
+		success: function(data, textStatus, jqXHR){
+			if(jqXHR.status == 202){
+				reload_page();
+			}else if (jqXHR.status == 200){
+				show_ajax_form(data);
+			}
+		}
+	});
+}
+
 $(document).ready(function() { 
 	i = 0;
 	$('.position').each(function(){
@@ -175,11 +346,12 @@ $(document).ready(function() {
 		$(this).text(i);
 	});
 	$('.edit_ingredient').click(function(){
-		form_url = $(this).attr('data-url');
-		$.get(form_url, function(html){
-			alert(html);
-			$("#xhr_form").html(html);
-		});
+		load_ajax_form($(this));
+	});
+	$("#doform form input").live("keypress", function(e){
+		if(e.keyCode == 13) {
+	        $("#model_edit_submit").click();
+	    }
 	});
 });
 </script>

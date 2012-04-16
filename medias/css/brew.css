@@ -1,5 +1,47 @@
 body, html{background-color: #F0F0EA;}
 a{color:#3DAFDF;}
-.well{background-color: #CDCCC4;border-color:#C8C7BF}
-.well hr{border-color:#C8C7BF;}
+.well, .hero-unit{background-color: #CDCCC4;border-color:#C8C7BF}
+.well hr, .hero-unit hr{border-color:#C8C7BF;}
 .grey{color:#CCC!important;}
+.modal{width:600px!important;top:40%!important;}
+.navbar .nav{
+    margin-top:20px;
+    margin-left:30px;
+}
+.action_col{width:80px;}
+.est_abv{
+    text-align:center;
+    color:#6C6762;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover{
+background-color:#2B2B2B;
+font-weight:bold;color:#fff;
+}
+
+
+.nav-pills > li > a{
+    color:#6C6762;
+}
+
+.errorlist li{
+    color:#901;
+}
+
+.center{text-align:center;}
+
+.brand img{margin-top:-15px;
+margin-right:-20px!important;
+}
+.brand{
+font-family: 'Crafty Girls', cursive;
+font-size:30px!important;
+margin-top:10px!important;
+margin-bottom:-10;
+color:#FDF7CB!important;
+}
+
+footer{border-top:#DDC 1px solid;padding-top:20px;margin-top:40px;}
+footer, footer p{text-align:center;color:#999;font-size:11px!important;}

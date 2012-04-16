@@ -1,0 +1,138 @@
+{% load i18n %}
+<form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
+
+
+
+
+<div class="control-group {% if form.name.errors %}error{% endif %}">
+    <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
+    <div class="controls">
+        {{ form.name }}
+        {% if form.name.help_text %}
+            <span class="help-inline">{{ form.name.help_text }}</span>
+        {% endif %}
+        {{ form.name.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.laboratory.errors %}error{% endif %}">
+    <label for="{{ form.laboratory.auto_id }}" class='control-label'>{{ form.laboratory.label }}</label>
+    <div class="controls">
+        {{ form.laboratory }}
+        {% if form.laboratory.help_text %}
+            <span class="help-inline">{{ form.laboratory.help_text }}</span>
+        {% endif %}
+        {{ form.laboratory.errors }}
+    </div>
+</div>
+
+<div class="control-group {% if form.product_id.errors %}error{% endif %}">
+    <label for="{{ form.product_id.auto_id }}" class='control-label'>{{ form.product_id.label }}</label>
+    <div class="controls">
+        {{ form.product_id }}
+        {% if form.product_id.help_text %}
+            <span class="help-inline">{{ form.product_id.help_text }}</span>
+        {% endif %}
+        {{ form.product_id.errors }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="span3">
+        <div class="control-group {% if form.yeast_type.errors %}error{% endif %}">
+            <label for="{{ form.yeast_type.auto_id }}" class='control-label'>{{ form.yeast_type.label }}</label>
+            <div class="controls">
+                {{ form.yeast_type }}
+                {% if form.yeast_type.help_text %}
+                    <span class="help-inline">{{ form.yeast_type.help_text }}</span>
+                {% endif %}
+                {{ form.yeast_type.errors }}
+            </div>
+        </div>
+        <div class="control-group {% if form.form.errors %}error{% endif %}">
+            <label for="{{ form.form.auto_id }}" class='control-label'>{{ form.form.label }}</label>
+            <div class="controls">
+                {{ form.form }}
+                {% if form.form.help_text %}
+                    <span class="help-inline">{{ form.form.help_text }}</span>
+                {% endif %}
+                {{ form.form.errors }}
+            </div>
+        </div>
+        <div class="control-group {% if form.flocculation.errors %}error{% endif %}">
+            <label for="{{ form.flocculation.auto_id }}" class='control-label'>{{ form.flocculation.label }}</label>
+            <div class="controls">
+                {{ form.flocculation }}
+                {% if form.flocculation.help_text %}
+                    <span class="help-inline">{{ form.flocculation.help_text }}</span>
+                {% endif %}
+                {{ form.flocculation.errors }}
+            </div>
+        </div>
+    </div>
+    <div class="span3">
+        <div class="control-group {% if form.min_attenuation.errors %}error{% endif %}">
+            <label for="{{ form.min_attenuation.auto_id }}" class='control-label'>{{ form.min_attenuation.label }}</label>
+            <div class="controls">
+                {{ form.min_attenuation }}
+                {% if form.min_attenuation.help_text %}
+                    <span class="help-inline">{{ form.min_attenuation.help_text }}</span>
+                {% endif %}
+                {{ form.min_attenuation.errors }}
+            </div>
+        </div>
+        <div class="control-group {% if form.max_attenuation.errors %}error{% endif %}">
+            <label for="{{ form.max_attenuation.auto_id }}" class='control-label'>{{ form.max_attenuation.label }}</label>
+            <div class="controls">
+                {{ form.max_attenuation }}
+                {% if form.max_attenuation.help_text %}
+                    <span class="help-inline">{{ form.max_attenuation.help_text }}</span>
+                {% endif %}
+                {{ form.max_attenuation.errors }}
+            </div>
+        </div>
+        <div class="control-group {% if form.min_temperature.errors %}error{% endif %}">
+            <label for="{{ form.min_temperature.auto_id }}" class='control-label'>{{ form.min_temperature.label }}</label>
+            <div class="controls">
+                {{ form.min_temperature }}
+                {% if form.min_temperature.help_text %}
+                    <span class="help-inline">{{ form.min_temperature.help_text }}</span>
+                {% endif %}
+                {{ form.min_temperature.errors }}
+            </div>
+        </div>
+        <div class="control-group {% if form.max_temperature.errors %}error{% endif %}">
+            <label for="{{ form.max_temperature.auto_id }}" class='control-label'>{{ form.max_temperature.label }}</label>
+            <div class="controls">
+                {{ form.max_temperature }}
+                {% if form.max_temperature.help_text %}
+                    <span class="help-inline">{{ form.max_temperature.help_text }}</span>
+                {% endif %}
+                {{ form.max_temperature.errors }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span3">
+        {{ form.best_for.label }} <br>
+        {{ form.best_for }}
+    </div>
+    <div class="span4">
+        {{ form.notes.label }} <br>
+        {{ form.notes }}
+
+    </div>
+</div>
+</form>
+<style type="text/css">
+.span3 div.control-group div.controls input{width:50px;}
+.span3 div.control-group div.controls select{width:90px;}
+#id_best_for{
+    width:210px;height:65px;
+}
+#id_notes{
+    width:250px;height:65px;
+}
+</style>
