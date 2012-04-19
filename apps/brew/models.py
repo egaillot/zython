@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User 
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
@@ -70,15 +70,15 @@ class Recipe(models.Model):
     """
     The main beer recipe
     """
-    name = models.CharField(max_length=100)
+    name = models.CharField(_('Name'), max_length=100)
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
-    batch_size = models.DecimalField(max_digits=5, decimal_places=1, help_text="L")
-    boil_size = models.DecimalField(max_digits=5, decimal_places=1, default="20.", help_text="L")
-    boil_time = models.IntegerField(default=60)
-    style = models.ForeignKey('BeerStyle', blank=True, null=True)
-    recipe_type = models.CharField(choices=RECIPE_TYPE_CHOICES, default="allgrain", max_length=50)
-    est_original_gravity = GravityField(default="1")
+    batch_size = models.DecimalField(_('Batch size'), max_digits=5, decimal_places=1, help_text="L")
+    boil_size = models.DecimalField(_('Boil size'), max_digits=5, decimal_places=1, default="20.", help_text="L")
+    boil_time = models.IntegerField(_('Boil time'), default=60)
+    style = models.ForeignKey('BeerStyle', verbose_name=_('Style'), blank=True, null=True)
+    recipe_type = models.CharField(_('Type'), choices=RECIPE_TYPE_CHOICES, default="allgrain", max_length=50)
+    est_original_gravity = GravityField(_('Est. original gravity'), default="1")
     est_final_gravity = GravityField(default="1")
     est_alcohol = models.DecimalField(max_digits=3, decimal_places=1, default="0.0")
     mes_original_gravity = GravityField(null=True, blank=True)
@@ -90,13 +90,13 @@ class Recipe(models.Model):
     # - - -
     # Preferences
     private = models.BooleanField(_(u'Private recipe ?'), default=False)
-    notes = models.TextField()
-    efficiency = models.DecimalField(max_digits=4, decimal_places=1, default="75", help_text="%")
+    notes = models.TextField(_('Notes'))
+    efficiency = models.DecimalField(_('Efficiency'), max_digits=4, decimal_places=1, default="75", help_text="%")
 
-    mash_tun_deadspace = models.DecimalField(max_digits=5, decimal_places=1, help_text="L", default="1.5")
-    boiler_tun_deadspace = models.DecimalField(max_digits=5, decimal_places=1, help_text="L", default="1.5")
-    evaporation_rate = models.DecimalField(max_digits=5, decimal_places=2, help_text="%", default="8")
-    grain_temperature = models.DecimalField(max_digits=3, decimal_places=1, default="22")
+    mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
+    boiler_tun_deadspace = models.DecimalField(_('Boiler tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
+    evaporation_rate = models.DecimalField(_('Evaporation rate'), max_digits=5, decimal_places=2, help_text="%", default="8")
+    grain_temperature = models.DecimalField(_('Grain temperature'), max_digits=3, decimal_places=1, default="22")
     forked_from = models.ForeignKey('self', null=True, blank=True)
     
 

@@ -10,7 +10,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href='http://fonts.googleapis.com/css?family=Crafty+Girls' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
+
+
     <link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/bootstrap-image-gallery.min.css" rel="stylesheet">
     <style type="text/css">
@@ -106,7 +108,7 @@
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle"
                       data-toggle="dropdown">
-                      {{ request.user.get_full_name }}<b class="caret"></b>
+                      {{ request.user.get_full_name }} <b class="caret"></b>
                   </a>
                   <ul class="dropdown-menu">
                     <li><a href="{% url "brew_recipe_user" request.user.username %}">{% trans "My recipes" %}</a></li>
@@ -131,10 +133,23 @@
 
       <footer class='center'>
         <p>
+          {% if request.user.is_active %}
+            <span class="badge badge-warning">Mode invitation</span> <br>
+            Site de test ! Les données pourront être effacées. <br>
+            Ceci est une version beta de travail. Merci de votre compréhension
+          {% endif %}
+        </p>
+        <p>
+
           Martyn CLEMENT 2012
         </p>
         <p>
+          {% comment %}
+            
           <a href="">{% trans "About 2beer.com" %}</a> • <a href="">{% trans "Contact" %}</a> • <a href="">{% trans "Contribute" %}</a> • <a href="">Source code</a>
+          {% endcomment %}
+          
+
         </p>
       </footer>
 

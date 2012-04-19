@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from django.views.generic.edit import FormView, UpdateView
 
 from brew.models import *
@@ -43,6 +43,20 @@ R E C I P E
 -----------
 """
 
+class RecipeAuthorMixin(object):
+    '''
+    Mixin object to authorise recipe author 
+    acessing views (deletion, updates...)
+    '''
+    model = Recipe
+    pk_url_kwarg = 'recipe_id'
+
+    @method_decorator(login_required)
+    @method_decorator(recipe_author)
+    def dispatch(self, *args, **kwargs):
+        return super(RecipeAuthorMixin, self).dispatch(*args, **kwargs)
+
+
 class RecipeListView(ListView):
     def get_queryset(self):
         self.user = None
@@ -64,18 +78,11 @@ class RecipeListView(ListView):
         return context
 
 
-class RecipePreferenceView(UnitViewFormMixin, UpdateView):
+class RecipePreferenceView(UnitViewFormMixin, RecipeAuthorMixin, UpdateView):
     form_class = RecipePreferencesForm
-    model = Recipe
     success_url = '.'
     template_name_suffix = '_preferences'
-    pk_url_kwarg = 'recipe_id'
-
-    @method_decorator(login_required)
-    @method_decorator(recipe_author)
-    def dispatch(self, *args, **kwargs):
-        return super(RecipePreferenceView, self).dispatch(*args, **kwargs)
-
+    
     def get_context_data(self, **kwargs):
         context = super(RecipePreferenceView, self).get_context_data(**kwargs)
         context['page'] = "preferences"
@@ -111,6 +118,19 @@ class RecipeDetailView(DetailView):
         context['page'] = "recipe"
         return context
 
+
+class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
+    success_url = "/"
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipeDeleteView, self).get_context_data(**kwargs)
+        context['page'] = "delete"
+        return context
+
+
+class RecipeUpdateView(RecipeAuthorMixin, UnitViewFormMixin, UpdateView):
+    form_class = RecipeForm
+    success_url = '/brew/%(id)d/'
 
 
 """

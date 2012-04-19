@@ -2,8 +2,6 @@
 {% load i18n %}
 
 
-
-
 {% block content %}
 <h1>{% trans "Register" %}</h1>
 <p><br></p>
@@ -21,7 +19,7 @@
 		</div>
 	{% endfor %}
 	<div class="form-actions">
-		<input type="submit" value="Register" class='btn btn-large' />
+		<input type="submit" value="{% trans "Register" %}" class='btn btn-large' />
 	</div>
 </form>
 

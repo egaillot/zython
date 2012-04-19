@@ -19,7 +19,7 @@ def get_converted_value(value, user_unit, group, long_term=True, raw_output=Fals
     value = precision % float(value)
     if raw_output:
         return value
-    return "%s %s" % (value,verbose_unit)
+    return u"%s %s" % (value,verbose_unit)
 
 def get_full_unit_name(group_name, unit_short):
      unit_group = app_settings.UNITS.get(group_name)

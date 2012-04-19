@@ -1,0 +1,15 @@
+{% extends "brew/recipe_detail.html" %}
+{% load i18n %}
+
+{% block inner_content %}
+    <form action="." method="POST">{% csrf_token %}
+        <div class="alert alert-error">
+            <p><b>{% trans "Are you sur you want to delete this recipe ?" %}</b> 
+                ({% trans "Can't cancel" %})
+            </p>
+            <p>
+            <input type="submit" class="btn btn-danger" value="{% trans "Delete" %}">
+            </p>
+        </div>
+    </form>
+{% endblock inner_content %}

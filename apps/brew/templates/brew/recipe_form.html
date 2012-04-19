@@ -2,7 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Add a new recipe" %}</h2>
+<h2>{% block title %}
+	{% if form.instance.id %}
+		{% trans "Edit" %} {{ form.instance }}
+	{% else %}
+		{% trans "Add a new recipe" %}
+	{% endif %}
+{% endblock title %}</h2>
+
 <form action="." method="POST" autocomplete="off">{% csrf_token %}
 <p><br><br></p>
 <div class="offset2">
@@ -18,7 +25,6 @@
 			{{ form.name.errors }}
 		</div>
 	</div>
-
 	<div class="row">
 		<div class="span2">
 			<label for="{{ form.efficiency.auto_id }}" class='control-label'>{{ form.efficiency.label }}</label> 
@@ -36,22 +42,20 @@
 			{{ form.style.errors }}
 		</div>
 	</div>
-
-
 	<div class="row row-private">
 		<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="">
 		{{ form.private }}
 		{% trans "Private recipe ?" %} <span class="help-inline">({% trans "If checked, this recipe will not be listed to other users." %})</span>
 	</div>
-		 
-
-
-
 </div>
 
 <hr>
+
 <div class="center">
-	<input type="submit" class="btn btn-success" value="{% trans "Add a new recipe" %}">
+	<input type="submit" class="btn btn-success" value="{% if form.instance %}{% trans "Save" %}{% else %}{% trans "Add a new recipe" %}{% endif %}">
+	{% if form.instance.id %}
+		<a href="{{ form.instance.get_absolute_url }}" class="btn">{% trans "Return to recipe" %}</a>
+	{% endif %}
 </div>
 
 </form>

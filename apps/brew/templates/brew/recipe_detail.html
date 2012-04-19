@@ -10,7 +10,7 @@
 {% block content %}
 {% if object.get_ebc %}
 	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
-	 	<a rel="gallery" title="{{ object.name }} : {% trans "Beer color" %} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
+	 	<a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
 			<img src="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png" alt="" style="width:50px;" >
 		</a>
 		<br>
@@ -22,7 +22,6 @@
 <h1>{{ object.name }} 
 	{% if object.style %}<small>{{ object.style}}</small>{% endif %}
 	{% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
-
 </h1>
 <p><br></p>
 <ul class="nav nav-pills">
@@ -31,9 +30,11 @@
   </li>
   {% if object.user == request.user %}
   	<li {% if page == "preferences" %}class="active"{% endif %}><a href="{% url "brew_recipe_preferences" object.id %}">{% trans "Preferences" %}</a></li>
+  	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">{% trans "Delete" %}</a></li>
+  	<li {% if page == "edit" %}class="active"{% endif %}><a href="{% url "brew_recipe_edit" object.id %}">{% trans "Edit" %}</a></li>
   {% endif %}
 
-  <li><a href="#">{% trans "Print" %}</a></li>
+  <li><a href="{% url "brew_recipe_print" object.pk %}" target="_blank">{% trans "Print" %}</a></li>
 </ul>
 {% block inner_content %}
 	
@@ -193,8 +194,6 @@
 <div class="row">
 	<div class="span10">
 		<h2>{% trans "Mash detail" %}</h2>
-
-
 		<table class="table">
 			<thead>
 				<tr>

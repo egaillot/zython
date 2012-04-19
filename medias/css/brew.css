@@ -33,14 +33,13 @@ font-weight:bold;color:#fff;
 .center{text-align:center;}
 
 .brand img{margin-top:-15px;
-margin-right:-20px!important;
 }
 .brand{
-font-family: 'Crafty Girls', cursive;
-font-size:30px!important;
+font-family: 'Averia Serif Libre', cursive;
+font-size:25px!important;
 margin-top:10px!important;
 margin-bottom:-10;
-color:#FDF7CB!important;
+color:#FDF7DB!important;
 }
 
 footer{border-top:#DDC 1px solid;padding-top:20px;margin-top:40px;}

@@ -1,0 +1,174 @@
+{% extends "base_printable.html" %}
+{% load i18n unit_tags %}
+
+{% block content %}
+
+<h1>{{ object.name }} <small>- {{ object.style.name }}</small></h1>
+<table class='bigcol'><tr>
+    <td>
+        <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>
+        <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}<br>
+        <b>{% trans "Boil size" %}</b> : {% local_unit "volume" object.boil_size 0 %}<br>        
+    </td>
+    <td>
+        <b>{% trans "Created date" %}</b> : {{ object.created|date }}<br>
+        <b>{% trans "Created by" %}</b> : {{ object.user.get_full_name }}<br>
+        <b>{% trans "Efficiency" %}</b> : {{ object.efficiency }}% <br>
+    </td>
+</tr></table>
+
+<p><hr></p>
+
+<h2>{% trans "Estimated beer profile" %}</h2>
+<table class='bigcol'><tr>
+    <td>
+        <b>{% trans "Original gravity" %}</b>: {{ object.get_original_gravity }} <br>
+        <b>{% trans "Final gravity" %}</b>: {{ object.get_final_gravity }} <br>
+        <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %} <br>
+    </td>
+    <td>
+        <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:"1" }}%<br>
+        <b>{% trans "Bitterness" %}</b>: {{ object.get_ibu }} IBU<br>
+    </td>
+</tr></table>
+
+<p><hr></p>
+
+<h2>{% trans "Ingredients" %}</h2>
+<table class='table table-condensed'>
+    <thead>
+        <tr>
+            <th>{% trans "Amount" %}</th>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Type" %}</th>
+            <th>#</th>
+            <th>%/IBU</th>
+        </tr>
+    </thead>
+    {% for malt in object.recipemalt_set.all %}
+        <tr>
+            <td>
+                <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon">&nbsp;
+                {% local_unit "weight" malt.amount 0 %}
+            </td>
+            <td>{{ malt.name }} ({% local_unit "color" malt.color %})</td>
+            <td>{{ malt.get_malt_type_display }}</td>
+            <td><span class="position"></span></td>
+            <td>{{ malt.percent }}%</td>
+        </tr>
+    {% endfor %}
+    {% for hop in object.recipehop_set.all %}
+        <tr>
+            <td>
+                <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon">&nbsp;
+                {% local_unit "hop" hop.amount 0 %}
+            </td>
+            <td>
+                {{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.unit_time }}
+            </td>
+            <td>{% trans "Hop" %}</td>
+            <td><span class="position"></span></td>
+            <td>{{ hop.ibu|floatformat:1 }} IBU</td>
+        </tr>
+    {% endfor %}
+    {% for misc in object.recipemisc_set.all %}
+        <tr>
+            <td><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;
+                {% local_unit "hop" misc.amount 0 %}
+            </td>
+            <td>
+                {{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}
+            </td>
+            <td>{% trans "Hop" %}</td>
+            <td><span class="position"></span></td>
+            <td>{{ hop.ibu|floatformat:1 }} IBU</td>
+        </tr>
+    {% endfor %}
+    {% for yeast in object.recipeyeast_set.all %}
+        <tr>
+            <td><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;
+                Yeast
+            </td>
+            <td>
+                {{ yeast.product_id }} {{ yeast.name }} - {{ yeast.laboratory }}
+            </td>
+            <td>{% trans "Yeast" %}</td>
+            <td><span class="position"></span></td>
+            <td>-</td>
+        </tr>
+    {% endfor %}
+</table>
+
+<p><hr></p>
+
+<h2>{% trans "Mash detail" %}</h2>
+
+<table class='bigcol'><tr>
+    <td>
+        <b>{% trans "Sparge water" %}</b>: {% local_unit "volume" object.water_sparge 0 %} <br>
+        <b>{% trans "Sparge temperature" %}</b>: {% local_unit "temperature" 76 0 %}<br>
+    </td>
+    <td>
+        <b>{% trans "Total grain" %}</b>: {% local_unit "weight" object.get_total_grain 0 %}<br>
+        <b>{% trans "Grain temperature" %}</b>: {% local_unit "temperature" object.grain_temperature 0 %}<br>
+    </td>
+</tr></table>
+<p>&nbsp;</p>
+<table class="table table-condensed">
+    <thead>
+        <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Description" %}</th>
+            <th>{% trans "Step temperature" %}</th>
+            <th>{% trans "Step time" %}</th>
+        </tr>
+    </thead>
+    {% for mash in object.mashstep_set.all %}
+        <tr>
+                <td>
+                    {{ mash.name }}
+                    ({{ mash.get_step_type_display }})
+                </td>
+                <td>
+                    {% if mash.water_added %}
+                        Add {% local_unit "volume" mash.water_added 0 %} of water.
+                    {% endif %}
+
+                    {% if forloop.first %}
+                        Heat over {% local_unit "temperature" mash.initial_heat 0 %}
+                    {% else %}
+                        Heat over {% local_unit "temperature" mash.temperature 0 %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% local_unit "temperature" mash.temperature 0 %}
+                </td>
+                <td>
+                    {{ mash.step_time }} min
+                </td>
+            </tr>   
+    {% endfor %}
+</table>
+
+{% endblock content %}
+
+
+{% block extrahead %}
+<style type="text/css">
+table.bigcol{width:99%;}table.bigcol tr td{width:49%;}
+</style>
+{% endblock extrahead %}
+
+
+{% block js %}
+<script type="text/javascript">
+$(document).ready(function() { 
+    i = 0;
+    $('.position').each(function(){
+        i++;
+        $(this).text(i);
+    });
+    window.print();
+});
+</script>
+{% endblock js %}

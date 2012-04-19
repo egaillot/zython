@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 
-{% block title %}Déconnexion{% endblock %}
+{% block title %}{% trans "Log out" %}{% endblock %}
 
 {% block content %}
-<h2>Vous êtes déconnecté</h2>
-<p>
-Merci du temps que vous avez passé sur les tableaux de bord.
-<br /><a href="/">Accueil</a>
-</p>
+<h2>{% trans "You've logged out" %}</h2>
 {% endblock %} 
- 
+
+{% block extrahead %}
+     <script type="text/javascript">
+     document.location.href = "/";</script>
+ {% endblock extrahead %} 

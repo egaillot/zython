@@ -30,7 +30,7 @@ def invited(request, invitation_key=None, extra_context=None):
 
 
 def register(request, backend, success_url=None,
-            form_class=RegistrationForm,
+            form_class=None,
             disallowed_url='registration_disallowed',
             post_registration_redirect=None,
             template_name='registration/registration_form.html',
