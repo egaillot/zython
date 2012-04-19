@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-19 07:36+0200\n"
-"PO-Revision-Date: 2012-04-19 07:36+0100\n"
+"POT-Creation-Date: 2012-04-19 18:53+0200\n"
+"PO-Revision-Date: 2012-04-19 18:54+0100\n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -40,40 +40,6 @@ msgstr "Invitation envoyée"
 #: templates/invitation/invitation_complete.html:8
 msgid "Your friend will receive an email with your invitation soon!"
 msgstr "Votre ami recevra son invitation dans une poignée de secondes !"
-
-#: apps-ext/invitation/templates/invitation/invitation_email.txt:2
-#: templates/invitation/invitation_email.txt:2
-#, python-format
-msgid "You have been invited by %(username)s to join %(sitename)s!"
-msgstr "Vous avez été invité(e) par %(username)s à rejoindre %(sitename)s !"
-
-#: apps-ext/invitation/templates/invitation/invitation_email.txt:4
-#: templates/invitation/invitation_email.txt:4
-msgid "Go to"
-msgstr "Aller à"
-
-#: apps-ext/invitation/templates/invitation/invitation_email.txt:6
-#: templates/invitation/invitation_email.txt:6
-msgid "to join!"
-msgstr "pour vous joindre."
-
-#: apps-ext/invitation/templates/invitation/invitation_email.txt:8
-#: templates/invitation/invitation_email.txt:8
-#, python-format
-msgid ""
-"All the best,\n"
-"\n"
-"The %(sitename)s Team"
-msgstr ""
-"Brassicolement votre,\n"
-"\n"
-"L'équipe %(sitename)s"
-
-#: apps-ext/invitation/templates/invitation/invitation_email_subject.txt:2
-#: templates/invitation/invitation_email_subject.txt:2
-#, python-format
-msgid "Invitation from %(username)s to join %(sitename)s"
-msgstr "Invitation de %(username)s à rejoindre %(sitename)s"
 
 #: apps-ext/invitation/templates/invitation/invitation_form.html:6
 #: templates/base.html:95
@@ -201,43 +167,6 @@ msgstr ""
 msgid "La clé que vous avez saisi est invalide, ceci pour une des deux raisons : "
 msgstr ""
 
-#: apps-ext/registration/templates/registration/activation_email.txt:2
-#, python-format
-msgid ""
-"\n"
-"Bonjour %(prenom)s %(nom)s,\n"
-"\n"
-"Vous venez de créer votre compte personnel sur le portail engage-sports.com.\n"
-"Rappel de votre identifiant (ou pseudo) : %(username)s\n"
-"\n"
-"\n"
-"Pour terminer votre inscription, merci de cliquer sur le lien ci-dessous :\n"
-"http://%(site)s%(activation_url)s\n"
-"\n"
-"\n"
-"Avant toute chose, nous vous précisons que les informations de votre compte ne seront transmises à personne\n"
-"et seront uniquement utilisées pour les besoins des services rendus par le portail engage-sports.com.\n"
-"\n"
-"Le portail engage-sports.com a été conçu pour apporter le maximum de services tant aux compétiteurs qu'aux organisateurs de compétitions :\n"
-"- vous disposez d'un calendrier personnalisé pour toute votre saison\n"
-"- vous vous engagez aux compétitions en un clin d'oeil, finies les paperasses\n"
-"- pour chaque engagement, vous disposez d'un espace de publication personnel de 12 photos que vous pouvez commenter\n"
-"- vous pouvez voir et communiquer avec les autres engagés à vos compétitions\n"
-"- vous retrouvez vos résultats facilement\n"
-"- votre palmarès se construit automatiquement saison après saison\n"
-"- et encore bien d'autres fonctionnalités à découvrir par vous-même\n"
-"\n"
-"Ce portail est avant tout le votre et toute l'équipe d'engage-sports.com reste à votre écoute.\n"
-"\n"
-"L'équipe engage-sports.com vous remercie par avance et vous souhaite de bonnes compétitions !!!\n"
-"\n"
-msgstr ""
-
-#: apps-ext/registration/templates/registration/activation_email_subject.txt:2
-#, python-format
-msgid "Activation de votre compte sur %(site)s"
-msgstr ""
-
 #: apps-ext/registration/templates/registration/login.html:6
 msgid "Login"
 msgstr ""
@@ -312,21 +241,6 @@ msgstr ""
 msgid "Continuer"
 msgstr ""
 
-#: apps-ext/registration/templates/registration/reactivation_email.txt:4
-#, python-format
-msgid ""
-"\n"
-"Bonjour %(prenom)s %(nom)s,\n"
-"\n"
-"Vous vous êtes créé un compte personnel sur le portail engage-sports.com.\n"
-"Rappel de votre identifiant (ou pseudo) : %(username)s\n"
-"\n"
-"Vous n'avez pas encore activé votre compte, pour se faire, merci de cliquer sur le lien ci-dessous :\n"
-"http://%(site)s%(activation_url)s\n"
-"\n"
-"\n"
-msgstr ""
-
 #: apps-ext/registration/templates/registration/registration_complete.html:5
 msgid "Your account is successfully created !"
 msgstr ""
@@ -342,60 +256,6 @@ msgstr ""
 #: apps-ext/registration/templates/registration/registration_form.html:22
 msgid "Register"
 msgstr "S'enregistrer"
-
-#: apps-ext/registration/templates/registration/remind_email.txt:8
-#, python-format
-msgid ""
-"\n"
-"Bonjour %(prenom)s %(nom)s,\n"
-"\n"
-"Vous possédez déjà compte personnel sur le portail engage-sports.com.\n"
-"Rappel de nom d'utilisateur : %(username)s\n"
-"\n"
-"Vous avez tenté de créer un nouveau compte certainement pour une des raisons suivantes : \n"
-"- Vous ne vous rappelez pas avoir créé un compte sur engage-sports\n"
-"- Vous voulez gérer le compte d'un proche\n"
-"- Vous n'arrivez pas / plus à vous connecter\n"
-"\n"
-"Vous trouverez les réponses à ces questions ci-dessous :\n"
-"\n"
-"\n"
-"\n"
-"=== GÉRER UN COMPTE SUR ENGAGE-SPORTS POUR UN PROCHE ===\n"
-"\n"
-"Nous vous rappelons qu'un compte sur engage-sports est personnel et unique pour la cohérence et la justesse des résultats.\n"
-"Vous pouvez tout à fait gérer le compte d'un proche si vous êtes sûr que : \n"
-"- Votre proche n'a pas déjà un compte, vous pouvez le vérifier en recherchant son nom/prénom à l'adresse http://%(site)s%(search_url)s\n"
-"- Votre proche est au courant et d'accord\n"
-"- Ce compte soit repris par votre proche et qu'il n'en créera pas un nouveau par la suite.\n"
-"\n"
-"\n"
-"\n"
-"=== JE NE SAIS PAS SI J'AI CRÉÉ UN COMPTE ===\n"
-"\n"
-"Si vous recevez ce message, vous avez déjà un compte sur engage-sports.com\n"
-"Pour vous connecter : http://%(site)s%(login_url)s\n"
-"Votre nom d'utilisateur : %(username)s\n"
-"\n"
-"\n"
-"\n"
-"=== JE N'ARRIVE PAS (PLUS) À ME CONNECTER ===\n"
-"\n"
-"A la création de votre compte vous avez dû recevoir un email contenant un lien d'activation de votre compte.\n"
-"Si vous ne l'avez pas reçu ou égaré par mégarde, vous pouvez demander à nouveau une clé d'activation ici http://%(site)s%(activ_url)s,\n"
-"seule votre adresse email vous sera semandée.\n"
-"Si vous avez perdu votre mot de passe, réinitialisez le sur http://%(site)s%(reset_url)s\n"
-"\n"
-"\n"
-"\n"
-"Si vous n'avez pas trouvé réponse à vos questions, contactez-nous sur http://%(site)s rubrique \"Nous contacter\".\n"
-"L'équipe engage-sports.com\n"
-msgstr ""
-
-#: apps-ext/registration/templates/registration/remind_email_subject.txt:1
-#, python-format
-msgid "Votre compte sur %(site)s"
-msgstr ""
 
 #: apps/brew/models.py:12
 msgid "All grain"
@@ -727,10 +587,6 @@ msgstr "Ne peut annuler"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: apps/brew/templates/brew/recipe_detail.html:13
-msgid "Beer color"
-msgstr "Couleur de la bière"
-
 #: apps/brew/templates/brew/recipe_detail.html:24
 msgid "This recipe is private"
 msgstr "Cette recette est privée"
@@ -953,6 +809,11 @@ msgstr "SRM"
 msgid "Unit preferences"
 msgstr "Unités"
 
+#: templates/base.html:93
+#: templates/how.html:6
+msgid "Formulas"
+msgstr "Formules"
+
 #: templates/base.html:106
 #: templates/public/invitation_home.html:28
 msgid "Log in"
@@ -962,19 +823,7 @@ msgstr "Connexion"
 msgid "My recipes"
 msgstr "Mes recettes"
 
-#: templates/base.html:140
-msgid "About 2beer.com"
-msgstr "A propos"
-
-#: templates/base.html:140
-msgid "Contact"
-msgstr "Contact"
-
-#: templates/base.html:140
-msgid "Contribute"
-msgstr "Contribuer"
-
-#: templates/base.html:157
+#: templates/base.html:171
 msgid "Download"
 msgstr "Télécharger"
 
@@ -1037,6 +886,39 @@ msgstr ""
 "        ...mais pour le moment, vous devez recevoir une invitation pour créer un compte.\n"
 "    </p>\n"
 "    "
+
+#~ msgid "You have been invited by %(username)s to join %(sitename)s!"
+#~ msgstr "Vous avez été invité(e) par %(username)s à rejoindre %(sitename)s !"
+
+#~ msgid "Go to"
+#~ msgstr "Aller à"
+
+#~ msgid "to join!"
+#~ msgstr "pour vous joindre."
+
+#~ msgid ""
+#~ "All the best,\n"
+#~ "\n"
+#~ "The %(sitename)s Team"
+#~ msgstr ""
+#~ "Brassicolement votre,\n"
+#~ "\n"
+#~ "L'équipe %(sitename)s"
+
+#~ msgid "Invitation from %(username)s to join %(sitename)s"
+#~ msgstr "Invitation de %(username)s à rejoindre %(sitename)s"
+
+#~ msgid "Beer color"
+#~ msgstr "Couleur de la bière"
+
+#~ msgid "About 2beer.com"
+#~ msgstr "A propos"
+
+#~ msgid "Contact"
+#~ msgstr "Contact"
+
+#~ msgid "Contribute"
+#~ msgstr "Contribuer"
 
 #~ msgid "English"
 #~ msgstr "Anglais"
