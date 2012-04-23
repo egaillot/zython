@@ -1,1 +1,0 @@
-{% load i18n %}{% blocktrans with site as site%}Votre compte sur {{ site }}{% endblocktrans %}

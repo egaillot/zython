@@ -1,29 +1,9 @@
 {% load i18n %}{% url registration_activate activation_key as activation_url %}
 {% blocktrans with site as site and new_user.first_name as prenom and new_user.last_name as nom and new_user.username as username %}
-Bonjour {{ prenom }} {{ nom }},
+Hi {{ prenom }} {{ nom }},
 
-Vous venez de créer votre compte personnel sur le portail engage-sports.com.
-Rappel de votre identifiant (ou pseudo) : {{username}}
-
-
-Pour terminer votre inscription, merci de cliquer sur le lien ci-dessous :
+You have to finish your registration on {{ site }} by click on this link below : 
 http://{{ site }}{{ activation_url }}
 
-
-Avant toute chose, nous vous précisons que les informations de votre compte ne seront transmises à personne
-et seront uniquement utilisées pour les besoins des services rendus par le portail engage-sports.com.
-
-Le portail engage-sports.com a été conçu pour apporter le maximum de services tant aux compétiteurs qu'aux organisateurs de compétitions :
-- vous disposez d'un calendrier personnalisé pour toute votre saison
-- vous vous engagez aux compétitions en un clin d'oeil, finies les paperasses
-- pour chaque engagement, vous disposez d'un espace de publication personnel de 12 photos que vous pouvez commenter
-- vous pouvez voir et communiquer avec les autres engagés à vos compétitions
-- vous retrouvez vos résultats facilement
-- votre palmarès se construit automatiquement saison après saison
-- et encore bien d'autres fonctionnalités à découvrir par vous-même
-
-Ce portail est avant tout le votre et toute l'équipe d'engage-sports.com reste à votre écoute.
-
-L'équipe engage-sports.com vous remercie par avance et vous souhaite de bonnes compétitions !!!
-
+Thank you ! 
 {% endblocktrans %}

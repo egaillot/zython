@@ -40,6 +40,11 @@ urlpatterns = patterns('',
         name="brew_mash_add"
     ),
 
+    url(r'^(?P<recipe_id>\d+)/mash/(?P<object_id>\d+)/edit/$', 
+        MashUpdateView.as_view(),  
+        name="brew_mash_edit"
+    ),
+
     url(r'^(?P<recipe_id>\d+)/mash/(?P<object_id>\d+)/order/(?P<direction>\w+)/$', 
         mash_order, 
         name="brew_mash_order"

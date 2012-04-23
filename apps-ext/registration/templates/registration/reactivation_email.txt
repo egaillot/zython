@@ -2,12 +2,9 @@
 {% url registration_activate activation_key as activation_url %}
 
 {% blocktrans with site as site and new_user.first_name as prenom and new_user.last_name as nom and new_user.username as username %}
-Bonjour {{ prenom }} {{ nom }},
+Hi {{ prenom }} {{ nom }},
 
-Vous vous êtes créé un compte personnel sur le portail engage-sports.com.
-Rappel de votre identifiant (ou pseudo) : {{username}}
-
-Vous n'avez pas encore activé votre compte, pour se faire, merci de cliquer sur le lien ci-dessous :
+We just remind you to activate your account on {{ site }} by clicking here :
 http://{{ site }}{{ activation_url }}
 
 

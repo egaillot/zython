@@ -98,7 +98,15 @@
 					<img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon">&nbsp;
 					{% local_unit "weight" malt.amount 0 %}
 				</td>
-				<td><a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">{{ malt.name }} ({% local_unit "color" malt.color %})</a></td>
+				<td>
+
+					{% if object.user == request.user %}
+					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">
+					{% endif %}
+					{{ malt.name }} ({% local_unit "color" malt.color %})
+					{% if object.user == request.user %}</a>{% endif %}
+
+				</td>
 				<td>{{ malt.get_malt_type_display }}</td>
 				<td><span class="position"></span></td>
 				<td>{{ malt.percent }}%</td>
@@ -117,9 +125,10 @@
 					{% local_unit "hop" hop.amount 0 %}
 				</td>
 				<td>
-					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" hop.id %}">
+					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" hop.id %}">
+					{% endif %}
 					{{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.unit_time }}
-					</a>
+					{% if object.user == request.user %}</a>{% endif %}
 
 				</td>
 				<td>{% trans "Hop" %}</td>
@@ -135,9 +144,10 @@
 					{% local_unit "hop" misc.amount 0 %}
 				</td>
 				<td>
-					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" misc.id %}">
+					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" misc.id %}">
+					{% endif %}
 					{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}
-					</a>
+					{% if object.user == request.user %}</a>{% endif %}
 				</td>
 				<td>{% trans "Hop" %}</td>
 				<td><span class="position"></span></td>
@@ -152,9 +162,10 @@
 					Yeast
 				</td>
 				<td>
-					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" yeast.id %}">
+					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" yeast.id %}">
+					{% endif %}
 					{{ yeast.product_id }} {{ yeast.name }} - {{ yeast.laboratory }}
-					</a>
+					{% if object.user == request.user %}</a>{% endif %}
 				</td>
 				<td>{% trans "Yeast" %}</td>
 				<td><span class="position"></span></td>
@@ -207,19 +218,22 @@
 			{% for mash in object.mashstep_set.all %}
 				<tr>
 						<td>
+							<img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
 							{{ mash.name }}
 							({{ mash.get_step_type_display }})
 						</td>
 						<td>
+							<a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
 							{% if mash.water_added %}
-								Add {% local_unit "volume" mash.water_added 0 %} of water.
+								{% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
 							{% endif %}
 
 							{% if forloop.first %}
-								Heat over {% local_unit "temperature" mash.initial_heat 0 %}
+								{% trans "Heat over" %} {% local_unit "temperature" mash.initial_heat 0 %}
 							{% else %}
-								Heat over {% local_unit "temperature" mash.temperature 0 %}
+								{% trans "Heat over" %} {% local_unit "temperature" mash.temperature 0 %}
 							{% endif %}
+							</a>
 						</td>
 						<td>
 							{% local_unit "temperature" mash.temperature 0 %}
@@ -230,10 +244,30 @@
 						{% if object.user == request.user %}<td>
 							<a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
 						</td>{% endif %}
-					</tr>	
+					</tr>
+				{% if forloop.last %}
+					<tr>
+						<td>
+							<img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
+							{% trans "Filtering" %}</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						{% if object.user == request.user %}<td></td>{% endif %}
+					</tr>
+					<tr>
+						<td>
+							<img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
+
+							{% trans "Fly sparge" %}</td>
+						<td colspan="3">
+							{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 75.6 0 %}
+						</td>
+						{% if object.user == request.user %}<td></td>{% endif %}
+					</tr>
+				{% endif %}
 			{% endfor %}
 		</table>
-
 	</div>
 	<div class="span2">
 		<ul class="nav nav-list ingredient-list">
@@ -263,9 +297,13 @@
     <a href="#" id="model_edit_submit" class="btn btn-primary">{% trans "Save" %}</a>
   </div>
 </div>
+
 {% endblock inner_content %}
 
 {% endblock content %}
+
+
+
 
 
 
@@ -291,6 +329,40 @@
 			}
 		}
 	}
+
+	function show_ajax_form(html){
+		$("#xhr_form").html(html);
+	}
+
+	function load_ajax_form(elmt){
+		$("#doform h3 span").text(elmt.text());
+		form_url = elmt.attr('data-url');
+		$.get(form_url, function(html){
+			show_ajax_form(html);
+			$("#model_edit_submit").click(function(){
+				send_ajax_form();
+			});
+		});
+	}
+
+	function send_ajax_form(elmt){
+		form_id = "id_ingredient_form";
+		form = $("#"+form_id);
+		url = form.attr("action");
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: $('#' + form_id).serialize(),
+			success: function(data, textStatus, jqXHR){
+				if(jqXHR.status == 202){
+					reload_page();
+				}else if (jqXHR.status == 200){
+					show_ajax_form(data);
+				}
+			}
+		});
+	}
+
 	$(document).ready(function() { 
 	    $('.ajaxform').ajaxForm({success: handleResponse});
 	    $('.modal').on('shown', function(){
@@ -301,56 +373,22 @@
 	    $("#search_misc").quicksearch('table#table_misc tbody tr');
 	    $("#search_yeast").quicksearch('table#table_yeast tbody tr');
 	    $('.popover-menu').popover({placement:'left'}).popover('show');
+	    $('.edit_ingredient').click(function(){
+			load_ajax_form($(this));
+		});
+		$("#doform form input").live("keypress", function(e){
+			if(e.keyCode == 13) {
+		        $("#model_edit_submit").click();
+		    }
+		});
 	});
 	</script>
 {% endif %}
 <script type="text/javascript">
-function show_ajax_form(html){
-	$("#xhr_form").html(html);
-}
-
-function load_ajax_form(elmt){
-	$("#doform h3 span").text(elmt.text());
-	form_url = elmt.attr('data-url');
-	$.get(form_url, function(html){
-		show_ajax_form(html);
-		$("#model_edit_submit").click(function(){
-			send_ajax_form();
-		});
-	});
-}
-
-function send_ajax_form(elmt){
-	form_id = "id_ingredient_form";
-	form = $("#"+form_id);
-	url = form.attr("action");
-	$.ajax({
-		type: "POST",
-		url: url,
-		data: $('#' + form_id).serialize(),
-		success: function(data, textStatus, jqXHR){
-			if(jqXHR.status == 202){
-				reload_page();
-			}else if (jqXHR.status == 200){
-				show_ajax_form(data);
-			}
-		}
-	});
-}
-
 $(document).ready(function() { 
-	i = 0;
+	i=0;
 	$('.position').each(function(){
-		i++;
-		$(this).text(i);
-	});
-	$('.edit_ingredient').click(function(){
-		load_ajax_form($(this));
-	});
-	$("#doform form input").live("keypress", function(e){
-		if(e.keyCode == 13) {
-	        $("#model_edit_submit").click();
-	    }
+		i++; $(this).text(i);
 	});
 });
 </script>

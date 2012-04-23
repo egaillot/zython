@@ -228,6 +228,18 @@ class MashCreateView(CreateView):
         return resp
 
 
+class MashUpdateView(UnitViewFormMixin, UpdateView):
+    form_class = MashStepForm
+    model = MashStep
+    pk_url_kwarg = 'object_id'
+    template_name_suffix = "_form"
+
+    def form_valid(self, form):
+        form.save()
+        resp = http.HttpResponse()
+        resp.status_code = 202
+        return resp
+
 
 # --------------------
 # -- View functions --

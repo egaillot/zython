@@ -1,8 +1,5 @@
-{% load i18n %}
+{% load i18n unit_tags %}
 <form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
-
-
-
 <div class="control-group {% if form.name.errors %}error{% endif %}">
     <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
     <div class="controls">
@@ -44,6 +41,10 @@
                 {{ form.water_added }}
                 {{ form.water_added.help_text }}
                 {{ form.water_added.errors }}
+                {% if not form.instance.recipe.mashstep_set.all %}
+                    
+                <div id="id_result_ratio">Ratio : </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -71,10 +72,29 @@
         </div>
     </div>
 </div>
+
 </form>
 <style type="text/css">
     .span3 {width: 250px;}
     .span3 input{
         width:45px;
     }
+    #id_result_ratio{color:#BBB;}
 </style>
+<script type="text/javascript">
+$(document).ready(function() { 
+    function update_ratio(){
+        grain = parseFloat("{% local_unit "weight" form.instance.recipe.get_total_grain 0 %}".split(" ")[0]);
+        water = parseFloat($("#id_water_added").val());
+        ratio = water/grain;
+        ratio = ratio.toFixed(1);
+        $("#id_result_ratio").text("Ratio : " + ratio)
+    }
+    update_ratio();
+    $("#id_water_added").keyup(function(){
+        update_ratio();
+    }).blur(function(){
+        update_ratio();
+    });
+});
+</script>

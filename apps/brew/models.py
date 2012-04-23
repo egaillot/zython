@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User 
 from brew.fields import BitternessField, GravityField, ColorField
@@ -117,28 +118,39 @@ class Recipe(models.Model):
     # Water volumes
 
     def water_initial_mash(self):
-        ratio = app_settings.WATER_GAL_PER_GRAIN_LBS
-        grain = kg_to_lb(self.get_total_grain())
-        return gal_to_l(ratio*grain)
+        ratio = float(app_settings.WATER_L_PER_GRAIN_KG)
+        grain = float(self.get_total_grain())
+        return ratio*grain
 
     def water_pre_boil(self):
-        pre_boil = float(self.batch_size) + (float(self.batch_size)*self.get_evaporation_rate())
-        return pre_boil
+        volume = float(self.batch_size) \
+            + float(self.boiler_tun_deadspace) \
+            + float(self.water_boiloff())
+        return volume
+
+    def water_boiloff(self):
+        volume = float(self.batch_size + self.boiler_tun_deadspace)
+        boil_time = float(self.get_boil_time()+3)/60.
+        boil_off = volume*(float(self.evaporation_rate)/100.)*boil_time
+        return boil_off
+
+    def water_mash_added(self):
+        steps = self.mashstep_set.all()
+        if steps.count():
+            return float(steps.aggregate(Sum('water_added')).get('water_added__sum'))
+        return float(self.water_initial_mash())
+    
+    def water_grain_absorbtion(self):
+        grain_absorbtion = float(self.get_total_grain()) * 1.001
+        return grain_absorbtion
 
     def water_sparge(self):
-        steps = self.mashstep_set.all()
-        grain_absorbtion_rate = 0.125 # gal/lbs
-        grain_absorbtion = gal_to_l(kg_to_lb(self.get_total_grain()) * grain_absorbtion_rate)
-
-        if steps.count():
-            water_mash = float(steps[0].water_added)
-        else:
-            water_mash = float(self.water_initial_mash())
-
-        return (self.water_pre_boil()+float(self.mash_tun_deadspace)+grain_absorbtion)-water_mash
-
-    def get_evaporation_rate(self):
-        return float(self.evaporation_rate)/100.
+        water_sparge = self.water_pre_boil()
+        water_sparge += float(self.mash_tun_deadspace)
+        water_sparge += float(self.water_grain_absorbtion())
+        water_mash = float(self.water_mash_added())
+        water_sparge -= water_mash
+        return water_sparge
 
     # - - -
     # Mash 
@@ -148,7 +160,11 @@ class Recipe(models.Model):
 
     def get_original_gravity(self):
         points = []
-        batch_size = l_to_gal(float(self.batch_size))
+        batch_size = l_to_gal(float(self.water_pre_boil() \
+            + float(self.mash_tun_deadspace)\
+            - float(self.water_boiloff())
+        ))
+        #batch_size = l_to_gal(self.water_mash_added() + self.water_sparge() - self.water_boiloff() - self.water_grain_absorbtion())
         efficiency = float(self.efficiency)/100.0
         for grain in self.recipemalt_set.all():
             pounds = kg_to_lb(float(grain.amount))
@@ -189,6 +205,12 @@ class Recipe(models.Model):
 
     # - - -
     # Bitterness and spices
+
+    def get_boil_time(self):
+        hops = self.recipehop_set.all()
+        if hops.count():
+            return float(hops[0].boil_time)
+        return 60.0
 
     def get_ibu(self):
         bu = 0
@@ -289,11 +311,11 @@ class MashStep(models.Model):
     recipe = models.ForeignKey('Recipe')
     ordering = models.IntegerField(default=0)
     name = models.CharField(_("Name"), max_length=100)
-    step_type = models.CharField(choices=MASH_TYPE_CHOICES, max_length=50)
-    temperature = models.DecimalField(max_digits=4, decimal_places=1)
+    step_type = models.CharField(_("Step type"), choices=MASH_TYPE_CHOICES, max_length=50)
+    temperature = models.DecimalField(_("Temperature"), max_digits=4, decimal_places=1)
     step_time = models.IntegerField(_("Step time"), help_text=_("min"))
     rise_time = models.IntegerField(_("Rise time"), help_text=_("min"))
-    water_added = models.DecimalField(max_digits=5, decimal_places=2)
+    water_added = models.DecimalField(_("Water added"), max_digits=5, decimal_places=2)
 
     def initial_heat(self):
         # TODO : 
@@ -303,7 +325,7 @@ class MashStep(models.Model):
         
         Hm = 0.3822 # heat capacity of malt
         Hw = 1.0 # heat capacity of water
-        Tmt = 70.0 # temperature of dry malt
+        Tmt = 22.0 # temperature of dry malt
         Tma = float(c_to_f(float(self.temperature))) # temperature of mash step
         M = float(kg_to_lb(self.recipe.get_total_grain())) # weight of malt in lbs
         W = float(float(l_to_gal(self.water_added)) * M) # weight of water 
@@ -312,7 +334,7 @@ class MashStep(models.Model):
         MHmTmaTmtWHw = MHmTmaTmt/WHw
         Tw = MHmTmaTmtWHw + Tma
         temp = f_to_c(float(Tw))
-        temp += f_to_c(float(Tw))*0.05 # Special arbitrary regulation
+        #temp += f_to_c(float(Tw))*0.05 # Special arbitrary regulation
         return temp
 
     def set_order(self, direction):
