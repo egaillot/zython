@@ -2,6 +2,7 @@ from django import forms
 from django.forms.models import fields_for_model
 from inspect_model import InspectModel
 from brew.models import *
+from brew.settings import MAIN_STYLES
 from units.forms import UnitModelForm
 
 
@@ -10,12 +11,40 @@ __all__ = (
     'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm'
 )
 
+def style_choices():
+    old_number = None
+    item = ("", "-------")
+    items = []
+    for s in BeerStyle.objects.all():
+        number = s.number
+
+        if old_number != number:
+            items.append(item)
+            item = [MAIN_STYLES[str(number)], []]
+        item[1].append((s.id, "%s" % s))
+        old_number = number
+    return items
+
 class RecipeForm(UnitModelForm):
     unit_fields = {'volume': ['batch_size',]}
+    recipe_style = forms.ChoiceField(label="Style", choices=style_choices(), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(RecipeForm, self).__init__(*args, **kwargs)
+        if self.instance.style:
+            self.initial['recipe_style'] = str(self.instance.style.pk)
+
+    def save(self, *args, **kwargs):
+        recipe = super(RecipeForm, self).save(*args, **kwargs)
+        datas = self.cleaned_data
+        if datas['recipe_style']:
+            recipe.style = BeerStyle.objects.get(pk=datas['recipe_style'])
+            recipe.save()
+        return recipe
 
     class Meta:
         model = Recipe
-        fields = ('name', 'batch_size', 'efficiency', 'private', 'style', 'recipe_type')
+        fields = ('name', 'batch_size', 'efficiency', 'private', 'recipe_style', 'recipe_type')
 
 
 class RecipePreferencesForm(UnitModelForm):

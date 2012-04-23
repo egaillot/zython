@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-23 16:37+0200\n"
-"PO-Revision-Date: 2012-04-23 16:42+0100\n"
+"PO-Revision-Date: 2012-04-23 17:09+0100\n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -402,7 +402,7 @@ msgstr "Nom"
 #: apps/brew/templates/brew/recipe_detail.html:54
 #: apps/brew/templates/brew/recipe_print.html:10
 msgid "Batch size"
-msgstr "Traille du brassin"
+msgstr "Taille du brassin"
 
 #: apps/brew/models.py:78
 #: apps/brew/templates/brew/recipe_print.html:11
