@@ -144,7 +144,7 @@
                     <input type="radio" name="misc_id" value="{{ misc.id }}" />
                 </td>
                 <td>{{ misc.name }}</td>
-                <td>{{ misc.misc_type }}</td>
+                <td>{{ misc.get_misc_type_display }}</td>
                 <td>{{ misc.get_use_in_display }}</td>
             </tr>
             {% endfor %}
@@ -205,8 +205,8 @@
                         <td>{{ yeast.name }}</td>
                         <td>{{ yeast.laboratory }}</td>
                         <td>{{ yeast.product_id }}</td>
-                        <td>{{ yeast.yeast_type }}</td>
-                        <td>{{ yeast.form }}</td>
+                        <td>{{ yeast.get_yeast_type_display }}</td>
+                        <td>{{ yeast.get_form_display }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

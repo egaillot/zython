@@ -35,6 +35,8 @@
   {% endif %}
 
   <li><a href="{% url "brew_recipe_print" object.pk %}" target="_blank">{% trans "Print" %}</a></li>
+  <li><a href="{% url "brew_recipe_text" object.pk %}" target="_blank">{% trans "Copy (txt)" %}</a></li>
+
 </ul>
 {% block inner_content %}
 	
@@ -149,9 +151,9 @@
 					{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}
 					{% if object.user == request.user %}</a>{% endif %}
 				</td>
-				<td>{% trans "Hop" %}</td>
+				<td>{{ misc.get_misc_type_display }}</td>
 				<td><span class="position"></span></td>
-				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
+				<td>---</td>
 				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "misc" misc.id %}">{% trans "Delete" %}</a></td>{% endif %}
 			</tr>
 		{% endfor %}
@@ -229,7 +231,7 @@
 							{% endif %}
 
 							{% if forloop.first %}
-								{% trans "Heat over" %} {% local_unit "temperature" mash.initial_heat 0 %}
+								{% trans "Heat over" %} <b>{% local_unit "temperature" mash.initial_heat 0 %}</b>
 							{% else %}
 								{% trans "Heat over" %} {% local_unit "temperature" mash.temperature 0 %}
 							{% endif %}
@@ -275,9 +277,8 @@
 				<li class="nav-header">{% trans "Mash" %}</li>
 				<li><a data-toggle="modal" href="#add_mash">
 
-<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
-
-					{% trans "Add mash step" %}</a>
+				<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
+					<img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
 				</li>
 			{% endif %}
 	</div>
@@ -288,7 +289,7 @@
 <div class="modal hide fade" id="doform">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
-      	<h3>{% trans "Edit" %} <span></span></h3>
+      	<h3><span></span></h3>
   </div>
   <div class="modal-body">
     <div id="xhr_form"></div>

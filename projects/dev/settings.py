@@ -9,7 +9,7 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = (
     ('Bill Gates', 'bill-gates@microsoft.com'),
 )
-
+DEFAULT_CHARSET = 'utf-8'
 MANAGERS = ADMINS
 
 TIME_ZONE = 'Europe/Paris'

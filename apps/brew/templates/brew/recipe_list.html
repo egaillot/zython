@@ -5,10 +5,16 @@
 {% block content %}
 
 {% if request.user.is_active %}
-
-	<a href="{% url "brew_recipe_add" %}" class="btn btn-large pull-right">
-		{% trans "Add a recipe" %}
-	</a>
+	<div class="pull-right">
+		<div class="btn-group">
+		  <a class="btn btn-large" href="{% url "brew_recipe_add" %}">{% trans "Add a recipe" %}</a>
+		  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+		  <ul class="dropdown-menu">
+		    	<li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
+		    	<li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
+		  </ul>
+		</div>
+	</div>
 
 	<h1>
 		{% if user_recipe %}

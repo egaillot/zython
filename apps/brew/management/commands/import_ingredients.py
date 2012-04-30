@@ -1,6 +1,5 @@
 from django.core.management.base import NoArgsCommand
 from brew.management.commands import ingredients
-#from brew.models import Malt, Hop, Yeast, BeerStyle
 
 
 class Command(NoArgsCommand):

@@ -9,9 +9,11 @@ from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from django.views.generic.edit import FormView, UpdateView
+from django.core.urlresolvers import reverse
 
 from brew.models import *
 from brew.forms import *
+from brew.helpers import import_beer_xml
 from brew.decorators import recipe_author
 
 from units.views import UnitViewFormMixin
@@ -106,8 +108,33 @@ class RecipeCreateView(UnitViewFormMixin, CreateView):
         return http.HttpResponseRedirect(self.get_success_url())
 
 
+class RecipeImportView(FormView):
+    form_class = RecipeImportForm
+    template_name = "brew/recipe_import_form.html"
+
+    def post(self, *args, **kwargs):
+        xml_data = self.request.FILES.get('beer_file').read()
+        recipes = import_beer_xml(xml_data, self.request.user)
+        print len(recipes), "recipe(s) imported !"
+        return http.HttpResponseRedirect(reverse(
+            'brew_recipe_user', 
+            args=[self.request.user.username]
+        ))
+
+
 class RecipeDetailView(DetailView):
     model = Recipe
+
+    def render_to_response(self, context, **kwargs):
+        if self.template_name_suffix == "_text":
+            kwargs["content_type"] = "text/plain; charset=utf-8"
+        return super(RecipeDetailView, self).render_to_response(context,
+                        **kwargs)
+
+    def get_template_names(self):
+        if self.template_name_suffix == "_text":
+            return "brew/recipe_detail.txt"
+        return super(RecipeDetailView, self).get_template_names()
 
     def get_context_data(self, **kwargs):
         context = super(RecipeDetailView, self).get_context_data(**kwargs)

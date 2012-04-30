@@ -75,25 +75,17 @@ class Recipe(models.Model):
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
     batch_size = models.DecimalField(_('Batch size'), max_digits=5, decimal_places=1, help_text="L")
-    boil_size = models.DecimalField(_('Boil size'), max_digits=5, decimal_places=1, default="20.", help_text="L")
-    boil_time = models.IntegerField(_('Boil time'), default=60)
     style = models.ForeignKey('BeerStyle', verbose_name=_('Style'), blank=True, null=True)
     recipe_type = models.CharField(_('Type'), choices=RECIPE_TYPE_CHOICES, default="allgrain", max_length=50)
-    est_original_gravity = GravityField(_('Est. original gravity'), default="1")
-    est_final_gravity = GravityField(default="1")
-    est_alcohol = models.DecimalField(max_digits=3, decimal_places=1, default="0.0")
     mes_original_gravity = GravityField(null=True, blank=True)
     mes_final_gravity = GravityField(null=True, blank=True)
     mes_alcohol = models.DecimalField(max_digits=3, decimal_places=1, default="0.0")
-    color = ColorField(default="0.0")
-    bitterness = BitternessField(default="0.0")
 
     # - - -
     # Preferences
     private = models.BooleanField(_(u'Private recipe ?'), default=False)
-    notes = models.TextField(_('Notes'))
+    notes = models.TextField(_('Notes'), null=True, blank=True)
     efficiency = models.DecimalField(_('Efficiency'), max_digits=4, decimal_places=1, default="75", help_text="%")
-
     mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
     boiler_tun_deadspace = models.DecimalField(_('Boiler tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
     evaporation_rate = models.DecimalField(_('Evaporation rate'), max_digits=5, decimal_places=2, help_text="%", default="8")
@@ -144,6 +136,9 @@ class Recipe(models.Model):
         grain_absorbtion = float(self.get_total_grain()) * 1.001
         return grain_absorbtion
 
+    def boil_size(self):
+        return self.water_boiloff() + float(self.batch_size) + float(self.boiler_tun_deadspace)
+
     def water_sparge(self):
         water_sparge = self.water_pre_boil()
         water_sparge += float(self.mash_tun_deadspace)
@@ -158,13 +153,14 @@ class Recipe(models.Model):
     def get_total_grain(self):
         return sum(self.recipemalt_set.all().values_list('amount', flat=True))
 
-    def get_original_gravity(self):
+    def get_preboil_gravity(self):
+        batch_size = l_to_gal(float(self.batch_size)+float(self.water_boiloff()))
+        return self.get_original_gravity(batch_size=batch_size)
+
+    def get_original_gravity(self, batch_size=None):
         points = []
-        batch_size = l_to_gal(float(self.water_pre_boil() \
-            + float(self.mash_tun_deadspace)\
-            - float(self.water_boiloff())
-        ))
-        #batch_size = l_to_gal(self.water_mash_added() + self.water_sparge() - self.water_boiloff() - self.water_grain_absorbtion())
+        if not batch_size:
+            batch_size = l_to_gal(self.batch_size)
         efficiency = float(self.efficiency)/100.0
         for grain in self.recipemalt_set.all():
             pounds = kg_to_lb(float(grain.amount))
@@ -325,16 +321,13 @@ class MashStep(models.Model):
         
         Hm = 0.3822 # heat capacity of malt
         Hw = 1.0 # heat capacity of water
-        Tmt = 22.0 # temperature of dry malt
+        Tmt = 74 # temperature of dry malt
         Tma = float(c_to_f(float(self.temperature))) # temperature of mash step
         M = float(kg_to_lb(self.recipe.get_total_grain())) # weight of malt in lbs
+        if M == 0.0:
+            M = 1.
         W = float(float(l_to_gal(self.water_added)) * M) # weight of water 
-        WHw = W*Hw
-        MHmTmaTmt = M*Hw*(Tma-Tmt)
-        MHmTmaTmtWHw = MHmTmaTmt/WHw
-        Tw = MHmTmaTmtWHw + Tma
-        temp = f_to_c(float(Tw))
-        #temp += f_to_c(float(Tw))*0.05 # Special arbitrary regulation
+        temp = f_to_c(((M*Hm*(Tma-Tmt))/ (W*Hw)) + Tma)
         return temp
 
     def set_order(self, direction):

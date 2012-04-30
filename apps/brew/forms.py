@@ -1,5 +1,6 @@
 from django import forms
 from django.forms.models import fields_for_model
+from django.utils.translation import ugettext_lazy as _
 from inspect_model import InspectModel
 from brew.models import *
 from brew.settings import MAIN_STYLES
@@ -8,7 +9,7 @@ from units.forms import UnitModelForm
 
 __all__ = (
     'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 'RecipePreferencesForm', 
-    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm'
+    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 'RecipeImportForm'
 )
 
 def style_choices():
@@ -39,12 +40,15 @@ class RecipeForm(UnitModelForm):
         datas = self.cleaned_data
         if datas['recipe_style']:
             recipe.style = BeerStyle.objects.get(pk=datas['recipe_style'])
-            recipe.save()
         return recipe
 
     class Meta:
         model = Recipe
         fields = ('name', 'batch_size', 'efficiency', 'private', 'recipe_style', 'recipe_type')
+
+
+class RecipeImportForm(forms.Form):
+    beer_file = forms.FileField(label=_("Your recipe (BeerXML format)"))
 
 
 class RecipePreferencesForm(UnitModelForm):

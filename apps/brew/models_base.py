@@ -11,65 +11,65 @@ __all__ = (
 
 
 MALT_TYPE_CHOICES = (
-    ('grain', 'Grain'),
-    ('extract', 'Extract'),
-    ('dryextract', 'Dry Extract'),
-    ('sugar', 'Sugar')
+    ('grain', _('Grain')),
+    ('extract', _('Extract')),
+    ('dryextract', _('Dry Extract')),
+    ('sugar', _('Sugar'))
 )
 
 HOP_USAGE_CHOICES = (
-    ('boil', 'Boil'),
-    ('dryhop', 'Dry Hop'),
-    ('firsthop', 'First Wort')
+    ('boil', _('Boil')),
+    ('dryhop', _('Dry Hop')),
+    ('firsthop', _('First Wort'))
 )
 
 HOP_FORM_CHOICES = (
-    ('leaf', "Leaf"),
-    ('pellets', "Pellets"),
-    ('plug', "Plug"),
+    ('leaf', _("Leaf")),
+    ('pellets', _("Pellets")),
+    ('plug', _("Plug")),
 )
 
 HOP_TYPE_CHOICES = (
-    ('bittering', "Bittering"),
-    ('aroma', "Aroma"),
-    ('both', "Both"),
+    ('bittering', _("Bittering")),
+    ('aroma', _("Aroma")),
+    ('both', _("Both")),
 )
 
 YEAST_TYPE_CHOICES = (
-    ('ale', 'Ale'),
-    ('lager', 'Lager'),
-    ('wine', 'Wine'),
-    ('champagne', 'Champagne'),
-    ('wheat', 'Wheat')
+    ('ale', _('Ale')),
+    ('lager', _('Lager')),
+    ('wine', _('Wine')),
+    ('champagne', _('Champagne')),
+    ('wheat', _('Wheat'))
 )
 
 YEAST_FORM_CHOICES = (
-    ('liguiq', 'Liguid'),
-    ('dry', 'Dry'),
-    ('culture', 'Culture')
+    ('liquid', _('Liquid')),
+    ('dry', _('Dry')),
+    ('culture', _('Culture'))
 )
 
 YEAST_FLOCCULATION_CHOICES = (
-    (1, 'Low'),
-    (2, 'Medium'),
-    (3, 'High'),
-    (4, 'Very high'),
+    (1, _('Low')),
+    (2, _('Medium')),
+    (3, _('High')),
+    (4, _('Very high')),
 )
 
 MISC_USEIN_CHOICES = (
-    ('boil', 'Boil'),
-    ('mash', 'Mash'),
-    ('primary', 'Primary'),
-    ('secondary', 'Secondary'),
-    ('bottling', 'Bottling')
+    ('boil', _('Boil')),
+    ('mash', _('Mash')),
+    ('primary', _('Primary')),
+    ('secondary', _('Secondary')),
+    ('bottling', _('Bottling'))
 )
 
 MISC_TYPE_CHOICES = (
-    ('spice','Spice'),
-    ('fining','Fining'),
-    ('herb','Herb'),
-    ('flavor','Flavor'),
-    ('other','Other')
+    ('spice',_('Spice')),
+    ('fining',_('Fining')),
+    ('herb',_('Herb')),
+    ('flavor',_('Flavor')),
+    ('other',_('Other'))
 )
 
 
@@ -138,7 +138,7 @@ class BaseYeast(models.Model):
 class BaseMisc(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     misc_type = models.CharField(_('Type'), choices=MISC_TYPE_CHOICES, max_length=50)
-    usage = models.CharField(_("Usage"), max_length=100)
+    usage = models.CharField(_("Usage"), max_length=100, blank=True, null=True)
     use_in = models.CharField(_('Use for'), choices=MISC_USEIN_CHOICES, default="boil", max_length=50)
     notes = models.TextField(_('Notes'), null=True, blank=True)
 

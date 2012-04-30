@@ -19,22 +19,32 @@
 
 <p><hr></p>
 
-<h2>{% trans "Estimated beer profile" %}</h2>
+
 <table class='bigcol'><tr>
     <td>
+        <h2>{% trans "Estimated beer profile" %}</h2>
+        <b>{% trans "Pre-boil gravity" %}</b>: {{ object.get_preboil_gravity }} <br>
         <b>{% trans "Original gravity" %}</b>: {{ object.get_original_gravity }} <br>
         <b>{% trans "Final gravity" %}</b>: {{ object.get_final_gravity }} <br>
         <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %} <br>
-    </td>
-    <td>
         <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:"1" }}%<br>
         <b>{% trans "Bitterness" %}</b>: {{ object.get_ibu }} IBU<br>
+    </td>
+    <td>
+        <h2>{% trans "Real profile" %}</h2>
+        <b>{% trans "Batch size" %}</b>: .......................<br>
+        <b>{% trans "Pre-boil gravity" %}</b>: .................... <br>
+        <b>{% trans "Original gravity" %}</b>: .................... <br>
+        <b>{% trans "Final gravity" %}</b>: ....................<br>
+        <b>{% trans "ABV" %}</b>: ....................<br>
+
     </td>
 </tr></table>
 
 <p><hr></p>
 
 <h2>{% trans "Ingredients" %}</h2>
+<br>
 <table class='table table-condensed'>
     <thead>
         <tr>
@@ -99,10 +109,10 @@
     {% endfor %}
 </table>
 
-<p><hr></p>
+<p><br></p>
 
 <h2>{% trans "Mash detail" %}</h2>
-
+{% comment %}
 <table class='bigcol'><tr>
     <td>
         <b>{% trans "Sparge water" %}</b>: {% local_unit "volume" object.water_sparge 0 %} <br>
@@ -113,7 +123,8 @@
         <b>{% trans "Grain temperature" %}</b>: {% local_unit "temperature" object.grain_temperature 0 %}<br>
     </td>
 </tr></table>
-<p>&nbsp;</p>
+{% endcomment %}
+<br>
 <table class="table table-condensed">
     <thead>
         <tr>
@@ -126,6 +137,7 @@
     {% for mash in object.mashstep_set.all %}
         <tr>
                 <td>
+                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
                     {{ mash.name }}
                     ({{ mash.get_step_type_display }})
                 </td>
@@ -146,7 +158,28 @@
                 <td>
                     {{ mash.step_time }} min
                 </td>
-            </tr>   
+            </tr>
+            {% if forloop.last %}
+                    <tr>
+                        <td>
+                            <img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
+                            {% trans "Filtering" %}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {% if object.user == request.user %}<td></td>{% endif %}
+                    </tr>
+                    <tr>
+                        <td>
+                            <img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
+
+                            {% trans "Fly sparge" %}</td>
+                        <td colspan="3">
+                            {% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 75.6 0 %}
+                        </td>
+                        {% if object.user == request.user %}<td></td>{% endif %}
+                    </tr>
+                {% endif %}
     {% endfor %}
 </table>
 
@@ -155,7 +188,9 @@
 
 {% block extrahead %}
 <style type="text/css">
+body{padding:30px 80px!important;}
 table.bigcol{width:99%;}table.bigcol tr td{width:49%;}
+.container{width:800px;}
 </style>
 {% endblock extrahead %}
 
@@ -168,7 +203,7 @@ $(document).ready(function() {
         i++;
         $(this).text(i);
     });
-    window.print();
+    //window.print();
 });
 </script>
 {% endblock js %}

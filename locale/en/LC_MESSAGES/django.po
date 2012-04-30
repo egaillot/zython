@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-23 16:36+0200\n"
+"POT-Creation-Date: 2012-04-30 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,6 +275,7 @@ msgid ""
 msgstr ""
 
 #: apps-ext/registration/templates/registration/password_reset_form.html:20
+#: apps/brew/templates/brew/recipe_import_form.html:21
 msgid "Envoyer"
 msgstr ""
 
@@ -328,6 +329,10 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
+#: apps/brew/forms.py:51
+msgid "Your recipe (BeerXML format)"
+msgstr ""
+
 #: apps/brew/models.py:13
 msgid "All grain"
 msgstr ""
@@ -336,7 +341,7 @@ msgstr ""
 msgid "Partial mash"
 msgstr ""
 
-#: apps/brew/models.py:15
+#: apps/brew/models.py:15 apps/brew/models_base.py:15
 msgid "Extract"
 msgstr ""
 
@@ -344,7 +349,7 @@ msgstr ""
 msgid "Adjunct"
 msgstr ""
 
-#: apps/brew/models.py:17
+#: apps/brew/models.py:17 apps/brew/models_base.py:17
 msgid "Sugar"
 msgstr ""
 
@@ -372,110 +377,231 @@ msgstr ""
 msgid "Decoction"
 msgstr ""
 
-#: apps/brew/models.py:30 apps/brew/models.py:315 apps/units/settings.py:36
+#: apps/brew/models.py:30 apps/brew/models.py:311 apps/units/settings.py:36
 msgid "Temperature"
 msgstr ""
 
-#: apps/brew/models.py:74 apps/brew/models.py:313 apps/brew/models_base.py:77
+#: apps/brew/models.py:74 apps/brew/models.py:309 apps/brew/models_base.py:77
 #: apps/brew/models_base.py:104 apps/brew/models_base.py:118
 #: apps/brew/models_base.py:139
 #: apps/brew/templates/brew/modal_ingredients.html:21
 #: apps/brew/templates/brew/modal_ingredients.html:76
 #: apps/brew/templates/brew/modal_ingredients.html:135
 #: apps/brew/templates/brew/modal_ingredients.html:192
-#: apps/brew/templates/brew/recipe_detail.html:84
-#: apps/brew/templates/brew/recipe_detail.html:211
-#: apps/brew/templates/brew/recipe_list.html:25
-#: apps/brew/templates/brew/recipe_print.html:42
-#: apps/brew/templates/brew/recipe_print.html:120
+#: apps/brew/templates/brew/recipe_detail.html:86
+#: apps/brew/templates/brew/recipe_detail.html:213
+#: apps/brew/templates/brew/recipe_list.html:31
+#: apps/brew/templates/brew/recipe_print.html:52
+#: apps/brew/templates/brew/recipe_print.html:131
 msgid "Name"
 msgstr ""
 
-#: apps/brew/models.py:77 apps/brew/templates/brew/recipe_detail.html:54
+#: apps/brew/models.py:77 apps/brew/templates/brew/recipe_detail.html:56
+#: apps/brew/templates/brew/recipe_detail.txt:4
 #: apps/brew/templates/brew/recipe_print.html:10
+#: apps/brew/templates/brew/recipe_print.html:35
 msgid "Batch size"
 msgstr ""
 
-#: apps/brew/models.py:78 apps/brew/templates/brew/recipe_print.html:11
-msgid "Boil size"
-msgstr ""
-
-#: apps/brew/models.py:79 apps/brew/templates/brew/modal_ingredients.html:106
-msgid "Boil time"
-msgstr ""
-
-#: apps/brew/models.py:80 apps/brew/templates/brew/recipe_list.html:26
+#: apps/brew/models.py:78 apps/brew/templates/brew/recipe_detail.txt:6
+#: apps/brew/templates/brew/recipe_list.html:32
 msgid "Style"
 msgstr ""
 
-#: apps/brew/models.py:81 apps/brew/models_base.py:79
+#: apps/brew/models.py:79 apps/brew/models_base.py:79
 #: apps/brew/models_base.py:108 apps/brew/models_base.py:121
 #: apps/brew/models_base.py:140
 #: apps/brew/templates/brew/modal_ingredients.html:23
 #: apps/brew/templates/brew/modal_ingredients.html:80
 #: apps/brew/templates/brew/modal_ingredients.html:136
 #: apps/brew/templates/brew/modal_ingredients.html:195
-#: apps/brew/templates/brew/recipe_detail.html:45
-#: apps/brew/templates/brew/recipe_detail.html:85
-#: apps/brew/templates/brew/recipe_list.html:27
+#: apps/brew/templates/brew/recipe_detail.html:47
+#: apps/brew/templates/brew/recipe_detail.html:87
+#: apps/brew/templates/brew/recipe_detail.txt:5
+#: apps/brew/templates/brew/recipe_list.html:33
 #: apps/brew/templates/brew/recipe_print.html:9
-#: apps/brew/templates/brew/recipe_print.html:43
+#: apps/brew/templates/brew/recipe_print.html:53
 msgid "Type"
 msgstr ""
 
-#: apps/brew/models.py:82 apps/brew/templates/brew/recipe_detail.html:63
-msgid "Est. original gravity"
-msgstr ""
-
-#: apps/brew/models.py:93 apps/brew/templates/brew/recipe_form.html:48
+#: apps/brew/models.py:86 apps/brew/templates/brew/recipe_form.html:48
 msgid "Private recipe ?"
 msgstr ""
 
-#: apps/brew/models.py:94 apps/brew/models_base.py:90
+#: apps/brew/models.py:87 apps/brew/models_base.py:90
 #: apps/brew/models_base.py:111 apps/brew/models_base.py:129
 #: apps/brew/models_base.py:143
 msgid "Notes"
 msgstr ""
 
-#: apps/brew/models.py:95 apps/brew/templates/brew/recipe_print.html:16
+#: apps/brew/models.py:88 apps/brew/templates/brew/recipe_print.html:16
 msgid "Efficiency"
 msgstr ""
 
-#: apps/brew/models.py:97
+#: apps/brew/models.py:89
 msgid "Mash tun deadspace"
 msgstr ""
 
-#: apps/brew/models.py:98
+#: apps/brew/models.py:90
 msgid "Boiler tun deadspace"
 msgstr ""
 
-#: apps/brew/models.py:99
+#: apps/brew/models.py:91
 msgid "Evaporation rate"
 msgstr ""
 
-#: apps/brew/models.py:100 apps/brew/templates/brew/recipe_print.html:113
+#: apps/brew/models.py:92
 msgid "Grain temperature"
 msgstr ""
 
-#: apps/brew/models.py:314
+#: apps/brew/models.py:310
 msgid "Step type"
 msgstr ""
 
-#: apps/brew/models.py:316 apps/brew/templates/brew/recipe_detail.html:214
-#: apps/brew/templates/brew/recipe_print.html:123
+#: apps/brew/models.py:312 apps/brew/templates/brew/recipe_detail.html:216
+#: apps/brew/templates/brew/recipe_print.html:134
 msgid "Step time"
 msgstr ""
 
-#: apps/brew/models.py:316 apps/brew/models.py:317
+#: apps/brew/models.py:312 apps/brew/models.py:313
 msgid "min"
 msgstr ""
 
-#: apps/brew/models.py:317
+#: apps/brew/models.py:313
 msgid "Rise time"
 msgstr ""
 
-#: apps/brew/models.py:318
+#: apps/brew/models.py:314
 msgid "Water added"
+msgstr ""
+
+#: apps/brew/models_base.py:14 apps/brew/templates/brew/recipe_detail.html:197
+#: apps/brew/templatetags/recipe_tags.py:31
+msgid "Grain"
+msgstr ""
+
+#: apps/brew/models_base.py:16
+msgid "Dry Extract"
+msgstr ""
+
+#: apps/brew/models_base.py:21 apps/brew/models_base.py:60
+msgid "Boil"
+msgstr ""
+
+#: apps/brew/models_base.py:22
+msgid "Dry Hop"
+msgstr ""
+
+#: apps/brew/models_base.py:23
+msgid "First Wort"
+msgstr ""
+
+#: apps/brew/models_base.py:27
+msgid "Leaf"
+msgstr ""
+
+#: apps/brew/models_base.py:28
+msgid "Pellets"
+msgstr ""
+
+#: apps/brew/models_base.py:29
+msgid "Plug"
+msgstr ""
+
+#: apps/brew/models_base.py:33
+msgid "Bittering"
+msgstr ""
+
+#: apps/brew/models_base.py:34
+msgid "Aroma"
+msgstr ""
+
+#: apps/brew/models_base.py:35
+msgid "Both"
+msgstr ""
+
+#: apps/brew/models_base.py:39
+msgid "Ale"
+msgstr ""
+
+#: apps/brew/models_base.py:40
+msgid "Lager"
+msgstr ""
+
+#: apps/brew/models_base.py:41
+msgid "Wine"
+msgstr ""
+
+#: apps/brew/models_base.py:42
+msgid "Champagne"
+msgstr ""
+
+#: apps/brew/models_base.py:43
+msgid "Wheat"
+msgstr ""
+
+#: apps/brew/models_base.py:47
+msgid "Liquid"
+msgstr ""
+
+#: apps/brew/models_base.py:48
+msgid "Dry"
+msgstr ""
+
+#: apps/brew/models_base.py:49
+msgid "Culture"
+msgstr ""
+
+#: apps/brew/models_base.py:53
+msgid "Low"
+msgstr ""
+
+#: apps/brew/models_base.py:54
+msgid "Medium"
+msgstr ""
+
+#: apps/brew/models_base.py:55
+msgid "High"
+msgstr ""
+
+#: apps/brew/models_base.py:56
+msgid "Very high"
+msgstr ""
+
+#: apps/brew/models_base.py:61 apps/brew/templates/brew/recipe_detail.html:277
+msgid "Mash"
+msgstr ""
+
+#: apps/brew/models_base.py:62
+msgid "Primary"
+msgstr ""
+
+#: apps/brew/models_base.py:63
+msgid "Secondary"
+msgstr ""
+
+#: apps/brew/models_base.py:64
+msgid "Bottling"
+msgstr ""
+
+#: apps/brew/models_base.py:68
+msgid "Spice"
+msgstr ""
+
+#: apps/brew/models_base.py:69
+msgid "Fining"
+msgstr ""
+
+#: apps/brew/models_base.py:70
+msgid "Herb"
+msgstr ""
+
+#: apps/brew/models_base.py:71
+msgid "Flavor"
+msgstr ""
+
+#: apps/brew/models_base.py:72
+msgid "Other"
 msgstr ""
 
 #: apps/brew/models_base.py:78 apps/brew/models_base.py:105
@@ -494,8 +620,8 @@ msgstr ""
 
 #: apps/brew/models_base.py:86
 #: apps/brew/templates/brew/modal_ingredients.html:24
-#: apps/brew/templates/brew/recipe_detail.html:69
-#: apps/brew/templates/brew/recipe_print.html:27 apps/units/settings.py:45
+#: apps/brew/templates/brew/recipe_detail.html:71
+#: apps/brew/templates/brew/recipe_print.html:29 apps/units/settings.py:45
 msgid "Color"
 msgstr ""
 
@@ -585,8 +711,8 @@ msgstr ""
 #: apps/brew/templates/brew/modal_ingredients.html:48
 #: apps/brew/templates/brew/modal_ingredients.html:103
 #: apps/brew/templates/brew/modal_ingredients.html:158
-#: apps/brew/templates/brew/recipe_detail.html:83
-#: apps/brew/templates/brew/recipe_print.html:41
+#: apps/brew/templates/brew/recipe_detail.html:85
+#: apps/brew/templates/brew/recipe_print.html:51
 msgid "Amount"
 msgstr ""
 
@@ -594,8 +720,8 @@ msgstr ""
 #: apps/brew/templates/brew/modal_ingredients.html:109
 #: apps/brew/templates/brew/modal_ingredients.html:165
 #: apps/brew/templates/brew/modal_ingredients.html:219
-#: apps/brew/templates/brew/recipe_detail.html:194
-#: apps/brew/templates/brew/recipe_detail.html:228
+#: apps/brew/templates/brew/recipe_detail.html:196
+#: apps/brew/templates/brew/recipe_detail.html:230
 msgid "Add"
 msgstr ""
 
@@ -611,15 +737,19 @@ msgstr ""
 msgid "Beta"
 msgstr ""
 
+#: apps/brew/templates/brew/modal_ingredients.html:106
+msgid "Boil time"
+msgstr ""
+
 #: apps/brew/templates/brew/modal_ingredients.html:128
-#: apps/brew/templates/brew/recipe_detail.html:197
+#: apps/brew/templates/brew/recipe_detail.html:199
 msgid "Misc"
 msgstr ""
 
 #: apps/brew/templates/brew/modal_ingredients.html:185
-#: apps/brew/templates/brew/recipe_detail.html:170
-#: apps/brew/templates/brew/recipe_detail.html:199
-#: apps/brew/templates/brew/recipe_print.html:95
+#: apps/brew/templates/brew/recipe_detail.html:172
+#: apps/brew/templates/brew/recipe_detail.html:201
+#: apps/brew/templates/brew/recipe_print.html:105
 msgid "Yeast"
 msgstr ""
 
@@ -637,11 +767,11 @@ msgstr ""
 
 #: apps/brew/templates/brew/recipe_confirm_delete.html:11
 #: apps/brew/templates/brew/recipe_detail.html:33
-#: apps/brew/templates/brew/recipe_detail.html:114
-#: apps/brew/templates/brew/recipe_detail.html:137
-#: apps/brew/templates/brew/recipe_detail.html:155
-#: apps/brew/templates/brew/recipe_detail.html:173
-#: apps/brew/templates/brew/recipe_detail.html:245
+#: apps/brew/templates/brew/recipe_detail.html:116
+#: apps/brew/templates/brew/recipe_detail.html:139
+#: apps/brew/templates/brew/recipe_detail.html:157
+#: apps/brew/templates/brew/recipe_detail.html:175
+#: apps/brew/templates/brew/recipe_detail.html:247
 msgid "Delete"
 msgstr ""
 
@@ -658,7 +788,7 @@ msgid "Preferences"
 msgstr ""
 
 #: apps/brew/templates/brew/recipe_detail.html:34
-#: apps/brew/templates/brew/recipe_detail.html:291
+#: apps/brew/templates/brew/recipe_detail.html:293
 #: apps/brew/templates/brew/recipe_form.html:7
 msgid "Edit"
 msgstr ""
@@ -667,106 +797,150 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:48
+#: apps/brew/templates/brew/recipe_detail.html:38
+msgid "Copy (txt)"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.html:50
 #: apps/brew/templates/brew/recipe_print.html:14
 msgid "Created date"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:57
+#: apps/brew/templates/brew/recipe_detail.html:59
 #: apps/brew/templates/brew/recipe_print.html:15
 msgid "Created by"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:64
+#: apps/brew/templates/brew/recipe_detail.html:65
+msgid "Est. original gravity"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.html:66
 msgid "Est. final gravity"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:77
-#: apps/brew/templates/brew/recipe_print.html:37
+#: apps/brew/templates/brew/recipe_detail.html:79
+#: apps/brew/templates/brew/recipe_detail.txt:17
+#: apps/brew/templates/brew/recipe_print.html:46
 msgid "Ingredients"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:89
-#: apps/brew/templates/brew/recipe_detail.html:215
+#: apps/brew/templates/brew/recipe_detail.html:91
+#: apps/brew/templates/brew/recipe_detail.html:217
 msgid "Actions"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:134
-#: apps/brew/templates/brew/recipe_detail.html:152
-#: apps/brew/templates/brew/recipe_detail.html:196
-#: apps/brew/templates/brew/recipe_print.html:69
-#: apps/brew/templates/brew/recipe_print.html:82 apps/units/settings.py:17
+#: apps/brew/templates/brew/recipe_detail.html:136
+#: apps/brew/templates/brew/recipe_detail.html:198
+#: apps/brew/templates/brew/recipe_print.html:79
+#: apps/brew/templates/brew/recipe_print.html:92
+#: apps/brew/templatetags/recipe_tags.py:44 apps/units/settings.py:17
 msgid "Hop"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:188
+#: apps/brew/templates/brew/recipe_detail.html:190
 msgid "Add ingredient"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:189
+#: apps/brew/templates/brew/recipe_detail.html:191
 msgid "Start adding ingredients with this menu"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:195
-msgid "Grain"
-msgstr ""
-
-#: apps/brew/templates/brew/recipe_detail.html:207
-#: apps/brew/templates/brew/recipe_print.html:104
+#: apps/brew/templates/brew/recipe_detail.html:209
+#: apps/brew/templates/brew/recipe_print.html:114
 msgid "Mash detail"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:212
-#: apps/brew/templates/brew/recipe_print.html:121
+#: apps/brew/templates/brew/recipe_detail.html:214
+#: apps/brew/templates/brew/recipe_print.html:132
 msgid "Description"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:213
-#: apps/brew/templates/brew/recipe_print.html:122
+#: apps/brew/templates/brew/recipe_detail.html:215
+#: apps/brew/templates/brew/recipe_print.html:133
 msgid "Step temperature"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:228
+#: apps/brew/templates/brew/recipe_detail.html:230
 msgid "of water"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:232
 #: apps/brew/templates/brew/recipe_detail.html:234
+#: apps/brew/templates/brew/recipe_detail.html:236
+#: apps/brew/templatetags/recipe_tags.py:91
 msgid "Heat over"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:252
+#: apps/brew/templates/brew/recipe_detail.html:254
+#: apps/brew/templates/brew/recipe_print.html:166
 msgid "Filtering"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:262
+#: apps/brew/templates/brew/recipe_detail.html:264
+#: apps/brew/templates/brew/recipe_print.html:176
 msgid "Fly sparge"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:264
+#: apps/brew/templates/brew/recipe_detail.html:266
+#: apps/brew/templates/brew/recipe_detail.txt:24
+#: apps/brew/templates/brew/recipe_print.html:178
 msgid "Fly sparge with"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:264
+#: apps/brew/templates/brew/recipe_detail.html:266
+#: apps/brew/templates/brew/recipe_detail.txt:24
+#: apps/brew/templates/brew/recipe_print.html:178
 msgid "of water at"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:275
-msgid "Mash"
-msgstr ""
-
-#: apps/brew/templates/brew/recipe_detail.html:280
+#: apps/brew/templates/brew/recipe_detail.html:282
 msgid "Add mash step"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:297
+#: apps/brew/templates/brew/recipe_detail.html:299
 #: apps/brew/templates/brew/recipe_form.html:55
 #: apps/brew/templates/brew/recipe_preferences.html:19
 msgid "Save"
 msgstr ""
 
+#: apps/brew/templates/brew/recipe_detail.txt:3
+#: apps/brew/templates/brew/recipe_list.html:35
+msgid "Brewer"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:9
+msgid "Beer profile"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:11
+#: apps/brew/templates/brew/recipe_print.html:27
+#: apps/brew/templates/brew/recipe_print.html:37
+msgid "Original gravity"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:12
+#: apps/brew/templates/brew/recipe_print.html:28
+#: apps/brew/templates/brew/recipe_print.html:38
+msgid "Final gravity"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:13
+#: apps/brew/templates/brew/recipe_print.html:30
+#: apps/brew/templates/brew/recipe_print.html:39
+msgid "ABV"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:14
+msgid "IBU"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_detail.txt:21
+msgid "Mash steps"
+msgstr ""
+
 #: apps/brew/templates/brew/recipe_form.html:9
 #: apps/brew/templates/brew/recipe_form.html:55
+#: apps/brew/templates/brew/recipe_list.html:13
 msgid "Add a new recipe"
 msgstr ""
 
@@ -778,57 +952,55 @@ msgstr ""
 msgid "Return to recipe"
 msgstr ""
 
+#: apps/brew/templates/brew/recipe_import_form.html:5
+msgid "Import your recipe"
+msgstr ""
+
 #: apps/brew/templates/brew/recipe_list.html:10
 msgid "Add a recipe"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_list.html:15
+#: apps/brew/templates/brew/recipe_list.html:14
+msgid "Import recipe (BeerXML)"
+msgstr ""
+
+#: apps/brew/templates/brew/recipe_list.html:21
 #, python-format
 msgid "%(name)s recipes"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_list.html:17
+#: apps/brew/templates/brew/recipe_list.html:23
 msgid "Last recipes"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_list.html:28
+#: apps/brew/templates/brew/recipe_list.html:34
 msgid "Info"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_list.html:29
-msgid "Brewer"
-msgstr ""
-
-#: apps/brew/templates/brew/recipe_print.html:22
-msgid "Estimated beer profile"
+#: apps/brew/templates/brew/recipe_print.html:11
+msgid "Boil size"
 msgstr ""
 
 #: apps/brew/templates/brew/recipe_print.html:25
-msgid "Original gravity"
+msgid "Estimated beer profile"
 msgstr ""
 
 #: apps/brew/templates/brew/recipe_print.html:26
-msgid "Final gravity"
-msgstr ""
-
-#: apps/brew/templates/brew/recipe_print.html:30
-msgid "ABV"
+#: apps/brew/templates/brew/recipe_print.html:36
+msgid "Pre-boil gravity"
 msgstr ""
 
 #: apps/brew/templates/brew/recipe_print.html:31
 msgid "Bitterness"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_print.html:108
-msgid "Sparge water"
+#: apps/brew/templates/brew/recipe_print.html:34
+msgid "Real profile"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_print.html:109
-msgid "Sparge temperature"
-msgstr ""
-
-#: apps/brew/templates/brew/recipe_print.html:112
-msgid "Total grain"
+#: apps/brew/templatetags/recipe_tags.py:83
+#, python-format
+msgid "Add %(water)s of water"
 msgstr ""
 
 #: apps/registration_backend/forms.py:6
