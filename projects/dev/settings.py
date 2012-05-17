@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.comments', 
     'django.contrib.admin',
     'django.contrib.admindocs',
 
@@ -93,7 +94,8 @@ INSTALLED_APPS = (
 
     'registration',
     'inspect_model',
-    'invitation'
+    'invitation',
+    'avatar'
 )
 
 INVITE_MODE = 1

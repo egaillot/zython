@@ -13,12 +13,12 @@ class GravityField(models.DecimalField):
 
 class BitternessField(models.DecimalField):
 	def __init__(self, *args, **kwargs):
-		super(BitternessField, self).__init__(max_digits=4, decimal_places=1, *args, **kwargs)
+		super(BitternessField, self).__init__(max_digits=6, decimal_places=1, *args, **kwargs)
 
 
 class ColorField(models.DecimalField):
 	def __init__(self, *args, **kwargs):
-		super(ColorField, self).__init__(max_digits=4, decimal_places=1, *args, **kwargs)
+		super(ColorField, self).__init__(max_digits=7, decimal_places=1, *args, **kwargs)
 
 
 

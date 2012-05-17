@@ -8,4 +8,4 @@ syntax: glob
 .directory
 .hg/
 *local_settings*
-
+medias/avatars

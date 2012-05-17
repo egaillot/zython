@@ -112,6 +112,7 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li><a href="{% url "brew_recipe_user" request.user.username %}">{% trans "My recipes" %}</a></li>
+                    <li><a href="{% url "avatar_change" %}">{% trans "Change your avatar" %}</a></li>
                     <li><a href="/accounts/logout/">{% trans "Log out" %}</a></li>
                   </ul>
                 </li>
