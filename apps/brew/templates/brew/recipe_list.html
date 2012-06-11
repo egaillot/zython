@@ -3,77 +3,71 @@
 {% load url from future %}
 
 {% block content %}
-
-{% if request.user.is_active %}
-	<div class="pull-right">
-		<div class="btn-group">
-		  <a class="btn btn-large" href="{% url "brew_recipe_add" %}">{% trans "Add a recipe" %}</a>
-		  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-		  <ul class="dropdown-menu">
-		    	<li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-		    	<li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
-		  </ul>
-		</div>
+<div class="pull-right">
+	<div class="btn-group">
+	  <a class="btn btn-large" href="{% url "brew_recipe_add" %}">{% trans "Add a recipe" %}</a>
+	  <button class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+	  <ul class="dropdown-menu">
+	    	<li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
+	    	<li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
+	  </ul>
 	</div>
+</div>
 
-	<h1>
-		{% if user_recipe %}
-			{% blocktrans with user_recipe.get_full_name as name%}{{ name }} recipes{% endblocktrans %}
-		{% else %}
-			{% trans "Last recipes" %}
-	{% endif %}
-	</h1>
-
-	<p><br></p>
-	<table class='table'>
-		<thead>
-			<tr>
-				<th>{% trans "Name" %}</th>
-				<th>{% trans "Style" %}</th>
-				<th>{% trans "Type" %}</th>
-				<th>{% trans "Info" %}</th>
-				<th>{% trans "Brewer" %}</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for object in object_list %}
-			<tr>
-				<td>
-					<a href="{{ object.get_absolute_url }}">
-					<b>{{ object.name }}</b>
-					</a>
-				</td>
-				<td>
-					{% if object.style %}
-						{{ object.style }}
-					{% else %}
-						.
-					{% endif %}
-				</td>
-				<td>
-					{{ object.get_recipe_type_display }}
-					
-				</td>
-				<td>
-					{% with object.color_image as image %}
-					    {% if image %}
-					    	<img src="{{ MEDIA_URL }}images/beer_colors/{{ image }}.png" alt="" style="width:20px;">
-					    {% endif %}
-					{% endwith %}
-				</td>
-				<td>
-					<a href="{% url "brew_recipe_user" object.user.username %}">
-					{{ object.user.get_full_name }}
-					</a>
-				</td>
-			</tr>
-			{% endfor %}
-
-		</tbody>
-	</table>
-
-{% else %}
-	{% include "public/invitation_home.html" %}
+<h1>
+	{% if user_recipe %}
+		{% blocktrans with user_recipe.get_full_name as name%}{{ name }} recipes{% endblocktrans %}
+	{% else %}
+		{% trans "Last recipes" %}
 {% endif %}
+</h1>
+
+<p><br></p>
+<table class='table'>
+	<thead>
+		<tr>
+			<th>{% trans "Name" %}</th>
+			<th>{% trans "Style" %}</th>
+			<th>{% trans "Type" %}</th>
+			<th>{% trans "Info" %}</th>
+			<th>{% trans "Brewer" %}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for object in object_list %}
+		<tr>
+			<td>
+				<a href="{{ object.get_absolute_url }}">
+				<b>{{ object.name }}</b>
+				</a>
+			</td>
+			<td>
+				{% if object.style %}
+					{{ object.style }}
+				{% else %}
+					.
+				{% endif %}
+			</td>
+			<td>
+				{{ object.get_recipe_type_display }}
+				
+			</td>
+			<td>
+				{% with object.color_image as image %}
+				    {% if image %}
+				    	<img src="{{ MEDIA_URL }}images/beer_colors/{{ image }}.png" alt="" style="width:20px;">
+				    {% endif %}
+				{% endwith %}
+			</td>
+			<td>
+				<a href="{% url "brew_recipe_user" object.user.username %}">
+				{{ object.user.get_full_name }}
+				</a>
+			</td>
+		</tr>
+		{% endfor %}
+
+	</tbody>
+</table>
 
 {% endblock content %}

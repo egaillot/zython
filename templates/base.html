@@ -91,9 +91,6 @@
                   </ul>
                 </li>
                 <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
-                <li>
-                  <a href="{% url "invitation_invite" %}">{% trans "Invite a friend" %}</a>
-                </li>
                 {% endif %}
 
                 {% if request.user.is_anonymous %}
@@ -103,6 +100,9 @@
                   {% endcomment %}
                   <li>
                     <a href="/accounts/login/">{% trans "Log in" %}</a>
+                  </li>
+                  <li>
+                    <a href="/accounts/register/">{% trans "Register" %}</a>
                   </li>
                 {% else %}            
                 <li class="dropdown">
@@ -135,9 +135,7 @@
       <footer class='center'>
         <p>
           {% if request.user.is_active %}
-            <span class="badge badge-warning">Mode invitation</span> <br>
-            Site de test ! Les données pourront être effacées. <br>
-            Ceci est une version beta de travail. Merci de votre compréhension
+            <span class="badge badge-warning">Beta - V0.7</span>
           {% endif %}
         </p>
         <p>

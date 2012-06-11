@@ -1,5 +1,6 @@
 body, html{background-color: #F0F0EA;}
 a{color:#3DAFDF;}
+a.nolink{color:#333;}
 .well, .hero-unit{background-color: #CDCCC4;border-color:#C8C7BF}
 .well_light{background-color: #EDECE4;}
 .well hr, .hero-unit hr{border-color:#C8C7BF;}

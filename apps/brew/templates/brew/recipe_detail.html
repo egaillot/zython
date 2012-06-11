@@ -300,8 +300,6 @@
   </div>
 </div>
 
-{% endblock inner_content %}
-
 
 <p><hr></p>
 
@@ -309,10 +307,11 @@
 {% get_comment_list for object as comment_list %}
 {% for comment in comment_list %}
 	<div class="well {% if object.user != comment.user %}well_light{% endif %}">
-		<p class='small'><b>{{ comment.user.get_full_name }}</b> {{ comment.submit_date|date }}
+		<p class='small'>
+			<a href="{% url "brew_recipe_user" comment.user.username %}" class="nolink"><b>{{ comment.user.get_full_name }}</b></a>
+			{{ comment.submit_date|date }}
 			</p>
 		<div class="row">
-			
 			<div class="span1">
 				{% avatar comment.user 60 %}
 			</div>
@@ -320,11 +319,9 @@
 				<p>{{ comment.comment|linebreaksbr }}</p>
 			</div>
 		</div>
-
-		
-		
 	</div>
 {% endfor %}
+<div id="btm"></div>
 {% if request.user.is_authenticated %}
 	{% get_comment_form for object as form %}
 	  <form action="{% comment_form_target %}" method="post" class='form'>{% csrf_token %}
@@ -345,8 +342,12 @@
 			{% endif %}
 	  	{% endfor %}
 	  	<input type="submit" class='btn' value="{% trans "Send" %}">
+	  	<input type="hidden" name="next" value="{{ request.path }}#btm">
 	  </form>
 {% endif %}
+
+{% endblock inner_content %}
+
 
 {% endblock content %}
 

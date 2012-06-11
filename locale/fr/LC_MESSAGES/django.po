@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-30 16:38+0200\n"
-"PO-Revision-Date: 2012-04-30 16:46+0100\n"
+"POT-Creation-Date: 2012-06-11 12:36+0200\n"
+"PO-Revision-Date: 2012-06-11 12:42+0100\n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -16,6 +16,105 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1)\n"
+
+#: apps-ext/avatar/forms.py:34
+#, python-format
+msgid "%(ext)s is an invalid file extension. Authorized extensions are : %(valid_exts_list)s"
+msgstr "%(ext)s est une extention invalide. Celles autorisées sont : %(valid_exts_list)s"
+
+#: apps-ext/avatar/forms.py:38
+#, python-format
+msgid "Your file is too big (%(size)s), the maximum allowed size is %(max_valid_size)s"
+msgstr "Votre fichier est trop gros (%(size)s), le maximum est défini à %(max_valid_size)s"
+
+#: apps-ext/avatar/forms.py:44
+#, python-format
+msgid "You already have %(nb_avatars)d avatars, and the maximum allowed is %(nb_max_avatars)d."
+msgstr ""
+
+#: apps-ext/avatar/models.py:75
+#, python-format
+msgid "Avatar for %s"
+msgstr "Image pour %s"
+
+#: apps-ext/avatar/views.py:72
+msgid "Successfully uploaded a new avatar"
+msgstr "Envoi des images, ok !"
+
+#: apps-ext/avatar/views.py:109
+msgid "Successfully updated your avatars"
+msgstr "Mise à jour des images, ok !"
+
+#: apps-ext/avatar/views.py:145
+msgid "Successfully deleted the requested avatars"
+msgstr "Suppression des images, ok !"
+
+#: apps-ext/avatar/templates/avatar/add.html:5
+#: apps-ext/avatar/templates/avatar/change.html:5
+msgid "Your current avatar: "
+msgstr "Votre image actuelle:"
+
+#: apps-ext/avatar/templates/avatar/add.html:8
+#: apps-ext/avatar/templates/avatar/change.html:8
+msgid "You haven't uploaded an avatar yet. Please upload one now."
+msgstr "Vous n'avez pas chargé d'image pour l'instant."
+
+#: apps-ext/avatar/templates/avatar/add.html:12
+#: apps-ext/avatar/templates/avatar/change.html:19
+#: templates/avatar/change.html:27
+msgid "Upload New Image"
+msgstr "Charger une nouvelle image"
+
+#: apps-ext/avatar/templates/avatar/change.html:14
+#: templates/avatar/change.html:17
+msgid "Choose new Default"
+msgstr "Choisissez une image par défaut"
+
+#: apps-ext/avatar/templates/avatar/confirm_delete.html:5
+msgid "Please select the avatars that you would like to delete."
+msgstr "Sélectionnez l'image que vous souhaitez supprimer"
+
+#: apps-ext/avatar/templates/avatar/confirm_delete.html:8
+#, python-format
+msgid "You have no avatars to delete. Please <a href=\"%(avatar_change_url)s\">upload one</a> now."
+msgstr "Vopus n'avez pas d'image à charger. Merci d'en <a href=\"%(avatar_change_url)s\">charger une</a>."
+
+#: apps-ext/avatar/templates/avatar/confirm_delete.html:14
+msgid "Delete These"
+msgstr "Supprimer"
+
+#: apps-ext/avatar/templates/notification/avatar_friend_updated/full.txt:1
+#, python-format
+msgid ""
+"%(avatar_creator)s has updated their avatar %(avatar)s.\n"
+"\n"
+"http://%(current_site)s%(avatar_url)s\n"
+msgstr ""
+
+#: apps-ext/avatar/templates/notification/avatar_friend_updated/notice.html:2
+#, python-format
+msgid "<a href=\"%(user_url)s\">%(avatar_creator)s</a> has updated their avatar <a href=\"%(avatar_url)s\">%(avatar)s</a>."
+msgstr ""
+
+#: apps-ext/avatar/templates/notification/avatar_updated/full.txt:1
+#, python-format
+msgid ""
+"Your avatar has been updated.  %(avatar)s\n"
+"\n"
+"http://%(current_site)s%(avatar_url)s\n"
+msgstr ""
+"Votre image de profil a été mise à jour.  %(avatar)s\n"
+"\n"
+"http://%(current_site)s%(avatar_url)s\n"
+
+#: apps-ext/avatar/templates/notification/avatar_updated/notice.html:2
+#, python-format
+msgid "You have updated your avatar <a href=\"%(avatar_url)s\">%(avatar)s</a>."
+msgstr "Vous avez mis à jour votre image <a href=\"%(avatar_url)s\">%(avatar)s</a>."
+
+#: apps-ext/avatar/templatetags/avatar_tags.py:44
+msgid "Default Avatar"
+msgstr "Image par défaut"
 
 #: apps-ext/invitation/models.py:74
 msgid "invitation key"
@@ -76,7 +175,6 @@ msgid "Invitation from %(username)s to join %(sitename)s"
 msgstr "Invitation de %(username)s à rejoindre %(sitename)s"
 
 #: apps-ext/invitation/templates/invitation/invitation_form.html:6
-#: templates/base.html:95
 #: templates/invitation/invitation_form.html:6
 msgid "Invite a friend"
 msgstr "Inviter un ami"
@@ -226,7 +324,7 @@ msgid "Login"
 msgstr ""
 
 #: apps-ext/registration/templates/registration/logout.html:4
-#: templates/base.html:116
+#: templates/base.html:117
 msgid "Log out"
 msgstr "Déconnexion"
 
@@ -328,10 +426,11 @@ msgstr ""
 
 #: apps-ext/registration/templates/registration/registration_form.html:6
 #: apps-ext/registration/templates/registration/registration_form.html:22
+#: templates/base.html:106
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: apps/brew/forms.py:51
+#: apps/brew/forms.py:53
 msgid "Your recipe (BeerXML format)"
 msgstr "Votre recette (BeerXML format)"
 
@@ -397,16 +496,16 @@ msgstr "Température"
 #: apps/brew/templates/brew/modal_ingredients.html:76
 #: apps/brew/templates/brew/modal_ingredients.html:135
 #: apps/brew/templates/brew/modal_ingredients.html:192
-#: apps/brew/templates/brew/recipe_detail.html:86
-#: apps/brew/templates/brew/recipe_detail.html:213
-#: apps/brew/templates/brew/recipe_list.html:31
+#: apps/brew/templates/brew/recipe_detail.html:87
+#: apps/brew/templates/brew/recipe_detail.html:214
+#: apps/brew/templates/brew/recipe_list.html:29
 #: apps/brew/templates/brew/recipe_print.html:52
 #: apps/brew/templates/brew/recipe_print.html:131
 msgid "Name"
 msgstr "Nom"
 
 #: apps/brew/models.py:77
-#: apps/brew/templates/brew/recipe_detail.html:56
+#: apps/brew/templates/brew/recipe_detail.html:57
 #: apps/brew/templates/brew/recipe_detail.txt:4
 #: apps/brew/templates/brew/recipe_print.html:10
 #: apps/brew/templates/brew/recipe_print.html:35
@@ -415,7 +514,7 @@ msgstr "Taille du brassin"
 
 #: apps/brew/models.py:78
 #: apps/brew/templates/brew/recipe_detail.txt:6
-#: apps/brew/templates/brew/recipe_list.html:32
+#: apps/brew/templates/brew/recipe_list.html:30
 msgid "Style"
 msgstr "Style"
 
@@ -428,10 +527,10 @@ msgstr "Style"
 #: apps/brew/templates/brew/modal_ingredients.html:80
 #: apps/brew/templates/brew/modal_ingredients.html:136
 #: apps/brew/templates/brew/modal_ingredients.html:195
-#: apps/brew/templates/brew/recipe_detail.html:47
-#: apps/brew/templates/brew/recipe_detail.html:87
+#: apps/brew/templates/brew/recipe_detail.html:48
+#: apps/brew/templates/brew/recipe_detail.html:88
 #: apps/brew/templates/brew/recipe_detail.txt:5
-#: apps/brew/templates/brew/recipe_list.html:33
+#: apps/brew/templates/brew/recipe_list.html:31
 #: apps/brew/templates/brew/recipe_print.html:9
 #: apps/brew/templates/brew/recipe_print.html:53
 msgid "Type"
@@ -476,7 +575,7 @@ msgid "Step type"
 msgstr "Type de pallier"
 
 #: apps/brew/models.py:312
-#: apps/brew/templates/brew/recipe_detail.html:216
+#: apps/brew/templates/brew/recipe_detail.html:217
 #: apps/brew/templates/brew/recipe_print.html:134
 msgid "Step time"
 msgstr "Temps du pallier"
@@ -495,7 +594,7 @@ msgid "Water added"
 msgstr "Eau ajoutée"
 
 #: apps/brew/models_base.py:14
-#: apps/brew/templates/brew/recipe_detail.html:197
+#: apps/brew/templates/brew/recipe_detail.html:198
 #: apps/brew/templatetags/recipe_tags.py:31
 msgid "Grain"
 msgstr "Grain"
@@ -590,7 +689,7 @@ msgid "Very high"
 msgstr "Très élevé"
 
 #: apps/brew/models_base.py:61
-#: apps/brew/templates/brew/recipe_detail.html:277
+#: apps/brew/templates/brew/recipe_detail.html:278
 msgid "Mash"
 msgstr "Empatage"
 
@@ -643,7 +742,7 @@ msgstr "Rendement"
 
 #: apps/brew/models_base.py:86
 #: apps/brew/templates/brew/modal_ingredients.html:24
-#: apps/brew/templates/brew/recipe_detail.html:71
+#: apps/brew/templates/brew/recipe_detail.html:72
 #: apps/brew/templates/brew/recipe_print.html:29
 #: apps/units/settings.py:45
 msgid "Color"
@@ -737,7 +836,7 @@ msgstr "Max"
 #: apps/brew/templates/brew/modal_ingredients.html:48
 #: apps/brew/templates/brew/modal_ingredients.html:103
 #: apps/brew/templates/brew/modal_ingredients.html:158
-#: apps/brew/templates/brew/recipe_detail.html:85
+#: apps/brew/templates/brew/recipe_detail.html:86
 #: apps/brew/templates/brew/recipe_print.html:51
 msgid "Amount"
 msgstr "Quantité"
@@ -746,8 +845,8 @@ msgstr "Quantité"
 #: apps/brew/templates/brew/modal_ingredients.html:109
 #: apps/brew/templates/brew/modal_ingredients.html:165
 #: apps/brew/templates/brew/modal_ingredients.html:219
-#: apps/brew/templates/brew/recipe_detail.html:196
-#: apps/brew/templates/brew/recipe_detail.html:230
+#: apps/brew/templates/brew/recipe_detail.html:197
+#: apps/brew/templates/brew/recipe_detail.html:231
 msgid "Add"
 msgstr "Ajouter"
 
@@ -768,13 +867,13 @@ msgid "Boil time"
 msgstr "Temps d'ébullition"
 
 #: apps/brew/templates/brew/modal_ingredients.html:128
-#: apps/brew/templates/brew/recipe_detail.html:199
+#: apps/brew/templates/brew/recipe_detail.html:200
 msgid "Misc"
 msgstr "Divers"
 
 #: apps/brew/templates/brew/modal_ingredients.html:185
-#: apps/brew/templates/brew/recipe_detail.html:172
-#: apps/brew/templates/brew/recipe_detail.html:201
+#: apps/brew/templates/brew/recipe_detail.html:173
+#: apps/brew/templates/brew/recipe_detail.html:202
 #: apps/brew/templates/brew/recipe_print.html:105
 msgid "Yeast"
 msgstr "Levure"
@@ -792,72 +891,71 @@ msgid "Can't cancel"
 msgstr "Ne peut annuler"
 
 #: apps/brew/templates/brew/recipe_confirm_delete.html:11
-#: apps/brew/templates/brew/recipe_detail.html:33
-#: apps/brew/templates/brew/recipe_detail.html:116
-#: apps/brew/templates/brew/recipe_detail.html:139
-#: apps/brew/templates/brew/recipe_detail.html:157
-#: apps/brew/templates/brew/recipe_detail.html:175
-#: apps/brew/templates/brew/recipe_detail.html:247
+#: apps/brew/templates/brew/recipe_detail.html:34
+#: apps/brew/templates/brew/recipe_detail.html:117
+#: apps/brew/templates/brew/recipe_detail.html:140
+#: apps/brew/templates/brew/recipe_detail.html:158
+#: apps/brew/templates/brew/recipe_detail.html:176
+#: apps/brew/templates/brew/recipe_detail.html:248
 msgid "Delete"
 msgstr "Supprimer"
 
-#: apps/brew/templates/brew/recipe_detail.html:24
+#: apps/brew/templates/brew/recipe_detail.html:25
 msgid "This recipe is private"
 msgstr "Cette recette est privée"
 
-#: apps/brew/templates/brew/recipe_detail.html:29
+#: apps/brew/templates/brew/recipe_detail.html:30
 msgid "Recipe"
 msgstr "Recette"
 
-#: apps/brew/templates/brew/recipe_detail.html:32
+#: apps/brew/templates/brew/recipe_detail.html:33
 msgid "Preferences"
 msgstr "Préférences"
 
-#: apps/brew/templates/brew/recipe_detail.html:34
-#: apps/brew/templates/brew/recipe_detail.html:293
+#: apps/brew/templates/brew/recipe_detail.html:35
 #: apps/brew/templates/brew/recipe_form.html:7
 msgid "Edit"
 msgstr "Modifier"
 
-#: apps/brew/templates/brew/recipe_detail.html:37
+#: apps/brew/templates/brew/recipe_detail.html:38
 msgid "Print"
 msgstr "Imprimer"
 
-#: apps/brew/templates/brew/recipe_detail.html:38
+#: apps/brew/templates/brew/recipe_detail.html:39
 msgid "Copy (txt)"
 msgstr "Copier (txt)"
 
-#: apps/brew/templates/brew/recipe_detail.html:50
+#: apps/brew/templates/brew/recipe_detail.html:51
 #: apps/brew/templates/brew/recipe_print.html:14
 msgid "Created date"
 msgstr "Créé le"
 
-#: apps/brew/templates/brew/recipe_detail.html:59
+#: apps/brew/templates/brew/recipe_detail.html:60
 #: apps/brew/templates/brew/recipe_print.html:15
 msgid "Created by"
 msgstr "Créé par"
 
-#: apps/brew/templates/brew/recipe_detail.html:65
+#: apps/brew/templates/brew/recipe_detail.html:66
 msgid "Est. original gravity"
 msgstr "Densité originale (estimée)"
 
-#: apps/brew/templates/brew/recipe_detail.html:66
+#: apps/brew/templates/brew/recipe_detail.html:67
 msgid "Est. final gravity"
 msgstr "Densité finale (estimée)"
 
-#: apps/brew/templates/brew/recipe_detail.html:79
+#: apps/brew/templates/brew/recipe_detail.html:80
 #: apps/brew/templates/brew/recipe_detail.txt:17
 #: apps/brew/templates/brew/recipe_print.html:46
 msgid "Ingredients"
 msgstr "Ingredients"
 
-#: apps/brew/templates/brew/recipe_detail.html:91
-#: apps/brew/templates/brew/recipe_detail.html:217
+#: apps/brew/templates/brew/recipe_detail.html:92
+#: apps/brew/templates/brew/recipe_detail.html:218
 msgid "Actions"
 msgstr "Actions"
 
-#: apps/brew/templates/brew/recipe_detail.html:136
-#: apps/brew/templates/brew/recipe_detail.html:198
+#: apps/brew/templates/brew/recipe_detail.html:137
+#: apps/brew/templates/brew/recipe_detail.html:199
 #: apps/brew/templates/brew/recipe_print.html:79
 #: apps/brew/templates/brew/recipe_print.html:92
 #: apps/brew/templatetags/recipe_tags.py:44
@@ -865,56 +963,56 @@ msgstr "Actions"
 msgid "Hop"
 msgstr "Houblon"
 
-#: apps/brew/templates/brew/recipe_detail.html:190
+#: apps/brew/templates/brew/recipe_detail.html:191
 msgid "Add ingredient"
 msgstr "Ajouter un ingrédient"
 
-#: apps/brew/templates/brew/recipe_detail.html:191
+#: apps/brew/templates/brew/recipe_detail.html:192
 msgid "Start adding ingredients with this menu"
 msgstr "Commencez par ajouter des ingrédients via ce menu"
 
-#: apps/brew/templates/brew/recipe_detail.html:209
+#: apps/brew/templates/brew/recipe_detail.html:210
 #: apps/brew/templates/brew/recipe_print.html:114
 msgid "Mash detail"
 msgstr "Détail d'empatage"
 
-#: apps/brew/templates/brew/recipe_detail.html:214
+#: apps/brew/templates/brew/recipe_detail.html:215
 #: apps/brew/templates/brew/recipe_print.html:132
 msgid "Description"
 msgstr "Description"
 
-#: apps/brew/templates/brew/recipe_detail.html:215
+#: apps/brew/templates/brew/recipe_detail.html:216
 #: apps/brew/templates/brew/recipe_print.html:133
 msgid "Step temperature"
 msgstr "Pallier température"
 
-#: apps/brew/templates/brew/recipe_detail.html:230
+#: apps/brew/templates/brew/recipe_detail.html:231
 msgid "of water"
 msgstr "d'eau"
 
-#: apps/brew/templates/brew/recipe_detail.html:234
-#: apps/brew/templates/brew/recipe_detail.html:236
+#: apps/brew/templates/brew/recipe_detail.html:235
+#: apps/brew/templates/brew/recipe_detail.html:237
 #: apps/brew/templatetags/recipe_tags.py:91
 msgid "Heat over"
 msgstr "Chauffer"
 
-#: apps/brew/templates/brew/recipe_detail.html:254
+#: apps/brew/templates/brew/recipe_detail.html:255
 #: apps/brew/templates/brew/recipe_print.html:166
 msgid "Filtering"
 msgstr "Filtration"
 
-#: apps/brew/templates/brew/recipe_detail.html:264
+#: apps/brew/templates/brew/recipe_detail.html:265
 #: apps/brew/templates/brew/recipe_print.html:176
 msgid "Fly sparge"
 msgstr "Lavage des drêches"
 
-#: apps/brew/templates/brew/recipe_detail.html:266
+#: apps/brew/templates/brew/recipe_detail.html:267
 #: apps/brew/templates/brew/recipe_detail.txt:24
 #: apps/brew/templates/brew/recipe_print.html:178
 msgid "Fly sparge with"
 msgstr "Laver les drêches avec"
 
-#: apps/brew/templates/brew/recipe_detail.html:266
+#: apps/brew/templates/brew/recipe_detail.html:267
 #: apps/brew/templates/brew/recipe_detail.txt:24
 #: apps/brew/templates/brew/recipe_print.html:178
 msgid "of water at"
@@ -930,8 +1028,16 @@ msgstr "Ajouter une étape d'empatage"
 msgid "Save"
 msgstr "Enregistrer"
 
+#: apps/brew/templates/brew/recipe_detail.html:306
+msgid "Comments"
+msgstr "Commentaires"
+
+#: apps/brew/templates/brew/recipe_detail.html:344
+msgid "Send"
+msgstr "Envoyer"
+
 #: apps/brew/templates/brew/recipe_detail.txt:3
-#: apps/brew/templates/brew/recipe_list.html:35
+#: apps/brew/templates/brew/recipe_list.html:33
 msgid "Brewer"
 msgstr "Brasseur"
 
@@ -967,7 +1073,7 @@ msgstr "Etapes"
 
 #: apps/brew/templates/brew/recipe_form.html:9
 #: apps/brew/templates/brew/recipe_form.html:55
-#: apps/brew/templates/brew/recipe_list.html:13
+#: apps/brew/templates/brew/recipe_list.html:11
 msgid "Add a new recipe"
 msgstr "Ajouter une recette"
 
@@ -983,24 +1089,24 @@ msgstr "Retour à la recette"
 msgid "Import your recipe"
 msgstr "Importer vos recettes"
 
-#: apps/brew/templates/brew/recipe_list.html:10
+#: apps/brew/templates/brew/recipe_list.html:8
 msgid "Add a recipe"
 msgstr "Ajouter une recette"
 
-#: apps/brew/templates/brew/recipe_list.html:14
+#: apps/brew/templates/brew/recipe_list.html:12
 msgid "Import recipe (BeerXML)"
 msgstr "Importer (BeerXML)"
 
-#: apps/brew/templates/brew/recipe_list.html:21
+#: apps/brew/templates/brew/recipe_list.html:19
 #, python-format
 msgid "%(name)s recipes"
 msgstr "Recettes de %(name)s"
 
-#: apps/brew/templates/brew/recipe_list.html:23
+#: apps/brew/templates/brew/recipe_list.html:21
 msgid "Last recipes"
 msgstr "Dernières recettes"
 
-#: apps/brew/templates/brew/recipe_list.html:34
+#: apps/brew/templates/brew/recipe_list.html:32
 msgid "Info"
 msgstr "Info"
 
@@ -1095,7 +1201,7 @@ msgstr "Unités"
 msgid "Formulas"
 msgstr "Formules"
 
-#: templates/base.html:106
+#: templates/base.html:103
 #: templates/public/invitation_home.html:28
 msgid "Log in"
 msgstr "Connexion"
@@ -1104,13 +1210,49 @@ msgstr "Connexion"
 msgid "My recipes"
 msgstr "Mes recettes"
 
-#: templates/base.html:171
+#: templates/base.html:116
+msgid "Change your avatar"
+msgstr "Changer d'image de profil"
+
+#: templates/base.html:170
 msgid "Download"
 msgstr "Télécharger"
 
 #: templates/base_printable.html:7
 msgid "Printable"
 msgstr "Imprimable"
+
+#: templates/avatar/change.html:7
+msgid "You do not yet have an avatar.  Please upload one now."
+msgstr "Vous n'avez toujours pas d'image de profil, vous pouvez en charger une. "
+
+#: templates/avatar/change.html:11
+msgid "Your current avatar"
+msgstr "Votre image de profil actuelle"
+
+#: templates/avatar/change.html:14
+msgid "Your avatars"
+msgstr "Vos images de profil"
+
+#: templates/avatar/change.html:23
+msgid "Add a new avatar"
+msgstr "Ajouter une image de profil"
+
+#: templates/avatar/change.html:26
+msgid "Avatar Image"
+msgstr "Image de profil"
+
+#: templates/comments/posted.html:7
+msgid "Thank you"
+msgstr "Merci"
+
+#: templates/comments/posted.html:13
+msgid "Your comment has been posted. "
+msgstr "Votre commentaire a été envoyé"
+
+#: templates/comments/posted.html:14
+msgid "Return to the recipe"
+msgstr "Retour à la recette"
 
 #: templates/invitation/invitation_form.html:14
 msgid "You will need an invitation to register on BeerToBeer for the moment. <br>To send an invitation to a friend, you can write his/her email adress below."
