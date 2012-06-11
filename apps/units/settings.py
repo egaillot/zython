@@ -44,6 +44,7 @@ UNITS = {
     'color':{
         'verbose_name': _('Color'),
         'default': 'ebc',
+        'precision': 1,
         'choices': (
             ('ebc', _('EBC')),
             ('srm', _('SRM'))

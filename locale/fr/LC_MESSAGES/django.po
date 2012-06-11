@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-11 12:36+0200\n"
-"PO-Revision-Date: 2012-06-11 12:42+0100\n"
+"POT-Creation-Date: 2012-06-11 14:57+0200\n"
+"PO-Revision-Date: 2012-06-11 14:58+0100\n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -430,7 +430,7 @@ msgstr ""
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: apps/brew/forms.py:53
+#: apps/brew/forms.py:54
 msgid "Your recipe (BeerXML format)"
 msgstr "Votre recette (BeerXML format)"
 
@@ -492,10 +492,10 @@ msgstr "Température"
 #: apps/brew/models_base.py:104
 #: apps/brew/models_base.py:118
 #: apps/brew/models_base.py:139
-#: apps/brew/templates/brew/modal_ingredients.html:21
-#: apps/brew/templates/brew/modal_ingredients.html:76
-#: apps/brew/templates/brew/modal_ingredients.html:135
-#: apps/brew/templates/brew/modal_ingredients.html:192
+#: apps/brew/templates/brew/modal_ingredients.html:20
+#: apps/brew/templates/brew/modal_ingredients.html:75
+#: apps/brew/templates/brew/modal_ingredients.html:134
+#: apps/brew/templates/brew/modal_ingredients.html:191
 #: apps/brew/templates/brew/recipe_detail.html:87
 #: apps/brew/templates/brew/recipe_detail.html:214
 #: apps/brew/templates/brew/recipe_list.html:29
@@ -523,10 +523,10 @@ msgstr "Style"
 #: apps/brew/models_base.py:108
 #: apps/brew/models_base.py:121
 #: apps/brew/models_base.py:140
-#: apps/brew/templates/brew/modal_ingredients.html:23
-#: apps/brew/templates/brew/modal_ingredients.html:80
-#: apps/brew/templates/brew/modal_ingredients.html:136
-#: apps/brew/templates/brew/modal_ingredients.html:195
+#: apps/brew/templates/brew/modal_ingredients.html:22
+#: apps/brew/templates/brew/modal_ingredients.html:79
+#: apps/brew/templates/brew/modal_ingredients.html:135
+#: apps/brew/templates/brew/modal_ingredients.html:194
 #: apps/brew/templates/brew/recipe_detail.html:48
 #: apps/brew/templates/brew/recipe_detail.html:88
 #: apps/brew/templates/brew/recipe_detail.txt:5
@@ -727,8 +727,8 @@ msgstr "Autre"
 
 #: apps/brew/models_base.py:78
 #: apps/brew/models_base.py:105
-#: apps/brew/templates/brew/modal_ingredients.html:22
-#: apps/brew/templates/brew/modal_ingredients.html:77
+#: apps/brew/templates/brew/modal_ingredients.html:21
+#: apps/brew/templates/brew/modal_ingredients.html:76
 msgid "Origin"
 msgstr "Origine"
 
@@ -741,7 +741,6 @@ msgid "Yield"
 msgstr "Rendement"
 
 #: apps/brew/models_base.py:86
-#: apps/brew/templates/brew/modal_ingredients.html:24
 #: apps/brew/templates/brew/recipe_detail.html:72
 #: apps/brew/templates/brew/recipe_print.html:29
 #: apps/units/settings.py:45
@@ -768,7 +767,7 @@ msgstr "Utilisation"
 
 #: apps/brew/models_base.py:107
 #: apps/brew/models_base.py:122
-#: apps/brew/templates/brew/modal_ingredients.html:196
+#: apps/brew/templates/brew/modal_ingredients.html:195
 msgid "Form"
 msgstr "Formulaire"
 
@@ -781,7 +780,7 @@ msgid "Acid beta"
 msgstr "Acid beta"
 
 #: apps/brew/models_base.py:119
-#: apps/brew/templates/brew/modal_ingredients.html:193
+#: apps/brew/templates/brew/modal_ingredients.html:192
 msgid "Lab"
 msgstr "Lab"
 
@@ -814,71 +813,71 @@ msgid "Best for"
 msgstr "Parfait pour"
 
 #: apps/brew/models_base.py:142
-#: apps/brew/templates/brew/modal_ingredients.html:137
+#: apps/brew/templates/brew/modal_ingredients.html:136
 msgid "Use for"
 msgstr "Utilisé pour"
 
-#: apps/brew/templates/brew/modal_ingredients.html:11
-#: apps/brew/templates/brew/modal_ingredients.html:66
-#: apps/brew/templates/brew/modal_ingredients.html:125
-#: apps/brew/templates/brew/modal_ingredients.html:182
+#: apps/brew/templates/brew/modal_ingredients.html:10
+#: apps/brew/templates/brew/modal_ingredients.html:65
+#: apps/brew/templates/brew/modal_ingredients.html:124
+#: apps/brew/templates/brew/modal_ingredients.html:181
 msgid "Search"
 msgstr "Rechercher"
 
-#: apps/brew/templates/brew/modal_ingredients.html:14
+#: apps/brew/templates/brew/modal_ingredients.html:13
 msgid "Grains"
 msgstr "Grains"
 
-#: apps/brew/templates/brew/modal_ingredients.html:25
+#: apps/brew/templates/brew/modal_ingredients.html:24
 msgid "Max"
 msgstr "Max"
 
-#: apps/brew/templates/brew/modal_ingredients.html:48
-#: apps/brew/templates/brew/modal_ingredients.html:103
-#: apps/brew/templates/brew/modal_ingredients.html:158
+#: apps/brew/templates/brew/modal_ingredients.html:47
+#: apps/brew/templates/brew/modal_ingredients.html:102
+#: apps/brew/templates/brew/modal_ingredients.html:157
 #: apps/brew/templates/brew/recipe_detail.html:86
 #: apps/brew/templates/brew/recipe_print.html:51
 msgid "Amount"
 msgstr "Quantité"
 
-#: apps/brew/templates/brew/modal_ingredients.html:51
-#: apps/brew/templates/brew/modal_ingredients.html:109
-#: apps/brew/templates/brew/modal_ingredients.html:165
-#: apps/brew/templates/brew/modal_ingredients.html:219
+#: apps/brew/templates/brew/modal_ingredients.html:50
+#: apps/brew/templates/brew/modal_ingredients.html:108
+#: apps/brew/templates/brew/modal_ingredients.html:164
+#: apps/brew/templates/brew/modal_ingredients.html:218
 #: apps/brew/templates/brew/recipe_detail.html:197
 #: apps/brew/templates/brew/recipe_detail.html:231
 msgid "Add"
 msgstr "Ajouter"
 
-#: apps/brew/templates/brew/modal_ingredients.html:69
+#: apps/brew/templates/brew/modal_ingredients.html:68
 msgid "Hops"
 msgstr "Houblons"
 
-#: apps/brew/templates/brew/modal_ingredients.html:78
+#: apps/brew/templates/brew/modal_ingredients.html:77
 msgid "Alpha"
 msgstr "Alpha"
 
-#: apps/brew/templates/brew/modal_ingredients.html:79
+#: apps/brew/templates/brew/modal_ingredients.html:78
 msgid "Beta"
 msgstr "Beta"
 
-#: apps/brew/templates/brew/modal_ingredients.html:106
+#: apps/brew/templates/brew/modal_ingredients.html:105
 msgid "Boil time"
 msgstr "Temps d'ébullition"
 
-#: apps/brew/templates/brew/modal_ingredients.html:128
+#: apps/brew/templates/brew/modal_ingredients.html:127
 #: apps/brew/templates/brew/recipe_detail.html:200
 msgid "Misc"
 msgstr "Divers"
 
-#: apps/brew/templates/brew/modal_ingredients.html:185
+#: apps/brew/templates/brew/modal_ingredients.html:184
 #: apps/brew/templates/brew/recipe_detail.html:173
 #: apps/brew/templates/brew/recipe_detail.html:202
 #: apps/brew/templates/brew/recipe_print.html:105
 msgid "Yeast"
 msgstr "Levure"
 
-#: apps/brew/templates/brew/modal_ingredients.html:194
+#: apps/brew/templates/brew/modal_ingredients.html:193
 msgid "Product ID"
 msgstr "Numéro de produit"
 
@@ -1184,11 +1183,11 @@ msgstr "deg. C"
 msgid "deg. F"
 msgstr "deg. F"
 
-#: apps/units/settings.py:48
+#: apps/units/settings.py:49
 msgid "EBC"
 msgstr "EBC"
 
-#: apps/units/settings.py:49
+#: apps/units/settings.py:50
 msgid "SRM"
 msgstr "SRM"
 
@@ -1213,6 +1212,10 @@ msgstr "Mes recettes"
 #: templates/base.html:116
 msgid "Change your avatar"
 msgstr "Changer d'image de profil"
+
+#: templates/base.html:144
+msgid "Source code on Bitbucket"
+msgstr "Code source sur BitBucket"
 
 #: templates/base.html:170
 msgid "Download"

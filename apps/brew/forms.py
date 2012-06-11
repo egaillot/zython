@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from inspect_model import InspectModel
 from brew.models import *
 from brew.settings import MAIN_STYLES
+from brew.fields import LocalizedModelForm
 from units.forms import UnitModelForm
 
 
@@ -26,7 +27,7 @@ def style_choices():
         old_number = number
     return items
 
-class RecipeForm(UnitModelForm):
+class RecipeForm(UnitModelForm, LocalizedModelForm):
     unit_fields = {'volume': ['batch_size',]}
     recipe_style = forms.ChoiceField(label="Style", choices=style_choices(), required=False)
 
@@ -63,7 +64,7 @@ class RecipePreferencesForm(UnitModelForm):
         )
 
 
-class RecipeIngredientForm(UnitModelForm):
+class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
     def __init__(self, *args, **kwargs):
         super(RecipeIngredientForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
@@ -146,7 +147,7 @@ class RecipeYeastForm(RecipeIngredientForm):
         fields = ('yeast_id', )
 
 
-class MashStepForm(UnitModelForm):
+class MashStepForm(UnitModelForm, LocalizedModelForm):
     unit_fields = {
         'volume': ['water_added',],
         'temperature': ['temperature',],

@@ -134,20 +134,20 @@
 
       <footer class='center'>
         <p>
-          {% if request.user.is_active %}
-            <span class="badge badge-warning">Beta - V0.7</span>
-          {% endif %}
+            <span class="badge ">Beta - V0.7</span> <br>
+            <a href="https://bitbucket.org/m_clement/tobeer/issues/new" target="_blank">Reporter une erreur / un problème</a>
         </p>
         <p>
 
-          Martyn CLEMENT 2012
+          Martyn CLEMENT 2012 -
+          <a href="https://bitbucket.org/m_clement/tobeer" target="_blank">{% trans "Source code on Bitbucket" %}</a>
+
         </p>
         <p>
           {% comment %}
             
           <a href="">{% trans "About 2beer.com" %}</a> • <a href="">{% trans "Contact" %}</a> • <a href="">{% trans "Contribute" %}</a> • <a href="">Source code</a>
           {% endcomment %}
-          
 
         </p>
       </footer>
@@ -184,9 +184,15 @@
 <script src="{{ MEDIA_URL }}js/bootstrap-collapse.js"></script>
 <script src="{{ MEDIA_URL }}js/bootstrap-carousel.js"></script>
 <script src="{{ MEDIA_URL }}js/bootstrap-typeahead.js"></script>
-<script src="{{ MEDIA_URL }}js//load-image.min.js"></script>
+<script src="{{ MEDIA_URL }}js/load-image.min.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
 <script src="{{ MEDIA_URL }}js/bootstrap-image-gallery.min.js"></script>
-<script type="text/javascript">$(function(){$('.tip').tooltip();});</script>
+<script type="text/javascript">$(function(){
+  $('.tip').tooltip();
+  $('.table-sorted').dataTable({
+      "bPaginate": false, "bInfo": false, "bFilter": false
+  });
+});</script>
 {% block js %}{% endblock js %}
   </body>
 </html>

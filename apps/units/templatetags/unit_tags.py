@@ -34,7 +34,7 @@ def do_local_unit(parser, token):
         long_term = True
     elif length == 4:
         tag_name, unit_group, value, long_term = token.split_contents()
-        long_term = bool(int(long_term))
+        long_term = int(long_term)
     else:
         raise template.TemplateSyntaxError("%r tag requires exactly two or three arguments" % token.contents.split()[0])
     if not (unit_group[0] == unit_group[-1] and unit_group[0] in ('"', "'")):

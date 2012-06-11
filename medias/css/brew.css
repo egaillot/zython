@@ -47,3 +47,6 @@ color:#FDF7DB!important;
 footer{border-top:#DDC 1px solid;padding-top:20px;margin-top:40px;}
 footer, footer p{text-align:center;color:#999;font-size:11px!important;}
 p.small{font-size:11px!important;}
+table.table-sorted thead tr th{
+    cursor: pointer;
+}

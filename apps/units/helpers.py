@@ -6,10 +6,12 @@ def get_converted_value(value, user_unit, group, long_term=True, raw_output=Fals
     source_unit = unit_group.get('default')
     precision = "%" + ".%sf" % unit_group.get('precision', 1)
     choices = dict((x, y) for x, y in unit_group.get('choices'))
-    if long_term:
+    if long_term == 1:
         verbose_unit = choices.get(user_unit, user_unit)
-    else:
+    elif long_term == 0:
         verbose_unit = user_unit
+    elif long_term == -1:
+        verbose_unit = ""
     if source_unit != user_unit:
         function = '%s_to_%s' % (source_unit, user_unit)
         if reverse:
