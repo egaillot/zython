@@ -1,14 +1,9 @@
  # -*- coding: utf-8 -*-
  # Django static settings
 from local_settings import *
-from django.utils.translation import gettext_lazy as _
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-    ('Bill Gates', 'bill-gates@microsoft.com'),
-)
 DEFAULT_CHARSET = 'utf-8'
 MANAGERS = ADMINS
 
@@ -69,9 +64,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
+    'django.contrib.messages.context_processors.messages', 
     'units.context_processors.user_units',
     'units.context_processors.unit_menu',
 )
+
+
 
 TEMPLATE_DIRS = (
     "%stemplates/" % ROOT_PROJECT,
@@ -88,20 +86,18 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
 
+    'accounts', 
     'public',
     'brew',
     'units',
 
     'registration',
     'inspect_model',
-    'invitation',
-    'avatar'
+    'avatar', 
 )
 
-INVITE_MODE = 0
-ACCOUNT_INVITATION_DAYS = 1
-INVITATIONS_PER_USER = 5
 ACCOUNT_ACTIVATION_DAYS = 7
+AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png', '.jpeg', '.gif')
 
 LOGGING = {
     'version': 1,

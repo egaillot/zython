@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n avatar_tags %}
 {% load url from future %}
 
 {% block content %}
@@ -16,7 +16,8 @@
 
 <h1>
 	{% if user_recipe %}
-		{% blocktrans with user_recipe.get_full_name as name%}{{ name }} recipes{% endblocktrans %}
+		{% avatar user_recipe 60 %}
+		{% blocktrans with user_recipe.username as name%}{{ name }} recipes{% endblocktrans %}
 	{% else %}
 		{% trans "Last recipes" %}
 {% endif %}
@@ -61,7 +62,7 @@
 			</td>
 			<td>
 				<a href="{% url "brew_recipe_user" object.user.username %}">
-				{{ object.user.get_full_name }}
+				{{ object.user.username }}
 				</a>
 			</td>
 		</tr>

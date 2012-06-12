@@ -24,7 +24,6 @@ class BaseUnitForm(object):
         self.request = request
         super(BaseUnitForm, self).__init__(*args, **kwargs)
         prefix = app_settings.CONTEXT_PREFIX
-        
         for group,fields in self.unit_fields.iteritems():
             user_unit = self.request.session.get('%s%s' % (prefix, group))
             for f in fields:
