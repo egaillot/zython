@@ -43,7 +43,7 @@ class BaseUnitForm(object):
             user_unit = self.request.session.get('%s%s' % (prefix, group))
             for f in fields:
                 value = datas.get(f)
-                if value is not None:
+                if not None in (value, user_unit):
                     v = get_convert_to_default(value, user_unit, group, raw_output=True)
                     datas[f] = v
         return datas

@@ -8,7 +8,7 @@ DEFAULT_CHARSET = 'utf-8'
 MANAGERS = ADMINS
 
 TIME_ZONE = 'Europe/Paris'
-
+DEFAULT_FROM_EMAIL = 'ToBeer <noreply@beer.martync.me>'
 
 LANGUAGE_CODE = 'en'
 LOCALE_PATHS = (

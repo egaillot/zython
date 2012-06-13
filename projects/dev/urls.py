@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     (r'^accounts/', include('registration_backend.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
     url(r'^how-it-works/', TemplateView.as_view(template_name="how.html"), name="how_it_works"),
+    url(r'^email_test/', TemplateView.as_view(template_name="base_email.html"), name="dfgfdg"),
     (r'^avatar/', include('avatar.urls')),
     (r'^user/', include('accounts.urls')),
     

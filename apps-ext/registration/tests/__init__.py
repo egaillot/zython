@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, LiveServerTestCase
 
 import registration
 
@@ -8,7 +8,7 @@ from registration.tests.models import *
 from registration.tests.views import *
 
 
-class RegistrationVersionInfoTests(TestCase):
+class RegistrationVersionInfoTests(LiveServerTestCase):
     """
     Test django-registration's internal version-reporting
     infrastructure.

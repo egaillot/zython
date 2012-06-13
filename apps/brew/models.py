@@ -2,6 +2,10 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User 
+from django.contrib.comments.signals import comment_was_posted
+from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
+from public.helpers import send_email_html
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
 from brew import settings as app_settings
@@ -115,7 +119,7 @@ class Recipe(models.Model):
         return ('brew_recipe_detail', [str(self.id)])
 
     class Meta:
-        ordering = ('created',)
+        ordering = ('-created',)
 
     # - - -
     # Water volumes
@@ -346,5 +350,22 @@ class MashStep(models.Model):
     
     class Meta:
         ordering = ['ordering',]
+
+
+
+# Signal stuffs
+def comment_notification(sender, comment, request, *args, **kwargs):
+    if comment.content_type == ContentType.objects.get_for_model(Recipe):
+        if comment.content_object.user != request.user:
+            subject = _(u"New comment posted")
+            from_email = settings.DEFAULT_FROM_EMAIL
+            to = [comment.content_object.user.email,]
+            template_name = "brew/email/recipe_comment_posted.html"
+            context = {'comment': comment, 'recipe': comment.content_object}
+            send_email_html(subject,
+                            from_email, to, template_name, 
+                            context=context)
+comment_was_posted.connect(comment_notification)
+
 
 

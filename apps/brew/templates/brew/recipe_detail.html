@@ -225,7 +225,9 @@
 							({{ mash.get_step_type_display }})
 						</td>
 						<td>
+							{% if object.user == request.user %}
 							<a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
+							{% endif %}
 							{% if mash.water_added %}
 								{% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
 							{% endif %}
@@ -235,7 +237,11 @@
 							{% else %}
 								{% trans "Heat over" %} {% local_unit "temperature" mash.temperature 0 %}
 							{% endif %}
+							{% if object.user == request.user %}
 							</a>
+							{% endif %}
+
+							
 						</td>
 						<td>
 							{% local_unit "temperature" mash.temperature 0 %}
@@ -263,7 +269,7 @@
 
 							{% trans "Fly sparge" %}</td>
 						<td colspan="3">
-							{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 75.6 0 %}
+							{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 78 0 %}
 						</td>
 						{% if object.user == request.user %}<td></td>{% endif %}
 					</tr>
@@ -307,7 +313,7 @@
 {% for comment in comment_list %}
 	<div class="well {% if object.user != comment.user %}well_light{% endif %}">
 		<p class='small'>
-			<a href="{% url "brew_recipe_user" comment.user.username %}" class="nolink"><b>{{ comment.user.get_full_name }}</b></a>
+			<a href="{% url "brew_recipe_user" comment.user.username %}" class="nolink"><b>{{ comment.user.username }}</b></a>
 			{{ comment.submit_date|date }}
 			</p>
 		<div class="row">

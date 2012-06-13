@@ -1,13 +1,17 @@
-"""
-Convert CSV string to fixed width text table. Supports multi-line rows, column width limits, and creates a header row automatically
-@author Tony Landis
-@link http://www.tonylandis.com
-@license GPL
-"""
-
 from math import ceil
+from django.conf import settings
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.contrib.sites.models import Site
 
 class CsvToTxt(object):   
+    """
+    Convert CSV string to fixed width text table. Supports multi-line rows, column width limits, and creates a header row automatically
+    @author Tony Landis
+    @link http://www.tonylandis.com
+    @license GPL
+    """
+
     cs=[]; rs=[]; keys=[]; 
     mH = 3; mW = 200
     pcen = "+"; prow = "-"; pcol = "|"; pcolm = ":"
@@ -69,4 +73,13 @@ class CsvToTxt(object):
             out += self.printRow(i)
             out += " \n"
         return out
+
+def send_email_html(subject, from_email, to, 
+                    template_name, context={}, *args, **kwargs):
+    html_content = render_to_string(template_name, context)
+    context['MEDIA_URL'] = settings.MEDIA_URL
+    context['current_site'] = Site.objects.get_current()
+    msg = EmailMessage(subject, html_content, from_email, to, *args, **kwargs)
+    msg.content_subtype = "html"
+    return msg.send()
 

@@ -1,0 +1,18 @@
+{% extends "base_email.html" %}
+{% load i18n %}
+{% load url from future %}
+
+
+{% block title %}
+{% blocktrans with comment.user.username as username %}{{ username }} has posted a new comment on your recipe{% endblocktrans %}
+{% endblock title %}
+
+
+{% block content %}
+{% blocktrans with recipe.name as recipe_name and comment.user.username as username%}
+{{ username }} wrote a comment on your recipe {{ recipe_name }} : <br>
+{% endblocktrans %}
+<i>"{{ comment.comment|linebreaksbr }}"</i>
+<br><br>
+<a href="http://{{ current_site.domain }}{{ recipe.get_absolute_url }}">{% trans "Go to my recipe" %}</a>
+{% endblock content %}
