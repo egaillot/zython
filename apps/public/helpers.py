@@ -76,9 +76,9 @@ class CsvToTxt(object):
 
 def send_email_html(subject, from_email, to, 
                     template_name, context={}, *args, **kwargs):
-    html_content = render_to_string(template_name, context)
     context['MEDIA_URL'] = settings.MEDIA_URL
     context['current_site'] = Site.objects.get_current()
+    html_content = render_to_string(template_name, context)
     msg = EmailMessage(subject, html_content, from_email, to, *args, **kwargs)
     msg.content_subtype = "html"
     return msg.send()
