@@ -1,3 +1,4 @@
+from operator import itemgetter
 from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -248,6 +249,52 @@ class Recipe(models.Model):
         abv = (og-fg)*129.
         return abv
 
+    # - - -
+    # Ingredients
+    def ingredients(self):
+        # -- Mash -- 
+        mash_malt = self.recipemalt_set.all()
+        mash_misc = self.recipemisc_set.filter(use_in="mash")
+        mash = []
+        for malt in mash_malt:
+            mash.append({'object':malt, 'weight': malt.amount*1000})
+        for misc in mash_misc:
+            mash.append({'object':misc, 'weight': misc.amount})
+        recipe_mash = sorted(mash, key=itemgetter('weight'), reverse=True)
+        for rm in recipe_mash:
+            yield rm.get('object')
+
+        # -- Boil -- 
+        boil_hops = self.recipehop_set.exclude(usage="dryhop")
+        boil_misc = self.recipemisc_set.filter(use_in="boil")
+        boil = []
+        for hop in boil_hops:
+            boil.append({'object':hop, 'duration': hop.get_duration()})
+        for misc in boil_misc:
+            boil.append({'object':misc, 'duration': misc.get_duration()})
+        recipe_boil = sorted(boil, key=itemgetter('duration'), reverse=True)
+        for rb in recipe_boil:
+            yield rb.get('object')
+
+        # -- Late -- and Fermentables
+        late_hops = self.recipehop_set.filter(usage="dryhop")
+        late_misc = self.recipemisc_set.exclude(use_in__in=["boil", "mash", "bottling"])
+        late = []
+        for hop in late_hops:
+            late.append({'object':hop, 'duration': hop.get_duration()})
+        for misc in late_misc:
+            late.append({'object':misc, 'duration': misc.get_duration()})
+        recipe_late = sorted(late, key=itemgetter('duration'), reverse=True)
+        for rl in recipe_late:
+            yield rl.get('object')
+
+
+        for ry in self.recipeyeast_set.all():
+            yield ry
+
+        for rmb in self.recipemisc_set.filter(use_in="bottling"):
+            yield rmb
+
 
 class Malt(BaseMalt):
     pass
@@ -289,6 +336,13 @@ class RecipeHop(BaseHop):
         else:
             return "%s min" % self.boil_time
 
+    def get_duration(self):
+        # Duration in minutes
+        if self.usage == "dryhop":
+            return self.dry_days * 24 * 60
+        else:
+            return self.boil_time
+
     def ibu(self):
         if self.usage == "dryhop":
             return 0
@@ -316,6 +370,18 @@ class RecipeMisc(BaseMisc):
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="g")
     time = models.DecimalField(max_digits=4, decimal_places=1)
     time_unit = models.CharField(choices=MISC_TIME_CHOICES, default="mins", max_length=50)
+
+    def get_duration(self):
+        # Duration in minutes
+        duration = self.time
+        if self.time_unit == 'hours':
+            return duration * 60
+        elif self.time_unit == 'days':
+            return duration * 24 * 60
+        elif self.time_unit == 'weeks':
+            return duration * 7 * 24 * 60
+        else:
+            return duration
 
 
 class MashStep(models.Model):

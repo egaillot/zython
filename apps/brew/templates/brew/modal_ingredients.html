@@ -98,14 +98,14 @@
       <div class="modal-footer">
         <div class="error_frame"></div>
         <div class="row pull-right inline_field">
-            <div class="span3">
+            <div class="span2">
                 {% trans "Amount" %} {{ hop_form.amount }} {{ hop_form.amount.help_text }}
             </div>
-            <div class="span2">
+            <div class="span2" style="width:190px;">
                 {% trans "Boil time" %} {{ hop_form.boil_time }} min
             </div>
             <div class="span1">
-                <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend' style="width:50px;">
+                <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend' style="width:auto;">
             </div>
         </div>
       </div>

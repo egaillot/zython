@@ -35,15 +35,13 @@ class BaseUnitForm(object):
                     self.initial[f] = get_converted_value(val, user_unit, group, raw_output=True)
 
     def clean(self):
-        datas = super(BaseUnitForm, self).clean()
-        if self.errors:
-            return datas
+        datas = self.cleaned_data
         prefix = app_settings.CONTEXT_PREFIX
         for group,fields in self.unit_fields.iteritems():
             user_unit = self.request.session.get('%s%s' % (prefix, group))
             for f in fields:
                 value = datas.get(f)
-                if not None in (value, user_unit):
+                if None not in (value, user_unit):
                     v = get_convert_to_default(value, user_unit, group, raw_output=True)
                     datas[f] = v
         return datas

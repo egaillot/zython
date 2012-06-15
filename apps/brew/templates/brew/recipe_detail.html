@@ -77,111 +77,12 @@
 <p><br></p>
 
 <h2>{% trans "Ingredients" %}</h2>
+
 <div class="row">
 	<div class="span10">
-		<table class='table'>
-			<thead>
-				<tr>
-					<th>{% trans "Amount" %}</th>
-					<th>{% trans "Name" %}</th>
-					<th>{% trans "Type" %}</th>
-					<th>#</th>
-					<th>%/IBU</th>
-					{% if object.user == request.user %}
-					<th class="action_col">{% trans "Actions" %}</th>
-					{% endif %}
-				</tr>
-			</thead>
-
-
-		{% for malt in object.recipemalt_set.all %}
-			<tr>
-				<td>
-					<img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon">&nbsp;
-					{% local_unit "weight" malt.amount 0 %}
-				</td>
-				<td>
-
-					{% if object.user == request.user %}
-					<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" malt.id %}">
-					{% endif %}
-					{{ malt.name }} ({% local_unit "color" malt.color %})
-					{% if object.user == request.user %}</a>{% endif %}
-
-				</td>
-				<td>{{ malt.get_malt_type_display }}</td>
-				<td><span class="position"></span></td>
-				<td>{{ malt.percent }}%</td>
-				{% if object.user == request.user %}<td>
-					<a href="{% url "brew_recipe_removeingredient" object.id "malt" malt.id %}">{% trans "Delete" %}</a>
-				</td>{% endif %}
-			</tr>
-		{% empty %}
-			&nbsp;
-		{% endfor %}
-
-		{% for hop in object.recipehop_set.all %}
-			<tr>
-				<td>
-					<img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon">&nbsp;
-					{% local_unit "hop" hop.amount 0 %}
-				</td>
-				<td>
-					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" hop.id %}">
-					{% endif %}
-					{{ hop.name }} ({{ hop.acid_alpha }}%) - {{ hop.get_usage_display }} {{ hop.unit_time }}
-					{% if object.user == request.user %}</a>{% endif %}
-
-				</td>
-				<td>{% trans "Hop" %}</td>
-				<td><span class="position"></span></td>
-				<td>{{ hop.ibu|floatformat:1 }} IBU</td>
-				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "hop" hop.id %}">{% trans "Delete" %}</a></td>{% endif %}
-			</tr>
-		{% endfor %}
-		
-		{% for misc in object.recipemisc_set.all %}
-			<tr>
-				<td><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;
-					{% local_unit "hop" misc.amount 0 %}
-				</td>
-				<td>
-					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" misc.id %}">
-					{% endif %}
-					{{ misc.name }} - {{ misc.get_use_in_display }} {{ misc.time }} {{ misc.time_unit }}
-					{% if object.user == request.user %}</a>{% endif %}
-				</td>
-				<td>{{ misc.get_misc_type_display }}</td>
-				<td><span class="position"></span></td>
-				<td>---</td>
-				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "misc" misc.id %}">{% trans "Delete" %}</a></td>{% endif %}
-			</tr>
-		{% endfor %}
-
-		{% for yeast in object.recipeyeast_set.all %}
-			<tr>
-				<td><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;
-					Yeast
-				</td>
-				<td>
-					{% if object.user == request.user %}<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" yeast.id %}">
-					{% endif %}
-					{{ yeast.product_id }} {{ yeast.name }} - {{ yeast.laboratory }}
-					{% if object.user == request.user %}</a>{% endif %}
-				</td>
-				<td>{% trans "Yeast" %}</td>
-				<td><span class="position"></span></td>
-				<td>-</td>
-				{% if object.user == request.user %}<td><a href="{% url "brew_recipe_removeingredient" object.id "yeast" yeast.id %}">{% trans "Delete" %}</a></td>{% endif %}
-			</tr>
-		{% endfor %}
-		</table>
-
+		{% include "brew/recipe_ingredients.html" %}
 	</div>
 	<div class="span2">
-
-
-
 		<ul class="nav nav-list ingredient-list">
 			{% if object.user == request.user %}
 				<li
@@ -207,75 +108,7 @@
 <div class="row">
 	<div class="span10">
 		<h2>{% trans "Mash detail" %}</h2>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>{% trans "Name" %}</th>
-					<th>{% trans "Description" %}</th>
-					<th>{% trans "Step temperature" %}</th>
-					<th>{% trans "Step time" %}</th>
-					{% if object.user == request.user %}<th class="action_col">{% trans "Actions" %}</th>{% endif %}
-				</tr>
-			</thead>
-			{% for mash in object.mashstep_set.all %}
-				<tr>
-						<td>
-							<img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
-							{{ mash.name }}
-							({{ mash.get_step_type_display }})
-						</td>
-						<td>
-							{% if object.user == request.user %}
-							<a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
-							{% endif %}
-							{% if mash.water_added %}
-								{% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
-							{% endif %}
-
-							{% if forloop.first %}
-								{% trans "Heat over" %} <b>{% local_unit "temperature" mash.initial_heat 0 %}</b>
-							{% else %}
-								{% trans "Heat over" %} {% local_unit "temperature" mash.temperature 0 %}
-							{% endif %}
-							{% if object.user == request.user %}
-							</a>
-							{% endif %}
-
-							
-						</td>
-						<td>
-							{% local_unit "temperature" mash.temperature 0 %}
-						</td>
-						<td>
-							{{ mash.step_time }} min
-						</td>
-						{% if object.user == request.user %}<td>
-							<a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
-						</td>{% endif %}
-					</tr>
-				{% if forloop.last %}
-					<tr>
-						<td>
-							<img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
-							{% trans "Filtering" %}</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						{% if object.user == request.user %}<td></td>{% endif %}
-					</tr>
-					<tr>
-						<td>
-							<img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
-
-							{% trans "Fly sparge" %}</td>
-						<td colspan="3">
-							{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 78 0 %}
-						</td>
-						{% if object.user == request.user %}<td></td>{% endif %}
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</table>
+		{% include "brew/recipe_mashsteps.html" %}
 	</div>
 	<div class="span2">
 		<ul class="nav nav-list ingredient-list">

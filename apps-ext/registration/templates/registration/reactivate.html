@@ -3,36 +3,6 @@
 
 
 {% block content %}
-
-<h1>
-	{% block title %}{% trans "Envoyer la clé d'activation" %}{% endblock %}
-</h1>
-
-
-<div class='information'>
-	Vous n'avez pas reçu ou égaré le mail d'activation de votre compte, saisissez votre identifiant et votre adresse email pour recevoir de nouveau votre clé d'activation.
-</div>
-<p><br/></p>
-{% if form.non_field_errors %}
-	<div class='alert-message error'>
-		{% for e in form.non_field_errors %}
-			{{ e }}
-		{% endfor %}
-	</div>
-{% endif %}
-
-<form action="." method="post" accept-charset="utf-8">{% csrf_token %}
-	{% for field in form %}
-		<div class='clearfix {% if field.errors %}error{% endif %}'>
-			{{ field.label_tag }}
-			<div class='input'>
-				{{ field }}
-				{{ field.errors }}
-			</div>
-		</div>
-	{% endfor %}
-	<div class='actions'><input type="submit" value="{% trans "Continuer" %}" class='btn'></div>
-</form>
-
+Not found
 {% endblock %}
 

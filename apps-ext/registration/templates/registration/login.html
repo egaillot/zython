@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block title %}Connexion{% endblock %}
 
 {% block content %}
-<h1>{% trans "Login" %}</h1>
+<h1>{% block title %}{% trans "Login" %}{% endblock %}</h1>
 <p><br></p>
 {% if form.non_field_errors %}
 	<div class="alert alert-error">{{ form.non_field_errors  }}
@@ -41,7 +40,6 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#id_username").focus();
-
 			{% if form.non_field_errors %}
 			    {% for e in form.non_field_errors %}
 				    notify("error", { text:'{{ e|safe|addslashes }}'});

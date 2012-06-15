@@ -4,6 +4,7 @@ from django.utils import simplejson as json
 from django.db.models import Q
 from django import http
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -115,7 +116,6 @@ class RecipeImportView(FormView):
     def post(self, *args, **kwargs):
         xml_data = self.request.FILES.get('beer_file').read()
         recipes = import_beer_xml(xml_data, self.request.user)
-        print len(recipes), "recipe(s) imported !"
         return http.HttpResponseRedirect(reverse(
             'brew_recipe_user', 
             args=[self.request.user.username]
@@ -124,6 +124,12 @@ class RecipeImportView(FormView):
 
 class RecipeDetailView(DetailView):
     model = Recipe
+
+    def dispatch(self, *args, **kwargs):
+        response = super(RecipeDetailView, self).dispatch(*args, **kwargs)
+        if self.object.private and self.request.user != self.object.user:
+            raise http.Http404()
+        return response
 
     def render_to_response(self, context, **kwargs):
         if self.template_name_suffix == "_text":
@@ -142,6 +148,12 @@ class RecipeDetailView(DetailView):
             context['%s_list' % key] = model.objects.all()
             context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
         context['counter'] = 1
+        if "print" in self.template_name_suffix:
+            context['can_edit'] = False
+            context['version'] = "print"
+        else:
+            context['version'] = "detail"
+            context['can_edit'] = self.request.user == self.object.user
         context['page'] = "recipe"
         return context
 

@@ -41,6 +41,9 @@
 				<a href="{{ object.get_absolute_url }}">
 				<b>{{ object.name }}</b>
 				</a>
+				{% if object.private %}
+					<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">
+				{% endif %}
 			</td>
 			<td>
 				{% if object.style %}

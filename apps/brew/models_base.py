@@ -73,7 +73,12 @@ MISC_TYPE_CHOICES = (
 )
 
 
-class BaseMalt(models.Model):
+class BaseIngredientMixin(object):
+    def cls_name(self):
+        return self.__class__.__name__.lower()
+
+
+class BaseMalt(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     origin = models.CharField(_('Origin'), max_length=50)
     malt_type = models.CharField(_('Type'), choices=MALT_TYPE_CHOICES, max_length=50)
@@ -100,7 +105,7 @@ class BaseMalt(models.Model):
             'max_in_batch', 'notes'
         )
 
-class BaseHop(models.Model):
+class BaseHop(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     origin = models.CharField(_('Origin'), max_length=50)
     usage = models.CharField(_('Usage'), choices=HOP_USAGE_CHOICES, max_length=10)
@@ -114,7 +119,7 @@ class BaseHop(models.Model):
         abstract = True
 
 
-class BaseYeast(models.Model):
+class BaseYeast(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     laboratory = models.CharField(_('Lab'), max_length=100)
     product_id = models.CharField(_('Product id'), max_length=100)
@@ -135,7 +140,7 @@ class BaseYeast(models.Model):
         abstract = True
 
 
-class BaseMisc(models.Model):
+class BaseMisc(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     misc_type = models.CharField(_('Type'), choices=MISC_TYPE_CHOICES, max_length=50)
     usage = models.CharField(_("Usage"), max_length=100, blank=True, null=True)
@@ -144,3 +149,4 @@ class BaseMisc(models.Model):
 
     class Meta:
         abstract = True
+
