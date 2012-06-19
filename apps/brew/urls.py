@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^(?P<pk>\d+)/$', RecipeDetailView.as_view(), name='brew_recipe_detail'),
+    url(r'^(?P<pk>\d+)/comments/$', RecipeDetailView.as_view(template_name_suffix="_comments"), name='brew_recipe_comments'),
     url(r'^(?P<pk>\d+)/print/$', RecipeDetailView.as_view(template_name_suffix="_print"), name='brew_recipe_print'),
     url(r'^(?P<pk>\d+)/text/$', RecipeDetailView.as_view(template_name_suffix="_text"), name='brew_recipe_text'),
     url(r'^(?P<recipe_id>\d+)/confirm-delete/$', RecipeDeleteView.as_view(), name='brew_recipe_delete'),

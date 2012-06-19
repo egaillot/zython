@@ -148,13 +148,16 @@ class RecipeDetailView(DetailView):
             context['%s_list' % key] = model.objects.all()
             context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
         context['counter'] = 1
+        context['page'] = "recipe"
         if "print" in self.template_name_suffix:
             context['can_edit'] = False
             context['version'] = "print"
+        elif "comment" in self.template_name_suffix:
+            context['page'] = "comments"
         else:
             context['version'] = "detail"
             context['can_edit'] = self.request.user == self.object.user
-        context['page'] = "recipe"
+        
         return context
 
 

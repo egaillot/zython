@@ -418,20 +418,27 @@ class MashStep(models.Model):
         ordering = ['ordering',]
 
 
-
 # Signal stuffs
 def comment_notification(sender, comment, request, *args, **kwargs):
     if comment.content_type == ContentType.objects.get_for_model(Recipe):
+        context = {'comment': comment, 'recipe': comment.content_object}
+        subject = _(u"New comment posted")
+        from_email = settings.DEFAULT_FROM_EMAIL
+        template_name = "brew/email/recipe_comment_posted.html"
+        to = []
         if comment.content_object.user != request.user:
-            subject = _(u"New comment posted")
-            from_email = settings.DEFAULT_FROM_EMAIL
             to = [comment.content_object.user.email,]
-            template_name = "brew/email/recipe_comment_posted.html"
-            context = {'comment': comment, 'recipe': comment.content_object}
-            send_email_html(subject,
-                            from_email, to, template_name, 
-                            context=context)
+            context['recipe_author'] = False
+        else:
+            to = list(User.objects.filter(
+                    comment_comments__object_pk=comment.object_pk,
+                    comment_comments__content_type=comment.content_type,
+                    comment_comments__is_removed=False
+                ).exclude(
+                    id=request.user.id
+                ).distinct().values_list('email', flat=True)
+            )
+            context['recipe_author'] = True
+        if to:
+            send_email_html(subject, from_email, to, template_name, context=context)
 comment_was_posted.connect(comment_notification)
-
-
-

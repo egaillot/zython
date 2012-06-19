@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n unit_tags increment %}
+{% load i18n unit_tags %}
 {% load comments avatar_tags %}
 {% load url from future %}
 
@@ -27,17 +27,34 @@
 <p><br></p>
 <ul class="nav nav-pills">
   <li {% if page == "recipe" %}class="active"{% endif %}>
-    <a href="{{ object.get_absolute_url }}">{% trans "Recipe" %}</a>
+    <a href="{{ object.get_absolute_url }}">
+    	<span class="icon-file {% if page == "recipe" %}icon-white{% endif %}"></span>
+    	{% trans "Recipe" %}</a>
   </li>
   {% if object.user == request.user %}
-  	<li {% if page == "preferences" %}class="active"{% endif %}><a href="{% url "brew_recipe_preferences" object.id %}">{% trans "Preferences" %}</a></li>
-  	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">{% trans "Delete" %}</a></li>
-  	<li {% if page == "edit" %}class="active"{% endif %}><a href="{% url "brew_recipe_edit" object.id %}">{% trans "Edit" %}</a></li>
+  	<li {% if page == "preferences" %}class="active"{% endif %}><a href="{% url "brew_recipe_preferences" object.id %}">
+    	<span class="icon-cog {% if page == "preferences" %}icon-white{% endif %}"></span>
+  		{% trans "Preferences" %}</a></li>
+  	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">
+    	<span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
+  		{% trans "Delete" %}</a></li>
+  	<li {% if page == "edit" %}class="active"{% endif %}><a href="{% url "brew_recipe_edit" object.id %}">
+  		<span class="icon-pencil"></span>
+  		{% trans "Edit" %}</a></li>
   {% endif %}
 
-  <li><a href="{% url "brew_recipe_print" object.pk %}" target="_blank">{% trans "Print" %}</a></li>
-  <li><a href="{% url "brew_recipe_text" object.pk %}" target="_blank">{% trans "Copy (txt)" %}</a></li>
-
+  {% get_comment_count for object as comment_count %}
+  <li
+  	{% if page == "comments" %}class="active"{% endif %}
+  ><a href="{% url "brew_recipe_comments" object.pk %}">
+  	<span class="icon-comment {% if page == "comments" %}icon-white{% endif %}"></span>
+  	{% trans "Comments" %} ({{ comment_count }})</a></li>
+  <li><a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
+  	<span class="icon-print"></span>
+  	{% trans "Print" %}</a></li>
+  <li><a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
+  	<span class="icon-list"></span>
+  	{% trans "Copy (txt)" %}</a></li>
 </ul>
 {% block inner_content %}
 
@@ -140,49 +157,6 @@
 
 
 <p><hr></p>
-
-<h2>{% trans "Comments" %}</h2>
-{% get_comment_list for object as comment_list %}
-{% for comment in comment_list %}
-	<div class="well {% if object.user != comment.user %}well_light{% endif %}">
-		<p class='small'>
-			<a href="{% url "brew_recipe_user" comment.user.username %}" class="nolink"><b>{{ comment.user.username }}</b></a>
-			{{ comment.submit_date|date }}
-			</p>
-		<div class="row">
-			<div class="span1">
-				{% avatar comment.user 60 %}
-			</div>
-			<div class="span10">
-				<p>{{ comment.comment|linebreaksbr }}</p>
-			</div>
-		</div>
-	</div>
-{% endfor %}
-<div id="btm"></div>
-{% if request.user.is_authenticated %}
-	{% get_comment_form for object as form %}
-	  <form action="{% comment_form_target %}" method="post" class='form'>{% csrf_token %}
-	  	{% for field in form %}
-	  		{% if field.name == "comment" %}
-	  		<div class="control-group {% if field.errors %}error{% endif %}">
-	  			<label for="{{ field.auto_id }}" class='control-label'>{{ field.label }}</label>
-	  			<div class="controls">
-	  				{{ field }}
-	  				{% if field.help_text %}
-	  					<span class="help-inline">{{ field.help_text }}</span>
-	  				{% endif %}
-	  				{{ field.errors }}
-	  			</div>
-	  		</div>
-			{% else %}
-				<div style="display:none;">{{ field }}</div>
-			{% endif %}
-	  	{% endfor %}
-	  	<input type="submit" class='btn' value="{% trans "Send" %}">
-	  	<input type="hidden" name="next" value="{{ request.path }}#btm">
-	  </form>
-{% endif %}
 
 {% endblock inner_content %}
 

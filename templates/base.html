@@ -93,7 +93,7 @@
 
             {% if request.user.is_anonymous %}
               <li>
-                <a href="/accounts/login/">{% trans "Log in" %}</a>
+                <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
               </li>
               <li>
                 <a href="/accounts/register/">{% trans "Register" %}</a>
