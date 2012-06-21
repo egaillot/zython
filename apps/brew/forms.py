@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import fields_for_model
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 from inspect_model import InspectModel
 from brew.models import *
 from brew.settings import MAIN_STYLES
@@ -10,7 +11,8 @@ from units.forms import UnitModelForm
 
 __all__ = (
     'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 'RecipePreferencesForm', 
-    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 'RecipeImportForm'
+    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 'RecipeImportForm',
+    'RecipeSearchForm'
 )
 
 def style_choices():
@@ -159,4 +161,28 @@ class MashStepForm(UnitModelForm, LocalizedModelForm):
             'name', 'step_type', 'temperature', 
             'step_time', 'rise_time', 'water_added'
         )
+
+
+class RecipeSearchForm(forms.Form):
+    style = forms.ChoiceField(label=_(u"Style"), choices=style_choices(), required=False)
+    q = forms.CharField(required=False)
+
+    def search(self, qs):
+        data = self.cleaned_data
+        if data['style']:
+            qs = qs.filter(style=data['style'])
+        if data['q']:
+            q = data['q']
+            qs = qs.filter(
+                Q(name__icontains=q) |
+                Q(user__username__icontains=q) |
+                Q(style__name__icontains=q) | 
+                Q(recipemalt__name__icontains=q) |
+                Q(recipehop__name__icontains=q) |
+                Q(recipemisc__name__icontains=q) |
+                Q(recipeyeast__name__icontains=q)
+            )
+        return qs
+
+
 

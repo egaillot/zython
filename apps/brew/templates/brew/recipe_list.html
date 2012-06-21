@@ -23,6 +23,28 @@
 
 <p><br></p>
 
+{% if search_form %}
+	<div class="well">
+		<form action="." method="GET">
+			<div class="row">
+				<div class="span5">
+					<b>{% trans "Search" %}</b> <small><i>({% trans "Recipe name, hop, malt, yeast, username..." %})</i></small><br>
+					{{ search_form.q }} <br>
+					
+				</div>
+				<div class="span3">
+					<b>{% trans "Style" %}</b><br>
+					{{ search_form.style }}
+				</div>
+				<div class="span2">
+					&nbsp;<br>
+					<input type="submit" value="{% trans "Search" %}" class='btn'/>
+				</div>
+			</div>
+		</form>
+	</div>
+{% endif %}
+
 <table class='table'>
 	<thead>
 		<tr>
@@ -72,6 +94,14 @@
 				</a>
 			</td>
 		</tr>
+		{% empty %}
+			{% if search_form %}
+				<tr>
+					<td colspan="6">
+						<div class="alert">{% trans "No recipe found :(" %}</div>
+					</td>
+				</tr>
+			{% endif %}
 		{% endfor %}
 
 	</tbody>

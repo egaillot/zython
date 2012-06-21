@@ -61,10 +61,20 @@ class RecipeAuthorMixin(object):
 
 
 class RecipeListView(ListView):
+    def search_form(self, qs):
+        if self.request.GET:
+            search_form = RecipeSearchForm(self.request.GET)
+            if search_form.is_valid():
+                qs = search_form.search(qs)
+        else:
+            search_form = RecipeSearchForm()
+        self.search_form = search_form
+        return qs
+
     def get_queryset(self):
         self.user = None
         if self.request.user.is_active:
-            qs = Recipe.objects.select_related(depth=3).filter(
+            qs = Recipe.objects.select_related('user', 'style').filter(
                 Q(private=False) | Q(user=self.request.user)
             )
         else:
@@ -73,11 +83,15 @@ class RecipeListView(ListView):
             user = get_object_or_404(User, username=self.kwargs.get("username"))
             self.user = user
             qs = qs.filter(user=user)
+        else:
+            qs = self.search_form(qs)
         return qs
 
     def get_context_data(self, **kwargs):
         context = super(RecipeListView, self).get_context_data(**kwargs)
         context['user_recipe'] = self.user
+        if not self.user:
+            context['search_form'] = getattr(self, 'search_form')
         return context
 
 
@@ -144,9 +158,10 @@ class RecipeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(RecipeDetailView, self).get_context_data(**kwargs)
-        for key, model in SLUG_MODELROOT.iteritems():
-            context['%s_list' % key] = model.objects.all()
-            context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
+        if self.request.user.is_active:
+            for key, model in SLUG_MODELROOT.iteritems():
+                context['%s_list' % key] = model.objects.all()
+                context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
         context['counter'] = 1
         context['page'] = "recipe"
         if "print" in self.template_name_suffix:

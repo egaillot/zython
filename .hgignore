@@ -11,4 +11,5 @@ syntax: glob
 medias/avatars
 projects/dev/beer.db
 projects/dev/init.db
+cache/
 

@@ -1,4 +1,5 @@
 from operator import itemgetter
+from datetime import datetime
 from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -6,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.comments.signals import comment_was_posted
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.core.cache import cache
 from public.helpers import send_email_html
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
@@ -90,6 +92,7 @@ class Recipe(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True, blank=True)
     batch_size = models.DecimalField(_('Batch size'), max_digits=5, decimal_places=1, help_text="L")
     style = models.ForeignKey('BeerStyle', verbose_name=_('Style'), blank=True, null=True)
     recipe_type = models.CharField(_('Type'), choices=RECIPE_TYPE_CHOICES, default="allgrain", max_length=50)
@@ -111,6 +114,11 @@ class Recipe(models.Model):
 
     # - - -
     # Generic model class/methods
+
+    @property
+    def cache_key(self):
+        modified = self.modified or datetime.now()
+        return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S'))
 
     def __unicode__(self):
         return self.name
@@ -167,23 +175,32 @@ class Recipe(models.Model):
     # Mash 
 
     def get_total_grain(self):
-        return sum(self.recipemalt_set.all().values_list('amount', flat=True))
+        cache_key = "%s_total_grain" % self.cache_key
+        total = cache.get(cache_key)
+        if total is None:
+            total = sum(self.recipemalt_set.all().values_list('amount', flat=True))
+            cache.set(cache_key, total, 60*15)
+        return total
 
     def get_preboil_gravity(self):
         batch_size = l_to_gal(float(self.batch_size)+float(self.water_boiloff()))
         return self.get_original_gravity(batch_size=batch_size)
 
     def get_original_gravity(self, batch_size=None):
-        points = []
-        if not batch_size:
-            batch_size = l_to_gal(self.batch_size)
-        efficiency = float(self.efficiency)/100.0
-        for grain in self.recipemalt_set.all():
-            pounds = kg_to_lb(float(grain.amount))
-            gravity = (grain.potential_gravity-1)*1000
-            points.append(float(pounds)*float(gravity)*efficiency)
-        gravity = ((sum(points)/batch_size)/1000)+1
-        return "%.3f" % gravity
+        cache_key = "%s_og" % self.cache_key
+        og = cache.get(cache_key)
+        if og is None:
+            points = []
+            if not batch_size:
+                batch_size = l_to_gal(self.batch_size)
+            efficiency = float(self.efficiency)/100.0
+            for grain in self.recipemalt_set.all():
+                pounds = kg_to_lb(float(grain.amount))
+                gravity = (grain.potential_gravity-1)*1000
+                points.append(float(pounds)*float(gravity)*efficiency)
+            og = ((sum(points)/batch_size)/1000)+1
+            cache.set(cache_key, og, 60*15)
+        return "%.3f" % og
 
     # - - -
     # Coloration
@@ -196,14 +213,18 @@ class Recipe(models.Model):
         return srm
 
     def get_srm(self):
-        grain_srm = []
-        batch_size = l_to_gal(float(self.batch_size))
-        for grain in self.recipemalt_set.all():
-            pounds = kg_to_lb(float(grain.amount))
-            lovibond = ebc_to_srm(float(grain.color))
-            grain_srm.append(float(lovibond*pounds)/float(batch_size))
-        recipe_mcu = float(sum(grain_srm))
-        recipe_srm = 1.4922 * (recipe_mcu ** 0.6859)
+        cache_key = "%s_get_srm" % self.cache_key
+        recipe_srm = cache.get(cache_key)
+        if recipe_srm is None:
+            grain_srm = []
+            batch_size = l_to_gal(float(self.batch_size))
+            for grain in self.recipemalt_set.all():
+                pounds = kg_to_lb(float(grain.amount))
+                lovibond = ebc_to_srm(float(grain.color))
+                grain_srm.append(float(lovibond*pounds)/float(batch_size))
+            recipe_mcu = float(sum(grain_srm))
+            recipe_srm = 1.4922 * (recipe_mcu ** 0.6859)
+            cache.set(cache_key, recipe_srm, 60*15)
         return float(recipe_srm)
 
     def get_ebc(self):
@@ -219,28 +240,42 @@ class Recipe(models.Model):
     # Bitterness and spices
 
     def get_boil_time(self):
-        hops = self.recipehop_set.all()
-        if hops.count():
-            return float(hops[0].boil_time)
-        return 60.0
+        cache_key = "%s_boil_time" % self.cache_key
+        boil_time = cache.get(cache_key)
+        if boil_time is None:
+            hops = self.recipehop_set.all()
+            if hops.count():
+                boil_time = float(hops[0].boil_time)
+            else:
+                boil_time = 60.0
+            cache.set(cache_key, boil_time, 60*15)
+        return boil_time
 
     def get_ibu(self):
-        bu = 0
-        for hop in self.recipehop_set.all():
-            bu += hop.ibu()
-        return "%.1f" % bu
+        cache_key = "%s_ibu" % self.cache_key
+        ibu = cache.get(cache_key)
+        if ibu is None:
+            ibu = 0
+            for hop in self.recipehop_set.all():
+                ibu += hop.ibu()
+            cache.set(cache_key, ibu, 60*15)
+        return "%.1f" % ibu
 
     # - - -
     # Bitterness and spices
     
     def get_final_gravity(self):
-        gravity = (float(float(self.get_original_gravity())-1.)*1000)
-        attenuation = 0.75
-        yeasts = self.recipeyeast_set.all()
-        if yeasts.count():
-            yeast = yeasts[0]
-            attenuation = float(yeast.attenuation()/100)
-        fg = ((gravity-(attenuation*gravity))/1000)+1
+        cache_key = "%s_fg" % self.cache_key
+        fg = cache.get(cache_key)
+        if fg is None:
+            gravity = (float(float(self.get_original_gravity())-1.)*1000)
+            attenuation = 0.75
+            yeasts = self.recipeyeast_set.all()
+            if yeasts.count():
+                yeast = yeasts[0]
+                attenuation = float(yeast.attenuation()/100)
+            fg = ((gravity-(attenuation*gravity))/1000)+1
+            cache.set(cache_key, fg, 60*15)
         return "%.3f" % fg
 
     def get_abv(self):
@@ -252,49 +287,54 @@ class Recipe(models.Model):
     # - - -
     # Ingredients
     def ingredients(self):
-        # -- Mash -- 
-        mash_malt = self.recipemalt_set.all()
-        mash_misc = self.recipemisc_set.filter(use_in="mash")
-        mash = []
-        for malt in mash_malt:
-            mash.append({'object':malt, 'weight': malt.amount*1000})
-        for misc in mash_misc:
-            mash.append({'object':misc, 'weight': misc.amount})
-        recipe_mash = sorted(mash, key=itemgetter('weight'), reverse=True)
-        for rm in recipe_mash:
-            yield rm.get('object')
+        cache_key = "%s_ingredients" % self.cache_key
+        ingredients = cache.get(cache_key)
+        if ingredients is None:
+            ingredients = []
+            # -- Mash -- 
+            mash_malt = self.recipemalt_set.all()
+            mash_misc = self.recipemisc_set.filter(use_in="mash")
+            mash = []
+            for malt in mash_malt:
+                mash.append({'object':malt, 'weight': malt.amount*1000})
+            for misc in mash_misc:
+                mash.append({'object':misc, 'weight': misc.amount})
+            recipe_mash = sorted(mash, key=itemgetter('weight'), reverse=True)
+            for rm in recipe_mash:
+                ingredients.append(rm.get('object'))
 
-        # -- Boil -- 
-        boil_hops = self.recipehop_set.exclude(usage="dryhop")
-        boil_misc = self.recipemisc_set.filter(use_in="boil")
-        boil = []
-        for hop in boil_hops:
-            boil.append({'object':hop, 'duration': hop.get_duration()})
-        for misc in boil_misc:
-            boil.append({'object':misc, 'duration': misc.get_duration()})
-        recipe_boil = sorted(boil, key=itemgetter('duration'), reverse=True)
-        for rb in recipe_boil:
-            yield rb.get('object')
+            # -- Boil -- 
+            boil_hops = self.recipehop_set.exclude(usage="dryhop")
+            boil_misc = self.recipemisc_set.filter(use_in="boil")
+            boil = []
+            for hop in boil_hops:
+                boil.append({'object':hop, 'duration': hop.get_duration()})
+            for misc in boil_misc:
+                boil.append({'object':misc, 'duration': misc.get_duration()})
+            recipe_boil = sorted(boil, key=itemgetter('duration'), reverse=True)
+            for rb in recipe_boil:
+                ingredients.append(rb.get('object'))
 
-        # -- Late -- and Fermentables
-        late_hops = self.recipehop_set.filter(usage="dryhop")
-        late_misc = self.recipemisc_set.exclude(use_in__in=["boil", "mash", "bottling"])
-        late = []
-        for hop in late_hops:
-            late.append({'object':hop, 'duration': hop.get_duration()})
-        for misc in late_misc:
-            late.append({'object':misc, 'duration': misc.get_duration()})
-        recipe_late = sorted(late, key=itemgetter('duration'), reverse=True)
-        for rl in recipe_late:
-            yield rl.get('object')
+            # -- Late -- and Fermentables
+            late_hops = self.recipehop_set.filter(usage="dryhop")
+            late_misc = self.recipemisc_set.exclude(use_in__in=["boil", "mash", "bottling"])
+            late = []
+            for hop in late_hops:
+                late.append({'object':hop, 'duration': hop.get_duration()})
+            for misc in late_misc:
+                late.append({'object':misc, 'duration': misc.get_duration()})
+            recipe_late = sorted(late, key=itemgetter('duration'), reverse=True)
+            for rl in recipe_late:
+                ingredients.append(rl.get('object'))
 
 
-        for ry in self.recipeyeast_set.all():
-            yield ry
+            for ry in self.recipeyeast_set.all():
+                ingredients.append(ry)
 
-        for rmb in self.recipemisc_set.filter(use_in="bottling"):
-            yield rmb
-
+            for rmb in self.recipemisc_set.filter(use_in="bottling"):
+                ingredients.append(rmb)
+            cache.set(cache_key, ingredients, 60*15)
+        return ingredients
 
 class Malt(BaseMalt):
     pass
@@ -312,7 +352,15 @@ class Yeast(BaseYeast):
     pass
 
 
-class RecipeMalt(BaseMalt):
+class UpdateRecipeModel(object):
+    def save(self, *args, **kwargs):
+        resp = super(UpdateRecipeModel, self).save(*args, **kwargs)
+        # Save the recipe so that the cache_key is updated
+        self.recipe.save()
+        return resp
+
+
+class RecipeMalt(UpdateRecipeModel, BaseMalt):
     recipe = models.ForeignKey('Recipe')
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg")
 
@@ -324,7 +372,7 @@ class RecipeMalt(BaseMalt):
         return "%.1f" % ((float(self.amount)/total)*100.)
 
 
-class RecipeHop(BaseHop):
+class RecipeHop(UpdateRecipeModel, BaseHop):
     recipe = models.ForeignKey('Recipe')
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="g")
     boil_time = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
@@ -361,11 +409,11 @@ class RecipeHop(BaseHop):
         return ibu
 
 
-class RecipeYeast(BaseYeast):
+class RecipeYeast(UpdateRecipeModel, BaseYeast):
     recipe = models.ForeignKey('Recipe')
 
 
-class RecipeMisc(BaseMisc):
+class RecipeMisc(UpdateRecipeModel, BaseMisc):
     recipe = models.ForeignKey('Recipe')
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="g")
     time = models.DecimalField(max_digits=4, decimal_places=1)

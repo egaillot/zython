@@ -25,6 +25,7 @@ USE_TZ = True
 
 SITE_ID = 1
 
+
 MEDIA_ROOT = '%smedias/' % ROOT_PROJECT 
 #ADMIN_MEDIA_PREFIX = '/media/'
 STATIC_URL = "%sstatic/" % MEDIA_URL
@@ -56,6 +57,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -94,6 +96,7 @@ INSTALLED_APPS = (
     'registration',
     'inspect_model',
     'avatar', 
+    # 'debug_toolbar'
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

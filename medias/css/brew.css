@@ -1,6 +1,7 @@
 body, html{background-color: #F0F0EA;}
 a{color:#3DAFDF;}
 a.nolink{color:#333;}
+small{font-size:10px;}
 .well, .hero-unit{background-color: #CDCCC4;border-color:#C8C7BF}
 .well_light{background-color: #EDECE4;}
 .well hr, .hero-unit hr{border-color:#C8C7BF;}
@@ -49,4 +50,8 @@ footer, footer p{text-align:center;color:#999;font-size:11px!important;}
 p.small{font-size:11px!important;}
 table.table-sorted thead tr th{
     cursor: pointer;
+}
+
+form #id_q{
+    width:99%;
 }

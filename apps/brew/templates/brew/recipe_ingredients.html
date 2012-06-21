@@ -1,6 +1,7 @@
-{% load i18n unit_tags %}
+{% load i18n unit_tags cache %}
 {% load url from future %}
 
+{% cache 600 recipe_ingredient object.cache_key %}
 <table class='table {% if version == "print" %}table-condensed{% endif %}'>
 <thead>
     <tr>
@@ -124,3 +125,4 @@
     {% endfor %}
 </tbody>
 </table>
+{% endcache %}
