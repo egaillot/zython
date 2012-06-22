@@ -2,23 +2,17 @@
 {% load i18n avatar_tags %}
 {% load url from future %}
 
-{% block content %}
-<div class="btn-group pull-right">
-	<a class="btn btn-large" href="{% url "brew_recipe_add" %}">{% trans "Add a recipe" %}</a>
-	<a class="btn btn-large dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-	<ul class="dropdown-menu">
-		<li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-		<li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
-	</ul>
-</div>
 
+
+{% block content %}
 <h1>
+	{% block title %}
 	{% if user_recipe %}
-		{% avatar user_recipe 60 %}
 		{% blocktrans with user_recipe.username as name%}{{ name }} recipes{% endblocktrans %}
 	{% else %}
 		{% trans "Last recipes" %}
-{% endif %}
+	{% endif %}
+{% endblock title %}
 </h1>
 
 <p><br></p>

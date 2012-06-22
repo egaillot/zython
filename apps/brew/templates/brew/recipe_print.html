@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>{{ object.name }} <small>- {{ object.style.name }}</small></h1>
+<h1>{% block title %}{{ object.name }}{% endblock title %} <small>- {{ object.style.name }}</small></h1>
 <table class='bigcol'><tr>
     <td>
         <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>

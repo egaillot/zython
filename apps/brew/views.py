@@ -127,6 +127,10 @@ class RecipeImportView(FormView):
     form_class = RecipeImportForm
     template_name = "brew/recipe_import_form.html"
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(RecipeImportForm, self).dispatch(*args, **kwargs)
+
     def post(self, *args, **kwargs):
         xml_data = self.request.FILES.get('beer_file').read()
         recipes = import_beer_xml(xml_data, self.request.user)

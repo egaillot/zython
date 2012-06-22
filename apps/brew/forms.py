@@ -182,7 +182,7 @@ class RecipeSearchForm(forms.Form):
                 Q(recipemisc__name__icontains=q) |
                 Q(recipeyeast__name__icontains=q)
             )
-        return qs
+        return qs.distinct()
 
 
 
