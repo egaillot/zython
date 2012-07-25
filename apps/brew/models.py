@@ -183,12 +183,11 @@ class Recipe(models.Model):
         return total
 
     def get_preboil_gravity(self):
-        print "->-> ", self.water_boiloff()
         batch_size = l_to_gal(float(self.batch_size)+float(self.water_boiloff())+float(self.boiler_tun_deadspace))
-        return self.get_original_gravity(batch_size=batch_size)
+        return self.get_original_gravity(cache_key="_pbg", batch_size=batch_size)
 
-    def get_original_gravity(self, batch_size=None):
-        cache_key = "%s_og_%s" % (self.cache_key, str(batch_size))
+    def get_original_gravity(self, cache_key="_og", batch_size=None):
+        cache_key = "%s%s" % (self.cache_key, cache_key)
         og = cache.get(cache_key)
         if og is None:
             points = []
