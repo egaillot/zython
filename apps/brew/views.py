@@ -95,17 +95,6 @@ class RecipeListView(ListView):
         return context
 
 
-class RecipePreferenceView(UnitViewFormMixin, RecipeAuthorMixin, UpdateView):
-    form_class = RecipePreferencesForm
-    success_url = '.'
-    template_name_suffix = '_preferences'
-    
-    def get_context_data(self, **kwargs):
-        context = super(RecipePreferenceView, self).get_context_data(**kwargs)
-        context['page'] = "preferences"
-        return context
-
-
 class RecipeCreateView(UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe

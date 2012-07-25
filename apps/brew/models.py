@@ -183,11 +183,12 @@ class Recipe(models.Model):
         return total
 
     def get_preboil_gravity(self):
-        batch_size = l_to_gal(float(self.batch_size)+float(self.water_boiloff()))
+        print "->-> ", self.water_boiloff()
+        batch_size = l_to_gal(float(self.batch_size)+float(self.water_boiloff())+float(self.boiler_tun_deadspace))
         return self.get_original_gravity(batch_size=batch_size)
 
     def get_original_gravity(self, batch_size=None):
-        cache_key = "%s_og" % self.cache_key
+        cache_key = "%s_og_%s" % (self.cache_key, str(batch_size))
         og = cache.get(cache_key)
         if og is None:
             points = []
@@ -359,6 +360,13 @@ class UpdateRecipeModel(object):
         self.recipe.save()
         return resp
 
+    def delete(self, *args, **kwargs):
+        resp = super(UpdateRecipeModel, self).delete(*args, **kwargs)
+        # Save the recipe so that the cache_key is updated
+        self.recipe.save()
+        return resp
+
+
 
 class RecipeMalt(UpdateRecipeModel, BaseMalt):
     recipe = models.ForeignKey('Recipe')
@@ -380,14 +388,14 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
 
     def unit_time(self):
         if self.usage == "dryhop":
-            return "%s days" % self.dry_days
+            return _("%s days") % self.dry_days
         else:
             return "%s min" % self.boil_time
 
     def get_duration(self):
         # Duration in minutes
         if self.usage == "dryhop":
-            return self.dry_days * 24 * 60
+            return (self.dry_days or 1) * 24 * 60
         else:
             return self.boil_time
 
@@ -432,7 +440,7 @@ class RecipeMisc(UpdateRecipeModel, BaseMisc):
             return duration
 
 
-class MashStep(models.Model):
+class MashStep(UpdateRecipeModel, models.Model):
     recipe = models.ForeignKey('Recipe')
     ordering = models.IntegerField(default=0)
     name = models.CharField(_("Name"), max_length=100)

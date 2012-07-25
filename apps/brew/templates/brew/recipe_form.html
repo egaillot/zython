@@ -49,6 +49,56 @@
 	</div>
 </div>
 
+<div class="offset2 preference-fields">
+	<hr>
+	<h3>{% trans "Preferences" %}</h3>
+	<div class="row">
+		<div class="span3">
+			<label for="{{ form.mash_tun_deadspace.auto_id }}" class="control-label">
+				{{ form.mash_tun_deadspace.label }}
+			</label>
+		</div>
+		<div class="span3">
+			{{ form.mash_tun_deadspace }}&nbsp;{{ form.mash_tun_deadspace.help_text }}
+			{{ form.mash_tun_deadspace.errors }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="span3">
+			<label for="{{ form.boiler_tun_deadspace.auto_id }}" class="control-label">
+				{{ form.boiler_tun_deadspace.label }}
+			</label>
+		</div>
+		<div class="span3">
+			{{ form.boiler_tun_deadspace }}&nbsp;{{ form.boiler_tun_deadspace.help_text }}
+			{{ form.boiler_tun_deadspace.errors }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="span3">
+			<label for="{{ form.grain_temperature.auto_id }}" class="control-label">
+				{{ form.grain_temperature.label }}
+			</label>
+		</div>
+		<div class="span3">
+			{{ form.grain_temperature }}&nbsp;{{ form.grain_temperature.help_text }}
+			{{ form.grain_temperature.errors }}
+		</div>
+	</div>
+	<div class="row">
+		<div class="span3">
+			<label for="{{ form.evaporation_rate.auto_id }}" class="control-label">
+				{{ form.evaporation_rate.label }}
+			</label>
+		</div>
+		<div class="span3">
+			{{ form.evaporation_rate }}&nbsp;{{ form.evaporation_rate.help_text }}
+			{{ form.evaporation_rate.errors }}
+		</div>
+	</div>
+
+</div>
+
 <hr>
 
 <div class="center">
@@ -68,5 +118,9 @@
 #id_efficiency{width:60px;text-align:center;}
 .row-private {margin:20px 0px;}
 .row-private img{margin-bottom:4px;}
+.preference-fields input{
+	width:40px;
+	text-align: center;
+}
 </style>
 {% endblock extrahead %}

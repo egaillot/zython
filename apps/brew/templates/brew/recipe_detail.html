@@ -32,9 +32,6 @@
     	{% trans "Recipe" %}</a>
   </li>
   {% if object.user == request.user %}
-  	<li {% if page == "preferences" %}class="active"{% endif %}><a href="{% url "brew_recipe_preferences" object.id %}">
-    	<span class="icon-cog {% if page == "preferences" %}icon-white{% endif %}"></span>
-  		{% trans "Preferences" %}</a></li>
   	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">
     	<span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
   		{% trans "Delete" %}</a></li>

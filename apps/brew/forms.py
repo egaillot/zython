@@ -10,16 +10,16 @@ from units.forms import UnitModelForm
 
 
 __all__ = (
-    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 'RecipePreferencesForm', 
-    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 'RecipeImportForm',
-    'RecipeSearchForm'
+    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 
+    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 
+    'RecipeImportForm', 'RecipeSearchForm'
 )
 
-def style_choices():
+def style_choices(qs_kwargs={}):
     old_number = None
     item = ("", "-------")
     items = []
-    for s in BeerStyle.objects.all():
+    for s in BeerStyle.objects.filter(**qs_kwargs).distinct():
         number = s.number
 
         if old_number != number:
@@ -30,7 +30,8 @@ def style_choices():
     return items
 
 class RecipeForm(UnitModelForm, LocalizedModelForm):
-    unit_fields = {'volume': ['batch_size',]}
+    unit_fields = {'volume': ['batch_size','boiler_tun_deadspace','mash_tun_deadspace', ], 
+                    'temperature': ['grain_temperature', ]}
     recipe_style = forms.ChoiceField(label="Style", choices=style_choices(), required=False)
 
     def __init__(self, *args, **kwargs):
@@ -49,21 +50,16 @@ class RecipeForm(UnitModelForm, LocalizedModelForm):
 
     class Meta:
         model = Recipe
-        fields = ('name', 'batch_size', 'efficiency', 'private', 'recipe_style', 'recipe_type')
+        fields = (
+            'name', 'batch_size', 'efficiency', 'private', 
+            'recipe_style', 'recipe_type', 
+            'mash_tun_deadspace', 'boiler_tun_deadspace', 
+            'evaporation_rate', 'grain_temperature'
+        )
 
 
 class RecipeImportForm(forms.Form):
     beer_file = forms.FileField(label=_("Your recipe (BeerXML format)"))
-
-
-class RecipePreferencesForm(UnitModelForm):
-    unit_fields = {'volume': ['boiler_tun_deadspace','mash_tun_deadspace', ], 
-                    'temperature': ['grain_temperature', ]}
-    class Meta:
-        model = Recipe
-        fields = ('mash_tun_deadspace', 'boiler_tun_deadspace', 
-            'evaporation_rate', 'grain_temperature'
-        )
 
 
 class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
@@ -125,6 +121,13 @@ class RecipeHopForm(RecipeIngredientForm):
     unit_fields = {'hop': ['amount',]}
     hop_id = forms.ModelChoiceField(queryset=Hop.objects.all())
 
+    def clean(self):
+        data = self.cleaned_data
+        if data.get('usage') == "dryhop" and not data.get('dry_days'):
+            msg = _("Please enter a number of days of dry hoping")
+            self._errors["dry_days"] = self.error_class([msg])
+        return data
+
     class Meta:
         model = RecipeHop
         fields = ('hop_id', 'amount', 'boil_time', 'dry_days')
@@ -164,7 +167,7 @@ class MashStepForm(UnitModelForm, LocalizedModelForm):
 
 
 class RecipeSearchForm(forms.Form):
-    style = forms.ChoiceField(label=_(u"Style"), choices=style_choices(), required=False)
+    style = forms.ChoiceField(label=_(u"Style"), choices=style_choices(qs_kwargs={'recipe__isnull':False}), required=False)
     q = forms.CharField(required=False)
 
     def search(self, qs):
