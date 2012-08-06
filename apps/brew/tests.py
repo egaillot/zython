@@ -5,6 +5,7 @@ when you run "manage.py test".
 Replace this with more appropriate tests for your application.
 """
 import json
+from time import sleep
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
@@ -68,7 +69,17 @@ class RecipeTest(TestCase):
         client.post('/i18n/setlang/', {'language':language})
         return client
 
-    def test_malt(self):
+    def reload_recipe(self):
+        # This hack is used to get a fresh cache_key
+        # Tests are faster than user, the cachekey is a datetime
+        # multiple datas can be saved in the same second in tests. 
+        # I consider modifying the cache_key system to have a unique 
+        # key each time the object is saved.
+        sleep(0.5)
+        self.recipe.save()
+        self.recipe = Recipe.objects.get(pk=self.recipe.pk)
+
+    def test_1_malt(self):
         malt_id = Malt.objects.filter(name__icontains="Maris Otter").values_list("id", flat=True)[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "malt"])
         datas = {'amount': "12.5", "malt_id": malt_id}
@@ -91,6 +102,8 @@ class RecipeTest(TestCase):
         content = json.loads(response.content)
         self.assertEqual(content.get('valid'), 1)
 
+        self.reload_recipe()
+
         # Do we have 2 Malts ?
         self.assertEqual(self.recipe.recipemalt_set.all().count(), 2)
         # We should have an OG > 1.1
@@ -109,7 +122,7 @@ class RecipeTest(TestCase):
         # Clear all malts
         self.recipe.recipemalt_set.all().delete()
 
-    def test_hop(self):
+    def test_2_hop(self):
         hop_id = Hop.objects.filter(name__icontains="Styrian").values_list("id", flat=True)[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "hop"])
         datas = {'amount': "80.5", "boil_time":"30.5", "hop_id": hop_id}
@@ -133,6 +146,8 @@ class RecipeTest(TestCase):
         content = json.loads(response.content)
         self.assertEqual(content.get('valid'), 1)
 
+        self.reload_recipe()
+
         # Do we have 2 Hops ?
         self.assertEqual(self.recipe.recipehop_set.all().count(), 2)
         # We should have total IBU > 46
@@ -151,7 +166,7 @@ class RecipeTest(TestCase):
         # Clear all hops
         self.recipe.recipehop_set.all().delete()
 
-    def test_misc(self):
+    def test_3_misc(self):
         misc_id = Misc.objects.filter(name__icontains="Coriander").values_list("id", flat=True)[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "misc"])
         datas = {
@@ -186,7 +201,7 @@ class RecipeTest(TestCase):
         # Clear all miscs
         self.recipe.recipemisc_set.all().delete()
 
-    def test_yeast(self):
+    def test_4_yeast(self):
         yeast_id = Yeast.objects.filter(product_id__icontains="58").values_list("id", flat=True)[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "yeast"])
         datas = {
@@ -209,7 +224,7 @@ class RecipeTest(TestCase):
         # Clear all yeasts
         self.recipe.recipeyeast_set.all().delete()
 
-    def test_recipe_private(self):
+    def test_5_recipe_private(self):
         recipe = self.recipe
         recipe_name = "PoneyPoneyPoney"
         client2 = Client()

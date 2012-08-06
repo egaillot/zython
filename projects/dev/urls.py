@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.views.generic import TemplateView
+
 from brew.views import RecipeListView
 
 admin.autodiscover()
@@ -8,7 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', RecipeListView.as_view(), name='root_url'),
-    (r'^brew/', include('brew.urls')),
+    (r'^recipe/', include('brew.urls')),
     (r'^units/', include('units.urls')),
     (r'^accounts/', include('registration_backend.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),

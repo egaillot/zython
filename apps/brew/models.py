@@ -1,5 +1,7 @@
+import math
 from operator import itemgetter
 from datetime import datetime
+from time import sleep
 from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -84,7 +86,6 @@ class BeerStyle(models.Model):
         ordering = ('number', 'sub_number')
 
 
-import math
 class Recipe(models.Model):
     """
     The main beer recipe
@@ -117,6 +118,9 @@ class Recipe(models.Model):
 
     @property
     def cache_key(self):
+        # TODO: 
+        # I consider modifying the cache_key system to have a unique 
+        # key each time the object is saved.
         modified = self.modified or datetime.now()
         return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S'))
 
@@ -364,7 +368,6 @@ class UpdateRecipeModel(object):
         # Save the recipe so that the cache_key is updated
         self.recipe.save()
         return resp
-
 
 
 class RecipeMalt(UpdateRecipeModel, BaseMalt):

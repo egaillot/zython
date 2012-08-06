@@ -1,7 +1,7 @@
 {% load i18n unit_tags cache %}
 {% load url from future %}
 
-{% cache 600 recipe_mashsteps object.cache_key %}
+{% cache 600 recipe_mashsteps object.cache_key can_edit %}
 <table class="table {% if version == "print" %}table-condensed{% endif %}">
     <thead>
         <tr>
