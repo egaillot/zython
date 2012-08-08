@@ -239,6 +239,19 @@
 		        $("#model_edit_submit").click();
 		    }
 		});
+
+	    $('#table_grain').dataTable({
+	        "bPaginate": false, "bInfo": false, "bFilter": false, 
+	        "aoColumns": [
+	            null,
+	            null,
+	            null,
+	            null,
+	            null,
+	            {"sType": "percent",},
+	        ]
+	    }).addClass('table-sorted');
+
 	});
 	</script>
 {% endif %}

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-06 10:00+0200\n"
+"POT-Creation-Date: 2012-08-08 11:08+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: \n"
@@ -310,67 +310,67 @@ msgid "Please enter a number of days of dry hoping"
 msgstr "Merci d'entrer un nombre de jours de houblonnage"
 
 #: apps/brew/forms.py:170
-#: apps/brew/models.py:97
+#: apps/brew/models.py:98
 #: apps/brew/templates/brew/recipe_detail.txt:6
 #: apps/brew/templates/brew/recipe_list.html:30
 #: apps/brew/templates/brew/recipe_list.html:46
 msgid "Style"
 msgstr "Style"
 
-#: apps/brew/models.py:31
+#: apps/brew/models.py:33
 msgid "All grain"
 msgstr "Tout grain"
 
-#: apps/brew/models.py:32
+#: apps/brew/models.py:34
 msgid "Partial mash"
 msgstr "Partiel"
 
-#: apps/brew/models.py:33
+#: apps/brew/models.py:35
 #: apps/brew/models_base.py:15
 msgid "Extract"
 msgstr "Extrait"
 
-#: apps/brew/models.py:34
+#: apps/brew/models.py:36
 msgid "Adjunct"
 msgstr "Ajout"
 
-#: apps/brew/models.py:35
+#: apps/brew/models.py:37
 #: apps/brew/models_base.py:17
 msgid "Sugar"
 msgstr "Sucre"
 
-#: apps/brew/models.py:39
+#: apps/brew/models.py:41
 msgid "Mins"
 msgstr "Mins"
 
-#: apps/brew/models.py:40
+#: apps/brew/models.py:42
 msgid "Hours"
 msgstr "Heures"
 
-#: apps/brew/models.py:41
+#: apps/brew/models.py:43
 msgid "Days"
 msgstr "Jours"
 
-#: apps/brew/models.py:42
+#: apps/brew/models.py:44
 msgid "Weeks"
 msgstr "Semaines"
 
-#: apps/brew/models.py:46
+#: apps/brew/models.py:48
 msgid "Infusion"
 msgstr "Infusion"
 
-#: apps/brew/models.py:47
+#: apps/brew/models.py:49
 msgid "Decoction"
 msgstr "Décoction"
 
-#: apps/brew/models.py:48
-#: apps/brew/models.py:447
+#: apps/brew/models.py:50
+#: apps/brew/models.py:450
 #: apps/units/settings.py:36
 msgid "Temperature"
 msgstr "Température"
 
-#: apps/brew/models.py:92
-#: apps/brew/models.py:445
+#: apps/brew/models.py:93
+#: apps/brew/models.py:448
 #: apps/brew/models_base.py:82
 #: apps/brew/models_base.py:109
 #: apps/brew/models_base.py:123
@@ -385,7 +385,7 @@ msgstr "Température"
 msgid "Name"
 msgstr "Nom"
 
-#: apps/brew/models.py:96
+#: apps/brew/models.py:97
 #: apps/brew/templates/brew/recipe_detail.html:70
 #: apps/brew/templates/brew/recipe_detail.txt:4
 #: apps/brew/templates/brew/recipe_print.html:10
@@ -393,7 +393,7 @@ msgstr "Nom"
 msgid "Batch size"
 msgstr "Taille du brassin"
 
-#: apps/brew/models.py:98
+#: apps/brew/models.py:99
 #: apps/brew/models_base.py:84
 #: apps/brew/models_base.py:113
 #: apps/brew/models_base.py:126
@@ -410,12 +410,12 @@ msgstr "Taille du brassin"
 msgid "Type"
 msgstr "Type"
 
-#: apps/brew/models.py:105
+#: apps/brew/models.py:106
 #: apps/brew/templates/brew/recipe_form.html:48
 msgid "Private recipe ?"
 msgstr "Recette privée ?"
 
-#: apps/brew/models.py:106
+#: apps/brew/models.py:107
 #: apps/brew/models_base.py:95
 #: apps/brew/models_base.py:116
 #: apps/brew/models_base.py:134
@@ -423,55 +423,55 @@ msgstr "Recette privée ?"
 msgid "Notes"
 msgstr "Notes"
 
-#: apps/brew/models.py:107
+#: apps/brew/models.py:108
 #: apps/brew/templates/brew/recipe_print.html:16
 msgid "Efficiency"
 msgstr "Efficacité"
 
-#: apps/brew/models.py:108
+#: apps/brew/models.py:109
 msgid "Mash tun deadspace"
 msgstr "Espace mort (marmitte empattage)"
 
-#: apps/brew/models.py:109
+#: apps/brew/models.py:110
 msgid "Boiler tun deadspace"
 msgstr "Espace mort (marmitte d'ébu)"
 
-#: apps/brew/models.py:110
+#: apps/brew/models.py:111
 msgid "Evaporation rate"
 msgstr "Taux d'évaporation"
 
-#: apps/brew/models.py:111
+#: apps/brew/models.py:112
 msgid "Grain temperature"
 msgstr "Température du grain"
 
-#: apps/brew/models.py:390
+#: apps/brew/models.py:393
 #, python-format
 msgid "%s days"
 msgstr "%s jours"
 
-#: apps/brew/models.py:446
+#: apps/brew/models.py:449
 msgid "Step type"
 msgstr "Type de pallier"
 
-#: apps/brew/models.py:448
+#: apps/brew/models.py:451
 #: apps/brew/templates/brew/recipe_mashsteps.html:11
 msgid "Step time"
 msgstr "Temps du pallier"
 
-#: apps/brew/models.py:448
-#: apps/brew/models.py:449
+#: apps/brew/models.py:451
+#: apps/brew/models.py:452
 msgid "min"
 msgstr "min"
 
-#: apps/brew/models.py:449
+#: apps/brew/models.py:452
 msgid "Rise time"
 msgstr "Temps de chauffe"
 
-#: apps/brew/models.py:450
+#: apps/brew/models.py:453
 msgid "Water added"
 msgstr "Eau ajoutée"
 
-#: apps/brew/models.py:480
+#: apps/brew/models.py:483
 msgid "New comment posted"
 msgstr "Nouveau commentaire"
 
@@ -1128,6 +1128,10 @@ msgstr "SRM"
 msgid "Zython helps homebrewer making their recipe. Create your account and start adding grain, hops, miscs, yeast. It's free and stable."
 msgstr "Zython aide les brasseurs amateurs à créer leurs recettes de bière. Créer votre compte, connectez-vous et commencez à brasser ! Ajoutez votre grain, houblon, épices, levures ... C'est gratuit et stable ! "
 
+#: templates/base.html:37
+msgid "Design and share your beer recipe"
+msgstr "Créez et partagez vous recettez de bière"
+
 #: templates/base.html:52
 msgid "Import recipe (BeerXML)"
 msgstr "Importer (BeerXML)"
@@ -1149,11 +1153,99 @@ msgstr "Mes recettes"
 msgid "Change your avatar"
 msgstr "Changer d'image de profil"
 
-#: templates/base.html:144
+#: templates/base.html:129
+msgid "Welcome to you brewer !"
+msgstr "Bienvenue à toi brasseur !"
+
+#: templates/base.html:130
+msgid "This is what Zython can do for you"
+msgstr "Voici ce que Zython peut faire"
+
+#: templates/base.html:133
+msgid ""
+"\n"
+"          <b>Create public or private recipe</b> <br>\n"
+"          Keep your recipe just for you  <br>or share it with the world\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Recettes privées ou publiques</b> <br>\n"
+"          Gardez votre recette pour vous <br> ou partagez là avec le monde\n"
+"          "
+
+#: templates/base.html:139
+msgid ""
+"\n"
+"          <b>Add ingredients from our base</b> <br>\n"
+"           Grains, hops, misc, yeast. <br>Add also your custom ingredient\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Ajoutez des ingrédients</b> <br>\n"
+"           Grains, houblons, épices, levure. <br>Créez aussi les votres\n"
+"          "
+
+#: templates/base.html:145
+msgid ""
+"\n"
+"          <b>Comment, share, print</b> <br>\n"
+"           Simple tools to help you share, <br>print and comment your recipe\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Commentez et partagez</b> <br>\n"
+"           Des outils simples pour partager, <br>imprimer et commenter\n"
+"          "
+
+#: templates/base.html:153
+msgid ""
+"\n"
+"          <b>Your unit</b> <br>\n"
+"          Lbs, kg, EBC, SRM, g, oz <br>\n"
+"          No problem, Zython handles this\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Vos unités</b> <br>\n"
+"          Kg, lbs, EBC, SRM, g, oz <br>\n"
+"          Aucun problème, Zython le gère\n"
+"          "
+
+#: templates/base.html:161
+msgid ""
+"\n"
+"          <b>Adapt for your equipement</b> <br>\n"
+"          Specify deadspaces,  evaporation rate, \n"
+"          Zython will adapt your recipe\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Adapter à votre équipement</b> <br>\n"
+"          Espaces morts, taux d'évaporation, \n"
+"          Zython adaptera votre recette\n"
+"          "
+
+#: templates/base.html:168
+msgid ""
+"\n"
+"          <b>BeerXml format</b> <br>\n"
+"          You can import your recipe in <br>BeerXML format\n"
+"          "
+msgstr ""
+"\n"
+"          <b>Format BeerXml</b> <br>\n"
+"          Importez vos recettes au <br> format BeerXML\n"
+"          "
+
+#: templates/base.html:200
+msgid "Report an issue / contribute"
+msgstr "Reporter un problème / contributer"
+
+#: templates/base.html:204
 msgid "Source code on Bitbucket"
 msgstr "Code source sur BitBucket"
 
-#: templates/base.html:161
+#: templates/base.html:221
 msgid "Download"
 msgstr "Télécharger"
 

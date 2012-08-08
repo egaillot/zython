@@ -13,7 +13,7 @@
         <h3>{% trans "Grains" %}</h3>
       </div>
       <div class="modal-body">
-        <table class="table table-bordered table-striped table-condensed table-sorted" id="table_grain">
+        <table class="table table-bordered table-striped table-condensed" id="table_grain">
             <thead>
                 <tr>
                     <th>#</th>
@@ -89,7 +89,7 @@
                 <td>{{ hop.origin }}</td>
                 <td>{{ hop.acid_alpha }}</td>
                 <td>{{ hop.acid_beta }}</td>
-                <td>{{ malt.max_in_batch }}%</td>
+                <td>{{ hop.get_hop_type_display }}</td>
             </tr>
             {% endfor %}
             </tbody>
