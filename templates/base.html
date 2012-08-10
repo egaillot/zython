@@ -3,27 +3,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Zython.me - {% block title %}{% endblock title %}</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="{% trans "Zython helps homebrewer making their recipe. Create your account and start adding grain, hops, miscs, yeast. It's free and stable." %}">
-<meta name="author" content="Martyn CLEMENT">
-
-<!-- Le styles -->
-<link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
-<link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
-<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
+  <meta charset="utf-8" />
+  <title>Zython.me - {% block title %}{% endblock title %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% trans "Zython helps homebrewer making their recipe. Create your account and start adding grain, hops, miscs, yeast. It's free and stable." %}">
+  {# '</> #}
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="author" content="Martyn CLEMENT" />
+  <meta http-equiv="imagetoolbar" content="false" />
+  <meta name="application-name" content="Zython.me" />
+  <meta name="msapplication-tooltip" content="Zython : design your beer recipe online." />
+  <meta name="msapplication-starturl" content="http://zython.me/?o=msstart" />
+  <meta property="og:title" content="Zython.me" />
+  <meta property="og:description" content="Zython is a web application that helps homebrewer to design their beer recipe. Free and opensource." />
+  <meta property="og:image" content="{{ MEDIA_URL }}images/logo_100.png" />
+  <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+  <link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
+  <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-
-{% block extrahead %}{% endblock extrahead %}
+  <![endif]-->
+  {% block extrahead %}{% endblock extrahead %}
 </head>
 <body>
 <form name='langform' style='margin:0px;display:inline;width:200px' action='/i18n/setlang/' method='POST'>{% csrf_token %}
   <input name='language' type="hidden" value="{{ LANGUAGE_CODE }}">
 </form>
-
 <div class="navbar">
   <div class="navbar-inner">
     <div class="container"><div class="row">
@@ -36,12 +42,8 @@
         Zython<span class="extension">.me</span> <br>
          <span class="baseline">{% trans "Design and share your beer recipe" %} </span>
       </a>
-      
         <div class="nav-collapse">
-          
           <ul class="nav pull-right">
-          
-
             <li class="dropdown">
               <a class='dropdown-toggle' data-toggle="dropdown" href="#">
                 <b>{% trans "Add a new recipe" %}</b>
@@ -52,10 +54,6 @@
               <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
             </ul>
             </li>
-
-
-
-
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 {% get_language_info for LANGUAGE_CODE as lang %}
@@ -91,9 +89,8 @@
               </ul>
             </li>
             {% if user.is_active %}
-            <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
+              <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
             {% endif %}
-
             {% if request.user.is_anonymous %}
               <li>
                 <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
@@ -119,15 +116,12 @@
         </div><!--/.nav-collapse -->
     </div></div>
   </div>
-
   {% if request.get_full_path == "/" and request.user.is_anonymous %}
-      {% comment %}' </end of tag for getting my editor showing the right syntax color>{% endcomment %}
-      
    <div id="welcome">
     <div class="content center">
       <h1>{% trans "Welcome to you brewer !" %}</h1>
       <p><br>{% trans "This is what Zython can do for you" %} :</p>
-      <div style="margin-left:225px;">
+      <div style="margin:0 auto;width:730px; ">
         <div class="span3 center">
           {% blocktrans %}
           <b>Create public or private recipe</b> <br>
@@ -169,18 +163,12 @@
           You can import your recipe in <br>BeerXML format
           {% endblocktrans %}
         </div>
-
         <div class="row"></div>
         </div>
     </div>
    </div>
   {% endif %}
-
-
 </div>
-
-
-
 <div class="container">
   <div class="row">
       {% if messages %}
@@ -192,7 +180,6 @@
       {% endif %}
       {% block content %}{% endblock content %}
   </div><!--/row-->
-
   <footer class='center'>
     <p>
         <span class="badge ">Zython - V1.0</span> <br>
@@ -203,11 +190,7 @@
       <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
     </p>
   </footer>
-
 </div><!--/.fluid-container-->
-
-
-
 <div id="modal-gallery" class="modal modal-gallery hide fade">
     <div class="modal-header">
         <a class="close" data-dismiss="modal">&times;</a>
@@ -221,7 +204,6 @@
         </a>
     </div>
 </div><!-- /#modal-gallery -->
-
 <script src="{{ MEDIA_URL }}js/jquery.js"></script>
 <script src="{{ MEDIA_URL }}js/jquery.form.js"></script>
 <script src="{{ MEDIA_URL }}js/bootstrap-transition.js"></script>
@@ -254,11 +236,9 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
 });
 $(function(){
   $('.tip').tooltip();
-  $('.table-sorted').dataTable({
-        "bPaginate": false, "bInfo": false, "bFilter": false
-  });
+  $('.table-sorted').dataTable({"bPaginate": false, "bInfo": false, "bFilter": false});
 });
 </script>
 {% block js %}{% endblock js %}
-  </body>
+</body>
 </html>

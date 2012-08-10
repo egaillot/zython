@@ -73,12 +73,13 @@ class RecipeListView(ListView):
 
     def get_queryset(self):
         self.user = None
+        queryset = Recipe.objects.select_related('user', 'style')
         if self.request.user.is_active:
-            qs = Recipe.objects.select_related('user', 'style').filter(
+            qs = queryset.filter(
                 Q(private=False) | Q(user=self.request.user)
             )
         else:
-            qs = Recipe.objects.filter(private=False)
+            qs = queryset.filter(private=False)
         if self.kwargs.get("username"):
             user = get_object_or_404(User, username=self.kwargs.get("username"))
             self.user = user

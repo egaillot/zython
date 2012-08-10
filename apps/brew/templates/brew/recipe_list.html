@@ -75,7 +75,7 @@
 			<td>
 				{% with object.color_image as image %}
 				    {% if image %}
-				    	<img src="{{ MEDIA_URL }}images/beer_colors/{{ image }}.png" alt="" style="width:20px;">
+				    	<img src="{{ MEDIA_URL }}images/beer_colors_20/{{ image }}.png" alt="{{ object.name }} beer color" style="width:20px;" width="20px" />
 				    {% endif %}
 				{% endwith %}
 			</td>

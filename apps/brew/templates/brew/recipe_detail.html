@@ -12,7 +12,7 @@
 {% if object.get_ebc %}
 	<div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
 	 	<a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
-			<img src="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png" alt="" style="width:50px;" >
+			<img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
 		</a>
 		<br>
 		<div class="est_abv">

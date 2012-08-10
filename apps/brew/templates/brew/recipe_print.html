@@ -12,7 +12,7 @@
     </td>
     <td>
         <b>{% trans "Created date" %}</b> : {{ object.created|date }}<br>
-        <b>{% trans "Created by" %}</b> : {{ object.user.get_full_name }}<br>
+        <b>{% trans "Created by" %}</b> : {{ object.user.username }}<br>
         <b>{% trans "Efficiency" %}</b> : {{ object.efficiency }}% <br>
     </td>
 </tr></table>

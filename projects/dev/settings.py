@@ -52,12 +52,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -96,7 +97,7 @@ INSTALLED_APPS = (
     'registration',
     'inspect_model',
     'avatar', 
-    # 'debug_toolbar'
+    #'debug_toolbar'
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7

@@ -1,7 +1,6 @@
 from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.views.generic import TemplateView
-
 from brew.views import RecipeListView
 
 admin.autodiscover()

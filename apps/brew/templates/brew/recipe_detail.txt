@@ -1,6 +1,6 @@
 {% load i18n unit_tags recipe_tags %}{{ object.name }}
 ------------
-{% trans "Brewer" %}: {{ object.user.get_full_name }}
+{% trans "Brewer" %}: {{ object.user.username }}
 {% trans "Batch size" %}: {% local_unit "volume" object.batch_size 0 %}
 {% trans "Type" %}: {{ object.get_recipe_type_display }}
 {% if object.style %}{% trans "Style" %}: {{ object.style }}{% endif %}
