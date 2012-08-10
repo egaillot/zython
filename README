@@ -31,9 +31,23 @@ Equivalents
  * http://www.tastybrew.com/
 
 
-Participer ?
-------------
+Participer
+----------
 
 Vous savez *traduire* ? Connaissez vous assez le *brassage* pour m'aider à améliorer les formules ? Vous êtes *développeur pythoniste amateur de bière*  ? Vous *voulez* m'envoyer un chèque ? Peut-être plutôt *webdesigner* ?
 
 Si vous vous reconnaissez, je me ferais un plaisir de vous faire participer au projet. 
+
+
+TODO
+====
+
+ * Ajuster la quantité de moût si ajout de sucre 
+ * Export au format BeerXML
+ * Définir une notion de "recette validée". Admin ? Vote des autres brasseurs ?
+ * Partager une recette privée avec certains brasseurs
+ * Dupliquer une recette
+
+
+
+
