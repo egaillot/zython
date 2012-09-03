@@ -99,7 +99,7 @@ class RecipeListView(ListView):
 class RecipeCreateView(UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe
-    success_url = '/brew/%(id)d/'
+    success_url = '/recipe/%(id)d/'
     
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
