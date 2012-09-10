@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load url from future %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,8 +49,8 @@
             <b class="caret"></b>
           </a>
             <ul class="dropdown-menu">
-              <li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-              <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
+              <li><a href="{% url brew_recipe_add %}">{% trans "Add a new recipe" %}</a></li>
+              <li><a href="{% url brew_recipe_import %}">{% trans "Import recipe (BeerXML)" %}</a></li>
             </ul>
             </li>
             <li class="dropdown">
@@ -78,7 +77,7 @@
                   <li class="nav-header">{{ group.title }}</li>
                   {% for item in group.items %}
                     <li>
-                      <a href="{% url "unit_set" group.key item.key %}">
+                      <a href="{% url unit_set group.key item.key %}">
                       {% if item.is_active %}<b>{% endif %}
                       {{ item.title }}
                       {% if item.is_active %}&larr;</b>{% endif %}
@@ -89,7 +88,7 @@
               </ul>
             </li>
             {% if user.is_active %}
-              <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
+              <li><a href="{% url how_it_works %}">{% trans "Formulas" %}</a></li>
             {% endif %}
             {% if request.user.is_anonymous %}
               <li>
@@ -105,9 +104,9 @@
                   {{ request.user.get_full_name }} <b class="caret"></b>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="{% url "brew_recipe_user" request.user.username %}">{% trans "My recipes" %}</a></li>
-                <li><a href="{% url "account_user_edit" %}">{% trans "My account" %}</a></li>
-                <li><a href="{% url "avatar_change" %}">{% trans "Change your avatar" %}</a></li>
+                <li><a href="{% url brew_recipe_user request.user.username %}">{% trans "My recipes" %}</a></li>
+                <li><a href="{% url account_user_edit %}">{% trans "My account" %}</a></li>
+                <li><a href="{% url avatar_change %}">{% trans "Change your avatar" %}</a></li>
                 <li><a href="/accounts/logout/">{% trans "Log out" %}</a></li>
               </ul>
             </li>

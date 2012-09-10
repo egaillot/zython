@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load url from future  %}
 <div class="hero-unit">
     <h1>{% trans "Invitation mode" %}</h1>
     {% blocktrans %}
@@ -25,6 +24,6 @@
 
     <hr>
     <div class="center">
-        <a href="{% url "auth_login" %}" class="btn">{% trans "Log in" %}</a>
+        <a href="{% url auth_login %}" class="btn">{% trans "Log in" %}</a>
     </div>
 </div>

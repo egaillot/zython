@@ -2,8 +2,6 @@
  # Django static settings
 from local_settings import *
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 DEFAULT_CHARSET = 'utf-8'
 MANAGERS = ADMINS
 
@@ -38,7 +36,7 @@ STATICFILES_FINDERS = (
 )
 
 
-ROOT_URLCONF = 'dev.urls'
+ROOT_URLCONF = 'urls'
 
 SECRET_KEY = 'sa52(fruc7(4%hu!z2pi38a!om$nf$s+)6c^0hk=$ol@u3g7ji'
 
@@ -71,8 +69,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'units.context_processors.user_units',
     'units.context_processors.unit_menu',
 )
-
-
 
 TEMPLATE_DIRS = (
     "%stemplates/" % ROOT_PROJECT,

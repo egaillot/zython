@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^units/', include('units.urls')),
     (r'^accounts/', include('registration_backend.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
+
     url(r'^comment-delete/(\d+)/', 'public.views.comment_delete', name="comment-delete"),
     url(r'^how-it-works/', TemplateView.as_view(template_name="how.html"), name="how_it_works"),
     url(r'^email_test/', TemplateView.as_view(template_name="base_email.html"), name="dfgfdg"),
@@ -20,4 +21,6 @@ urlpatterns = patterns('',
     
     (r'^i18n/', include('django.conf.urls.i18n')),
     (r'^admin/', include(admin.site.urls)),
+
+
 )
