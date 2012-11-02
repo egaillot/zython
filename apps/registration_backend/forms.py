@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from registration import forms as reg_forms
 
+
 class RegistrationForm(reg_forms.RegistrationForm):
     first_name = forms.CharField(label=_('First name'))
     last_name = forms.CharField(label=_('Last name'))
@@ -12,4 +13,3 @@ class RegistrationForm(reg_forms.RegistrationForm):
             'username', 'first_name', 'last_name', 'email',
             'password1', 'password2'
         ]
-

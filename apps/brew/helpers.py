@@ -1,9 +1,10 @@
 import time
 from cStringIO import StringIO
 from lxml import etree
-from lxml.html import parse
-from brew.models import Recipe, RecipeHop, RecipeMalt, RecipeMisc, RecipeYeast, MashStep, BeerStyle
-from brew.beer_xml import FERMENTABLE_FIELDS, HOP_FIELDS, MISC_FIELDS, YEAST_FIELDS
+from brew.models import Recipe, RecipeHop, RecipeMalt,\
+    RecipeMisc, RecipeYeast, MashStep, BeerStyle
+from brew.beer_xml import FERMENTABLE_FIELDS, HOP_FIELDS,\
+    MISC_FIELDS, YEAST_FIELDS
 
 
 def populate_object(xml_item, object, fields):
@@ -39,12 +40,16 @@ def xml_import(xml_file, model_class, parent_loop, item_loop, fields):
         except:
             print "CANT SAVE row #%s" % i
 
+
 def kg_to_g(val):
-    return str(float(val)*1000.)
+    return str(float(val) * 1000.)
+
 
 def import_beer_xml(datas, user):
-    datas = datas.replace("<RECIPES>", 
-    """<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><RECIPES>""")
+    datas = datas.replace(
+        "<RECIPES>",
+        """<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><RECIPES>"""
+    )
     p = etree.XMLParser(remove_blank_text=True, resolve_entities=False)
     tree = etree.parse(StringIO(datas), p)
     recipes = []
@@ -60,7 +65,7 @@ def import_beer_xml(datas, user):
                 "Extract": "extract",
                 "Partial Mash": "partial"
             }.get(node.find("TYPE").text, "allgrain")
-            recipe.created = time.strptime(node.find("DATE").text,"%d/%m/%Y")
+            recipe.created = time.strptime(node.find("DATE").text, "%d/%m/%Y")
             equipment = node.find("EQUIPMENT")
             recipe.evaporation_rate = equipment.find("EVAP_RATE").text
             recipe.mash_tun_deadspace = equipment.find("LAUTER_DEADSPACE").text
@@ -78,10 +83,9 @@ def import_beer_xml(datas, user):
             except IndexError:
                 pass
 
-
             recipe.save()
-            
-            MALTS = list(FERMENTABLE_FIELDS) + [("AMOUNT", "amount"),]
+
+            MALTS = list(FERMENTABLE_FIELDS) + [("AMOUNT", "amount"), ]
             HOPS = list(HOP_FIELDS) + [
                 ("AMOUNT", "amount", kg_to_g),
                 ("TIME", "boil_time")

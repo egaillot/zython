@@ -10,10 +10,11 @@ from units.forms import UnitModelForm
 
 
 __all__ = (
-    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm', 
-    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm', 
+    'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm',
+    'RecipeMiscForm', 'RecipeYeastForm', 'MashStepForm',
     'RecipeImportForm', 'RecipeSearchForm'
 )
+
 
 def style_choices(qs_kwargs={}):
     old_number = None
@@ -29,10 +30,18 @@ def style_choices(qs_kwargs={}):
         old_number = number
     return items
 
+
 class RecipeForm(UnitModelForm, LocalizedModelForm):
-    unit_fields = {'volume': ['batch_size','boiler_tun_deadspace','mash_tun_deadspace', ], 
-                    'temperature': ['grain_temperature', ]}
-    recipe_style = forms.ChoiceField(label="Style", choices=style_choices(), required=False)
+    unit_fields = {
+        'volume': [
+            'batch_size',
+            'boiler_tun_deadspace',
+            'mash_tun_deadspace'
+        ],
+        'temperature': ['grain_temperature', ]
+    }
+    recipe_style = forms.ChoiceField(
+        label="Style", choices=style_choices(), required=False)
 
     def __init__(self, *args, **kwargs):
         super(RecipeForm, self).__init__(*args, **kwargs)
@@ -51,9 +60,9 @@ class RecipeForm(UnitModelForm, LocalizedModelForm):
     class Meta:
         model = Recipe
         fields = (
-            'name', 'batch_size', 'efficiency', 'private', 
-            'recipe_style', 'recipe_type', 
-            'mash_tun_deadspace', 'boiler_tun_deadspace', 
+            'name', 'batch_size', 'efficiency', 'private',
+            'recipe_style', 'recipe_type',
+            'mash_tun_deadspace', 'boiler_tun_deadspace',
             'evaporation_rate', 'grain_temperature'
         )
 
@@ -72,7 +81,10 @@ class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
                 if field_name not in unit_fields:
                     self.fields[field_name] = field
                     if not self.data:
-                        self.initial[field_name] = getattr(self.instance, field_name)
+                        self.initial[field_name] = getattr(
+                            self.instance,
+                            field_name
+                        )
             del self.fields[self.ingredient_name]
             del self.fields["recipe"]
             self.model_fields = list(self.fields.iterkeys())
@@ -94,17 +106,19 @@ class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
                     setattr(recipe_ingr, field, self.cleaned_data[field])
             recipe_ingr.save()
         else:
-            recipe_ingr = super(RecipeIngredientForm, self).save(*args, **kwargs)
+            recipe_ingr = super(RecipeIngredientForm, self).save(
+                *args, **kwargs
+            )
             for f in self.model_fields:
                 setattr(recipe_ingr, f, self.cleaned_data[f])
             recipe_ingr.save()
-        return recipe_ingr  
+        return recipe_ingr
 
 
 class RecipeMaltForm(RecipeIngredientForm):
     ingredient_name = "malt_id"
-    unit_fields = {'weight': ['amount',], 'color': ['color',]}
-    malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())   
+    unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
+    malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())
 
     def __init__(self, *args, **kwargs):
         super(RecipeMaltForm, self).__init__(*args, **kwargs)
@@ -118,7 +132,7 @@ class RecipeMaltForm(RecipeIngredientForm):
 
 class RecipeHopForm(RecipeIngredientForm):
     ingredient_name = "hop_id"
-    unit_fields = {'hop': ['amount',]}
+    unit_fields = {'hop': ['amount', ]}
     hop_id = forms.ModelChoiceField(queryset=Hop.objects.all())
 
     def clean(self):
@@ -135,7 +149,7 @@ class RecipeHopForm(RecipeIngredientForm):
 
 class RecipeMiscForm(RecipeIngredientForm):
     ingredient_name = "misc_id"
-    unit_fields = {'hop': ['amount',]}
+    unit_fields = {'hop': ['amount', ]}
     misc_id = forms.ModelChoiceField(queryset=Misc.objects.all())
 
     class Meta:
@@ -154,20 +168,24 @@ class RecipeYeastForm(RecipeIngredientForm):
 
 class MashStepForm(UnitModelForm, LocalizedModelForm):
     unit_fields = {
-        'volume': ['water_added',],
-        'temperature': ['temperature',],
+        'volume': ['water_added', ],
+        'temperature': ['temperature', ],
     }
 
     class Meta:
         model = MashStep
         fields = (
-            'name', 'step_type', 'temperature', 
+            'name', 'step_type', 'temperature',
             'step_time', 'rise_time', 'water_added'
         )
 
 
 class RecipeSearchForm(forms.Form):
-    style = forms.ChoiceField(label=_(u"Style"), choices=style_choices(qs_kwargs={'recipe__isnull':False}), required=False)
+    style = forms.ChoiceField(
+        label=_(u"Style"),
+        choices=style_choices(qs_kwargs={'recipe__isnull': False}),
+        required=False
+    )
     q = forms.CharField(required=False)
 
     def search(self, qs):
@@ -179,13 +197,10 @@ class RecipeSearchForm(forms.Form):
             qs = qs.filter(
                 Q(name__icontains=q) |
                 Q(user__username__icontains=q) |
-                Q(style__name__icontains=q) | 
+                Q(style__name__icontains=q) |
                 Q(recipemalt__name__icontains=q) |
                 Q(recipehop__name__icontains=q) |
                 Q(recipemisc__name__icontains=q) |
                 Q(recipeyeast__name__icontains=q)
             )
         return qs.distinct()
-
-
-

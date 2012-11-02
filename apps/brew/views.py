@@ -3,8 +3,6 @@ from django.utils.decorators import method_decorator
 from django.utils import simplejson as json
 from django.db.models import Q
 from django import http
-from django.conf import settings
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -18,7 +16,7 @@ from brew.helpers import import_beer_xml
 from brew.decorators import recipe_author
 
 from units.views import UnitViewFormMixin
-import djnext 
+import djnext
 
 SLUG_MODEL = {
     'malt': RecipeMalt,
@@ -40,15 +38,15 @@ SLUG_MODELFORM = {
 }
 
 
-
 """
 R E C I P E
 -----------
 """
 
+
 class RecipeAuthorMixin(object):
     '''
-    Mixin object to authorise recipe author 
+    Mixin object to authorise recipe author
     acessing views (deletion, updates...)
     '''
     model = Recipe
@@ -100,7 +98,7 @@ class RecipeCreateView(UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe
     success_url = '/recipe/%(id)d/'
-    
+
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
         return super(RecipeCreateView, self).dispatch(*args, **kwargs)
@@ -109,8 +107,21 @@ class RecipeCreateView(UnitViewFormMixin, CreateView):
         obj = form.save(commit=False)
         obj.user = self.request.user
         obj.save()
-        self.object = obj      
+        self.object = obj
         return http.HttpResponseRedirect(self.get_success_url())
+
+    def get_initial(self):
+        """
+        Returns the initial data to use for forms on this view.
+        """
+        initial = super(CreateView, self).get_initial()
+        recipes = self.request.user.recipe_set.all().order_by('-created')
+        if recipes.count() > 0:
+            recipe = recipes[0]
+            initial['boiler_tun_deadspace'] = recipe.boiler_tun_deadspace
+            initial['mash_tun_deadspace'] = recipe.mash_tun_deadspace
+            initial['evaporation_rate'] = recipe.evaporation_rate
+        return initial
 
 
 class RecipeImportView(FormView):
@@ -125,7 +136,7 @@ class RecipeImportView(FormView):
         xml_data = self.request.FILES.get('beer_file').read()
         recipes = import_beer_xml(xml_data, self.request.user)
         return http.HttpResponseRedirect(reverse(
-            'brew_recipe_user', 
+            'brew_recipe_user',
             args=[self.request.user.username]
         ))
 
@@ -142,8 +153,9 @@ class RecipeDetailView(DetailView):
     def render_to_response(self, context, **kwargs):
         if self.template_name_suffix == "_text":
             kwargs["content_type"] = "text/plain; charset=utf-8"
-        return super(RecipeDetailView, self).render_to_response(context,
-                        **kwargs)
+        return super(RecipeDetailView, self).render_to_response(
+            context, **kwargs
+        )
 
     def get_template_names(self):
         if self.template_name_suffix == "_text":
@@ -166,7 +178,6 @@ class RecipeDetailView(DetailView):
         else:
             context['version'] = "detail"
             context['can_edit'] = self.request.user == self.object.user
-        
         return context
 
 
@@ -181,13 +192,35 @@ class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
 
 class RecipeUpdateView(RecipeAuthorMixin, UnitViewFormMixin, UpdateView):
     form_class = RecipeForm
-    success_url = '/brew/%(id)d/'
+    success_url = '/recipe/%(id)d/'
+
+
+class StyleListView(ListView):
+    model = BeerStyle
+
+
+class StyleDetailView(DetailView):
+    model = BeerStyle
+
+    def get_context_data(self, **kwargs):
+        context = super(StyleDetailView, self).get_context_data(**kwargs)
+        queryset = Recipe.objects.filter(style=self.object).select_related('user', 'style')
+        if self.request.user.is_active:
+            qs = queryset.filter(
+                Q(private=False) | Q(user=self.request.user)
+            )
+        else:
+            qs = queryset.filter(private=False)
+
+        context['related_recipes'] = qs
+        return context
 
 
 """
 I N G R E D I E N T S
 ---------------------
 """
+
 
 class IngredientFormView(FormView):
     def set_env(self):
@@ -214,7 +247,7 @@ class IngredientFormView(FormView):
         if self.response_type == "json":
             return http.HttpResponseRedirect(self.recipe.get_absolute_url())
         return self.render_template()
-        
+
     def post(self, request, *args, **kwargs):
         self.set_env()
         form = self.form_class(data=request.POST, instance=self.instance, request=self.request)
@@ -225,7 +258,7 @@ class IngredientFormView(FormView):
             out['valid'] = 1
             status_code = 202
         else:
-            out['errors'] = ["%s: %s" % (k,v) for k,v  in form.errors.iteritems()]
+            out['errors'] = ["%s: %s" % (k, v) for k, v in form.errors.iteritems()]
         if self.response_type == "json":
             return http.HttpResponse(json.dumps(out), mimetype="application/json")
         self.context['form'] = form
@@ -234,16 +267,17 @@ class IngredientFormView(FormView):
         return response
 
     def render_template(self):
-        return render_to_response(self.template_name, self.context, 
+        return render_to_response(
+            self.template_name, self.context,
             context_instance=RequestContext(self.request)
         )
-
 
 
 """
 M A S H
 -------
 """
+
 
 class MashCreateView(CreateView):
     form_class = MashStepForm
@@ -320,7 +354,7 @@ def ingredient_form(request, recipe_id, ingredient, object_id=None, response="js
                 return http.HttpResponseRedirect(recipe.get_absolute_url())
         else:
             out['valid'] = 0
-            out['errors'] = ["%s: %s" % (k,v) for k,v  in form.errors.iteritems()]
+            out['errors'] = ["%s: %s" % (k, v) for k, v in form.errors.iteritems()]
         if response == "json":
             json_response = json.dumps(out)
             return http.HttpResponse(json_response, mimetype="application/json")
@@ -335,9 +369,11 @@ def ingredient_form(request, recipe_id, ingredient, object_id=None, response="js
         'ingredient': ingredient
     }
     template_name = template_name % {'ingredient': ingredient}
-    return render_to_response(template_name, context, 
+    return render_to_response(
+        template_name, context,
         context_instance=RequestContext(request)
     )
+
 
 @login_required
 @recipe_author
@@ -348,6 +384,7 @@ def remove_ingredient(request, recipe_id, ingredient, object_id):
     ingredient.delete()
     next = djnext.ref_get_post(request, recipe.get_absolute_url())
     return http.HttpResponseRedirect(next)
+
 
 @login_required
 @recipe_author
@@ -365,4 +402,3 @@ def mash_delete(request, recipe_id, object_id):
     mash = get_object_or_404(MashStep, pk=object_id, recipe=recipe)
     mash.delete()
     return http.HttpResponseRedirect(recipe.get_absolute_url())
-

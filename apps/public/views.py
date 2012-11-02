@@ -9,6 +9,7 @@ from django.contrib.comments.views.utils import next_redirect
 from django.shortcuts import get_object_or_404, render_to_response
 from django.contrib.comments.views.moderation import perform_delete, delete_done
 
+
 @login_required
 def comment_delete(request, comment_id, next=None):
     """
@@ -25,7 +26,8 @@ def comment_delete(request, comment_id, next=None):
 
     # Render a form on GET
     else:
-        return render_to_response('comments/delete.html',
+        return render_to_response(
+            'comments/delete.html',
             {'comment': comment, "next": next},
             template.RequestContext(request)
         )

@@ -1,5 +1,4 @@
 from django.conf.urls.defaults import *
-from django.views.generic import ListView, CreateView
 from brew.views import *
 from brew.forms import * 
 from brew.models import *
@@ -58,5 +57,14 @@ urlpatterns = patterns('',
         name="brew_mash_delete"
     ),
 
-    
+    url(r'^style/$', 
+        StyleListView.as_view(),
+        name="brew_style_list"
+    ),
+
+    url(r'^style/(?P<pk>\d+)/$', 
+        StyleDetailView.as_view(),
+        name="brew_style_detail"
+    ),
+
 )

@@ -26,8 +26,8 @@ class RecipeIngredientTxt(template.Node):
         for malt in self.recipe.recipemalt_set.all():
             i += 1
             line = [
-                get_converted_value(malt.amount, weight_unit, "weight", 0), 
-                "%s (%s)" % (malt.name, get_converted_value(malt.color, color_unit, "color")), 
+                get_converted_value(malt.amount, weight_unit, "weight", 0),
+                "%s (%s)" % (malt.name, get_converted_value(malt.color, color_unit, "color")),
                 _(u"Grain"),
                 i,
                 "%s" % malt.percent() + "%"
@@ -39,20 +39,20 @@ class RecipeIngredientTxt(template.Node):
         for hop in self.recipe.recipehop_set.all():
             i += 1
             line = [
-                get_converted_value(hop.amount, hop_unit, "hop", 0), 
-                "%s (%s" % (hop.name, hop.acid_alpha) + "%) " + "- %s %s" % (hop.get_usage_display(), hop.unit_time()) ,
+                get_converted_value(hop.amount, hop_unit, "hop", 0),
+                "%s (%s" % (hop.name, hop.acid_alpha) + "%) " + "- %s %s" % (hop.get_usage_display(), hop.unit_time()),
                 _(u"Hop"),
                 i,
                 "%.1f" % hop.ibu() + " IBUs"
             ]
             lines.append(";".join([unicode(a) for a in line]))
-        
+
         # --- MISC ---
         # ------------
         for misc in self.recipe.recipemisc_set.all():
             i += 1
             line = [
-                get_converted_value(misc.amount, hop_unit, "hop", 0), 
+                get_converted_value(misc.amount, hop_unit, "hop", 0),
                 "%s - (%s %s %s)" % (misc.name, misc.usage, misc.time, misc.time_unit),
                 misc.get_misc_type_display(),
                 i,
@@ -80,9 +80,12 @@ class RecipeMashStepsTxt(template.Node):
             i += 1
             description = ""
             if step.water_added:
-                description = _(u"Add %(water)s of water" % {'water':
-                    get_converted_value(step.water_added, volume_unit, "volume", 0), 
-                }) + ". "
+                description = _(
+                    u"Add %(water)s of water" % {
+                        'water':
+                        get_converted_value(step.water_added, volume_unit, "volume", 0),
+                    }
+                ) + ". "
 
             step_temperature = get_converted_value(step.temperature, temperature_unit, "temperature", 0)
             temperature = step_temperature
@@ -100,7 +103,6 @@ class RecipeMashStepsTxt(template.Node):
         csv_lines = "\n".join([unicode(a) for a in lines])
         csv = CsvToTxt(csv_lines, delimiter=";")
         return csv.render()
-
 
 
 @register.simple_tag
@@ -129,5 +131,3 @@ def recipe_mashsteps_txt(parser, token):
         raise template.TemplateSyntaxError("%r tag requires exactly two arguments" % token.contents.split()[0])
     return RecipeMashStepsTxt(recipe)
 register.tag('recipe_mashsteps_txt', recipe_mashsteps_txt)
-
-

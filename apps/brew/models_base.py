@@ -1,14 +1,13 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from brew.fields import BitternessField, GravityField, ColorField
+from brew.fields import GravityField, ColorField
 
 __all__ = (
-    'BaseMalt', 'BaseHop', 'BaseYeast', 'BaseMisc', 
+    'BaseMalt', 'BaseHop', 'BaseYeast', 'BaseMisc',
     'HOP_USAGE_CHOICES', 'HOP_TYPE_CHOICES', 'YEAST_TYPE_CHOICES',
-    'YEAST_FORM_CHOICES', 'YEAST_FLOCCULATION_CHOICES', 'MISC_TYPE_CHOICES', 
+    'YEAST_FORM_CHOICES', 'YEAST_FLOCCULATION_CHOICES', 'MISC_TYPE_CHOICES',
     'MALT_TYPE_CHOICES', 'HOP_FORM_CHOICES'
 )
-
 
 MALT_TYPE_CHOICES = (
     ('grain', _('Grain')),
@@ -65,11 +64,11 @@ MISC_USEIN_CHOICES = (
 )
 
 MISC_TYPE_CHOICES = (
-    ('spice',_('Spice')),
-    ('fining',_('Fining')),
-    ('herb',_('Herb')),
-    ('flavor',_('Flavor')),
-    ('other',_('Other'))
+    ('spice', _('Spice')),
+    ('fining', _('Fining')),
+    ('herb', _('Herb')),
+    ('flavor', _('Flavor')),
+    ('other', _('Other'))
 )
 
 
@@ -82,7 +81,7 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     origin = models.CharField(_('Origin'), max_length=50)
     malt_type = models.CharField(_('Type'), choices=MALT_TYPE_CHOICES, max_length=50)
-    
+
     # Yield
     potential_gravity = GravityField(_('Potential gravity'), )
     malt_yield = models.DecimalField(_('Yield'), max_digits=5, decimal_places=2, help_text="%")
@@ -104,6 +103,7 @@ class BaseMalt(models.Model, BaseIngredientMixin):
             'malt_yield', 'color', 'diastatic_power', 'protein',
             'max_in_batch', 'notes'
         )
+
 
 class BaseHop(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
@@ -134,7 +134,7 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     notes = models.TextField(_('Notes'), null=True, blank=True)
 
     def attenuation(self):
-        return (self.min_attenuation+self.max_attenuation)/2
+        return (self.min_attenuation + self.max_attenuation) / 2
 
     class Meta:
         abstract = True
@@ -149,4 +149,3 @@ class BaseMisc(models.Model, BaseIngredientMixin):
 
     class Meta:
         abstract = True
-

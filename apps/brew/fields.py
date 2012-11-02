@@ -3,24 +3,36 @@ from django import forms
 
 
 __all__ = (
-	'GravityField', 'BitternessField', 'ColorField',
-    'LocalizedModelForm'
+    'GravityField', 'BitternessField',
+    'ColorField', 'LocalizedModelForm'
 )
 
 
 class GravityField(models.DecimalField):
-	def __init__(self, *args, **kwargs):
-		super(GravityField, self).__init__(max_digits=4, decimal_places=3, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(GravityField, self).__init__(
+            max_digits=4,
+            decimal_places=3,
+            *args, **kwargs
+        )
 
 
 class BitternessField(models.DecimalField):
-	def __init__(self, *args, **kwargs):
-		super(BitternessField, self).__init__(max_digits=6, decimal_places=1, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(BitternessField, self).__init__(
+            max_digits=6,
+            decimal_places=1,
+            *args, **kwargs
+        )
 
 
 class ColorField(models.DecimalField):
-	def __init__(self, *args, **kwargs):
-		super(ColorField, self).__init__(max_digits=7, decimal_places=1, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(ColorField, self).__init__(
+            max_digits=7,
+            decimal_places=1,
+            *args, **kwargs
+        )
 
 
 class LocalizedModelForm(forms.ModelForm):

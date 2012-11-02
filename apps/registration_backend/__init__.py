@@ -1,6 +1,7 @@
 from registration.backends.simple import SimpleBackend as RegistrationDefaultBackend
 from registration_backend.forms import RegistrationForm
 
+
 class SimpleBackend(RegistrationDefaultBackend):
     def register(self, request, **kwargs):
         user = super(SimpleBackend, self).register(request, **kwargs)
@@ -15,4 +16,3 @@ class SimpleBackend(RegistrationDefaultBackend):
 
     def post_registration_redirect(self, *args, **kwargs):
         return ('root_url', (), {})
-

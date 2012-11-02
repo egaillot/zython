@@ -3,14 +3,18 @@
 def float1(val):
     return "%.1f" % float(val)
 
+
 def float2(val):
     return "%.2f" % float(val)
+
 
 def lower_str(val):
     return val.lower()
 
+
 def potential_gravity(val):
     return "%.4f" % float(val)
+
 
 def correct_malt_type(val):
     try:
@@ -24,14 +28,18 @@ def correct_malt_type(val):
     except KeyError:
         return 'grain'
 
+
 def hop_type(val):
     return val.lower()
+
 
 def hop_form(val):
     return 'leaf'
 
+
 def hop_usage(val):
     return 'boil'
+
 
 def flocculation(val):
     return{
@@ -40,6 +48,7 @@ def flocculation(val):
         'High': 3,
         'Very High': 4
     }[val]
+
 
 FERMENTABLE_FIELDS = (
     ("NAME",     "name"),
@@ -79,7 +88,7 @@ YEAST_FIELDS = (
     ("PRODUCT_ID",  "product_id"),
     ("TYPE",        "yeast_type",       lower_str),
     ("FORM",        "form",       lower_str),
-    ("FLOCCULATION","flocculation",       flocculation),
+    ("FLOCCULATION", "flocculation",       flocculation),
     ("ATTENUATION",  "min_attenuation"),
     ("ATTENUATION",  "max_attenuation"),
     ("MIN_TEMPERATURE",  "min_temperature"),

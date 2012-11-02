@@ -1,5 +1,4 @@
 from django.core.management.base import NoArgsCommand
-from brew.management.commands import ingredients
 
 
 class Command(NoArgsCommand):

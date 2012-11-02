@@ -31,6 +31,11 @@
     	<span class="icon-file {% if page == "recipe" %}icon-white{% endif %}"></span>
     	{% trans "Recipe" %}</a>
   </li>
+  {% if object.style %}
+  	<li><a href="{% url "brew_style_detail" object.style.id %}">
+  		{% trans "Beer style" %}
+  	</a></li>
+  {% endif %}
   {% if object.user == request.user %}
   	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">
     	<span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>

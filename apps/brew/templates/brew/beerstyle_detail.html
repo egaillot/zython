@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+
+{% block content %}
+<h1>
+    {% block title %}
+       {{ object }} 
+    {% endblock title %}
+</h1>
+<br>
+<div class="well">
+    <h4>{% trans "Description" %}</h4>
+    {{ object.description|linebreaksbr }}
+    <hr>
+    <h4>{% trans "Profile" %}</h4>
+    {{ object.profile|linebreaksbr }}
+    <hr>
+    <h4>{% trans "Ingredients" %}</h4>
+    {{ object.ingredients|linebreaksbr }}
+    <hr>
+    <h4>{% trans "Examples" %}</h4>
+    {{ object.examples|linebreaksbr }}
+</div>
+
+<p><br></p>
+<h2>{% trans "Ranges" %}</h2>
+
+<table class='table table-bordered'>
+    <thead>
+        <tr>
+            <th>{% trans "Data" %}</th>
+            <th style="width:210px;">{% trans "Min." %}</th>
+            <th style="width:210px;">{% trans "Max." %}</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>{% trans "Original gravity" %}</td>
+        <td>{{ object.original_gravity_min }}</td>
+        <td>{{ object.original_gravity_max }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Final gravity" %}</td>
+        <td>{{ object.final_gravity_min }}</td>
+        <td>{{ object.final_gravity_max }}</td>
+    </tr>
+    <tr>
+        <td>{% trans "Bitterness" %}</td>
+        <td>{{ object.bitterness_min }} IBU</td>
+        <td>{{ object.bitterness_max }} IBU</td>
+    </tr>
+    <tr>
+        <td>{% trans "Color" %}</td>
+        <td>{{ object.color_min }} EBC</td>
+        <td>{{ object.color_max }} EBC</td>
+    </tr>
+    <tr>
+        <td>{% trans "Alcohol" %}</td>
+        <td>{{ object.alcohol_min }} °</td>
+        <td>{{ object.alcohol_max }} °</td>
+    </tr>
+</table>
+
+<p><br></p>
+
+<h2>{% trans "Recipes on Zython" %} <small>({{ related_recipes.count }})</small></h2>
+{% if related_recipes %}
+    <table class='table'>
+        {% for object in related_recipes %}
+            {% include "brew/recipe_list_row.html" %}
+        {% endfor %}
+    </table>
+{% else %}
+    {% trans "No recipe found... :(" %}    
+{% endif %}
+
+
+
+{% endblock content %}

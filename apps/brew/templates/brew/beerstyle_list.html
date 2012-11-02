@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load url from future %}
+{% load i18n %}
+
+
+{% block content %}
+<h1>
+    {% block title %}
+        {% trans "Beer styles" %}
+    {% endblock title %}
+</h1>   
+
+<div class="alert">
+    Section en anglais seulement actuellement. Sauri.
+</div>
+
+<table class="table">
+    {% for style in object_list %}
+        {% ifchanged style.category %}
+            <p><br></p>
+            <h3>{{ style.category }}</h3>
+        {% endifchanged %}
+        
+            <a href="{% url "brew_style_detail" style.id %}">{{ style.get_number }} {{ style.name }}</a>
+            <br>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock content %}
