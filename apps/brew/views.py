@@ -170,6 +170,7 @@ class RecipeDetailView(DetailView):
                 context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
         context['counter'] = 1
         context['page'] = "recipe"
+        context['controls'] = self.object.all_controls()
         if "print" in self.template_name_suffix:
             context['can_edit'] = False
             context['version'] = "print"
@@ -177,7 +178,7 @@ class RecipeDetailView(DetailView):
             context['page'] = "comments"
         else:
             context['version'] = "detail"
-            context['can_edit'] = self.request.user == self.object.user
+        context['can_edit'] = self.request.user == self.object.user
         return context
 
 
@@ -187,6 +188,7 @@ class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super(RecipeDeleteView, self).get_context_data(**kwargs)
         context['page'] = "delete"
+        context['can_edit'] = self.request.user == self.object.user
         return context
 
 
@@ -211,8 +213,10 @@ class StyleDetailView(DetailView):
             )
         else:
             qs = queryset.filter(private=False)
-
         context['related_recipes'] = qs
+        context['same_category_styles'] = BeerStyle.objects.filter(
+            category=self.object.category
+        ).exclude(id=self.object.id)
         return context
 
 

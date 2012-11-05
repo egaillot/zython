@@ -17,17 +17,18 @@ __all__ = (
 
 
 def style_choices(qs_kwargs={}):
-    old_number = None
+    old_number = 0
     item = ("", "-------")
     items = []
+    i = 0
     for s in BeerStyle.objects.filter(**qs_kwargs).distinct():
         number = s.number
-
         if old_number != number:
             items.append(item)
             item = [MAIN_STYLES[str(number)], []]
         item[1].append((s.id, "%s" % s))
         old_number = number
+    items.append(item)
     return items
 
 
@@ -183,7 +184,7 @@ class MashStepForm(UnitModelForm, LocalizedModelForm):
 class RecipeSearchForm(forms.Form):
     style = forms.ChoiceField(
         label=_(u"Style"),
-        choices=style_choices(qs_kwargs={'recipe__isnull': False}),
+        choices=style_choices(qs_kwargs={'recipe__id__isnull': False}),
         required=False
     )
     q = forms.CharField(required=False)

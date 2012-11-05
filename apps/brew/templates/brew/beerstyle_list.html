@@ -11,7 +11,7 @@
 </h1>   
 
 <div class="alert">
-    Section en anglais seulement actuellement. Sauri.
+    Section en anglais seulement actuellement.
 </div>
 
 <table class="table">
@@ -21,7 +21,7 @@
             <h3>{{ style.category }}</h3>
         {% endifchanged %}
         
-            <a href="{% url "brew_style_detail" style.id %}">{{ style.get_number }} {{ style.name }}</a>
+            <a href="{{ style.get_absolute_url }}">{{ style.get_number }} {{ style.name }}</a>
             <br>
         </tr>
     {% endfor %}

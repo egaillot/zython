@@ -58,8 +58,11 @@
 				{{ form.mash_tun_deadspace.label }}
 			</label>
 		</div>
-		<div class="span3">
+		<div class="span4">
 			{{ form.mash_tun_deadspace }}&nbsp;{{ form.mash_tun_deadspace.help_text }}
+			<span class="help-inline">
+				{% trans "Volume of deadspace in lauter tun" %}
+			</span>
 			{{ form.mash_tun_deadspace.errors }}
 		</div>
 	</div>
@@ -69,8 +72,12 @@
 				{{ form.boiler_tun_deadspace.label }}
 			</label>
 		</div>
-		<div class="span3">
+		<div class="span6">
 			{{ form.boiler_tun_deadspace }}&nbsp;{{ form.boiler_tun_deadspace.help_text }}
+			<span class="help-inline">
+				{% trans "Volume of wort lost due to the boiler tun and chiller deadspace" %}
+			</span>
+
 			{{ form.boiler_tun_deadspace.errors }}
 		</div>
 	</div>

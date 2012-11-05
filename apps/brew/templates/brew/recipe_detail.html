@@ -16,12 +16,20 @@
 		</a>
 		<br>
 		<div class="est_abv">
-	 		{{ object.get_abv|floatformat:1 }}%
+	 		{% if controls.abv and can_edit %}
+	 			<span class="badge badge-important tip" title="{{ controls.abv }}<br>{% trans "Style range" %} : {{ object.style.alcohol_range|join:" - " }} %">{{ object.get_abv|floatformat:1 }}%</span>
+	 		{% else %}
+	 			{{ object.get_abv|floatformat:1 }}%
+	 		{% endif %}
 	 	</div>
 	</div>
 {% endif %}
 <h1>{{ object.name }} 
-	{% if object.style %}<small>{{ object.style}}</small>{% endif %}
+	{% if object.style %}
+		<small>
+			<a href="{{ object.style.get_absolute_url }}">{{ object.style }}</a>
+		</small>
+	{% endif %}
 	{% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
 </h1>
 <p><br></p>
@@ -31,12 +39,7 @@
     	<span class="icon-file {% if page == "recipe" %}icon-white{% endif %}"></span>
     	{% trans "Recipe" %}</a>
   </li>
-  {% if object.style %}
-  	<li><a href="{% url "brew_style_detail" object.style.id %}">
-  		{% trans "Beer style" %}
-  	</a></li>
-  {% endif %}
-  {% if object.user == request.user %}
+  {% if can_edit %}
   	<li {% if page == "delete" %}class="active"{% endif %}><a href="{% url "brew_recipe_delete" object.id %}">
     	<span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
   		{% trans "Delete" %}</a></li>
@@ -58,8 +61,9 @@
   	<span class="icon-list"></span>
   	{% trans "Copy (txt)" %}</a></li>
 </ul>
-{% block inner_content %}
 
+
+{% block inner_content %}
 <div class="well">
 	<div class="row">
 		<div class="span6">
@@ -81,13 +85,39 @@
 
 	<div class="row">
 		<div class="span6">
-			<b>{% trans "Est. original gravity" %}</b> : {{ object.get_original_gravity }} <br>
-			<b>{% trans "Est. final gravity" %}</b> : {{ object.get_final_gravity }}
-			
+			<b>{% trans "Est. original gravity" %}</b> : 
+			{% if controls.og %}
+				<span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
+			{% else %}
+				{{ object.get_original_gravity }}
+			{% endif %}
+			<br>
+			<b>{% trans "Est. final gravity" %}</b> : 
+			{% if controls.fg %}
+				<span class="badge badge-important tip" title="{{ controls.fg }}<br>{% trans "Style range" %} : {{ object.style.fg_range|join:" - " }}">{{ object.get_final_gravity }}</span>
+			{% else %}
+				{{ object.get_final_gravity }}
+			{% endif %}
+
 		</div>
 		<div class="span5">
-			<b>IBU</b> : {{ object.get_ibu }} <br>
-			<b>{% trans "Color" %}</b> : {% local_unit "color" object.get_ebc %}
+			<b>IBU</b> :
+			{% if controls.ibu %}
+				<span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
+			{% else %}
+				{{ object.get_ibu }}
+			{% endif %}
+
+			<br>
+			<b>{% trans "Color" %}</b> : 
+			{% if controls.color %}
+				<span class="badge badge-important tip" title="{{ controls.color }}<br>{% trans "Style range" %} : {{ object.style.color_range|join:" - " }} EBC">{% local_unit "color" object.get_ebc %}</span>
+			{% else %}
+				{% local_unit "color" object.get_ebc %}
+			{% endif %}
+
+
+			
 		</div>
 
 	</div>
@@ -134,7 +164,6 @@
 			{% if object.user == request.user %}
 				<li class="nav-header">{% trans "Mash" %}</li>
 				<li><a data-toggle="modal" href="#add_mash">
-
 				<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
 					<img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
 				</li>

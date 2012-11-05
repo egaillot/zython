@@ -77,6 +77,25 @@ class BeerStyle(models.Model):
     def __unicode__(self):
         return "%s - %s" % (self.get_number(), self.name)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('brew_style_detail', [str(self.id)])
+
+    def og_range(self):
+        return [self.original_gravity_min, self.original_gravity_max]
+
+    def fg_range(self):
+        return [self.final_gravity_min, self.final_gravity_max]
+
+    def ibu_range(self):
+        return [self.bitterness_min, self.bitterness_max]
+
+    def color_range(self):
+        return [self.color_min, self.color_max]
+
+    def alcohol_range(self):
+        return [self.alcohol_min, self.alcohol_max]
+
     class Meta:
         ordering = ('number', 'sub_number')
 
@@ -260,7 +279,7 @@ class Recipe(models.Model):
         return "%.1f" % ibu
 
     # - - -
-    # Bitterness and spices
+    # After fermentation
 
     def get_final_gravity(self):
         cache_key = "%s_fg" % self.cache_key
@@ -332,6 +351,53 @@ class Recipe(models.Model):
                 ingredients.append(rmb)
             cache.set(cache_key, ingredients, 60 * 15)
         return ingredients
+
+    # - - - -
+    # Style Controls
+
+    def style_control_ibu(self):
+        ibus = float(self.get_ibu())
+        if ibus < float(self.style.bitterness_min):
+            return _(u"Bitterness is too low")
+        elif ibus > float(self.style.bitterness_max):
+            return _(u"Bitterness is too high")
+
+    def style_control_og(self):
+        og = float(self.get_original_gravity())
+        if og < float(self.style.original_gravity_min):
+            return _(u"Original gravity is too low")
+        elif og > float(self.style.original_gravity_max):
+            return _(u"Original gravity is too high")
+
+    def style_control_fg(self):
+        fg = float(self.get_final_gravity())
+        if fg < float(self.style.final_gravity_min):
+            return _(u"Final gravity is too low")
+        elif fg > float(self.style.final_gravity_max):
+            return _(u"Final gravity is too high")
+
+    def style_control_abv(self):
+        abv = float(self.get_abv())
+        if abv < float(self.style.alcohol_min):
+            return _(u"Alcohol is too low")
+        elif abv > float(self.style.alcohol_max):
+            return _(u"Alcohol is too high")
+
+    def style_control_color(self):
+        color = float(self.get_ebc())
+        if color < float(self.style.color_min):
+            return _(u"The beer color seems too bright")
+        elif color > float(self.style.color_max):
+            return _(u"The beer color seems too dark")
+
+    def all_controls(self):
+        if not self.style:
+            return {}
+        controls = ['ibu', 'og', 'fg', 'abv', 'color']
+        results = {}
+        for control in controls:
+            results[control] = getattr(self, "style_control_%s" % control)()
+        return results
 
 
 class Malt(BaseMalt):

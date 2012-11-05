@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n unit_tags %}
 
 
 {% block content %}
@@ -51,8 +51,8 @@
     </tr>
     <tr>
         <td>{% trans "Color" %}</td>
-        <td>{{ object.color_min }} EBC</td>
-        <td>{{ object.color_max }} EBC</td>
+        <td>{% local_unit "color" object.color_min %}</td>
+        <td>{% local_unit "color" object.color_max %}</td>
     </tr>
     <tr>
         <td>{% trans "Alcohol" %}</td>
@@ -74,6 +74,17 @@
     {% trans "No recipe found... :(" %}    
 {% endif %}
 
+<p><br></p>
 
+<h2>{% trans "Styles in the same category" %}</h2>
+
+<ul>
+    {% for style in same_category_styles %}
+        <li><a href="{{ style.get_absolute_url }}">
+            {{ style.get_number }}
+            {{ style.name }}
+        </a></li>
+    {% endfor %}
+</ul>
 
 {% endblock content %}
