@@ -6,7 +6,7 @@
 {% block content %}
 <h1>
     {% block title %}
-        {% trans "Beer styles" %}
+        {% trans "Beer styles" %} - BJCP 2008
     {% endblock title %}
 </h1>   
 
@@ -18,12 +18,11 @@
     {% for style in object_list %}
         {% ifchanged style.category %}
             <p><br></p>
-            <h3>{{ style.category }}</h3>
+            <h3>{{ style.number }} - {{ style.category }}</h3>
         {% endifchanged %}
         
-            <a href="{{ style.get_absolute_url }}">{{ style.get_number }} {{ style.name }}</a>
-            <br>
-        </tr>
+        <a href="{{ style.get_absolute_url }}">{{ style.get_number }} {{ style.name }}
+        </a><br>
     {% endfor %}
 </table>
 

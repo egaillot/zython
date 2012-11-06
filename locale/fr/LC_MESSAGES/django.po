@@ -919,7 +919,7 @@ msgstr "Zython aide les brasseurs amateurs à créer leurs recettes de bière. C
 
 #: templates/base.html:42
 msgid "Design and share your beer recipe"
-msgstr "Créez et partagez vous recettez de bière"
+msgstr "Créez et partagez vos recettes de bière"
 
 #: templates/base.html:53
 msgid "Import recipe (BeerXML)"
