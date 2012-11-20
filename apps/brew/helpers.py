@@ -1,4 +1,5 @@
 import time
+import htmlentitydefs
 from cStringIO import StringIO
 from lxml import etree
 from brew.models import Recipe, RecipeHop, RecipeMalt,\
@@ -50,7 +51,12 @@ def import_beer_xml(datas, user):
         "<RECIPES>",
         """<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><RECIPES>"""
     )
-    p = etree.XMLParser(remove_blank_text=True, resolve_entities=False)
+    # print datas
+    defs = htmlentitydefs.entitydefs
+    for key in defs.keys():
+        datas = datas.replace('&' + key + ';', defs[key])
+
+    p = etree.XMLParser(remove_blank_text=True, resolve_entities=True)
     tree = etree.parse(StringIO(datas), p)
     recipes = []
     for nodes in tree.iter('RECIPES'):
@@ -73,15 +79,24 @@ def import_beer_xml(datas, user):
             mash = node.find("MASH")
             recipe.grain_temperature = mash.find('GRAIN_TEMP').text
             style = node.find("STYLE")
+            style_name = style.find('NAME').text
             style_num = style.find('CATEGORY_NUMBER').text
             style_let = style.find('STYLE_LETTER').text
+
             try:
-                bs = BeerStyle.objects.filter(
-                    number=style_num, sub_number=style_let
-                )[0]
+                # Frist try to find the exact beer style name
+                bs = BeerStyle.objects.filter(name__icontains=style_name)[0]
                 recipe.style = bs
             except IndexError:
-                pass
+                try:
+                    # Then we get the style number
+                    # Can be wrong as the ref. guide is not always the same
+                    bs = BeerStyle.objects.filter(
+                        number=style_num, sub_number=style_let
+                    )[0]
+                    recipe.style = bs
+                except IndexError:
+                    pass
 
             recipe.save()
 
@@ -107,7 +122,12 @@ def import_beer_xml(datas, user):
                     for ingr in ingr_list.iterfind(i[1]):
                         recipe_ingr = i[2](recipe=recipe)
                         recipe_ingr = populate_object(ingr, recipe_ingr, i[3])
-                        recipe_ingr.save()
+                        try:
+                            recipe_ingr.save()
+                        except:
+                            print recipe.name, ingr, recipe_ingr, recipe_ingr.name
+                            recipe_ingr.save()
+
             ordering = 0
             mash_steps = mash.find('MASH_STEPS')
             for step in mash_steps.iterfind('MASH_STEP'):

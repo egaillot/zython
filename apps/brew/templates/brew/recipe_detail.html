@@ -285,7 +285,12 @@
 	            {"sType": "percent",},
 	        ]
 	    }).addClass('table-sorted');
-
+	    $('.select-hop').click(function(){
+	    	$("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
+	    });
+	    $('.select-malt').click(function(){
+	    	$("#id_color").val($(this).attr("data-color"));
+	    });
 	});
 	</script>
 {% endif %}

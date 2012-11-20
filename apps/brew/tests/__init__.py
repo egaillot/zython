@@ -80,9 +80,9 @@ class RecipeTest(TestCase):
         self.recipe = Recipe.objects.get(pk=self.recipe.pk)
 
     def test_1_malt(self):
-        malt_id = Malt.objects.filter(name__icontains="Maris Otter").values_list("id", flat=True)[0]
+        malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "malt"])
-        datas = {'amount': "12.5", "malt_id": malt_id}
+        datas = {'amount': "12.5", "malt_id": malt.id, "color": malt.color}
 
         # Test with anonymous client
         c = self.client
@@ -123,9 +123,9 @@ class RecipeTest(TestCase):
         self.recipe.recipemalt_set.all().delete()
 
     def test_2_hop(self):
-        hop_id = Hop.objects.filter(name__icontains="Styrian").values_list("id", flat=True)[0]
+        hop = Hop.objects.filter(name__icontains="Styrian")[0]
         url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "hop"])
-        datas = {'amount': "80.5", "boil_time":"30.5", "hop_id": hop_id}
+        datas = {'amount': "80.5", "boil_time":"30.5", "hop_id": hop.id, "acid_alpha": hop.acid_alpha}
 
         # Test with anonymous client
         c = self.client

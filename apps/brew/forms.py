@@ -20,7 +20,6 @@ def style_choices(qs_kwargs={}):
     old_number = 0
     item = ("", "-------")
     items = []
-    i = 0
     for s in BeerStyle.objects.filter(**qs_kwargs).distinct():
         number = s.number
         if old_number != number:
@@ -98,7 +97,6 @@ class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
             copy_fields.remove('id')
             base_ingr = self.cleaned_data[self.ingredient_name]
             for field in copy_fields:
-                old_value = getattr(recipe_ingr, field, None)
                 if add_default:
                     new_value = getattr(base_ingr, field, None)
                     setattr(recipe_ingr, field, new_value)
@@ -123,8 +121,6 @@ class RecipeMaltForm(RecipeIngredientForm):
 
     def __init__(self, *args, **kwargs):
         super(RecipeMaltForm, self).__init__(*args, **kwargs)
-        if not self.instance.pk:
-            del self.fields['color']
 
     class Meta:
         model = RecipeMalt
@@ -145,7 +141,7 @@ class RecipeHopForm(RecipeIngredientForm):
 
     class Meta:
         model = RecipeHop
-        fields = ('hop_id', 'amount', 'boil_time', 'dry_days')
+        fields = ('hop_id', 'amount', 'boil_time', 'dry_days', 'acid_alpha')
 
 
 class RecipeMiscForm(RecipeIngredientForm):

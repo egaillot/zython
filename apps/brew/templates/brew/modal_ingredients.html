@@ -28,7 +28,7 @@
             {% for malt in malt_list %}
             <tr>
                 <td>
-                    <input type="radio" name="malt_id" value="{{ malt.id }}" />
+                    <input type="radio" name="malt_id" value="{{ malt.id }}" id="select-malt" data-color="{% local_unit "color" malt.color -1 %}" class="select-malt" />
                 </td>
                 <td>{{ malt.name }}</td>
                 <td>{{ malt.origin }}</td>
@@ -45,6 +45,9 @@
         <div class="row pull-right">
             <div class="span3 inline_field">
                 {% trans "Amount" %} {{ malt_form.amount }} {{ malt_form.amount.help_text }}
+            </div>
+            <div class="span2 inline_field">
+                {% trans "Color" %} {{ malt_form.color }} {{ malt_form.color.help_text.upper }}
             </div>
             <div class="span1">
                 <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend'>
@@ -83,7 +86,7 @@
             {% for hop in hop_list %}
             <tr>
                 <td>
-                    <input type="radio" name="hop_id" value="{{ hop.id }}" />
+                    <input type="radio" name="hop_id" value="{{ hop.id }}" data-acid-alpha="{{ hop.acid_alpha }}" class="select-hop" />
                 </td>
                 <td>{{ hop.name }}</td>
                 <td>{{ hop.origin }}</td>
@@ -103,6 +106,9 @@
             </div>
             <div class="span2" style="width:190px;">
                 {% trans "Boil time" %} {{ hop_form.boil_time }} min
+            </div>
+            <div class="span2" style="width:100px;">
+                {% trans "A.A" %} {{ hop_form.acid_alpha }}%
             </div>
             <div class="span1">
                 <input type="submit" value="{% trans "Add" %}" class='btn btn-success ajaxsend' style="width:auto;">

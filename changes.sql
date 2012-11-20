@@ -1,3 +1,7 @@
+-- 2012-11-20
+ALTER TABLE `brew_recipemisc` change `amount` `amount` numeric(10, 2) NOT NULL;
+ALTER TABLE `brew_recipemisc` change `time` `time` numeric(10, 2) NOT NULL;
+
 -- 2012-11-02
 ALTER TABLE `brew_recipehop` change `amount` `amount` numeric(6, 2) NOT NULL;
 

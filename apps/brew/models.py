@@ -485,8 +485,8 @@ class RecipeYeast(UpdateRecipeModel, BaseYeast):
 
 class RecipeMisc(UpdateRecipeModel, BaseMisc):
     recipe = models.ForeignKey('Recipe')
-    amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="g")
-    time = models.DecimalField(max_digits=4, decimal_places=1)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, help_text="g")
+    time = models.DecimalField(max_digits=10, decimal_places=1)
     time_unit = models.CharField(choices=MISC_TIME_CHOICES, default="mins", max_length=50)
 
     def get_duration(self):

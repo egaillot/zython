@@ -130,7 +130,7 @@ class RecipeImportView(FormView):
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        return super(RecipeImportForm, self).dispatch(*args, **kwargs)
+        return super(RecipeImportView, self).dispatch(*args, **kwargs)
 
     def post(self, *args, **kwargs):
         xml_data = self.request.FILES.get('beer_file').read()

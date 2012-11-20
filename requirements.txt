@@ -1,4 +1,4 @@
-Django==1.4.1
+Django==1.4.2
 PIL==1.1.7
 django-registration==0.8
 wsgiref==0.1.2
@@ -7,3 +7,4 @@ https://bitbucket.org/m_clement/djnext/get/34b0e16214c5.tar.gz#egg=djnext
 https://github.com/magopian/django-inspect-model/zipball/7d139b8fc8975cc42cd95fce2242f6b3e59db5c3#egg=inspect_model
 https://github.com/guzru/django-avatar/zipball/cd7401dc4fa6519a62c4f8e6b3cb688c77738f51#egg=avatar
 https://bitbucket.org/m_clement/django-units/get/861f7f57eb42.tar.gz
+mysql-python

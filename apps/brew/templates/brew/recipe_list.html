@@ -3,16 +3,22 @@
 {% load url from future %}
 
 
+{% block title %}
+{% if user_recipe %}
+	{% blocktrans with user_recipe.username as name%}{{ name }} recipes{% endblocktrans %}
+{% else %}
+	{% trans "Your beer recipe online, for homebrewer" %}
+{% endif %}
+{% endblock title %}
+
 
 {% block content %}
 <h1>
-	{% block title %}
 	{% if user_recipe %}
 		{% blocktrans with user_recipe.username as name%}{{ name }} recipes{% endblocktrans %}
 	{% else %}
 		{% trans "Last recipes" %}
 	{% endif %}
-{% endblock title %}
 </h1>
 
 <p><br></p>
