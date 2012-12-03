@@ -18,8 +18,6 @@
 <tbody>
     {% for ing in object.ingredients %}
 
-
-
         {% if "malt" in ing.cls_name %}
             {# --- M A L T S --- #}
             <tr>
@@ -47,7 +45,6 @@
         {% endif %}
 
 
-
         {% if "hop" in ing.cls_name %}
             {# --- H O P S --- #}
             <tr>
@@ -73,7 +70,6 @@
         {% endif %}
 
 
-
         {% if "misc" in ing.cls_name %}
             {# --- M I S C S --- #}
             <tr>
@@ -97,7 +93,6 @@
         {% endif %}
 
 
-
         {% if "yeast" in ing.cls_name %}
             {# --- Y E A S T S --- #}
             <tr>
@@ -119,7 +114,6 @@
             </tr>
             {# - - - - - - - - - #}
         {% endif %}
-
 
 
     {% endfor %}

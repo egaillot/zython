@@ -270,3 +270,26 @@ class RecipeTest(TestCase):
         recipe.private = False
         recipe.save()
 
+    def test_6_recipe_printable(self):
+        # Use our logged in client
+        client = Client()
+        client.login(
+            username=self.user_info['username'], 
+            password=self.user_info['password']
+        )
+
+        # Add some malt to get back the ingredient list
+        malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
+        url_addition = reverse('brew_recipe_addingredient', args=[self.recipe.id, "malt"])
+        datas = {'amount': "12.5", "malt_id": malt.id, "color": malt.color}
+        c = self.get_logged_client()
+        response = client.post(url_addition, datas)
+
+        # In the detail page, we must have the 'edit_ingredient' link
+        recipe = self.recipe
+        response = client.get(recipe.get_absolute_url())
+        self.assertContains(response, 'class="edit_ingredient"')
+
+        # In the detail page, we do not get the 'edit_ingredient' link
+        response = client.get(reverse('brew_recipe_print', args=[recipe.id, ]))
+        self.assertNotContains(response, 'class="edit_ingredient"')

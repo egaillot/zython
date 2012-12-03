@@ -178,7 +178,7 @@ class RecipeDetailView(DetailView):
             context['page'] = "comments"
         else:
             context['version'] = "detail"
-        context['can_edit'] = self.request.user == self.object.user
+            context['can_edit'] = self.request.user == self.object.user
         return context
 
 
