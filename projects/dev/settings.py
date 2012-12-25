@@ -74,6 +74,13 @@ TEMPLATE_DIRS = (
     "%stemplates/" % ROOT_PROJECT,
 )
 
+ANONYMOUS_USER_ID = -1
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend', # this is default
+    'guardian.backends.ObjectPermissionBackend',
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -92,7 +99,8 @@ INSTALLED_APPS = (
 
     'registration',
     'inspect_model',
-    'avatar', 
+    'avatar',
+    'guardian', 
     #'debug_toolbar'
 )
 

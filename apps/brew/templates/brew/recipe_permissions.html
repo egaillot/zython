@@ -1,0 +1,59 @@
+{% extends "brew/recipe_detail.html" %}
+{% load i18n guardian_tags %}
+{% load url from future %}
+
+
+{% block inner_content %}
+    <h2>{% trans "Permissions" %}</h2>
+    {% if object.private %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Can view</th>
+                <th>Can change</th>
+            </tr>
+        </thead>
+        {% for user in user_perms %}
+            {% get_obj_perms user for object as "perms" %}
+            <tr>
+                <td>{{ user }}</td>
+                <td>
+                    {% if "view_recipe" in perms %}
+                        OUI
+                    {% else %}
+                        NON
+                    {% endif %}
+                </td>
+                <td>
+                    {% if "change_recipe" in perms %}
+                        OUI
+                    {% else %}
+                        NON
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <form action="{% url "brew_recipe_setperms" object.id %}" method="POST">{% csrf_token %}
+        <input name="username" placeholder="Username" />
+
+        <select name="perms" id="">
+            <option value="">Aucune permission</option>
+            <option value="view_recipe">Voir la recette</option>
+            <option value="view_recipe|change_recipe">Voir et modifier la recette</option>
+        </select>
+
+        <input type="submit">
+    </form>
+    {% else %}
+        <div class="alert alert-info">
+            <b>{% trans "Your recipe is public" %}</b>. 
+            {% trans "You can set permissions after setting your recipe private" %}
+        </div>
+
+    {% endif %}
+
+
+{% endblock inner_content %}

@@ -19,6 +19,7 @@
   <link rel="dns-prefetch" href="//fonts.googleapis.com" />
   <link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
   <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
+
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -87,9 +88,7 @@
                 {% endfor %}
               </ul>
             </li>
-            {% if user.is_active %}
-              <li><a href="{% url how_it_works %}">{% trans "Formulas" %}</a></li>
-            {% endif %}
+            <li><a href="{% url how_it_works %}">{% trans "Formulas" %}</a></li>
             <li><a href="{% url brew_style_list %}">{% trans "Beer styles" %}</a></li>
             {% if request.user.is_anonymous %}
               <li>
@@ -186,11 +185,13 @@
   <footer class='center'>
     <p>
         <span class="badge ">Zython - V1.2</span> <br>
+        <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
+        /
         <a href="https://bitbucket.org/m_clement/zython/issues/new" target="_blank">{% trans "Report an issue / contribute" %}</a>
-    </p>
-    <p>
-      Martyn CLEMENT 2012 -
-      <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
+    <br>
+      Made by 
+      <a href="http://twitter.com/m_clement/">Martyn CLEMENT</a> in 2012 
+      with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.0.4</a>
     </p>
   </footer>
 </div><!--/.fluid-container-->

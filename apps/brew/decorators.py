@@ -7,13 +7,13 @@ def recipe_author(f, redirect_url="/"):
     def wrap(request, *args, **kwargs):
         recipe_id = kwargs.get('recipe_id')
         try:
-            r = Recipe.objects.get(
-                pk=recipe_id,
-                user=request.user
-            )
+            recipe = Recipe.objects.get(pk=recipe_id)
+            if recipe.user == request.user or request.user.has_perm('change_recipe', recipe):
+                return f(request, *args, **kwargs)
         except Recipe.DoesNotExist:
-            return HttpResponseRedirect("/")
-        return f(request, *args, **kwargs)
+            pass
+        return HttpResponseRedirect("/")
+
     wrap.__doc__ = f.__doc__
     wrap.__name__ = f.__name__
     return wrap

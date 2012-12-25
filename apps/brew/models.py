@@ -146,6 +146,9 @@ class Recipe(models.Model):
 
     class Meta:
         ordering = ('-created',)
+        permissions = (
+            ('view_recipe', _(u'View recipe')),
+        )
 
     # - - -
     # Water volumes
@@ -463,6 +466,8 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
 
     def ibu(self):
         if self.usage == "dryhop":
+            return 0
+        elif not self.boil_time:
             return 0
         volume = float(l_to_gal(self.recipe.batch_size))
         gravity = float(self.recipe.get_original_gravity()) - 1

@@ -60,6 +60,11 @@
   <li><a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
   	<span class="icon-list"></span>
   	{% trans "Copy (txt)" %}</a></li>
+  {% if can_edit %}
+  <li {% if page == "permissions" %}class="active"{% endif %}><a href="{% url "brew_recipe_permissions" object.pk %}">
+  	<span class="icon-eye-open {% if page == "permissions" %}icon-white{% endif %}"></span>
+  	{% trans "Permissions" %}</a></li>
+  	{% endif %}
 </ul>
 
 
@@ -133,7 +138,7 @@
 	</div>
 	<div class="span2">
 		<ul class="nav nav-list ingredient-list">
-			{% if object.user == request.user %}
+			{% if can_edit %}
 				<li
 				{% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
 					class="popover-menu nav-header" 
@@ -161,7 +166,7 @@
 	</div>
 	<div class="span2">
 		<ul class="nav nav-list ingredient-list">
-			{% if object.user == request.user %}
+			{% if can_edit %}
 				<li class="nav-header">{% trans "Mash" %}</li>
 				<li><a data-toggle="modal" href="#add_mash">
 				<a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
@@ -200,7 +205,7 @@
 
 
 {% block js %}
-{% if object.user == request.user %}
+{% if can_edit %}
 	<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
 	<script type="text/javascript">
 	function reload_page(){

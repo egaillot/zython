@@ -3,11 +3,13 @@ from django.utils.decorators import method_decorator
 from django.utils import simplejson as json
 from django.db.models import Q
 from django import http
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.views.generic import ListView, CreateView, DetailView, DeleteView
 from django.views.generic.edit import FormView, UpdateView
+from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
 from brew.models import *
@@ -17,6 +19,8 @@ from brew.decorators import recipe_author
 
 from units.views import UnitViewFormMixin
 import djnext
+from guardian.shortcuts import get_users_with_perms, assign, get_perms_for_model, remove_perm, get_objects_for_user
+
 
 SLUG_MODEL = {
     'malt': RecipeMalt,
@@ -73,8 +77,11 @@ class RecipeListView(ListView):
         self.user = None
         queryset = Recipe.objects.select_related('user', 'style')
         if self.request.user.is_active:
+            special_recipes = get_objects_for_user(self.request.user, 'brew.view_recipe')
             qs = queryset.filter(
-                Q(private=False) | Q(user=self.request.user)
+                Q(private=False) |
+                Q(user=self.request.user) |
+                Q(id__in=[r.id for r in special_recipes])
             )
         else:
             qs = queryset.filter(private=False)
@@ -146,7 +153,7 @@ class RecipeDetailView(DetailView):
 
     def dispatch(self, *args, **kwargs):
         response = super(RecipeDetailView, self).dispatch(*args, **kwargs)
-        if self.object.private and self.request.user != self.object.user:
+        if self.object.private and self.request.user != self.object.user and not self.request.user.has_perm('brew.view_recipe', self.object):
             raise http.Http404()
         return response
 
@@ -171,14 +178,22 @@ class RecipeDetailView(DetailView):
         context['counter'] = 1
         context['page'] = "recipe"
         context['controls'] = self.object.all_controls()
+        can_edit = self.request.user == self.object.user or self.request.user.has_perm('change_recipe', self.object)
+        context['can_edit'] = can_edit
+
         if "print" in self.template_name_suffix:
             context['can_edit'] = False
             context['version'] = "print"
         elif "comment" in self.template_name_suffix:
             context['page'] = "comments"
+        elif "permissions" in self.template_name_suffix:
+            context['page'] = "permissions"
+            context['user_perms'] = get_users_with_perms(self.object)
+            context['object_perms'] = get_perms_for_model(self.object)
+            if not can_edit:
+                return HttpResponseRedirect('/')
         else:
             context['version'] = "detail"
-            context['can_edit'] = self.request.user == self.object.user
         return context
 
 
@@ -406,3 +421,28 @@ def mash_delete(request, recipe_id, object_id):
     mash = get_object_or_404(MashStep, pk=object_id, recipe=recipe)
     mash.delete()
     return http.HttpResponseRedirect(recipe.get_absolute_url())
+
+
+@login_required
+@recipe_author
+def set_user_perm(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    username = request.POST.get('username')
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        messages.error(request, _("User %s does not exist" % username))
+    else:
+        raw_perms = request.POST.get('perms')
+        perms = raw_perms.split("|")
+        init_perms = ['change_recipe', 'view_recipe']
+        for perm in init_perms:
+            remove_perm(perm, user, recipe)
+        for perm in perms:
+            if perm:
+                assign(perm, user, recipe)
+        if raw_perms:
+            messages.success(request, _("Permissions added for user %s" % username))
+        else:
+            messages.success(request, _("Permissions removed for user %s" % username))
+    return http.HttpResponseRedirect(reverse('brew_recipe_permissions', args=[recipe_id]))
