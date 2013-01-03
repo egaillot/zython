@@ -2,7 +2,7 @@ import math
 from operator import itemgetter
 from datetime import datetime
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.comments.signals import comment_was_posted
@@ -12,7 +12,10 @@ from django.core.cache import cache
 from public.helpers import send_email_html
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
+from brew.managers import RecipeManager
 from brew import settings as app_settings
+import reversion
+from reversion.models import Version
 from units.conversions import kg_to_lb, ebc_to_srm, \
     srm_to_ebc, l_to_gal, g_to_oz, f_to_c, c_to_f
 
@@ -126,8 +129,33 @@ class Recipe(models.Model):
     grain_temperature = models.DecimalField(_('Grain temperature'), max_digits=3, decimal_places=1, default="22")
     forked_from = models.ForeignKey('self', null=True, blank=True)
 
+    objects = RecipeManager()
+
     # - - -
     # Generic model class/methods
+
+    def get_all_versions(self):
+        related_models = [
+            RecipeMalt, RecipeHop,
+            RecipeMisc, RecipeYeast,
+            MashStep
+        ]
+        q = Q()
+        for model in related_models:
+            ids = list(model.objects.filter(recipe=self).values_list('id', flat=True))
+            if len(ids) > 0:
+                content_type = ContentType.objects.get_for_model(model)
+                q |= Q(
+                    content_type=content_type,
+                    object_id_int__in=ids
+                )
+
+        q = Q(serialized_data__contains='"recipe": %s' % self.id)
+        q |= Q(
+            content_type=ContentType.objects.get_for_model(self),
+            object_id_int=self.id
+        )
+        return Version.objects.filter(q).order_by('-id')
 
     @property
     def cache_key(self):
@@ -423,13 +451,17 @@ class UpdateRecipeModel(object):
     def save(self, *args, **kwargs):
         resp = super(UpdateRecipeModel, self).save(*args, **kwargs)
         # Save the recipe so that the cache_key is updated
-        self.recipe.save()
+        # The save() method is listened by `reversion`
+        # and we don't create a diff for the recipe, but the ingredient
+        Recipe.objects.filter(pk=self.recipe.id).update(modified=datetime.now())
         return resp
 
     def delete(self, *args, **kwargs):
         resp = super(UpdateRecipeModel, self).delete(*args, **kwargs)
         # Save the recipe so that the cache_key is updated
-        self.recipe.save()
+        # The save() method is listened by `reversion`
+        # and we don't create a diff for the recipe, but the ingredient
+        Recipe.objects.filter(pk=self.recipe.id).update(modified=datetime.now())
         return resp
 
 
@@ -566,3 +598,10 @@ def comment_notification(sender, comment, request, *args, **kwargs):
         if to:
             send_email_html(subject, from_email, to, template_name, context=context)
 comment_was_posted.connect(comment_notification)
+
+
+reversion.register(Recipe, follow=['recipehop_set', 'recipemalt_set', 'recipeyeast_set', 'recipemisc_set'])
+reversion.register(RecipeMalt)
+reversion.register(RecipeHop)
+reversion.register(RecipeMisc)
+reversion.register(RecipeYeast)

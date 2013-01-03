@@ -30,7 +30,7 @@
 <form name='langform' style='margin:0px;display:inline;width:200px' action='/i18n/setlang/' method='POST'>{% csrf_token %}
   <input name='language' type="hidden" value="{{ LANGUAGE_CODE }}">
 </form>
-<div class="navbar">
+<div class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container"><div class="row">
       <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -44,6 +44,8 @@
       </a>
         <div class="nav-collapse">
           <ul class="nav pull-right">
+            {% if request.user.is_active %}
+              
             <li class="dropdown">
               <a class='dropdown-toggle' data-toggle="dropdown" href="#">
                 <b>{% trans "Add a new recipe" %}</b>
@@ -54,6 +56,7 @@
               <li><a href="{% url brew_recipe_import %}">{% trans "Import recipe (BeerXML)" %}</a></li>
             </ul>
             </li>
+            {% endif %}
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 {% get_language_info for LANGUAGE_CODE as lang %}
@@ -118,6 +121,7 @@
         </div><!--/.nav-collapse -->
     </div></div>
   </div>
+</div>
   {% if request.get_full_path == "/" and request.user.is_anonymous %}
    <div id="welcome">
     <div class="content center">
@@ -170,8 +174,7 @@
     </div>
    </div>
   {% endif %}
-</div>
-<div class="container">
+  <div class="container" id="main_page">
   <div class="row">
       {% if messages %}
             {% for message in messages %}
@@ -191,7 +194,7 @@
     <br>
       Made by 
       <a href="http://twitter.com/m_clement/">Martyn CLEMENT</a> in 2012 
-      with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.0.4</a>
+      with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.2.2</a>
     </p>
   </footer>
 </div><!--/.fluid-container-->
@@ -239,7 +242,7 @@ jQuery.extend(jQuery.fn.dataTableExt.oSort, {
     }
 });
 $(function(){
-  $('.tip').tooltip();
+  $('.tip').tooltip({'html': true});
   $('.table-sorted').dataTable({"bPaginate": false, "bInfo": false, "bFilter": false});
 });
 </script>

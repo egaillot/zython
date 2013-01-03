@@ -1,3 +1,9 @@
+
+-- 2012-12-26
+ALTER TABLE `brew_recipe` ADD `modified_by_id` integer;
+CREATE INDEX `brew_recipe_6162aa58` ON `brew_recipe` (`modified_by_id`);
+
+
 -- 2012-11-20
 ALTER TABLE `brew_recipemisc` change `amount` `amount` numeric(10, 2) NOT NULL;
 ALTER TABLE `brew_recipemisc` change `time` `time` numeric(10, 2) NOT NULL;

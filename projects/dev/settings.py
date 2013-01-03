@@ -57,6 +57,8 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'django.middleware.transaction.TransactionMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -100,7 +102,8 @@ INSTALLED_APPS = (
     'registration',
     'inspect_model',
     'avatar',
-    'guardian', 
+    'guardian',
+    'reversion',
     #'debug_toolbar'
 )
 

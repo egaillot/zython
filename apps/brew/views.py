@@ -19,8 +19,7 @@ from brew.decorators import recipe_author
 
 from units.views import UnitViewFormMixin
 import djnext
-from guardian.shortcuts import get_users_with_perms, assign, get_perms_for_model, remove_perm, get_objects_for_user
-
+from guardian.shortcuts import get_users_with_perms, assign, get_perms_for_model, remove_perm
 
 SLUG_MODEL = {
     'malt': RecipeMalt,
@@ -28,12 +27,14 @@ SLUG_MODEL = {
     'hop': RecipeHop,
     'yeast': RecipeYeast
 }
+
 SLUG_MODELROOT = {
     'malt': Malt,
     'misc': Misc,
     'hop': Hop,
     'yeast': Yeast
 }
+
 SLUG_MODELFORM = {
     'malt': RecipeMaltForm,
     'misc': RecipeMiscForm,
@@ -63,40 +64,32 @@ class RecipeAuthorMixin(object):
 
 
 class RecipeListView(ListView):
-    def search_form(self, qs):
-        if self.request.GET:
-            search_form = RecipeSearchForm(self.request.GET)
-            if search_form.is_valid():
-                qs = search_form.search(qs)
-        else:
-            search_form = RecipeSearchForm()
-        self.search_form = search_form
-        return qs
+    user = None
 
-    def get_queryset(self):
-        self.user = None
-        queryset = Recipe.objects.select_related('user', 'style')
-        if self.request.user.is_active:
-            special_recipes = get_objects_for_user(self.request.user, 'brew.view_recipe')
-            qs = queryset.filter(
-                Q(private=False) |
-                Q(user=self.request.user) |
-                Q(id__in=[r.id for r in special_recipes])
-            )
-        else:
-            qs = queryset.filter(private=False)
+    def search_form(self, qs):
         if self.kwargs.get("username"):
+            # Display User page
             user = get_object_or_404(User, username=self.kwargs.get("username"))
             self.user = user
             qs = qs.filter(user=user)
         else:
-            qs = self.search_form(qs)
+            if self.request.GET:
+                search_form = RecipeSearchForm(self.request.GET)
+                if search_form.is_valid():
+                    qs = search_form.search(qs)
+            else:
+                search_form = RecipeSearchForm()
+            self.search_form = search_form
         return qs
+
+    def get_queryset(self):
+        qs = Recipe.objects.for_user(self.request.user).select_related('user', 'style')
+        return self.search_form(qs)
 
     def get_context_data(self, **kwargs):
         context = super(RecipeListView, self).get_context_data(**kwargs)
         context['user_recipe'] = self.user
-        if not self.user:
+        if self.user is None:
             context['search_form'] = getattr(self, 'search_form')
         return context
 
@@ -118,9 +111,7 @@ class RecipeCreateView(UnitViewFormMixin, CreateView):
         return http.HttpResponseRedirect(self.get_success_url())
 
     def get_initial(self):
-        """
-        Returns the initial data to use for forms on this view.
-        """
+        """Get the previous data used."""
         initial = super(CreateView, self).get_initial()
         recipes = self.request.user.recipe_set.all().order_by('-created')
         if recipes.count() > 0:
@@ -150,11 +141,14 @@ class RecipeImportView(FormView):
 
 class RecipeDetailView(DetailView):
     model = Recipe
+    page = "detail"
 
     def dispatch(self, *args, **kwargs):
         response = super(RecipeDetailView, self).dispatch(*args, **kwargs)
         if self.object.private and self.request.user != self.object.user and not self.request.user.has_perm('brew.view_recipe', self.object):
             raise http.Http404()
+        if "permissions" in self.template_name_suffix and self.request.user != self.object.user:
+            return http.HttpResponseRedirect(self.object.get_absolute_url())
         return response
 
     def render_to_response(self, context, **kwargs):
@@ -175,30 +169,30 @@ class RecipeDetailView(DetailView):
             for key, model in SLUG_MODELROOT.iteritems():
                 context['%s_list' % key] = model.objects.all()
                 context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
-        context['counter'] = 1
-        context['page'] = "recipe"
-        context['controls'] = self.object.all_controls()
+        self.template_name_suffix = "_%s" % self.page
         can_edit = self.request.user == self.object.user or self.request.user.has_perm('change_recipe', self.object)
-        context['can_edit'] = can_edit
-
-        if "print" in self.template_name_suffix:
-            context['can_edit'] = False
-            context['version'] = "print"
-        elif "comment" in self.template_name_suffix:
-            context['page'] = "comments"
-        elif "permissions" in self.template_name_suffix:
-            context['page'] = "permissions"
+        if self.page == "print":
+            can_edit = False
+        elif self.page == "permissions":
             context['user_perms'] = get_users_with_perms(self.object)
             context['object_perms'] = get_perms_for_model(self.object)
-            if not can_edit:
-                return HttpResponseRedirect('/')
-        else:
-            context['version'] = "detail"
+        context.update({
+            'page': self.page,
+            'context': self.object.all_controls(),
+            'can_edit': can_edit
+        })
         return context
 
 
 class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
     success_url = "/"
+
+    def dispatch(self, *args, **kwargs):
+        response = super(RecipeDeleteView, self).dispatch(*args, **kwargs)
+        if self.object.private and self.request.user != self.object.user:
+            messages.error(self.request, _("You can't delete this recipe"))
+            return http.HttpResponseRedirect(self.object.get_absolute_url())
+        return response
 
     def get_context_data(self, **kwargs):
         context = super(RecipeDeleteView, self).get_context_data(**kwargs)

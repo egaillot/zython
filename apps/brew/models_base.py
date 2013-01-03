@@ -96,6 +96,9 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     class Meta:
         abstract = True
 
+    def __unicode__(self):
+        return _(u"Malt %s") % self.name
+
     @property
     def copy_fields(self):
         return (
@@ -115,6 +118,9 @@ class BaseHop(models.Model, BaseIngredientMixin):
     acid_beta = models.DecimalField(_('Acid beta'), max_digits=4, decimal_places=2)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
+    def __unicode__(self):
+        return _(u"Hop %s") % self.name
+
     class Meta:
         abstract = True
 
@@ -133,6 +139,9 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     best_for = models.TextField(_('Best for'), null=True, blank=True)
     notes = models.TextField(_('Notes'), null=True, blank=True)
 
+    def __unicode__(self):
+        return _(u"Yeast %s") % self.name
+
     def attenuation(self):
         return (self.min_attenuation + self.max_attenuation) / 2
 
@@ -146,6 +155,9 @@ class BaseMisc(models.Model, BaseIngredientMixin):
     usage = models.CharField(_("Usage"), max_length=100, blank=True, null=True)
     use_in = models.CharField(_('Use for'), choices=MISC_USEIN_CHOICES, default="boil", max_length=50)
     notes = models.TextField(_('Notes'), null=True, blank=True)
+
+    def __unicode__(self):
+        return _(u"Misc %s") % self.name
 
     class Meta:
         abstract = True

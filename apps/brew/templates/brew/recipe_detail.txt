@@ -21,4 +21,4 @@
 {% trans "Mash steps" %}
 ------------
 {% recipe_mashsteps_txt object %}
-{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 75.6 0 %}
+{% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 78 0 %}
