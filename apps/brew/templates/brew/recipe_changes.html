@@ -5,7 +5,6 @@
 
 {% block inner_content %}
     <h2>{% trans "Changes" %}</h2>
-
     {% regroup object.get_all_versions by date_created|date as date_list %}
     {% for version_date in date_list %}
         <div class="version_row">
@@ -19,21 +18,35 @@
                             </div>
                             <div class="span10">
                                 <b>{{ version.revision.user.username }}, {{  version.date_created|time }}</b> <br>
-                                    {% if version.type == 0 %}
-                                        <span class="icon-plus-sign"></span>
-                                    {% endif %}
-                                    {% if version.type == 1 %}
-                                        <span class="icon-edit"></span>
-                                    {% endif %}
-                                    {% if version.type == 2 %}
-                                        <span class="icon-minus-sign"></span>
-                                    {% endif %}
-                                    {{ version.get_type_display }} : {{ version.object_repr }}
-                                    <div class="hide">{{ version.field_dict }}</div>
+                                {% if version.type == 0 %}
+                                    <span class="badge badge-success">
+                                        <span class="icon-plus-sign icon-white"></span>
+                                    </span>
+                                {% endif %}
+                                {% if version.type == 1 %}
+                                    <span class="badge badge-info">
+                                        <span class="icon-edit icon-white"></span>
+                                    </span>
+                                {% endif %}
+                                {% if version.type == 2 %}
+                                    <span class="badge badge-inverse">
+                                        <span class="icon-minus-sign icon-white"></span>
+                                    </span>
+                                {% endif %}
+                                {% if "Hop " in version.object_repr %}
+                                    <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="">
+                                {% endif %}
+                                {% if "Malt " in version.object_repr %}
+                                    <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="">
+                                {% endif %}
+                                {% if "Yeast " in version.object_repr %}
+                                    <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="">
+                                {% endif %}
+
+                                {{ version.object_repr }}
+                                <div class="hide">{{ version.field_dict }}</div>
                             </div>
-
                         </div>
-
                     </div>
                 {% endifchanged %}
             {% endfor %}

@@ -4,7 +4,7 @@
 {% load url from future %}
 
 
-{% block title %}{{ object.name }}, by {{ object.user.get_full_name}}   
+{% block title %}{{ object.name }}, by {{ object.user.username }} - {{ page }}
 {% endblock title %}
 
 

@@ -5,7 +5,7 @@
 
 {% block inner_content %}
     <h2>{% trans "Permissions" %}</h2>
-    <table class="table">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>{% trans "Username" %}</th>
@@ -35,18 +35,20 @@
         {% endfor %}
     </table>
 
-    <form action="{% url "brew_recipe_setperms" object.id %}" method="POST">{% csrf_token %}
-        <input name="username" placeholder="Username" />
-        <select name="perms" id="">
-            <option value="">{% trans "No permissions" %}</option>
-            {% if object.private %}
-                <option value="view_recipe">{% trans "View this recipe" %}</option>
-            {% endif %}
-            <option value="view_recipe|change_recipe">{% trans "View and change this recipe" %}</option>
-        </select>
-
-        <input type="submit" value="{% trans "Add" %}">
-    </form>
+    <div class="well">
+        <h4>Set permission</h4>
+        <form action="{% url "brew_recipe_setperms" object.id %}" method="POST" class="form-inline">{% csrf_token %}
+            <input name="username" placeholder="Username" />
+            <select name="perms" id="">
+                <option value="">{% trans "No permissions" %}</option>
+                {% if object.private %}
+                    <option value="view_recipe">{% trans "View this recipe" %}</option>
+                {% endif %}
+                <option value="view_recipe|change_recipe">{% trans "View and change this recipe" %}</option>
+            </select>
+            <input type="submit" value="{% trans "Add" %}" class='btn'>
+        </form>
+    </div>
 
 
 

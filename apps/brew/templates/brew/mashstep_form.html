@@ -41,9 +41,8 @@
                 {{ form.water_added }}
                 {{ form.water_added.help_text }}
                 {{ form.water_added.errors }}
-                {% if not form.instance.recipe.mashstep_set.all %}
-                    
-                <div id="id_result_ratio">Ratio : </div>
+                {% if form.instance.is_first_step %}
+                    <div id="id_result_ratio">Ratio : </div>
                 {% endif %}
             </div>
         </div>

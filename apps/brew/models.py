@@ -182,52 +182,60 @@ class Recipe(models.Model):
     # Water volumes
 
     def water_initial_mash(self):
+        """The estimated good ration grain/water"""
         ratio = float(app_settings.WATER_L_PER_GRAIN_KG)
         grain = float(self.get_total_grain())
         return ratio * grain
 
-    def water_pre_boil(self):
-        volume = float(self.batch_size) \
-            + float(self.boiler_tun_deadspace) \
-            + float(self.water_boiloff())
-        return volume
-
     def water_boiloff(self):
+        """Volume of water lost due to boiloff/evaporation"""
         volume = float(self.batch_size + self.boiler_tun_deadspace)
         boil_time = float(self.get_boil_time() + 3) / 60.
         boil_off = volume * (float(self.evaporation_rate) / 100.) * boil_time
         return boil_off
 
     def water_mash_added(self):
+        """Sum of the water added during mash process"""
         steps = self.mashstep_set.all()
         if steps.count():
             return float(steps.aggregate(Sum('water_added')).get('water_added__sum'))
         return float(self.water_initial_mash())
 
     def water_grain_absorbtion(self):
-        grain_absorbtion = float(self.get_total_grain()) * 1.001
+        """Total amount of water lost due to grain absorbtion"""
+        grain_absorbtion = float(self.get_total_grain({'malt_type': 'grain'})) * 1.001
         return grain_absorbtion
 
     def boil_size(self):
+        """The estimated water volume before boiling"""
         return self.water_boiloff() + float(self.batch_size) + float(self.boiler_tun_deadspace)
 
+    def extra_water_added(self):
+        """Volume of wort coming from sugar/extract"""
+        # 1 kg sugar == 0,55 L added
+        # TODO : adjust this index for dry/extracts
+        total = 0.
+        sugar_index = 0.55
+        total += float(self.get_total_grain({'malt_type__in': ['sugar', 'extract', 'dryextract']})) * sugar_index
+        return total
+
     def water_sparge(self):
-        water_sparge = self.water_pre_boil()
+        """Calculated volume of sparge water"""
+        water_sparge = self.boil_size()
         water_sparge += float(self.mash_tun_deadspace)
         water_sparge += float(self.water_grain_absorbtion())
         water_mash = float(self.water_mash_added())
         water_sparge -= water_mash
+        water_sparge -= float(self.extra_water_added())
         return water_sparge
 
     # - - -
     # Mash
 
-    def get_total_grain(self):
-        cache_key = "%s_total_grain" % self.cache_key
-        total = cache.get(cache_key)
-        if total is None:
-            total = sum(self.recipemalt_set.all().values_list('amount', flat=True))
-            cache.set(cache_key, total, 60 * 15)
+    def get_total_grain(self, qs_kwargs={}):
+        """Return the weight in kg of all the grains. """
+        qs = self.recipemalt_set.filter(**qs_kwargs)
+        total = sum(qs.values_list('amount', flat=True))
         return total
 
     def get_preboil_gravity(self):
@@ -551,7 +559,7 @@ class MashStep(UpdateRecipeModel, models.Model):
 
     def initial_heat(self):
         # TODO :
-        # Why doesn't this work properly
+        # Why this doesn't work properly
         # with total grain weight ??
         # Equation doc : http://www.byo.com/stories/techniques/article/indices/45-mashing/631-feel-the-mash-heat
 
@@ -565,6 +573,15 @@ class MashStep(UpdateRecipeModel, models.Model):
         W = float(float(l_to_gal(self.water_added)) * M)  # weight of water
         temp = f_to_c(((M * Hm * (Tma - Tmt)) / (W * Hw)) + Tma)
         return temp
+
+    @property
+    def is_first_step(self):
+        "Is it the first mash step of the recipe ?"
+        try:
+            return self == self.recipe.mashstep_set.all()[0]
+        except IndexError:
+            # If no mashtep set yet, it's the first
+            return True
 
     def set_order(self, direction):
         pass
