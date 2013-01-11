@@ -4,9 +4,7 @@ Zython
 Qu'est-ce ?
 -----------
 
-Zython est une application en ligne d'aide à la conception de recettes de bière. http://zython.me
-
-Attention, l'abus d'alcool peut vous amener à faire un pull-request. 
+Zython est une application en ligne d'aide à la conception de recettes de bière et est logée sur http://zython.me
 
 
 Pourquoi ?
@@ -16,8 +14,10 @@ Parce que le milieu brassicol manque d'un logiciel qui permette toutes ces chose
 
  * d'en disposer gratuitement
  * de choisir les unités de notre cher pays
- * de pouvoir s'en servir sur toutes les plateformes
- * une utililsation simple
+ * de pouvoir s'en servir quelque soit l'ordinateur utilisé
+ * partager une recette privée avec quelqu'un pour la travailler
+ * échanger des commentaires sur une recette
+ * vérifier la justesse de la recette avec un style BJCP2008
 
 
 Equivalents
@@ -34,19 +34,23 @@ Equivalents
 Participer
 ----------
 
-Vous savez *traduire* ? Connaissez vous assez le *brassage* pour m'aider à améliorer les formules ? Vous êtes *développeur pythoniste amateur de bière*  ? Vous *voulez* m'envoyer un chèque ? Peut-être plutôt *designer* ?
+Vous savez *traduire* ? Connaissez vous assez le *brassage* pour m'aider à améliorer les formules ? Vous êtes *développeur pythoniste amateur de bière*  ? Vous *voulez* m'envoyer un chèque ? Peut-être plutôt *designer* ? Si vous vous reconnaissez, je me ferais un plaisir de vous faire participer au projet. 
 
-Si vous vous reconnaissez, je me ferais un plaisir de vous faire participer au projet. 
+Vous pouvez tout simplement en parler à des brasseurs qui pourraient être intéressés.
 
 
-TODO
-====
+TODO (liste des choses à faire)
+===============================
 
- * Ajuster la quantité de moût si ajout de sucre 
+ * Lors d'un ajout d'ingrédient, accéder au formulaire "avancé" automatiquement
+ * Dupliquer une recette
+ * Améliorer l'alimentation des données ingrédients (proposition d'ajout de malt, houblon etc...)
+ * Ajout d'eau dans la recette à n'importe quel moment
+ * Ajout de grain pendant l'ébullition
+ * Ajout d'épice pendant l'empattage
+ * Différencier visuellement l'empattage de l'ébullition (fiche recette plus élaborée ?)
  * Export au format BeerXML
  * Définir une notion de "recette validée". Admin ? Vote des autres brasseurs ?
- * Partager une recette privée avec certains brasseurs
- * Dupliquer une recette
 
 
 Licence
