@@ -571,7 +571,10 @@ class MashStep(UpdateRecipeModel, models.Model):
         if M == 0.0:
             M = 1.
         W = float(float(l_to_gal(self.water_added)) * M)  # weight of water
-        temp = f_to_c(((M * Hm * (Tma - Tmt)) / (W * Hw)) + Tma)
+        if W == 0:
+            temp = self.temperature
+        else:
+            temp = f_to_c(((M * Hm * (Tma - Tmt)) / (W * Hw)) + Tma)
         return temp
 
     @property
