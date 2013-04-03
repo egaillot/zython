@@ -176,9 +176,14 @@ class RecipeDetailView(DetailView):
         elif self.page == "permissions":
             context['user_perms'] = get_users_with_perms(self.object)
             context['object_perms'] = get_perms_for_model(self.object)
+        if can_edit and self.page == 'detail':
+            context['controls'] = self.object.all_controls()
+            if 'open_modal' in self.request.session.iterkeys():
+                context['open_modal'] = self.request.session['open_modal']
+                del self.request.session['open_modal']
+
         context.update({
             'page': self.page,
-            'context': self.object.all_controls(),
             'can_edit': can_edit
         })
         return context
@@ -227,63 +232,6 @@ class StyleDetailView(DetailView):
             category=self.object.category
         ).exclude(id=self.object.id)
         return context
-
-
-"""
-I N G R E D I E N T S
----------------------
-"""
-
-
-class IngredientFormView(FormView):
-    def set_env(self):
-        ingredient = self.kwargs.get("ingredient")
-        recipe_id = self.kwargs.get("recipe_id")
-        object_id = self.kwargs.get("object_id")
-        self.recipe = get_object_or_404(Recipe, pk=recipe_id)
-        self.model_class = SLUG_MODEL[ingredient]
-        self.form_class = SLUG_MODELFORM[ingredient]
-        self.instance = self.model_class(recipe=self.recipe)
-        self.response_type = self.kwargs.get('response', "html")
-        if object_id:
-            self.instance = get_object_or_404(self.model_class, pk=object_id, recipe=self.recipe)
-        self.template_name = self.kwargs.get("template_name") % {'ingredient': ingredient}
-        self.context = {
-            'recipe': self.recipe,
-            'instance': self.instance,
-            'ingredient': ingredient
-        }
-
-    def get(self, *args, **kwargs):
-        self.set_env()
-        self.context["form"] = self.form_class(instance=self.instance, request=self.request)
-        if self.response_type == "json":
-            return http.HttpResponseRedirect(self.recipe.get_absolute_url())
-        return self.render_template()
-
-    def post(self, request, *args, **kwargs):
-        self.set_env()
-        form = self.form_class(data=request.POST, instance=self.instance, request=self.request)
-        out = {'valid': 0}
-        status_code = 200
-        if form.is_valid():
-            form.save()
-            out['valid'] = 1
-            status_code = 202
-        else:
-            out['errors'] = ["%s: %s" % (k, v) for k, v in form.errors.iteritems()]
-        if self.response_type == "json":
-            return http.HttpResponse(json.dumps(out), mimetype="application/json")
-        self.context['form'] = form
-        response = self.render_template()
-        response.status_code = status_code
-        return response
-
-    def render_template(self):
-        return render_to_response(
-            self.template_name, self.context,
-            context_instance=RequestContext(self.request)
-        )
 
 
 """
@@ -349,6 +297,7 @@ def ingredient_form(request, recipe_id, ingredient, object_id=None, response="js
     model_class = SLUG_MODEL[ingredient]
     form_class = SLUG_MODELFORM[ingredient]
     recipe = get_object_or_404(Recipe, pk=recipe_id)
+    adding = object_id is None
     if object_id:
         instance = get_object_or_404(model_class, pk=object_id, recipe=recipe)
     else:
@@ -357,8 +306,11 @@ def ingredient_form(request, recipe_id, ingredient, object_id=None, response="js
     if request.method == "POST":
         form = form_class(data=request.POST, instance=instance, request=request)
         if form.is_valid():
-            form.save()
+            saved_instance = form.save()
             out['valid'] = 1
+            if adding:
+                request.session['open_modal'] = "%s_%s" % (ingredient, saved_instance.id)
+
             if response == "raw":
                 resp = http.HttpResponse('')
                 resp.status_code = 202

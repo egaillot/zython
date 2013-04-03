@@ -3,7 +3,10 @@
 
 {% block content %}
 
+<img class="pull-right" src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:40px;" width="40px" />
+
 <h1>{% block title %}{{ object.name }}{% endblock title %} <small>- {{ object.style.name }}</small></h1>
+
 <table class='bigcol'><tr>
     <td>
         <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>

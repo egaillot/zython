@@ -13,3 +13,4 @@ projects/dev/beer.db
 projects/dev/init.db
 cache/
 medias/css/less/
+projects/dev/zython.sql

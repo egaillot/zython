@@ -199,7 +199,7 @@
 
 {% include "brew/modal_ingredients.html" %}
 
-<div class="modal hide fade" id="doform">
+<div class="modal hide {% if not open_modal %}fade{% endif %}" id="doform">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
         <h3><span></span></h3>
@@ -319,6 +319,9 @@
         $('.select-malt').click(function(){
             $("#id_color").val($(this).attr("data-color"));
         });
+        {% if open_modal %}
+            $("#{{ open_modal }}").click();
+        {% endif %}
     });
     </script>
 {% endif %}

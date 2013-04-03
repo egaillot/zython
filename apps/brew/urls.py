@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     ),
 
     url(r'^(?P<recipe_id>\d+)/edit/(?P<ingredient>\w+)/(?P<object_id>\d+)/$', 
-        IngredientFormView.as_view(), 
+        ingredient_form, 
         {'response': "raw", "template_name": "brew/raw_%(ingredient)s_form.html"}, 
         name='brew_recipe_editingredient'
     ),
@@ -54,7 +54,6 @@ urlpatterns = patterns('',
         name="brew_mash_order"
     ),
     
-
     url(r'^(?P<recipe_id>\d+)/mash/(?P<object_id>\d+)/delete/$', 
         mash_delete, 
         name="brew_mash_delete"
