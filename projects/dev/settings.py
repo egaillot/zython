@@ -98,7 +98,6 @@ INSTALLED_APPS = (
     'public',
     'brew',
     'units',
-    'pyzen',
 
     'registration',
     'inspect_model',
