@@ -134,6 +134,29 @@ class Recipe(models.Model):
     # - - -
     # Generic model class/methods
 
+    def guess_style(self):
+        """
+        According to the OG, FG, ABV, IBU and EBC,
+        will return a queryset of corresponding Style
+        """
+        og = self.get_original_gravity()
+        fg = self.get_final_gravity()
+        abv = self.get_abv()
+        ibu = self.get_ibu()
+        ebc = self.get_ebc()
+        return BeerStyle.objects.filter(
+            original_gravity_min__lte=og,
+            original_gravity_max__gte=og,
+            final_gravity_min__lte=fg,
+            final_gravity_max__gte=fg,
+            alcohol_min__lte=abv,
+            alcohol_max__gte=abv,
+            bitterness_min__lte=ibu,
+            bitterness_max__gte=ibu,
+            color_min__lte=ebc,
+            color_max__gte=ebc,
+        )
+
     def get_all_versions(self):
         related_models = [
             RecipeMalt, RecipeHop,
@@ -373,7 +396,7 @@ class Recipe(models.Model):
 
             # -- Late -- and Fermentables
             late_hops = self.recipehop_set.filter(usage="dryhop")
-            late_misc = self.recipemisc_set.exclude(use_in__in=["boil", "mash", "bottling"])
+            late_misc = self.recipemisc_set.exclude(use_in__in=["boil", "mash", "bottling", "latehop"])
             late = []
             for hop in late_hops:
                 late.append({'object': hop, 'duration': hop.get_duration()})

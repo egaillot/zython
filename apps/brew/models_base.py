@@ -19,7 +19,8 @@ MALT_TYPE_CHOICES = (
 HOP_USAGE_CHOICES = (
     ('boil', _('Boil')),
     ('dryhop', _('Dry Hop')),
-    ('firsthop', _('First Wort'))
+    ('firsthop', _('First Wort')),
+    ('latehop', _('Late Hop')),
 )
 
 HOP_FORM_CHOICES = (
