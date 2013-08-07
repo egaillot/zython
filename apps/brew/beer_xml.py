@@ -38,6 +38,8 @@ def hop_form(val):
 
 
 def hop_usage(val):
+    if 'DRY' in val.upper():
+        return 'dryhop'
     return 'boil'
 
 

@@ -546,6 +546,14 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
             ibu += ibu * 0.105
         return ibu
 
+    def save(self, *args, **kwargs):
+        # Quick patch for issue #4
+        # https://bitbucket.org/m_clement/zython/issue/4/
+        if self.is_dry_hop() and not self.dry_days and self.boil_time:
+            self.dry_days = float(self.boil_time) / 60 / 24
+            self.boil_time = None
+        return super(RecipeHop, self).save()
+
 
 class RecipeYeast(UpdateRecipeModel, BaseYeast):
     recipe = models.ForeignKey('Recipe')

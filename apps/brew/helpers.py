@@ -5,7 +5,7 @@ from lxml import etree
 from brew.models import Recipe, RecipeHop, RecipeMalt,\
     RecipeMisc, RecipeYeast, MashStep, BeerStyle
 from brew.beer_xml import FERMENTABLE_FIELDS, HOP_FIELDS,\
-    MISC_FIELDS, YEAST_FIELDS
+    MISC_FIELDS, YEAST_FIELDS, float1
 
 
 def populate_object(xml_item, object, fields):
@@ -37,7 +37,6 @@ def xml_import(xml_file, model_class, parent_loop, item_loop, fields):
         populate_object(item, obj, fields)
         try:
             obj.save()
-            print obj, "saved"
         except:
             print "CANT SAVE row #%s" % i
 
@@ -51,7 +50,6 @@ def import_beer_xml(datas, user):
         "<RECIPES>",
         """<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" ><RECIPES>"""
     )
-    # print datas
     defs = htmlentitydefs.entitydefs
     for key in defs.keys():
         datas = datas.replace('&' + key + ';', defs[key])
@@ -103,7 +101,7 @@ def import_beer_xml(datas, user):
             MALTS = list(FERMENTABLE_FIELDS) + [("AMOUNT", "amount"), ]
             HOPS = list(HOP_FIELDS) + [
                 ("AMOUNT", "amount", kg_to_g),
-                ("TIME", "boil_time")
+                ("TIME", "boil_time", float1)
             ]
             MISCS = list(MISC_FIELDS) + [
                 ("AMOUNT", "amount", kg_to_g),
@@ -122,11 +120,7 @@ def import_beer_xml(datas, user):
                     for ingr in ingr_list.iterfind(i[1]):
                         recipe_ingr = i[2](recipe=recipe)
                         recipe_ingr = populate_object(ingr, recipe_ingr, i[3])
-                        try:
-                            recipe_ingr.save()
-                        except:
-                            print recipe.name, ingr, recipe_ingr, recipe_ingr.name
-                            recipe_ingr.save()
+                        recipe_ingr.save()
 
             ordering = 0
             mash_steps = mash.find('MASH_STEPS')

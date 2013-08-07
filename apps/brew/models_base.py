@@ -119,6 +119,9 @@ class BaseHop(models.Model, BaseIngredientMixin):
     acid_beta = models.DecimalField(_('Acid beta'), max_digits=4, decimal_places=2)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
+    def is_dry_hop(self):
+        return self.usage == 'dryhop'
+
     def __unicode__(self):
         return _(u"Hop %s") % self.name
 
