@@ -1,6 +1,12 @@
  # -*- coding: utf-8 -*-
  # Django static settings
-from local_settings import *
+from test_settings import *
+
+try:
+    from local_settings import *
+except ImportError:
+    # default to test settings
+    from test_settings import *
 
 DEFAULT_CHARSET = 'utf-8'
 MANAGERS = ADMINS
