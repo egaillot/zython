@@ -1,5 +1,5 @@
 Django==1.4.3
-PIL==1.1.7
+Pillow
 django-registration==0.8
 django-reversion==1.6.5
 wsgiref==0.1.2
@@ -9,5 +9,5 @@ https://github.com/magopian/django-inspect-model/zipball/7d139b8fc8975cc42cd95fc
 https://github.com/guzru/django-avatar/zipball/cd7401dc4fa6519a62c4f8e6b3cb688c77738f51#egg=avatar
 https://bitbucket.org/m_clement/django-units/get/754458f54cc8.tar.gz
 https://bitbucket.org/amenasse/django-current-user/get/7c3c90c8f5e8.zip
-mysql-python
+# mysql-python
 django-guardian==1.0.4
