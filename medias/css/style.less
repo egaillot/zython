@@ -1,0 +1,62 @@
+@lightcolor: #fdf7db;
+@browncolor: #aa7c55;
+
+body, html{
+    background-color: #f0f0ea;
+}
+
+body, a, p{
+    font-size:12px;
+    font-family: Tahoma;
+}
+
+header{
+    h1{
+        background: url(../images/logo_48.png) top left no-repeat;
+        padding-left:50px;
+        line-height:14px;
+        height:50px;
+    }
+    h1 a, h1 a:hover{
+        line-height:17px;
+        padding-top:10px;
+        margin:0;
+        font-size:24px;
+        font-family: 'Averia Serif Libre',cursive;
+        color: @lightcolor;
+        small{
+            color: @browncolor;
+        }
+    }
+    background-color: #222;
+
+    .nav-bar{
+        li{
+            padding:0;
+            a {
+                display:block;
+                padding:20px 10px;
+                color:@lightcolor;
+                transition: all 300ms linear;
+            }
+            a:hover{
+                background-color: darken(@browncolor, 30%);
+                color:lighten(@browncolor, 10%);
+            }
+        }
+        .f-dropdown li{
+            padding:2px;
+            a{
+                background-color:#fff;
+                padding:3px 4px;
+                color:@browncolor;
+            }
+            a:hover{
+                background-color:#EFEFEF;
+
+            }
+        }
+    }
+}
+
+
