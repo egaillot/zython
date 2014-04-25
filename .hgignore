@@ -9,8 +9,7 @@ syntax: glob
 .hg/
 *local_settings*
 medias/avatars
-projects/dev/beer.db
-projects/dev/init.db
+zython.sql
 cache/
 medias/css/less/
 projects/dev/zython.sql
