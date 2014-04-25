@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url
 from brew.views import *
 from brew.forms import * 
 from brew.models import *

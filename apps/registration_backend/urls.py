@@ -1,17 +1,14 @@
-from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
-from registration.views import register
-from registration_backend.forms import RegistrationForm
+from django.conf.urls import patterns, url, include
+from django.views.generic import TemplateView
+from registration_backend.views import ZythonRegistrationView
 
 
 urlpatterns = patterns('',
                        url(r'^register/$',
-                           register,
-                           {'backend': 'registration_backend.SimpleBackend', 'success_url':"/"},
+                           ZythonRegistrationView.as_view(),
                            name='registration_register'),
                        url(r'^register/closed/$',
-                           direct_to_template,
-                           {'template': 'registration/registration_closed.html'},
+                           TemplateView.as_view(template_name='registration/registration_closed.html'),
                            name='registration_disallowed'),
                        (r'', include('registration.auth_urls')),
                        )

@@ -1,6 +1,6 @@
+import json
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.utils import simplejson as json
 from django.db.models import Q
 from django import http
 from django.contrib import messages

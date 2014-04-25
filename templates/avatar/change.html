@@ -22,13 +22,13 @@
     </p>
     <h2>{% trans "Add a new avatar" %}</h2><br>
 
-    <form enctype="multipart/form-data" method="POST" action="{% url avatar_add %}">{% csrf_token %}
+    <form enctype="multipart/form-data" method="POST" action="{% url "avatar_add" %}">{% csrf_token %}
         <input type="file" name="avatar" value="{% trans "Avatar Image" %}" />
         <input type="submit" class='btn' value="{% trans "Upload New Image" %}" />
     </form>
     <p><br></p>
     <hr>
-    <a href="{% url avatar_delete %}">{% trans "Delete my avatars" %}</a>
+    <a href="{% url "avatar_delete" %}">{% trans "Delete my avatars" %}</a>
 
 {% endblock content %}
 
