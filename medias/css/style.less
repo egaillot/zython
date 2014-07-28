@@ -7,7 +7,7 @@
 
 
 body, html{
-    background-color: @bodyBackground;
+    background-color:@bodyBackground;
 }
 
 body, a, p{
@@ -139,4 +139,23 @@ form.form-no-block {
 
         }
     }
+}
+
+ul.sub-nav{
+    background-color: #370F01;
+    overflow: hidden;
+    margin:0;
+    padding:5px 0;
+
+    li{
+        margin-bottom:0;
+        a{
+            color:@lightcolor;
+        }
+        &.active a{
+            background-color: #A11A1E;
+            color:#fff;
+        }
+    }
+
 }

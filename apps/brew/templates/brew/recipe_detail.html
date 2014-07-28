@@ -32,8 +32,8 @@
     {% endif %}
     {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
 </h1>
-<p><br></p>
-<ul class="nav nav-pills">
+<div class="vspace"></div>
+<ul class="sub-nav">
     <li {% if page == "detail" %}class="active"{% endif %}>
         <a href="{{ object.get_absolute_url }}">
             <span class="icon-file {% if page == "detail" %}icon-white{% endif %}"></span>
@@ -56,7 +56,7 @@
             {% trans "Comments" %} ({{ comment_count }})
         </a>
     </li>
-    <li>
+    <li c>
         <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
             <span class="icon-print"></span>
             {% trans "Print" %}
@@ -66,12 +66,6 @@
         <a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
             <span class="icon-list"></span>
             {% trans "Copy (txt)" %}
-        </a>
-    </li>
-    <li {% if page == "changes" %}class="active"{% endif %}>
-        <a href="{% url "brew_recipe_changes" object.pk %}">
-            <span class="icon-search {% if page == "changes" %}icon-white{% endif %}"></span>
-            {% trans "View changes" %}
         </a>
     </li>
     {% if can_edit and request.user == object.user %}
@@ -89,30 +83,30 @@
         </li>
     {% endif %}
 </ul>
-
+<div class="vspace"></div>
 
 {% block inner_content %}
 <div class="well">
     <div class="row">
-        <div class="span6">
+        <div class="column large-6">
             <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }}
         </div>
-        <div class="span5">
+        <div class="column large-5">
             <b>{% trans "Created date" %}</b> : {{ object.created|date }}
         </div>
     </div>
 
     <div class="row">
-        <div class="span6">
+        <div class="column large-6">
             <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}
         </div>
-        <div class="span5">
+        <div class="column large-5">
             <b>{% trans "Created by" %}</b> : <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a>
         </div>
     </div>
 
     <div class="row">
-        <div class="span6">
+        <div class="column large-6">
             <b>{% trans "Est. original gravity" %}</b> : 
             {% if controls.og %}
                 <span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
@@ -128,7 +122,7 @@
             {% endif %}
 
         </div>
-        <div class="span5">
+        <div class="column large-5">
             <b>IBU</b> :
             {% if controls.ibu %}
                 <span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
@@ -154,10 +148,10 @@
 <h2>{% trans "Ingredients" %}</h2>
 
 <div class="row">
-    <div class="span10">
+    <div class="column large-10">
         {% include "brew/recipe_ingredients.html" %}
     </div>
-    <div class="span2">
+    <div class="column large-2">
         <ul class="nav nav-list ingredient-list">
             {% if can_edit %}
                 <li
@@ -181,11 +175,11 @@
 </div>
 <hr>
 <div class="row">
-    <div class="span10">
+    <div class="column large-10">
         <h2>{% trans "Mash detail" %}</h2>
         {% include "brew/recipe_mashsteps.html" %}
     </div>
-    <div class="span2">
+    <div class="column large-2">
         <ul class="nav nav-list ingredient-list">
             {% if can_edit %}
                 <li class="nav-header">{% trans "Mash" %}</li>
