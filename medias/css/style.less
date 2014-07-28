@@ -1,8 +1,13 @@
+@import "elements.less";
+
 @lightcolor: #fdf7db;
 @browncolor: #aa7c55;
+@pagewidth: 1100px;
+@bodyBackground: #f5f5f0;
+
 
 body, html{
-    background-color: #f0f0ea;
+    background-color: @bodyBackground;
 }
 
 body, a, p{
@@ -15,7 +20,7 @@ header{
         background: url(../images/logo_48.png) top left no-repeat;
         padding-left:50px;
         line-height:14px;
-        height:50px;
+        height:48px;
     }
     h1 a, h1 a:hover{
         line-height:17px;
@@ -24,24 +29,31 @@ header{
         font-size:24px;
         font-family: 'Averia Serif Libre',cursive;
         color: @lightcolor;
+
         small{
             color: @browncolor;
         }
     }
-    background-color: #222;
+
+    .gradient(#200000, #200000, #370F01);
+    .drop-shadow(0, 1px, 10px, 0.4);
+    position:relative;
+    z-index:10;
 
     .nav-bar{
         li{
             padding:0;
             a {
+                text-transform: uppercase;
+                letter-spacing: 1px;
                 display:block;
                 padding:20px 10px;
                 color:@lightcolor;
-                transition: all 300ms linear;
+                transition: background-color 300ms linear;
             }
             a:hover{
-                background-color: darken(@browncolor, 30%);
-                color:lighten(@browncolor, 10%);
+                background-color: #A11A1E;
+                color:#fff;
             }
         }
         .f-dropdown li{
@@ -59,4 +71,72 @@ header{
     }
 }
 
+footer{
+    margin-top:20px;
+}
 
+.row{
+    max-width: @pagewidth;
+}
+
+#main_page{
+    width:100%;
+    max-width:@pagewidth;
+    margin:0 auto;
+    background-color: #fff;
+    padding:15px 25px;
+    z-index:8;
+    position:relative;
+}
+
+h1{
+    font-family: 'Averia Serif Libre',cursive;
+    color:@browncolor
+}
+
+
+/* Utils */
+.center{
+    text-align: center;
+}
+
+.well{
+    background-color: @bodyBackground;
+    overflow:hidden;
+    padding:25px;
+}
+.no-margin{
+    margin:0;
+}
+.vspace{
+    overflow: hidden;
+    clear: both;
+    margin-bottom:15px;
+}
+
+/* Forms */
+
+form.form-no-block {
+    input[type="text"], input[type="password"], input[type="date"],
+    input[type="datetime"], input[type="datetime-local"], input[type="month"],
+    input[type="week"], input[type="email"], input[type="number"],
+    input[type="search"], input[type="tel"], input[type="time"], input[type="url"],
+    textarea{
+        display:inline-block;
+    }
+}
+
+/* Buttons */
+.button{
+    .gradient(#300000, #300000, #470F01);
+
+    &.success{
+        .gradient(#DFE698, #cedb4c, #DFE698);
+        color:#373a14;
+        &:hover{
+            color:#000;
+            .gradient(#cedb4c, #cedb4c, #cedb4c);
+
+        }
+    }
+}

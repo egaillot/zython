@@ -38,6 +38,7 @@
 <header>
 <div class="row">
     <div class="large-12 columns">
+        <h1 class="left"><a href="/">Zython 14 <br><small>{% trans "Design and share your beer recipe" %}</small></a></h1>
         <div class="nav-bar right">
             <ul class="button-group">
                 <li>
@@ -105,9 +106,8 @@
 
 
         </div>
-        <h1><a href="/">Zython 14 <br><small>{% trans "Design and share your beer recipe" %}</small></a></h1>
     </div>
-</div>
+  </div>
 </header>
 
 
@@ -262,6 +262,8 @@
   {% endif %}
 {% endcomment %}
 
+  <div class="container" id="main_page">
+
   {% if messages %}
         {% for message in messages %}
         <div class="row">
@@ -285,25 +287,15 @@
 
 
 
+</div><!--/.fluid-container-->
 
 
 
 
 
-  <div class="container" id="main_page">
-  <div class="row">
-      {% if messages %}
-            {% for message in messages %}
-              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-              </div>
-            {% endfor %}
-      {% endif %}
-      {% block zcontent %}{% endblock zcontent %}
-  </div><!--/row-->
   <footer class='center'>
     <p>
-        <span class="badge ">Zython - V 1.2.2</span> <br>
+        <span class="badge"><b>Zython - V 1.2.2</b></span> <br>
         <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
         /
         <a href="https://bitbucket.org/m_clement/zython/issues/new" target="_blank">{% trans "Report an issue / contribute" %}</a>
@@ -313,7 +305,6 @@
       with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.2.2</a>
     </p>
   </footer>
-</div><!--/.fluid-container-->
 <script src="{{ MEDIA_URL }}js/vendor/modernizr.js"></script>
 <script src="{{ MEDIA_URL }}js/vendor/jquery.js"></script>
 <script src="{{ MEDIA_URL }}js/foundation.min.js"></script>

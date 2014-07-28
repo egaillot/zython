@@ -2,130 +2,136 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% block title %}
-	{% if form.instance.id %}
-		{% trans "Edit" %} {{ form.instance }}
-	{% else %}
-		{% trans "Add a new recipe" %}
-	{% endif %}
-{% endblock title %}</h2>
+<form action="." method="POST" autocomplete="off" class="form-no-block">{% csrf_token %}
+<div class="row">
+  <div class="large-8 large-offset-2">
 
-<form action="." method="POST" autocomplete="off">{% csrf_token %}
-<p><br><br></p>
-<div class="offset2">
+	<h2>{% block title %}
+		{% if form.instance.id %}
+			{% trans "Edit" %} {{ form.instance }}
+		{% else %}
+			{% trans "Add a new recipe" %}
+		{% endif %}
+	{% endblock title %}</h2>
+
+	<div class="vspace"></div>
+
 	<div class="row">
-		<div class="span2">
+		<div class="large-2 columns">
 			<label for="{{ form.batch_size.auto_id }}" class='control-label'>{{ form.batch_size.label }}</label> 
 			{{ form.batch_size }}&nbsp;{{ form.batch_size.help_text }}
 			{{ form.batch_size.errors }}
 		</div>
-		<div class="span6">
+		<div class="large-9 columns end">
 			<label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
 			{{ form.name }}
 			{{ form.name.errors }}
 		</div>
 	</div>
+
 	<div class="row">
-		<div class="span2">
+		<div class="large-2 columns">
 			<label for="{{ form.efficiency.auto_id }}" class='control-label'>{{ form.efficiency.label }}</label> 
 			{{ form.efficiency }}&nbsp;{{ form.efficiency.help_text }}
 			{{ form.efficiency.errors }}
 		</div>
-		<div class="span3">
+		<div class="large-3 columns">
 			<label for="{{ form.recipe_type.auto_id }}" class='control-label'>{{ form.recipe_type.label }}</label>
 			{{ form.recipe_type }}
 			{{ form.recipe_type.errors }}
 		</div>
-		<div class="span4">
+		<div class="large-4 columns end">
 			<label for="{{ form.recipe_style.auto_id }}" class='control-label'>{{ form.recipe_style.label }}</label>
 			{{ form.recipe_style }}
 			{{ form.recipe_style.errors }}
 		</div>
 	</div>
+	
+	<div class="vspace"></div>
+
 	<div class="row row-private">
 		<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="">
 		{{ form.private }}
 		{% trans "Private recipe ?" %} <span class="help-inline">({% trans "If checked, this recipe will not be listed to other users." %})</span>
 	</div>
-</div>
 
-<div class="offset2 preference-fields">
-	<hr>
-	<h3>{% trans "Preferences" %}</h3>
-	<div class="row">
-		<div class="span3">
-			<label for="{{ form.mash_tun_deadspace.auto_id }}" class="control-label">
-				{{ form.mash_tun_deadspace.label }}
-			</label>
+	<fieldset class='preferences'>
+		<legend>{% trans "Preferences" %}</legend>
+		<div class="row">
+			<div class="large-3 columns">
+				<label for="{{ form.mash_tun_deadspace.auto_id }}" class="control-label">
+					{{ form.mash_tun_deadspace.label }}
+				</label>
+			</div>
+			<div class="large-6 columns end">
+				{{ form.mash_tun_deadspace }}&nbsp;{{ form.mash_tun_deadspace.help_text }}
+				<span class="help-inline">
+					{% trans "Volume of deadspace in lauter tun" %}
+				</span>
+				{{ form.mash_tun_deadspace.errors }}
+			</div>
 		</div>
-		<div class="span4">
-			{{ form.mash_tun_deadspace }}&nbsp;{{ form.mash_tun_deadspace.help_text }}
-			<span class="help-inline">
-				{% trans "Volume of deadspace in lauter tun" %}
-			</span>
-			{{ form.mash_tun_deadspace.errors }}
-		</div>
-	</div>
-	<div class="row">
-		<div class="span3">
-			<label for="{{ form.boiler_tun_deadspace.auto_id }}" class="control-label">
-				{{ form.boiler_tun_deadspace.label }}
-			</label>
-		</div>
-		<div class="span6">
-			{{ form.boiler_tun_deadspace }}&nbsp;{{ form.boiler_tun_deadspace.help_text }}
-			<span class="help-inline">
-				{% trans "Volume of wort lost due to the boiler tun and chiller deadspace" %}
-			</span>
+		<div class="row">
+			<div class="large-3 columns">
+				<label for="{{ form.boiler_tun_deadspace.auto_id }}" class="control-label">
+					{{ form.boiler_tun_deadspace.label }}
+				</label>
+			</div>
+			<div class="large-8 columns end">
+				{{ form.boiler_tun_deadspace }}&nbsp;{{ form.boiler_tun_deadspace.help_text }}
+				<span class="help-inline">
+					{% trans "Volume of wort lost due to the boiler tun and chiller deadspace" %}
+				</span>
 
-			{{ form.boiler_tun_deadspace.errors }}
+				{{ form.boiler_tun_deadspace.errors }}
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="span3">
-			<label for="{{ form.grain_temperature.auto_id }}" class="control-label">
-				{{ form.grain_temperature.label }}
-			</label>
+		<div class="row">
+			<div class="large-3 columns">
+				<label for="{{ form.grain_temperature.auto_id }}" class="control-label">
+					{{ form.grain_temperature.label }}
+				</label>
+			</div>
+			<div class="large-4 columns end">
+				{{ form.grain_temperature }}&nbsp;{{ form.grain_temperature.help_text }}
+				{{ form.grain_temperature.errors }}
+			</div>
 		</div>
-		<div class="span3">
-			{{ form.grain_temperature }}&nbsp;{{ form.grain_temperature.help_text }}
-			{{ form.grain_temperature.errors }}
+		<div class="row">
+			<div class="large-3 columns">
+				<label for="{{ form.evaporation_rate.auto_id }}" class="control-label">
+					{{ form.evaporation_rate.label }}
+				</label>
+			</div>
+			<div class="large-4 columns end">
+				{{ form.evaporation_rate }}&nbsp;{{ form.evaporation_rate.help_text }}
+				{{ form.evaporation_rate.errors }}
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="span3">
-			<label for="{{ form.evaporation_rate.auto_id }}" class="control-label">
-				{{ form.evaporation_rate.label }}
-			</label>
-		</div>
-		<div class="span3">
-			{{ form.evaporation_rate }}&nbsp;{{ form.evaporation_rate.help_text }}
-			{{ form.evaporation_rate.errors }}
-		</div>
-	</div>
+	</fieldset>
 
-</div>
 
 <hr>
 
 <div class="center">
-	<input type="submit" class="btn btn-success" value="{% if form.instance %}{% trans "Save" %}{% else %}{% trans "Add a new recipe" %}{% endif %}">
+	<input type="submit" class="button success" value="{% if form.instance %}{% trans "Save" %}{% else %}{% trans "Add a new recipe" %}{% endif %}">
 	{% if form.instance.id %}
 		<a href="{{ form.instance.get_absolute_url }}" class="btn">{% trans "Return to recipe" %}</a>
 	{% endif %}
 </div>
+
+	</div>
+</div>
+
 
 </form>
 {% endblock content %}
 
 {% block extrahead %}
 <style type="text/css">
-#id_name{font-size:30px;height:40px;width:450px;}
-#id_batch_size{font-size:30px;height:40px;width:60px;text-align:center;}
-#id_efficiency{width:60px;text-align:center;}
-.row-private {margin:20px 0px;}
+
 .row-private img{margin-bottom:4px;}
-.preference-fields input{
+.preferences input{
 	width:40px;
 	text-align: center;
 }
