@@ -16,13 +16,7 @@
   <meta property="og:title" content="Zython.me" />
   <meta property="og:description" content="Zython is a web application that helps homebrewer to design their beer recipe. Free and opensource." />
   <meta property="og:image" content="{{ MEDIA_URL }}images/logo_100.png" />
-  {% comment %}
-    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-    <link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
-  {% endcomment %}
-  <link href="{{ MEDIA_URL }}css/normalize.css" rel="stylesheet">
-  <link href="{{ MEDIA_URL }}css/foundation.min.css" rel="stylesheet">
-  <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
+  <link href="{{ MEDIA_URL }}css/app.css" rel="stylesheet">
 
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -32,237 +26,90 @@
 </head>
 <body>
 
-<form name='langform' style='margin:0px;display:inline;width:200px' action='/i18n/setlang/' method='POST'>{% csrf_token %}
-  <input name='language' type="hidden" value="{{ LANGUAGE_CODE }}">
+<form name='langform' class="hide" action='/i18n/setlang/' method='POST'>
+    {% csrf_token %}
+  <input name='language' type="hidden" value="fr">
+    }
 </form>
-<header>
-<div class="row">
-    <div class="large-12 columns">
-        <h1 class="left"><a href="/">Zython 14 <br><small>{% trans "Design and share your beer recipe" %}</small></a></h1>
-        <div class="nav-bar right">
-            <ul class="button-group">
-                <li>
-                    <a data-dropdown="languagedd" href="#">
+
+<div class="fixed">
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/">Zython.me</a></h1>
+        </li>
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+      </ul>
+      <section class="top-bar-section">
+
+
+        <!-- Right Nav Section -->
+        <ul class="right">
+            <li class="has-dropdown">
+                <a href="#">
                     {% get_language_info for LANGUAGE_CODE as lang %}
                     {{ lang.name_local }}
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#" data-dropdown="unitdd" href="#">
-                        {% trans "Unit preferences" %}
-                    </a>
-                </li>
-                <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
-                <li><a href="{% url "brew_style_list" %}">{% trans "Beer styles" %}</a></li>
-
-                {% if request.user.is_active %}
-                    <li>
-                        <a data-dropdown="newrecipedd" href="#">
-                        {% trans "New recipe" %}
-                        </a>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
-                    </li>
-                    <li>
-                        <a href="/accounts/register/">{% trans "Register" %}</a>
-                    </li>
-                {% endif %}
-            </ul>
-
-            <!-- DROPDOWNS -->
-            <ul id="newrecipedd" class="f-dropdown" data-dropdown-content>
-                <li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-                <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
-            </ul>
-
-
-            <ul id="languagedd" class="f-dropdown" data-dropdown-content>
-                {% for LANG in LANGUAGES  %}
-                    <li>
-                    <a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-
-            <ul id="unitdd" class="f-dropdown" data-dropdown-content>
-                {% for group in unit_menu %}
-                    <li class="nav-header">{{ group.title }}</li>
-                    {% for item in group.items %}
-                    <li>
-                        <a href="{% url "unit_set" group.key item.key %}">
-                            {% if item.is_active %}<b>{% endif %}
-                            {{ item.title }}
-                            {% if item.is_active %}&larr;</b>{% endif %}
-                        </a>
-                    </li>
+                </a>
+                <ul class="dropdown">
+                    {% for LANG in LANGUAGES  %}
+                        <li>
+                            <a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a>
+                        </li>
                     {% endfor %}
-                    </li>
-                {% endfor %}
-            </ul>
-            <!-- end DROPDOWNS -->
-
-
-        </div>
-    </div>
-  </div>
-</header>
-
-
-{% comment %}
-  
-
-<div class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner">
-    <div class="container"><div class="row">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="brand" href="/">
-        Zython<span class="extension">.me</span> <br>
-         <span class="baseline">{% trans "Design and share your beer recipe" %} </span>
-      </a>
-        <div class="nav-collapse">
-          <ul class="nav pull-right">
-            {% if request.user.is_active %}
-              
-            <li class="dropdown">
-              <a class='dropdown-toggle' data-toggle="dropdown" href="#">
-                <b>{% trans "Add a new recipe" %}</b>
-            <b class="caret"></b>
-          </a>
-            <ul class="dropdown-menu">
-              <li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-              <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
-            </ul>
+                </ul>
             </li>
-            {% endif %}
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% get_language_info for LANGUAGE_CODE as lang %}
-                {{ lang.name_local }}
-                <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                {% for LANG in LANGUAGES  %}
-                  <li><a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a></li>
-                {% endfor %}
-              </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#"
-                    class="dropdown-toggle"
-                    data-toggle="dropdown">
+
+            <li class="has-dropdown">
+                <a href="#" href="#">
                     {% trans "Unit preferences" %}
-                    <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                {% for group in unit_menu %}
-                  <li class="nav-header">{{ group.title }}</li>
-                  {% for item in group.items %}
-                    <li>
-                      <a href="{% url "unit_set" group.key item.key %}">
-                      {% if item.is_active %}<b>{% endif %}
-                      {{ item.title }}
-                      {% if item.is_active %}&larr;</b>{% endif %}
-                      </a>
-                    </li>
-                  {% endfor %}
-                {% endfor %}
-              </ul>
+                </a>
+                <ul class="dropdown">
+                    {% for group in unit_menu %}
+                        <li><label>{{ group.title }}</label></li>
+                        {% for item in group.items %}
+                        <li>
+                            <a href="{% url "unit_set" group.key item.key %}">
+                                {% if item.is_active %}<b>{% endif %}
+                                {{ item.title }}
+                                {% if item.is_active %}&larr;</b>{% endif %}
+                            </a>
+                        </li>
+                        {% endfor %}
+                        {% if not forloop.last %}
+                            <li class="divider"></li>                            
+                        {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
             </li>
             <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
             <li><a href="{% url "brew_style_list" %}">{% trans "Beer styles" %}</a></li>
 
-              
-            {% if request.user.is_anonymous %}
-              <li>
-                <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
-              </li>
-              <li>
-                <a href="/accounts/register/">{% trans "Register" %}</a>
-              </li>
-            {% else %}            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle"
-                  data-toggle="dropdown">
-                  {% if not request.user.get_full_name %}
-                    {{ request.user.username }}
-                  {% endif %}
-                  {{ request.user.get_full_name }} <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="{% url "brew_recipe_user" request.user.username %}">{% trans "My recipes" %}</a></li>
-                <li><a href="{% url "account_user_edit" %}">{% trans "My account" %}</a></li>
-                <li><a href="{% url "avatar_change" %}">{% trans "Change your avatar" %}</a></li>
-                <li><a href="/accounts/logout/">{% trans "Log out" %}</a></li>
-              </ul>
-            </li>
+            {% if request.user.is_active %}
+                <li class="has-dropdown">
+                    <a href="#">
+                      {% trans "New recipe" %}
+                    </a>
+                    <ul class="dropdown">
+                        <li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
+                        <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                    <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
+                </li>
+                <li>
+                    <a href="/accounts/register/">{% trans "Register" %}</a>
+                </li>
             {% endif %}
-          </ul>
-        </div><!--/.nav-collapse -->
-    </div></div>
-  </div>
+        </ul>
+      </section>
+    </nav>
 </div>
-  {% if request.get_full_path == "/" and request.user.is_anonymous %}
-   <div id="welcome">
-    <div class="content center">
-      <h1>{% trans "Welcome to you brewer !" %}</h1>
-      <p><br>{% trans "This is what Zython can do for you" %} :</p>
-      <div style="margin:0 auto;width:730px; ">
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>Create public or private recipe</b> <br>
-          Keep your recipe just for you  <br>or share it with the world
-          {% endblocktrans %}
-        </div>
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>Add ingredients from our base</b> <br>
-           Grains, hops, misc, yeast. <br>Add also your custom ingredient
-          {% endblocktrans %}
-        </div>
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>Comment, share, print</b> <br>
-           Simple tools to help you share, <br>print and comment your recipe
-          {% endblocktrans %}
-        </div>
-        <div class="row"><br>&nbsp;<br></div>
-        <br>&nbsp;
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>Your unit</b> <br>
-          Lbs, kg, EBC, SRM, g, oz <br>
-          No problem, Zython handles this
-          {% endblocktrans %}
-        </div>
 
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>Adapt for your equipement</b> <br>
-          Specify deadspaces,  evaporation rate, 
-          Zython will adapt your recipe
-          {% endblocktrans %}
-        </div>
-        <div class="span3 center">
-          {% blocktrans %}
-          <b>BeerXml format</b> <br>
-          You can import your recipe in <br>BeerXML format
-          {% endblocktrans %}
-        </div>
-        <div class="row"></div>
-        </div>
-    </div>
-   </div>
-  {% endif %}
-{% endcomment %}
-
-  <div class="container" id="main_page">
+  <div class="" id="">
 
   {% if messages %}
         {% for message in messages %}
@@ -293,7 +140,7 @@
 
 
 
-  <footer class='center'>
+  <footer class='text-center'>
     <p>
         <span class="badge"><b>Zython - V 1.2.2</b></span> <br>
         <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
@@ -305,13 +152,11 @@
       with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.2.2</a>
     </p>
   </footer>
+
 <script src="{{ MEDIA_URL }}js/vendor/modernizr.js"></script>
 <script src="{{ MEDIA_URL }}js/vendor/jquery.js"></script>
 <script src="{{ MEDIA_URL }}js/foundation.min.js"></script>
-<script src="{{ MEDIA_URL }}js/foundation/foundation.dropdown.js"></script>
-<script>
-  $(document).foundation();
-</script>
+<script src="{{ MEDIA_URL }}js/app.js"></script>
 {% block js %}{% endblock js %}
 </body>
 </html>

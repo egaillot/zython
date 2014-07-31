@@ -2,6 +2,8 @@
 {% load url from future %}
 
 
+{% if object.ingredients %}
+    
 <table class='table {% if version == "print" %}table-condensed{% endif %}'>
 <thead>
     <tr>
@@ -119,3 +121,12 @@
     {% endfor %}
 </tbody>
 </table>
+{% else %}
+    <div class="alert-box radius">
+        {% if can_edit %}
+            {% trans "There are no ingredients yet. Start adding some grain and see the magic happening." %}
+        {% else %}
+            {% trans "This beer looks empty :(" %}
+        {% endif %}
+    </div>
+{% endif %}

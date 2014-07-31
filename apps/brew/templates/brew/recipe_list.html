@@ -24,7 +24,7 @@
 <p><br></p>
 
 {% if search_form %}
-	<div class="well round">
+	<div class="panel round">
 		<form action="." method="GET" class='no-margin'>
 			<div class="row">
 				<div class="large-6 columns">
@@ -47,14 +47,13 @@
 
 <div class="vspace"></div>
 
-		{% for object in object_list %}
-			{% include "brew/recipe_list_row.html" %}
-		{% empty %}
-			{% if search_form %}
-				<div data-alert class="alert-box info round">{% trans "No recipe found :(" %}</div>
-			{% endif %}
-		{% endfor %}
+{% for object in object_list %}
+	{% include "brew/recipe_list_row.html" %}
+{% empty %}
+	{% if search_form %}
+		<div data-alert class="alert-box info round">{% trans "No recipe found :(" %}</div>
+	{% endif %}
+{% endfor %}
 
-	</tbody>
-</table>
+
 {% endblock content %}

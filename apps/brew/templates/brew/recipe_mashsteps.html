@@ -1,75 +1,79 @@
 {% load i18n unit_tags cache %}
 {% load url from future %}
 
-{% cache 600 recipe_mashsteps object.cache_key can_edit %}
-<table class="table {% if version == "print" %}table-condensed{% endif %}">
-    <thead>
-        <tr>
-            <th>{% trans "Name" %}</th>
-            <th>{% trans "Description" %}</th>
-            <th>{% trans "Step temperature" %}</th>
-            <th>{% trans "Step time" %}</th>
-            {% if can_edit %}<th class="action_col">{% trans "Actions" %}</th>{% endif %}
-        </tr>
-    </thead>
-    {% for mash in object.mashstep_set.all %}
-        <tr>
-            <td>
-                <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
-                {{ mash.name }}
-                ({{ mash.get_step_type_display }})
-            </td>
-            <td>
-                {% if can_edit %}
-                <a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
-                {% endif %}
-                {% if mash.water_added %}
-                    {% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
-                {% endif %}
+{% if object.mashstep_set.all %}
+    {% cache 600 recipe_mashsteps object.cache_key can_edit %}
+    <h2>{% trans "Mash detail" %}</h2>
 
-                {% if forloop.first %}
-                    {% trans "Heat to" %} <b>{% local_unit "temperature" mash.initial_heat 0 %}</b>
-                {% else %}
-                    {% trans "Heat to" %} {% local_unit "temperature" mash.temperature 0 %}
-                {% endif %}
-                {% if mash.rise_time %}
-                    {% trans "over" %} {{ mash.rise_time }} min
-                {% endif %}
-                {% if can_edit %}
-                </a>
-                {% endif %}
-            </td>
-            <td>
-                {% local_unit "temperature" mash.temperature 0 %}
-            </td>
-            <td>
-                {{ mash.step_time }} min
-            </td>
-            {% if can_edit %}<td>
-                <a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
-            </td>{% endif %}
-        </tr>
-        {% if forloop.last %}
+    <table class="table {% if version == "print" %}table-condensed{% endif %}">
+        <thead>
             <tr>
-                <td>
-                    <img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
-                    {% trans "Filtering" %}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                {% if can_edit %}<td></td>{% endif %}
+                <th>{% trans "Name" %}</th>
+                <th>{% trans "Description" %}</th>
+                <th>{% trans "Step temperature" %}</th>
+                <th>{% trans "Step time" %}</th>
+                {% if can_edit %}<th class="action_col">{% trans "Actions" %}</th>{% endif %}
             </tr>
+        </thead>
+        {% for mash in object.mashstep_set.all %}
             <tr>
                 <td>
-                    <img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
-
-                    {% trans "Fly sparge" %}</td>
-                <td colspan="3">
-                    {% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 78 0 %}
+                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
+                    {{ mash.name }}
+                    ({{ mash.get_step_type_display }})
                 </td>
-                {% if can_edit %}<td></td>{% endif %}
+                <td>
+                    {% if can_edit %}
+                    <a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
+                    {% endif %}
+                    {% if mash.water_added %}
+                        {% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
+                    {% endif %}
+
+                    {% if forloop.first %}
+                        {% trans "Heat to" %} <b>{% local_unit "temperature" mash.initial_heat 0 %}</b>
+                    {% else %}
+                        {% trans "Heat to" %} {% local_unit "temperature" mash.temperature 0 %}
+                    {% endif %}
+                    {% if mash.rise_time %}
+                        {% trans "over" %} {{ mash.rise_time }} min
+                    {% endif %}
+                    {% if can_edit %}
+                    </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% local_unit "temperature" mash.temperature 0 %}
+                </td>
+                <td>
+                    {{ mash.step_time }} min
+                </td>
+                {% if can_edit %}<td>
+                    <a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
+                </td>{% endif %}
             </tr>
-        {% endif %}
-    {% endfor %}
-</table>
-{% endcache %}
+            {% if forloop.last %}
+                <tr>
+                    <td>
+                        <img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
+                        {% trans "Filtering" %}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    {% if can_edit %}<td></td>{% endif %}
+                </tr>
+                <tr>
+                    <td>
+                        <img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
+
+                        {% trans "Fly sparge" %}</td>
+                    <td colspan="3">
+                        {% trans "Fly sparge with" %} {% local_unit "volume" object.water_sparge 0 %} {% trans "of water at" %} {% local_unit "temperature" 78 0 %}
+                    </td>
+                    {% if can_edit %}<td></td>{% endif %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {% endcache %}
+{% endif %}

@@ -86,59 +86,50 @@
 <div class="vspace"></div>
 
 {% block inner_content %}
-<div class="well">
+<div class="panel callout radius">
     <div class="row">
         <div class="column large-6">
-            <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }}
+            <p class="no-margin">
+                <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>
+                <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %} <br>
+                <b>{% trans "Est. original gravity" %}</b> : 
+                {% if controls.og %}
+                    <span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
+                {% else %}
+                    {{ object.get_original_gravity }}
+                {% endif %}
+                <br>
+                <b>{% trans "Est. final gravity" %}</b> : 
+                {% if controls.fg %}
+                    <span class="badge badge-important tip" title="{{ controls.fg }}<br>{% trans "Style range" %} : {{ object.style.fg_range|join:" - " }}">{{ object.get_final_gravity }}</span>
+                {% else %}
+                    {{ object.get_final_gravity }}
+                {% endif %}
+            </p>
         </div>
-        <div class="column large-5">
-            <b>{% trans "Created date" %}</b> : {{ object.created|date }}
-        </div>
-    </div>
-
-    <div class="row">
         <div class="column large-6">
-            <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}
+            <p class="no-margin">
+                <b>{% trans "Created date" %}</b> : {{ object.created|date }} <br>
+                <b>{% trans "Created by" %}</b> : <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br>
+                <b>IBU</b> :
+                {% if controls.ibu %}
+                    <span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
+                {% else %}
+                    {{ object.get_ibu }}
+                {% endif %}
+
+                <br>
+                <b>{% trans "Color" %}</b> : 
+                {% if controls.color %}
+                    <span class="badge badge-important tip" title="{{ controls.color }}<br>{% trans "Style range" %} : {{ object.style.color_range|join:" - " }} EBC">{% local_unit "color" object.get_ebc %}</span>
+                {% else %}
+                    {% local_unit "color" object.get_ebc %}
+                {% endif %}
+            </p>
         </div>
-        <div class="column large-5">
-            <b>{% trans "Created by" %}</b> : <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a>
-        </div>
+
     </div>
 
-    <div class="row">
-        <div class="column large-6">
-            <b>{% trans "Est. original gravity" %}</b> : 
-            {% if controls.og %}
-                <span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
-            {% else %}
-                {{ object.get_original_gravity }}
-            {% endif %}
-            <br>
-            <b>{% trans "Est. final gravity" %}</b> : 
-            {% if controls.fg %}
-                <span class="badge badge-important tip" title="{{ controls.fg }}<br>{% trans "Style range" %} : {{ object.style.fg_range|join:" - " }}">{{ object.get_final_gravity }}</span>
-            {% else %}
-                {{ object.get_final_gravity }}
-            {% endif %}
-
-        </div>
-        <div class="column large-5">
-            <b>IBU</b> :
-            {% if controls.ibu %}
-                <span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
-            {% else %}
-                {{ object.get_ibu }}
-            {% endif %}
-
-            <br>
-            <b>{% trans "Color" %}</b> : 
-            {% if controls.color %}
-                <span class="badge badge-important tip" title="{{ controls.color }}<br>{% trans "Style range" %} : {{ object.style.color_range|join:" - " }} EBC">{% local_unit "color" object.get_ebc %}</span>
-            {% else %}
-                {% local_unit "color" object.get_ebc %}
-            {% endif %}
-        </div>
-    </div>
 </div>
 
 
@@ -148,46 +139,57 @@
 <h2>{% trans "Ingredients" %}</h2>
 
 <div class="row">
-    <div class="column large-10">
+    <div class="column large-9">
         {% include "brew/recipe_ingredients.html" %}
-    </div>
-    <div class="column large-2">
-        <ul class="nav nav-list ingredient-list">
-            {% if can_edit %}
-                <li
-                {% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
-                    class="popover-menu nav-header" 
-                    title="{% trans "Add ingredient" %}" 
-                    data-content="{% trans "Start adding ingredients with this menu" %}"
-                {% else %}
-                    class="nav-header" 
-                {% endif %}
 
-                >{% trans "Add" %}</li>
+        <hr>
+
+        {% include "brew/recipe_mashsteps.html" %}
+    </div>
+    <div class="column large-3">
+        <div class="panel">
+            {% if can_edit %}
+            <h3
+                    {% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
+                        class="popover-menu subheader" 
+                        title="{% trans "Add ingredient" %}" 
+                        data-content="{% trans "Start adding ingredients with this menu" %}"
+                    {% else %}
+                        class="subheader" 
+                    {% endif %}
+            
+                    >{% trans "Add" %}</h3>
+            <ul class="side-nav ingredient-list">
                 <li><a data-toggle="modal" href="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
                 <li><a data-toggle="modal" href="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
                 <li><a data-toggle="modal" href="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
                 <li><a data-toggle="modal" href="#add_yeast">
                     <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
+            </ul>
+            <h3 class="subheader">{% trans "Mash" %}</h3>
+    
+                <ul class="side-nav ingredient-list">
+                    <li>
+                    <a data-toggle="modal" href="#add_mash">
+                        {# <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}"> #}
+                        <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
+                    </li>
+                </ul>
             {% endif %}
-        </ul>
+        </div>
     </div>
 </div>
 <hr>
 <div class="row">
-    <div class="column large-10">
-        <h2>{% trans "Mash detail" %}</h2>
-        {% include "brew/recipe_mashsteps.html" %}
+    <div class="column large-9">
+        
     </div>
-    <div class="column large-2">
-        <ul class="nav nav-list ingredient-list">
-            {% if can_edit %}
-                <li class="nav-header">{% trans "Mash" %}</li>
-                <li><a data-toggle="modal" href="#add_mash">
-                <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}">
-                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
-                </li>
-            {% endif %}
+    <div class="column large-3">
+        {% if can_edit %}
+            <div class="panel">
+                
+            </div>
+        {% endif %} 
     </div>
 </div>
 
