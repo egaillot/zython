@@ -4,18 +4,21 @@
 {% load url from future %}
 
 
-{% block title %}{{ object.name }}, by {{ object.user.username }} - {{ page }}
+{% block title %}
+{{ object.name }}, by {{ object.user.username }} - {{ page }}
 {% endblock title %}
 
 
 {% block content %}
+
 {% if object.get_ebc %}
-    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
+    <div class="vspace"></div>
+    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="right">
         <a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
             <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
         </a>
         <br>
-        <div class="est_abv">
+        <div class="text-center">
             {% if controls.abv and can_edit %}
                 <span class="badge badge-important tip" title="{{ controls.abv }}<br>{% trans "Style range" %} : {{ object.style.alcohol_range|join:" - " }} %">{{ object.get_abv|floatformat:1 }}%</span>
             {% else %}
@@ -32,7 +35,7 @@
     {% endif %}
     {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
 </h1>
-<div class="vspace"></div>
+<div class="vspace-lg"></div>
 <ul class="sub-nav">
     <li {% if page == "detail" %}class="active"{% endif %}>
         <a href="{{ object.get_absolute_url }}">
@@ -147,8 +150,8 @@
         {% include "brew/recipe_mashsteps.html" %}
     </div>
     <div class="column large-3">
+        {% if can_edit %}
         <div class="panel">
-            {% if can_edit %}
             <h3
                     {% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
                         class="popover-menu subheader" 
@@ -159,7 +162,7 @@
                     {% endif %}
             
                     >{% trans "Add" %}</h3>
-            <ul class="side-nav ingredient-list">
+            <ul class="side-nav ingredient-list no-padding">
                 <li><a data-toggle="modal" href="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
                 <li><a data-toggle="modal" href="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
                 <li><a data-toggle="modal" href="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
@@ -167,16 +170,15 @@
                     <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
             </ul>
             <h3 class="subheader">{% trans "Mash" %}</h3>
-    
-                <ul class="side-nav ingredient-list">
+                <ul class="side-nav ingredient-list no-padding">
                     <li>
                     <a data-toggle="modal" href="#add_mash">
                         {# <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}"> #}
                         <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
                     </li>
                 </ul>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 <hr>

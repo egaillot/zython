@@ -3,6 +3,7 @@
 
 
 {% block content %}
+
 <h1>
     {% block title %}
        {{ object }} <small>({{ object.guide }})</small>
@@ -11,18 +12,17 @@
 <br>
 <div class="well">
     <h4>{% trans "Description" %}</h4>
-    {{ object.description|linebreaksbr }}
+    <p>{{ object.description|linebreaksbr }}</p>
     <hr>
     <h4>{% trans "Profile" %}</h4>
-    {{ object.profile|linebreaksbr }}
+    <p>{{ object.profile|linebreaksbr }}</p>
     <hr>
     <h4>{% trans "Ingredients" %}</h4>
-    {{ object.ingredients|linebreaksbr }}
+    <p>{{ object.ingredients|linebreaksbr }}</p>
     <hr>
     <h4>{% trans "Examples" %}</h4>
-    {{ object.examples|linebreaksbr }}
+    <p>{{ object.examples|linebreaksbr }}</p>
 </div>
-
 <p><br></p>
 <h2>{% trans "Ranges" %}</h2>
 

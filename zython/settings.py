@@ -82,7 +82,6 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, "templates"),
 
 )
-print TEMPLATE_DIRS
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',  # this is default
@@ -124,7 +123,7 @@ STATIC_URL = '/static/'
 ANONYMOUS_USER_ID = -1
 ACCOUNT_ACTIVATION_DAYS = 7
 AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png', '.jpeg', '.gif')
-
+AVATAR_STORAGE_DIR = "medias/avatars/"
 
 try:
     from local_settings import *

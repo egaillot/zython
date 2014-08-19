@@ -294,6 +294,7 @@ class MashUpdateView(UnitViewFormMixin, UpdateView):
 @login_required
 @recipe_author
 def ingredient_form(request, recipe_id, ingredient, object_id=None, response="json", template_name="none.html"):
+    response = "raw"
     model_class = SLUG_MODEL[ingredient]
     form_class = SLUG_MODELFORM[ingredient]
     recipe = get_object_or_404(Recipe, pk=recipe_id)

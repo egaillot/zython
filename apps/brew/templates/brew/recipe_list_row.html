@@ -1,37 +1,43 @@
 {% load url from future %}
 {% load i18n %}
-<tr>
-    <td>
+{% comment %}    
+<div class="row">
+        <div class="column large-6">
+{% endcomment %}
+
+<div class="row">
+    <div class="column large-1">
         <a href="{{ object.get_absolute_url }}">
-        <b>{{ object.name }}</b>
-        </a>
-        {% if object.private %}
-            <img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">
-        {% endif %}
-    </td>
-    <td>
-        {% if object.style %}
-            {{ object.style }}
-        {% else %}
-            .
-        {% endif %}
-    </td>
-    <td>
-        {{ object.get_recipe_type_display }}
-    </td>
-    <td>
         {% with object.color_image as image %}
             {% if image %}
-                <img src="{{ MEDIA_URL }}images/beer_colors_20/{{ image }}.png" alt="{{ object.name }} beer color" style="width:20px;" width="20px" />
+                <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
             {% endif %}
         {% endwith %}
-    </td>
-    <td>
-        {{ object.created|date }}
-    </td>
-    <td>
-        <a href="{% url "brew_recipe_user" object.user.username %}">
-        {{ object.user.username }}
         </a>
-    </td>
-</tr>
+    </div>
+    <div class="column large-5">
+        <p>
+            <a href="{{ object.get_absolute_url }}">{{ object.name }}</a> <br>
+            {{ object.get_recipe_type_display }}
+            {% if object.style %}
+                - {{ object.style }}
+            {% endif %}
+        </p>
+    </div>
+    <div class="column large-1 two-rows-text">
+        {{ object.get_abv|floatformat:1 }}%
+    </div>
+    <div class="column large-1 two-rows-text">
+        {{ object.get_ibu|floatformat:0 }} IBU
+    </div>
+    <div class="column large-1 two-rows-text">
+        {{ object.get_ibu|floatformat:0 }} IBU
+    </div>
+    <div class="column large-3">
+       <p>
+            <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br> 
+            {{ object.created|date:"d/m/Y" }}
+        </p>
+    </div>
+
+</div>

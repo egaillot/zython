@@ -1,3 +1,32 @@
+
+
+ul.ingredient-list li a{
+    padding:2px!important;
+}
+
 .no-margin{
     margin:0;
+}
+
+.no-padding{
+    padding:0;
+}
+
+.vspace{
+    margin-top:15px;
+}
+
+.vspace-lg{
+    margin-top:25px;
+}
+
+.vspace-xl{
+    margin-top:35px;
+}
+
+.two-rows-text{
+    font-size:23px;
+    color:#A99;
+    font-weight: 1px;
+    margin-top:10px;
 }
