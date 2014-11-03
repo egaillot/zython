@@ -1,17 +1,57 @@
+@font-face{
+    font-family : "lineto-circular";
+    src : url('../fonts/lineto-circular-bold-s.woff');
+}
+
+.navbar-brand{
+    font-family: "lineto-circular", Helvetica, Arial, sans-serif;
+}
+
 .brand-img{
     margin-top:-15px;
     padding-right:0;
 }
 
-.jumbotron{
+.navbar-form{
+    input{
+        background-color: #333;
+        border-color:#444;
+        color:#eee;
+    }
+    button{
+        background-color: #000;
+        border-color:#444;
+        color: #444;
+        &:hover{
+            background-color: #111;
+            border-color:#555;
+            color: #555;
+        }
+    }
+}
+
+.jumbotron {
+    background-color: darken(desaturate(@zython-color-1, 20%), 15%);
+    color:#eee;
+
+    a{
+        color:lighten(@zython-color-2, 40%);
+        &:hover{
+            color:lighten(@zython-color-2, 50%);
+        }
+    }
+
     h1 {
         margin-top:0;
         margin-bottom:0;
         font-size: @font-size-h1;
     }
+
     hr.before-nav{
         margin-bottom:0;
+        border-top-color: darken(@zython-color-1, 20%);
     }
+
     &.jumbotron-nav{
         padding-bottom:0;
     }
@@ -21,4 +61,19 @@
     margin-top:15px;
 }
 
+h1, h2, h3 {
+    font-family: "lineto-circular", Helvetica, Arial, sans-serif;
+    color: #205081;
+}
 
+.bg-zython-1{background-color: @zython-color-1;}
+.bg-zython-2{background-color: @zython-color-2;}
+.bg-zython-3{background-color: @zython-color-3;}
+.bg-zython-4{background-color: @zython-color-4;}
+
+
+.modal-max-height-body{
+    max-height: 65vh!important;    
+    height: 65vh!important;    
+    overflow-y: scroll;
+}

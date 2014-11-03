@@ -7,7 +7,7 @@ from brew.models import *
 from brew.settings import MAIN_STYLES
 from brew.fields import LocalizedModelForm
 from units.forms import UnitModelForm
-
+from brew.utils.forms import BS3FormMixin
 
 __all__ = (
     'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm',
@@ -114,7 +114,7 @@ class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
         return recipe_ingr
 
 
-class RecipeMaltForm(RecipeIngredientForm):
+class RecipeMaltForm(BS3FormMixin, RecipeIngredientForm):
     ingredient_name = "malt_id"
     unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
     malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())

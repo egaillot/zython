@@ -2,7 +2,9 @@
 {% load url from future %}
 
 {# GRAIN #}
-<div class="modal hide fade" id="add_grain">
+<div class="modal fade" id="add_grain" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
     <form action="{% url "brew_recipe_addingredient" object.id "malt" %}" class='ajaxform' method="POST">{% csrf_token %}
       <div class="modal-header">
         <a class="close" data-dismiss="modal">×</a>
@@ -12,7 +14,7 @@
         </div>
         <h3>{% trans "Grains" %}</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body modal-max-height-body">
         <table class="table table-bordered table-striped table-condensed" id="table_grain">
             <thead>
                 <tr>
@@ -42,21 +44,25 @@
       </div>
       <div class="modal-footer">
         <div class="error_frame"></div>
-        <div class="row pull-right">
-            <div class="span3 inline_field">
-                {% trans "Amount" %} {{ malt_form.amount }} {{ malt_form.amount.help_text }}
-            </div>
-            <div class="span2 inline_field">
-                {% trans "Color" %} {{ malt_form.color }} {{ malt_form.color.help_text.upper }}
-            </div>
-            <div class="span1">
-                <input type="submit" value="{% trans "Next" %}" class='btn btn-success ajaxsend'>
-            </div>
-        </div>
+
       </div>
     </form>
+    </div>
+    </div>
 </div>
 {# ENDGRAIN #}
+
+        <form class="form-inline" role="form">
+
+            <div class="form-group">
+                {{ malt_form.amount }} {{ malt_form.amount.help_text }}
+            </div>
+            <div class="form-group">
+                {{ malt_form.color }} {{ malt_form.color.help_text }}
+            </div>
+            <input type="submit" value="{% trans "Next" %}" class='btn btn-success ajaxsend'>
+        </form>
+
 
 
 {# HOP #}

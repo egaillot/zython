@@ -30,6 +30,12 @@
     {% csrf_token %}
   <input name='language' type="hidden" value="fr">
 </form>
+<div class="row">
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 bg-zython-1" style="height:3px;background-color:#603180;"></div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 bg-zython-2" style="height:3px;background-color:#BEBC41;"></div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 bg-zython-3" style="height:3px;background-color:#349834;"></div>
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 bg-zython-4" style="height:3px;background-color:#BE4141;"></div>
+</div>
 
 <nav class="navbar navbar-inverse">
   <div class="collapse navbar-collapse">
@@ -37,7 +43,7 @@
   <img src="{{ MEDIA_URL }}images/logo_48.png" alt="Zython">
   </a>
   <a class="navbar-brand" href="/">
-  Zython <small>(2k14)</small></a>
+  Zython <small><span style="color:#603180;">2</span><span style="color:#BEBC41;">k</span><span style="color:#349834;">1</span><span style="color:#BE4141;">4</span></small></a>
   <ul class="nav navbar-nav navbar-left">
     {% if request.user.is_active %}
         <li class="dropdown">
@@ -59,7 +65,7 @@
     <div class="form-group">
       <input type="text" class="form-control" name="q" placeholder="Search a recipe..." value="{{ request.GET.q }}">
     </div>
-    <button type="submit" class="btn btn-default">{% trans "Search" %}</button>
+    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> </button>
   </form>
 
    <ul class="nav navbar-nav navbar-right">
@@ -100,6 +106,7 @@
   </ul>
   </div>
 </nav>
+
 
 
 

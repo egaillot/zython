@@ -2,14 +2,36 @@
 {% load i18n unit_tags %}
 
 
+{% block page %}
+    <div class="jumbotron jumbotron-nav">
+        <div class="container">
+            <h1>
+                {% block title %}
+                   {{ object }} <small>({{ object.guide }})</small>
+                {% endblock title %}
+            </h1>
+        </div>
+        <hr class="before-nav">
+        <div class="container">
+
+            <ul class="nav nav-pills" role="tablist">
+                <li>
+                    <a href="{% url "brew_style_list" %}">
+                        {% trans "Beer styles" %} >
+                    </a>
+                </li>
+                <li class="active"><a href="#">
+                    {{ object }}
+                </a></li>
+            </ul>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock page %}
+
+
 {% block content %}
 
-<h1>
-    {% block title %}
-       {{ object }} <small>({{ object.guide }})</small>
-    {% endblock title %}
-</h1>
-<br>
 <div class="well">
     <h4>{% trans "Description" %}</h4>
     <p>{{ object.description|linebreaksbr }}</p>
