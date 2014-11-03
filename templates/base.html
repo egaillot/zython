@@ -11,12 +11,12 @@
   <meta name="author" content="Martyn CLEMENT" />
   <meta http-equiv="imagetoolbar" content="false" />
   <meta name="application-name" content="Zython.me" />
-  <meta name="msapplication-tooltip" content="Zython : design your beer recipe online." />
-  <meta name="msapplication-starturl" content="http://zython.me/?o=msstart" />
+  <meta name="msapplication-tooltip" content="Zython : create your beer recipe online." />
+  <meta name="msapplication-starturl" content="http://zython.me/" />
   <meta property="og:title" content="Zython.me" />
-  <meta property="og:description" content="Zython is a web application that helps homebrewer to design their beer recipe. Free and opensource." />
+  <meta property="og:description" content="Zython is a web application that helps homebrewer to create their beer recipe. Free and opensource." />
   <meta property="og:image" content="{{ MEDIA_URL }}images/logo_100.png" />
-  <link href="{{ MEDIA_URL }}css/app.css" rel="stylesheet">
+  <link href="{{ MEDIA_URL }}css/zython.css" rel="stylesheet">
 
   <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
   <!--[if lt IE 9]>
@@ -29,115 +29,95 @@
 <form name='langform' class="hide" action='/i18n/setlang/' method='POST'>
     {% csrf_token %}
   <input name='language' type="hidden" value="fr">
-    }
 </form>
 
-<div class="fixed">
-    <nav class="top-bar" data-topbar>
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="/">Zython.me</a></h1>
+<nav class="navbar navbar-inverse">
+  <div class="collapse navbar-collapse">
+  <a class="navbar-brand brand-img" href="/">
+  <img src="{{ MEDIA_URL }}images/logo_48.png" alt="Zython">
+  </a>
+  <a class="navbar-brand" href="/">
+  Zython <small>(2k14)</small></a>
+  <ul class="nav navbar-nav navbar-left">
+    {% if request.user.is_active %}
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              {% trans "New recipe" %} <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url "brew_recipe_add" %}">{% trans "Create a recipe" %}</a></li>
+                <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
+            </ul>
         </li>
-         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-        <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
-      </ul>
-      <section class="top-bar-section">
+    {% else %}
+        <li><a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a></li>
+        <li><a href="/accounts/register/">{% trans "Register" %}</a></li>
+    {% endif %}
+   </ul>
+
+   <form class="navbar-form navbar-left" role="search" action="/">
+    <div class="form-group">
+      <input type="text" class="form-control" name="q" placeholder="Search a recipe..." value="{{ request.GET.q }}">
+    </div>
+    <button type="submit" class="btn btn-default">{% trans "Search" %}</button>
+  </form>
+
+   <ul class="nav navbar-nav navbar-right">
 
 
-        <!-- Right Nav Section -->
-        <ul class="right">
-            <li class="has-dropdown">
-                <a href="#">
-                    {% get_language_info for LANGUAGE_CODE as lang %}
-                    {{ lang.name_local }}
-                </a>
-                <ul class="dropdown">
-                    {% for LANG in LANGUAGES  %}
-                        <li>
-                            <a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-
-            <li class="has-dropdown">
-                <a href="#" href="#">
-                    {% trans "Unit preferences" %}
-                </a>
-                <ul class="dropdown">
-                    {% for group in unit_menu %}
-                        <li><label>{{ group.title }}</label></li>
-                        {% for item in group.items %}
-                        <li>
-                            <a href="{% url "unit_set" group.key item.key %}">
-                                {% if item.is_active %}<b>{% endif %}
-                                {{ item.title }}
-                                {% if item.is_active %}&larr;</b>{% endif %}
-                            </a>
-                        </li>
-                        {% endfor %}
-                        {% if not forloop.last %}
-                            <li class="divider"></li>                            
-                        {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-            <li><a href="{% url "how_it_works" %}">{% trans "Formulas" %}</a></li>
-            <li><a href="{% url "brew_style_list" %}">{% trans "Beer styles" %}</a></li>
-
-            {% if request.user.is_active %}
-                <li class="has-dropdown">
-                    <a href="#">
-                      {% trans "New recipe" %}
-                    </a>
-                    <ul class="dropdown">
-                        <li><a href="{% url "brew_recipe_add" %}">{% trans "Add a new recipe" %}</a></li>
-                        <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
-                    </ul>
-                </li>
-            {% else %}
-                <li>
-                    <a href="/accounts/login/?next={{ request.path }}">{% trans "Log in" %}</a>
-                </li>
-                <li>
-                    <a href="/accounts/register/">{% trans "Register" %}</a>
-                </li>
-            {% endif %}
-        </ul>
-      </section>
-    </nav>
-</div>
-
-  <div class="" id="">
-
-  {% if messages %}
-        {% for message in messages %}
-        <div class="row">
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-            </div>
-        </div>
+     <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% get_language_info for LANGUAGE_CODE as lang %}
+        {{ lang.name_local }} <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          {% for LANG in LANGUAGES  %}
+            <li><a href="#" onclick="document.langform.language.value='{{ LANG.0 }}';document.langform.submit();">{{ LANG.1 }}</a></li>
         {% endfor %}
-  {% endif %}
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            {% trans "Unit preferences" %} <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu" role="menu">
+            {% for group in unit_menu %}
+                <li role="presentation" class="dropdown-header">{{ group.title }}</li>
+                {% for item in group.items %}
+                <li>
+                    <a href="{% url "unit_set" group.key item.key %}">
+                        {% if item.is_active %}<b>{% endif %}
+                        {{ item.title }}
+                        {% if item.is_active %}&larr;</b>{% endif %}
+                    </a>
+                </li>
+                {% endfor %}
+                {% if not forloop.last %}
+                    <li class="divider"></li>                            
+                {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+      </li>
+  </ul>
+  </div>
+</nav>
 
-  {% block page %}
-      <div class="row">
-            <div class="large-12 columns" role="content">
-                {% block content %}{% endblock content %}
-            </div>
-        </div>
-  {% endblock page %}
 
 
-  
+    {% if messages %}
+          {% for message in messages %}
+          <div class="row">
+              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                  {{ message }}
+              </div>
+          </div>
+          {% endfor %}
+    {% endif %}
 
-
-
-</div><!--/.fluid-container-->
-
-
-
+    {% block page %}
+      <div class="container">
+       {% block content %}{% endblock content %}
+      </div>
+    {% endblock page %}
 
 
   <footer class='text-center'>
@@ -148,14 +128,13 @@
         <a href="https://bitbucket.org/m_clement/zython/issues/new" target="_blank">{% trans "Report an issue / contribute" %}</a>
     <br>
       Made by 
-      <a href="http://twitter.com/m_clement/">Martyn CLEMENT</a> in 2012 
-      with <a href="https://www.djangoproject.com/">Django 1.4.3</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 2.2.2</a>
+      <a href="http://twitter.com/m_clement/">Martyn CLEMENT</a> 2012 - 2014
+      with <a href="https://www.djangoproject.com/">Django 1.7.1</a> and <a href="http://twitter.github.com/bootstrap/">Bootstrap 3.3.0</a>
     </p>
   </footer>
 
-<script src="{{ MEDIA_URL }}js/vendor/modernizr.js"></script>
-<script src="{{ MEDIA_URL }}js/vendor/jquery.js"></script>
-<script src="{{ MEDIA_URL }}js/foundation.min.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery-1.11.1.min.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap/bootstrap.min.js"></script>
 <script src="{{ MEDIA_URL }}js/app.js"></script>
 {% block js %}{% endblock js %}
 </body>

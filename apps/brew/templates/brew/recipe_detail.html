@@ -9,93 +9,114 @@
 {% endblock title %}
 
 
+{% block page %}
+<div class="jumbotron jumbotron-nav">
+    <div class="container">
+
+        {% if object.get_ebc %}
+            <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
+                <a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
+                    <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
+                </a>
+               
+            </div>
+        {% endif %}
+
+
+        <h1>{{ object.name }} 
+            {% if object.style %}
+                <small>
+                    <a href="{{ object.style.get_absolute_url }}">{{ object.style }}</a>
+                </small>
+            {% endif %}
+            {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
+        </h1>
+        <p><a href="{% url "brew_recipe_user" object.user.username %}">@{{ object.user.username }}</a> - {{ object.created|date }}</p>
+            
+
+</div>
+<hr class="before-nav">
+<div class="container">
+
+        <ul class="nav nav-pills" role="tablist">
+            <li {% if page == "detail" %}class="active"{% endif %}>
+                <a href="{{ object.get_absolute_url }}">
+                    <span class="icon-file {% if page == "detail" %}icon-white{% endif %}"></span>
+                    {% trans "Recipe" %}
+                </a>
+            </li>
+            {% if can_edit %}
+                <li {% if page == "edit" %}class="active"{% endif %}>
+                    <a href="{% url "brew_recipe_edit" object.id %}">
+                        <span class="icon-pencil"></span>
+                        {% trans "Edit" %}
+                    </a>
+                </li>
+            {% endif %}
+
+            {% get_comment_count for object as comment_count %}
+            <li {% if page == "comments" %}class="active"{% endif %}>
+                <a href="{% url "brew_recipe_comments" object.pk %}">
+                    <span class="icon-comment {% if page == "comments" %}icon-white{% endif %}"></span>
+                    {% trans "Comments" %} ({{ comment_count }})
+                </a>
+            </li>
+            <li c>
+                <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
+                    <span class="icon-print"></span>
+                    {% trans "Print" %}
+                </a>
+            </li>
+            <li>
+                <a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
+                    <span class="icon-list"></span>
+                    {% trans "Copy (txt)" %}
+                </a>
+            </li>
+            {% if can_edit and request.user == object.user %}
+                <li {% if page == "permissions" %}class="active"{% endif %}>
+                    <a href="{% url "brew_recipe_permissions" object.pk %}">
+                        <span class="icon-eye-open {% if page == "permissions" %}icon-white{% endif %}"></span>
+                        {% trans "Permissions" %}
+                    </a>
+                </li>
+                <li {% if page == "delete" %}class="active"{% endif %}>
+                    <a href="{% url "brew_recipe_delete" object.id %}">
+                        <span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
+                        {% trans "Delete" %}
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{{ block.super}}
+{% endblock page %}
+
+
 {% block content %}
 
-{% if object.get_ebc %}
-    <div class="vspace"></div>
-    <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="right">
-        <a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
-            <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
-        </a>
-        <br>
-        <div class="text-center">
-            {% if controls.abv and can_edit %}
-                <span class="badge badge-important tip" title="{{ controls.abv }}<br>{% trans "Style range" %} : {{ object.style.alcohol_range|join:" - " }} %">{{ object.get_abv|floatformat:1 }}%</span>
-            {% else %}
-                {{ object.get_abv|floatformat:1 }}%
-            {% endif %}
-        </div>
-    </div>
-{% endif %}
-<h1>{{ object.name }} 
-    {% if object.style %}
-        <small>
-            <a href="{{ object.style.get_absolute_url }}">{{ object.style }}</a>
-        </small>
-    {% endif %}
-    {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
-</h1>
-<div class="vspace-lg"></div>
-<ul class="sub-nav">
-    <li {% if page == "detail" %}class="active"{% endif %}>
-        <a href="{{ object.get_absolute_url }}">
-            <span class="icon-file {% if page == "detail" %}icon-white{% endif %}"></span>
-            {% trans "Recipe" %}
-        </a>
-    </li>
-    {% if can_edit %}
-        <li {% if page == "edit" %}class="active"{% endif %}>
-            <a href="{% url "brew_recipe_edit" object.id %}">
-                <span class="icon-pencil"></span>
-                {% trans "Edit" %}
-            </a>
-        </li>
-    {% endif %}
-
-    {% get_comment_count for object as comment_count %}
-    <li {% if page == "comments" %}class="active"{% endif %}>
-        <a href="{% url "brew_recipe_comments" object.pk %}">
-            <span class="icon-comment {% if page == "comments" %}icon-white{% endif %}"></span>
-            {% trans "Comments" %} ({{ comment_count }})
-        </a>
-    </li>
-    <li c>
-        <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
-            <span class="icon-print"></span>
-            {% trans "Print" %}
-        </a>
-    </li>
-    <li>
-        <a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
-            <span class="icon-list"></span>
-            {% trans "Copy (txt)" %}
-        </a>
-    </li>
-    {% if can_edit and request.user == object.user %}
-        <li {% if page == "permissions" %}class="active"{% endif %}>
-            <a href="{% url "brew_recipe_permissions" object.pk %}">
-                <span class="icon-eye-open {% if page == "permissions" %}icon-white{% endif %}"></span>
-                {% trans "Permissions" %}
-            </a>
-        </li>
-        <li {% if page == "delete" %}class="active"{% endif %}>
-            <a href="{% url "brew_recipe_delete" object.id %}">
-                <span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
-                {% trans "Delete" %}
-            </a>
-        </li>
-    {% endif %}
-</ul>
-<div class="vspace"></div>
-
 {% block inner_content %}
-<div class="panel callout radius">
-    <div class="row">
-        <div class="column large-6">
-            <p class="no-margin">
-                <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>
-                <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %} <br>
-                <b>{% trans "Est. original gravity" %}</b> : 
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
+
+        <h2>{% trans "Ingredients" %}</h2>
+        {% include "brew/recipe_ingredients.html" %}
+        <hr>
+        {% include "brew/recipe_mashsteps.html" %}
+    </div>
+
+    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+        <div class="panel panel-default">
+              <div class="panel-heading">
+                    <h3 class="panel-title">{% trans "Indicateurs" %}</h3>
+              </div>
+              <div class="panel-body">
+                    <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>
+                    <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}
+                    <hr>
+                    <b>{% trans "Est. original gravity" %}</b> : 
                 {% if controls.og %}
                     <span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
                 {% else %}
@@ -108,12 +129,8 @@
                 {% else %}
                     {{ object.get_final_gravity }}
                 {% endif %}
-            </p>
-        </div>
-        <div class="column large-6">
-            <p class="no-margin">
-                <b>{% trans "Created date" %}</b> : {{ object.created|date }} <br>
-                <b>{% trans "Created by" %}</b> : <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br>
+
+                <br>
                 <b>IBU</b> :
                 {% if controls.ibu %}
                     <span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
@@ -128,59 +145,52 @@
                 {% else %}
                     {% local_unit "color" object.get_ebc %}
                 {% endif %}
-            </p>
+
+                <br>
+                <b>{% trans "ABV" %}</b> : 
+                TODO
+              </div>
         </div>
 
-    </div>
 
-</div>
-
-
-<p><br></p>
-
-
-<h2>{% trans "Ingredients" %}</h2>
-
-<div class="row">
-    <div class="column large-9">
-        {% include "brew/recipe_ingredients.html" %}
-
-        <hr>
-
-        {% include "brew/recipe_mashsteps.html" %}
-    </div>
-    <div class="column large-3">
-        {% if can_edit %}
-        <div class="panel">
-            <h3
-                    {% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
-                        class="popover-menu subheader" 
-                        title="{% trans "Add ingredient" %}" 
-                        data-content="{% trans "Start adding ingredients with this menu" %}"
-                    {% else %}
-                        class="subheader" 
-                    {% endif %}
-            
-                    >{% trans "Add" %}</h3>
+{% if can_edit %}
+    <div class="panel">
+        <h3
+                {% if not object.recipemalt_set.all and not object.recipehop_set.all and not object.recipemisc_set.all %}
+                    class="popover-menu subheader" 
+                    title="{% trans "Add ingredient" %}" 
+                    data-content="{% trans "Start adding ingredients with this menu" %}"
+                {% else %}
+                    class="subheader" 
+                {% endif %}
+        
+                >{% trans "Add" %}</h3>
+        <ul class="side-nav ingredient-list no-padding">
+            <li><a data-toggle="modal" href="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
+            <li><a data-toggle="modal" href="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
+            <li><a data-toggle="modal" href="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
+            <li><a data-toggle="modal" href="#add_yeast">
+                <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
+        </ul>
+        <h3 class="subheader">{% trans "Mash" %}</h3>
             <ul class="side-nav ingredient-list no-padding">
-                <li><a data-toggle="modal" href="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
-                <li><a data-toggle="modal" href="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
-                <li><a data-toggle="modal" href="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
-                <li><a data-toggle="modal" href="#add_yeast">
-                    <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
+                <li>
+                <a data-toggle="modal" href="#add_mash">
+                    {# <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}"> #}
+                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
+                </li>
             </ul>
-            <h3 class="subheader">{% trans "Mash" %}</h3>
-                <ul class="side-nav ingredient-list no-padding">
-                    <li>
-                    <a data-toggle="modal" href="#add_mash">
-                        {# <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}"> #}
-                        <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
-                    </li>
-                </ul>
-            </div>
-        {% endif %}
+        </div>
+    {% endif %}
+
+
+
     </div>
 </div>
+
+
+
+
 <hr>
 <div class="row">
     <div class="column large-9">

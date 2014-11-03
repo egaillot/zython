@@ -1,12 +1,6 @@
-{% load url from future %}
 {% load i18n %}
-{% comment %}    
-<div class="row">
-        <div class="column large-6">
-{% endcomment %}
-
-<div class="row">
-    <div class="column large-1">
+<tr>
+    <td>
         <a href="{{ object.get_absolute_url }}">
         {% with object.color_image as image %}
             {% if image %}
@@ -14,30 +8,19 @@
             {% endif %}
         {% endwith %}
         </a>
-    </div>
-    <div class="column large-5">
-        <p>
-            <a href="{{ object.get_absolute_url }}">{{ object.name }}</a> <br>
-            {{ object.get_recipe_type_display }}
-            {% if object.style %}
-                - {{ object.style }}
-            {% endif %}
-        </p>
-    </div>
-    <div class="column large-1 two-rows-text">
-        {{ object.get_abv|floatformat:1 }}%
-    </div>
-    <div class="column large-1 two-rows-text">
-        {{ object.get_ibu|floatformat:0 }} IBU
-    </div>
-    <div class="column large-1 two-rows-text">
-        {{ object.get_ibu|floatformat:0 }} IBU
-    </div>
-    <div class="column large-3">
-       <p>
-            <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br> 
-            {{ object.created|date:"d/m/Y" }}
-        </p>
-    </div>
-
-</div>
+    </td>
+    <td>
+        <a href="{{ object.get_absolute_url }}">{{ object.name }}</a> <br>
+        {{ object.get_recipe_type_display }}
+        {% if object.style %}
+            - {{ object.style }}
+        {% endif %}
+    </td>
+    <td>{{ object.get_abv|floatformat:1 }}%</td>
+    <td>{{ object.get_ibu|floatformat:0 }} IBU</td>
+    <td>{{ object.get_ibu|floatformat:0 }} IBU</td>
+    <td>
+        <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br> 
+        {{ object.created|date:"d/m/Y" }}
+    </td>
+</tr>
