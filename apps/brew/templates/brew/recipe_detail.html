@@ -39,14 +39,14 @@
         <ul class="nav nav-pills" role="tablist">
             <li {% if page == "detail" %}class="active"{% endif %}>
                 <a href="{{ object.get_absolute_url }}">
-                    <span class="icon-file {% if page == "detail" %}icon-white{% endif %}"></span>
+                    <span class="glyphicon glyphicon-file"></span>
                     {% trans "Recipe" %}
                 </a>
             </li>
             {% if can_edit %}
                 <li {% if page == "edit" %}class="active"{% endif %}>
                     <a href="{% url "brew_recipe_edit" object.id %}">
-                        <span class="icon-pencil"></span>
+                        <span class="glyphicon glyphicon-pencil"></span>
                         {% trans "Edit" %}
                     </a>
                 </li>
@@ -55,32 +55,32 @@
             {% get_comment_count for object as comment_count %}
             <li {% if page == "comments" %}class="active"{% endif %}>
                 <a href="{% url "brew_recipe_comments" object.pk %}">
-                    <span class="icon-comment {% if page == "comments" %}icon-white{% endif %}"></span>
+                    <span class="glyphicon glyphicon-comment"></span>
                     {% trans "Comments" %} ({{ comment_count }})
                 </a>
             </li>
             <li>
                 <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
-                    <span class="icon-print"></span>
+                    <span class="glyphicon glyphicon-print"></span>
                     {% trans "Print" %}
                 </a>
             </li>
             <li>
                 <a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
-                    <span class="icon-list"></span>
+                    <span class="glyphicon glyphicon-list"></span>
                     {% trans "Copy (txt)" %}
                 </a>
             </li>
             {% if can_edit and request.user == object.user %}
                 <li {% if page == "permissions" %}class="active"{% endif %}>
                     <a href="{% url "brew_recipe_permissions" object.pk %}">
-                        <span class="icon-eye-open {% if page == "permissions" %}icon-white{% endif %}"></span>
+                        <span class="glyphicon glyphicon-eye-open"></span>
                         {% trans "Permissions" %}
                     </a>
                 </li>
                 <li {% if page == "delete" %}class="active"{% endif %}>
                     <a href="{% url "brew_recipe_delete" object.id %}">
-                        <span class="icon-remove {% if page == "delete" %}icon-white{% endif %}"></span>
+                        <span class="glyphicon glyphicon-remove"></span>
                         {% trans "Delete" %}
                     </a>
                 </li>
@@ -88,7 +88,7 @@
         </ul>
     </div>
 </div>
-{{ block.super}}
+{{ block.super }}
 {% endblock page %}
 
 
@@ -106,8 +106,16 @@
                 {% trans "Add ingredient" %} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a id="id_add_modal_link" href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "malt" %}"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
-                <li><a data-toggle="modal" href="#" data-target="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
+                <li>
+                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "malt" %}">
+                        <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> {% trans "Grain" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "hop" %}">
+                        <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}
+                    </a>
+                </li>
                 <li><a data-toggle="modal" href="#" data-target="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
                 <li><a data-toggle="modal" href="#" data-target="#add_yeast"><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
               </ul>
@@ -269,21 +277,6 @@
         document.location.href = ".";
     }
 
-    function handleResponse(responseText, statusText, xhr, $form){
-        is_valid = parseInt(responseText.valid);
-        if (is_valid == 1){
-            reload_page();
-        }else{
-            $('.error_frame').html("");
-            for(i=0; i<responseText.errors.length; i++){
-                error = responseText.errors[i];
-                $('.error_frame').append(error);
-                $('.error_frame').addClass("alert");
-                $('.error_frame').addClass("alert-error");
-            }
-        }
-    }
-
     function show_ajax_form(html){
         $("#xhr_content").html(html);
     }
@@ -302,7 +295,7 @@
 
     function send_ajax_form(elmt){
         form_id = "id_ingredient_form";
-        form = $("#"+form_id);
+        form = $("#" + form_id);
         url = form.attr("action");
         $.ajax({
             type: "POST",
@@ -319,15 +312,11 @@
     }
 
     $(document).ready(function() { 
-        $('.ajaxform').ajaxForm({success: handleResponse});
-        $("#search_grain").quicksearch('table#table_grain tbody tr');
-        $("#search_hop").quicksearch('table#table_hop tbody tr');
-        $("#search_misc").quicksearch('table#table_misc tbody tr');
-        $("#search_yeast").quicksearch('table#table_yeast tbody tr');
         $('.popover-menu').popover({placement:'left'}).popover('show');
         $('.open_modal').click(function(){
             load_ajax_modal($(this));
         });
+
         $("#doform form input").on("keypress", function(e){
             if(e.keyCode == 13) {
                 $("#model_edit_submit").click();
@@ -355,14 +344,17 @@
             $("#{{ open_modal }}").click();
         {% endif %}
 
-        $(".add_ingredient_form").submit(function(){
-            $("#" + $(this).attr("data-modal-id")).modal('hide');
-            console.log($(this).serializeArray());
-            return false;
+        $(document).on("click", ".add-this-ingredient", function(){
+            json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
+            populate($("#id_ingredient_form"), json_object[0]["fields"]);
+            $(".ingredient_list").fadeOut(function(){
+                $(".ingredient_form").removeClass("hide");
+                $(".ingredient_form input").filter(':visible:first').focus();
+            });
         });
 
     });
-    </script>
+</script>
 {% endif %}
 <script type="text/javascript">
 $(document).ready(function() { 
@@ -372,6 +364,12 @@ $(document).ready(function() {
     });
 });
 </script>
+
+
+
+
+
+
 {% endblock js %}
 
 

@@ -1,6 +1,6 @@
 
 {% block form_field_content %}
-    <div class="form-group form-row-{{ field.name }} {% if field.errors %}error{% endif %} {{ field.field.required|yesno:"required," }}" id="{{ field.name }}_row">
+    <div class="form-group form-row-{{ field.name }} {% if field.errors %}has-error{% endif %} {{ field.field.required|yesno:"required," }}" id="{{ field.name }}_row">
         {% block form_field_label_tag %}
             <label
                 {% block form_field_label_tag_attrs %}
@@ -14,7 +14,6 @@
             </label>
         {% endblock form_field_label_tag %}
 
-
         <div 
             {% block form_field_control_attrs %}
                 class="col-md-{{ size.1 }} {{ added_css_class }}"
@@ -27,7 +26,10 @@
                     {{ field.help_text|safe }}
                     </div>
                 {% endif %}
-                {{ field.errors }}
+                {% if field.errors %}
+                <div class="text-danger">{{ field.errors }}</div>
+                    
+                {% endif %}
             {% endblock form_field_control %}
         </div>
     </div>

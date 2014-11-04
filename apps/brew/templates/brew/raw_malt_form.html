@@ -1,22 +1,23 @@
+{% extends "brew/base_ingredient_form.html" %}
 {% load i18n form_tags unit_tags %}
 
-<div class="ingredient_list modal-max-height-body {% if request.POST or form.instance.id %}hide{% endif %}">
-    <table class="table table-striped table-condensed table-hover" id="table_grain">
-        <thead>
-            <tr>
-                <th style="width:40px;"></th>
-                <th>{% trans "Name" %}</th>
-                <th>{% trans "Origin" %}</th>
-                <th>{% trans "Type" %}</th>
-                <th>{{ unit_color|upper }}</th>
-                <th>{% trans "Max" %}</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for malt in form.get_malt_list %}
+
+{% block table_content %}
+    <thead>
+        <tr>
+            <th style="width:40px;" class='text-center'>#</th>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Origin" %}</th>
+            <th>{% trans "Type" %}</th>
+            <th>{{ unit_color|upper }}</th>
+            <th>{% trans "Max" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for malt in form.get_ingredient_list %}
         <tr class='row_ingredient' data-json-object='{{ malt.json_object }}'>
-            <td>
-                <a href="#" class='btn btn-success btn-xs add-this'>
+            <td class='text-center'>
+                <a href="#" class='btn btn-success btn-xs add-this-ingredient'>
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </td>
@@ -26,81 +27,59 @@
             <td>{% local_unit "color" malt.color -1 %}</td>
             <td>{{ malt.max_in_batch }}%</td>
         </tr>
-        {% endfor %}
-        </tbody>
-    </table>    
-</div>
+    {% endfor %}
+    </tbody>
+{% endblock table_content %}
 
-<div class="malt_form {% if not request.POST and not form.instance.id %}hide{% endif %}">
-    <form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
-        {% addFormField form.amount size="S" %}
-        {% addFormField form.malt_type size="S" %}
 
-        <hr>
+{% block form_content %}
+    {% addFormField form.amount size="S" %}
+    {% addFormField form.malt_type size="S" %}
 
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.name size="L" %}
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.diastatic_power size="L" %}
-            </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.name size="L" %}
         </div>
-
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.origin size="L" %}
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.protein size="L" %}
-            </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.diastatic_power size="L" %}
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.potential_gravity size="L" %}
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.max_in_batch size="L" %}
-            </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.origin size="L" %}
         </div>
-
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.notes size="L" %}
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                {% addFormField form.color size="L" %}
-                {% addFormField form.malt_yield size="L" %}
-            </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.protein size="L" %}
         </div>
+    </div>
 
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.potential_gravity size="L" %}
         </div>
-    </form>
-</div>
-<style type="text/css">
-    .span3 div.control-group div.controls input{width:50px;}
-    .span3 div.control-group label{width:100px;}
-    .span3 div.control-group div.controls{margin-left:120px;}
-    #id_notes{width:100%;height:80px;}
-</style>
-<script>
-$(function(){
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.max_in_batch size="L" %}
+        </div>
+    </div>
 
-    $(".add-this").on("click", function(){
-        json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
-        populate($("#id_ingredient_form"), json_object[0]["fields"]);
-        $(".ingredient_list").fadeOut(function(){
-            $(".malt_form").removeClass("hide");
-            $(".malt_form input").filter(':visible:first').focus();
-        });
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.notes size="L" %}
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.color size="L" %}
+            {% addFormField form.malt_yield size="L" %}
+        </div>
+    </div>
 
-    });
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        </div>
+    </div>
+{% endblock form_content %}
 
-});
-</script>

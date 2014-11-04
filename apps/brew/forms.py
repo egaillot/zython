@@ -71,14 +71,14 @@ class RecipeImportForm(forms.Form):
     beer_file = forms.FileField(label=_("Your recipe (BeerXML format)"))
 
 
-class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
+class RecipeIngredientForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
     pass
 
 
-class RecipeMaltForm(BS3FormMixin, RecipeIngredientForm):
+class RecipeMaltForm(RecipeIngredientForm):
     unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
 
-    def get_malt_list(self):
+    def get_ingredient_list(self):
         return Malt.objects.all()
 
     def __init__(self, *args, **kwargs):
@@ -95,9 +95,10 @@ class RecipeMaltForm(BS3FormMixin, RecipeIngredientForm):
 
 
 class RecipeHopForm(RecipeIngredientForm):
-    ingredient_name = "hop_id"
     unit_fields = {'hop': ['amount', ]}
-    hop_id = forms.ModelChoiceField(queryset=Hop.objects.all())
+
+    def get_ingredient_list(self):
+        return Hop.objects.all()
 
     def clean(self):
         data = self.cleaned_data
@@ -108,7 +109,11 @@ class RecipeHopForm(RecipeIngredientForm):
 
     class Meta:
         model = RecipeHop
-        fields = ('hop_id', 'amount', 'boil_time', 'dry_days', 'acid_alpha')
+        fields = (
+            'amount', 'boil_time', 'dry_days', 'acid_alpha',
+            'name', 'origin', 'usage', 'form', 'hop_type',
+            'acid_alpha', 'acid_beta', 'notes'
+        )
 
 
 class RecipeMiscForm(RecipeIngredientForm):

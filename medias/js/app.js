@@ -2,7 +2,6 @@
 function populate(frm, data) {   
     $.each(data, function(key, value){  
     var $ctrl = $('[name='+key+']', frm);  
-    console.log(key)
     switch($ctrl.attr("type"))  
     {  
         case "text" :   
