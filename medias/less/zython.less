@@ -72,8 +72,56 @@ h1, h2, h3 {
 .bg-zython-4{background-color: @zython-color-4;}
 
 
+.beer-preview{
+    background-color:#fff;
+    padding:5px;
+    .border-left-radius(35px);
+    .border-right-radius(35px);
+    box-shadow: inset 1px 2px 4px #000;
+    transition: padding 0.2s ease;
+    &:hover{
+        padding:12px;
+    }
+}
+
 .modal-max-height-body{
     max-height: 65vh!important;    
     height: 65vh!important;    
     overflow-y: scroll;
+}
+
+
+.indicator-slider{
+    background: none; /* Old browsers */
+    background: -moz-linear-gradient(left, #be4141 0%, #bebc41 25%, #349834 50%, #bebc41 75%, #be4141 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#be4141), color-stop(25%,#bebc41), color-stop(50%,#349834), color-stop(75%,#bebc41), color-stop(100%,#be4141)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* IE10+ */
+    background: linear-gradient(to right, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#be4141', endColorstr='#be4141',GradientType=1 ); /* IE6-9 */
+    box-shadow: inset 1px 1px 4px rgba(0,0,0,0.9);
+}
+
+input[type=range].indicatorRange {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 5px;
+    width:100%;
+    .indicator-slider;
+
+}
+
+.row_ingredient{
+    .add-this{
+        display:none;
+        font-size: 9px;
+
+    }
+    &:hover{
+        .add-this{
+            display:inline-block;
+            font-size: 9px;
+        }
+    }
 }

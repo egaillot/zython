@@ -24,7 +24,7 @@ urlpatterns = patterns('',
 
     url(r'^(?P<recipe_id>\d+)/add/(?P<ingredient>\w+)/$', 
         ingredient_form, 
-        {'response': "json"},
+        {'response': "raw", "template_name": "brew/raw_%(ingredient)s_form.html"},
         name='brew_recipe_addingredient'
     ),
 

@@ -72,59 +72,26 @@ class RecipeImportForm(forms.Form):
 
 
 class RecipeIngredientForm(UnitModelForm, LocalizedModelForm):
-    def __init__(self, *args, **kwargs):
-        super(RecipeIngredientForm, self).__init__(*args, **kwargs)
-        if self.instance.pk:
-            fields = fields_for_model(self.instance.__class__)
-            unit_fields = self.get_unit_fieldnames()
-            for field_name, field in fields.iteritems():
-                if field_name not in unit_fields:
-                    self.fields[field_name] = field
-                    if not self.data:
-                        self.initial[field_name] = getattr(
-                            self.instance,
-                            field_name
-                        )
-            del self.fields[self.ingredient_name]
-            del self.fields["recipe"]
-            self.model_fields = list(self.fields.iterkeys())
-
-    def save(self, *args, **kwargs):
-        recipe_ingr = self.instance
-        add_default = recipe_ingr.pk is None
-        if add_default:
-            copy_fields = InspectModel(recipe_ingr.__class__).fields
-            copy_fields.remove('id')
-            base_ingr = self.cleaned_data[self.ingredient_name]
-            for field in copy_fields:
-                if add_default:
-                    new_value = getattr(base_ingr, field, None)
-                    setattr(recipe_ingr, field, new_value)
-            for field in self.fields.iterkeys():
-                if field != self.ingredient_name:
-                    setattr(recipe_ingr, field, self.cleaned_data[field])
-            recipe_ingr.save()
-        else:
-            recipe_ingr = super(RecipeIngredientForm, self).save(
-                *args, **kwargs
-            )
-            for f in self.model_fields:
-                setattr(recipe_ingr, f, self.cleaned_data[f])
-            recipe_ingr.save()
-        return recipe_ingr
+    pass
 
 
 class RecipeMaltForm(BS3FormMixin, RecipeIngredientForm):
-    ingredient_name = "malt_id"
     unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
-    malt_id = forms.ModelChoiceField(queryset=Malt.objects.all())
+
+    def get_malt_list(self):
+        return Malt.objects.all()
 
     def __init__(self, *args, **kwargs):
         super(RecipeMaltForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = RecipeMalt
-        fields = ('malt_id', 'amount', 'color')
+        fields = (
+            'amount', 'color',
+            'name', 'origin', 'malt_type',
+            'potential_gravity', 'malt_yield', 'diastatic_power',
+            'protein', 'max_in_batch', 'notes',
+        )
 
 
 class RecipeHopForm(RecipeIngredientForm):

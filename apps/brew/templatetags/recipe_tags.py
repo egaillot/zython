@@ -131,3 +131,8 @@ def recipe_mashsteps_txt(parser, token):
         raise template.TemplateSyntaxError("%r tag requires exactly two arguments" % token.contents.split()[0])
     return RecipeMashStepsTxt(recipe)
 register.tag('recipe_mashsteps_txt', recipe_mashsteps_txt)
+
+
+@register.filter
+def rangeable(value):
+    return int(float(value) * 1000)

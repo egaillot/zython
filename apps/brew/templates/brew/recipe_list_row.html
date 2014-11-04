@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n unit_tags %}
 <tr>
     <td>
         <a href="{{ object.get_absolute_url }}">
@@ -18,7 +18,7 @@
     </td>
     <td>{{ object.get_abv|floatformat:1 }}%</td>
     <td>{{ object.get_ibu|floatformat:0 }} IBU</td>
-    <td>{{ object.get_ibu|floatformat:0 }} IBU</td>
+    <td>{% local_unit "volume" object.batch_size 0 %}</td>
     <td>
         <a href="{% url "brew_recipe_user" object.user.username %}">{{ object.user.username }}</a> <br> 
         {{ object.created|date:"d/m/Y" }}

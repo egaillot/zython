@@ -1,6 +1,8 @@
 from django.db import models
+from django.core import serializers
 from django.utils.translation import ugettext_lazy as _
 from brew.fields import GravityField, ColorField
+
 
 __all__ = (
     'BaseMalt', 'BaseHop', 'BaseYeast', 'BaseMisc',
@@ -74,6 +76,9 @@ MISC_TYPE_CHOICES = (
 
 
 class BaseIngredientMixin(object):
+    def json_object(self):
+        return serializers.serialize("json", type(self).objects.filter(pk=self.pk))
+
     def cls_name(self):
         return self.__class__.__name__.lower()
 

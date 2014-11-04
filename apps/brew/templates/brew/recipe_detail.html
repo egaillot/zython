@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n unit_tags %}
-{% load comments avatar_tags %}
+{% load comments avatar_tags recipe_tags %}
 {% load url from future %}
 
 
@@ -14,11 +14,10 @@
     <div class="container">
 
         {% if object.get_ebc %}
-            <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right">
+            <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right beer-preview">
                 <a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
                     <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
                 </a>
-               
             </div>
         {% endif %}
 
@@ -107,7 +106,7 @@
                 {% trans "Add ingredient" %} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
-                <li><a data-toggle="modal" href="#" data-target="#add_grain"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
+                <li><a id="id_add_modal_link" href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "malt" %}"><img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> &nbsp;{% trans "Grain" %}</a></li>
                 <li><a data-toggle="modal" href="#" data-target="#add_hop"><img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}</a></li>
                 <li><a data-toggle="modal" href="#" data-target="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
                 <li><a data-toggle="modal" href="#" data-target="#add_yeast"><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
@@ -122,47 +121,68 @@
     </div>
 
     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+
         <div class="panel panel-default">
               <div class="panel-heading">
                     <h3 class="panel-title">{% trans "Indicateurs" %}</h3>
               </div>
               <div class="panel-body">
-                    <b>{% trans "Type" %}</b> : {{ object.get_recipe_type_display }} <br>
-                    <b>{% trans "Batch size" %}</b> : {% local_unit "volume" object.batch_size 0 %}
-                    <hr>
-                    <b>{% trans "Est. original gravity" %}</b> : 
-                    {% if controls.og %}
-                        <span class="badge badge-important tip" title="{{ controls.og }}<br>{% trans "Style range" %} : {{ object.style.og_range|join:" - " }}">{{ object.get_original_gravity }}</span>
-                    {% else %}
-                        {{ object.get_original_gravity }}
-                    {% endif %}
-                    <br>
-                    <b>{% trans "Est. final gravity" %}</b> : 
-                    {% if controls.fg %}
-                        <span class="badge badge-important tip" title="{{ controls.fg }}<br>{% trans "Style range" %} : {{ object.style.fg_range|join:" - " }}">{{ object.get_final_gravity }}</span>
-                    {% else %}
-                        {{ object.get_final_gravity }}
-                    {% endif %}
+                <b>{{ object.get_recipe_type_display }}</b> - 
+                {% trans "Batch size" %} : <b>{% local_unit "volume" object.batch_size 0 %}</b>
 
-                    <br>
-                    <b>IBU</b> :
-                    {% if controls.ibu %}
-                        <span class="badge badge-important tip" title="{{ controls.ibu }}<br>{% trans "Style range" %} : {{ object.style.ibu_range|join:" - " }} IBU">{{ object.get_ibu }}</span>
-                    {% else %}
-                        {{ object.get_ibu }}
-                    {% endif %}
+                <hr>
 
-                    <br>
-                    <b>{% trans "Color" %}</b> : 
-                    {% if controls.color %}
-                        <span class="badge badge-important tip" title="{{ controls.color }}<br>{% trans "Style range" %} : {{ object.style.color_range|join:" - " }} EBC">{% local_unit "color" object.get_ebc %}</span>
-                    {% else %}
-                        {% local_unit "color" object.get_ebc %}
-                    {% endif %}
+                <p>
+                    <b>{% trans "Est. original gravity" %}</b>: {{ object.get_original_gravity }}<br>
+                    <input type="range" 
+                        class="indicatorRange"
+                        min="{{ object.style.original_gravity_min|rangeable }}"
+                        max="{{ object.style.original_gravity_max|rangeable }}"
+                        value="{{ object.get_original_gravity|rangeable }}"
+                        disabled="disabled" />
+                </p>
 
-                    <br>
-                    <b>{% trans "ABV" %}</b> : 
-                    TODO
+                <p>
+                    <b>{% trans "Est. final gravity" %}</b>: {{ object.get_final_gravity }}<br>
+                    <input type="range" 
+                        class="indicatorRange"
+                        min="{{ object.style.final_gravity_min|rangeable }}"
+                        max="{{ object.style.final_gravity_max|rangeable }}"
+                        value="{{ object.get_final_gravity|rangeable }}"
+                        disabled="disabled" />
+                </p>
+
+                <p>
+                    <b>{% trans "IBU" %}</b>: {{ object.get_ibu }}<br>
+                    <input type="range" 
+                        class="indicatorRange"
+                        min="{{ object.style.bitterness_min|rangeable }}"
+                        max="{{ object.style.bitterness_max|rangeable }}"
+                        value="{{ object.get_ibu|rangeable }}"
+                        disabled="disabled" />
+                </p>
+
+                <p>
+                    <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %}<br>
+                    <input type="range" 
+                        class="indicatorRange"
+                        min="{{ object.style.color_min|rangeable }}"
+                        max="{{ object.style.color_max|rangeable }}"
+                        value="{{ object.get_ebc|rangeable }}"
+                        disabled="disabled" />
+                </p>
+
+                <p>
+                    <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:1 }}%<br>
+                    <input type="range" 
+                        class="indicatorRange"
+                        min="{{ object.style.alcohol_min|rangeable }}"
+                        max="{{ object.style.alcohol_max|rangeable }}"
+                        value="{{ object.get_abv|rangeable }}"
+                        disabled="disabled" />
+                </p>
+
+
               </div>
         </div>
 
@@ -188,18 +208,37 @@
 
 {% include "brew/modal_ingredients.html" %}
 
-<div class="modal hide {% if not open_modal %}fade{% endif %}" id="doform">
+<div class="modal hide {% if not open_modal %}fade{% endif %}">
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
         <h3><span></span></h3>
   </div>
   <div class="modal-body">
-    <div id="xhr_form"></div>
+    
   </div>
   <div class="modal-footer">
-    <a href="#" id="model_edit_submit" class="btn btn-primary">{% trans "Save" %}</a>
   </div>
 </div>
+
+
+<div class="modal fade" id="id_main_modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title"></h4>
+      </div>
+      <div class="modal-body">
+        <div id="xhr_content"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+        <a href="#" id="model_edit_submit" class="btn btn-success">{% trans "Save" %}</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 
 <p><hr></p>
@@ -223,6 +262,8 @@
 {% block js %}
 {% if can_edit %}
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
     function reload_page(){
         document.location.href = ".";
@@ -244,14 +285,15 @@
     }
 
     function show_ajax_form(html){
-        $("#xhr_form").html(html);
+        $("#xhr_content").html(html);
     }
 
-    function load_ajax_form(elmt){
-        $("#doform h3 span").text(elmt.text());
-        form_url = elmt.attr('data-url');
-        $.get(form_url, function(html){
+    function load_ajax_modal(elmt){
+        $("#id_main_modal h4").text(elmt.text());
+        data_url = elmt.attr('data-url');
+        $.get(data_url, function(html){
             show_ajax_form(html);
+            $("#id_main_modal").modal("show");
             $("#model_edit_submit").click(function(){
                 send_ajax_form();
             });
@@ -278,18 +320,15 @@
 
     $(document).ready(function() { 
         $('.ajaxform').ajaxForm({success: handleResponse});
-        /*$('.modal').on('shown', function(){
-            $(this).find('input.quicksearch:first').focus();
-        });*/
         $("#search_grain").quicksearch('table#table_grain tbody tr');
         $("#search_hop").quicksearch('table#table_hop tbody tr');
         $("#search_misc").quicksearch('table#table_misc tbody tr');
         $("#search_yeast").quicksearch('table#table_yeast tbody tr');
         $('.popover-menu').popover({placement:'left'}).popover('show');
-        $('.edit_ingredient').click(function(){
-            load_ajax_form($(this));
+        $('.open_modal').click(function(){
+            load_ajax_modal($(this));
         });
-        $("#doform form input").live("keypress", function(e){
+        $("#doform form input").on("keypress", function(e){
             if(e.keyCode == 13) {
                 $("#model_edit_submit").click();
             }
@@ -315,6 +354,13 @@
         {% if open_modal %}
             $("#{{ open_modal }}").click();
         {% endif %}
+
+        $(".add_ingredient_form").submit(function(){
+            $("#" + $(this).attr("data-modal-id")).modal('hide');
+            console.log($(this).serializeArray());
+            return false;
+        });
+
     });
     </script>
 {% endif %}
