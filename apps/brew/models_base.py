@@ -52,10 +52,10 @@ YEAST_FORM_CHOICES = (
 )
 
 YEAST_FLOCCULATION_CHOICES = (
-    (1, _('Low')),
-    (2, _('Medium')),
-    (3, _('High')),
-    (4, _('Very high')),
+    ("1", _('Low')),
+    ("2", _('Medium')),
+    ("3", _('High')),
+    ("4", _('Very high')),
 )
 
 MISC_USEIN_CHOICES = (

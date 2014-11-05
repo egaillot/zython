@@ -1,8 +1,6 @@
 from django import forms
-from django.forms.models import fields_for_model
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
-from inspect_model import InspectModel
 from brew.models import *
 from brew.settings import MAIN_STYLES
 from brew.fields import LocalizedModelForm
@@ -117,22 +115,34 @@ class RecipeHopForm(RecipeIngredientForm):
 
 
 class RecipeMiscForm(RecipeIngredientForm):
-    ingredient_name = "misc_id"
     unit_fields = {'hop': ['amount', ]}
-    misc_id = forms.ModelChoiceField(queryset=Misc.objects.all())
+
+    def get_ingredient_list(self):
+        return Misc.objects.all()
 
     class Meta:
         model = RecipeMisc
-        fields = ('misc_id', 'amount', 'use_in', 'time', 'time_unit')
+        fields = (
+            'amount', 'use_in', 'time',
+            'time_unit', 'name', 'misc_type',
+            'usage', 'notes'
+        )
 
 
 class RecipeYeastForm(RecipeIngredientForm):
-    ingredient_name = "yeast_id"
-    yeast_id = forms.ModelChoiceField(queryset=Yeast.objects.all())
+
+    def get_ingredient_list(self):
+        return Yeast.objects.all()
 
     class Meta:
         model = RecipeYeast
-        fields = ('yeast_id', )
+        fields = (
+            'name', 'laboratory', 'product_id',
+            'yeast_type', 'form', 'flocculation',
+            'min_attenuation', 'max_attenuation',
+            'min_temperature', 'max_temperature',
+            'best_for', 'notes'
+        )
 
 
 class MashStepForm(UnitModelForm, LocalizedModelForm):

@@ -1,4 +1,5 @@
 import math
+import random
 from operator import itemgetter
 from datetime import datetime
 from django.db import models
@@ -176,6 +177,56 @@ class Recipe(models.Model):
             color_min__lte=ebc,
             color_max__gte=ebc,
         )
+
+    def zython_advice_color(self):
+        ebc = self.get_ebc()
+        advices = []
+        if ebc < 3:
+            advices = [
+                _(u"Looks so clear !!"),
+                _(u"This beer makes me thirsty, almost transparent :)"),
+                _(u"A brighter beer will be invisible"),
+            ]
+        elif ebc < 10:
+            advices = [
+                _(u"I love blonds !!"),
+                _(u"A regular blond beer"),
+                _(u"This color is fine"),
+            ]
+        elif ebc < 20:
+            advices = [
+                _(u"Looks like gold, good job !"),
+                _(u"A fresh light-amber, yummy"),
+                _(u"This beer looks serious, gold !"),
+            ]
+        elif ebc < 30:
+            advices = [
+                _(u"This beer has a great amber color"),
+                _(u"A fresh dark-amber, sooo yummy"),
+                _(u"This color is perfect for dark ambers"),
+            ]
+        elif ebc < 50:
+            advices = [
+                _(u"Yeaahh, a brown beer"),
+                _(u"Nice job, this beer is not that dark, just great !"),
+                _(u"Someone just made a prefect brown beer"),
+            ]
+        elif ebc < 100:
+            advices = [
+                _(u"That's pretty dark"),
+                _(u"We can't anything see through this beer excepting the fact that it looks dark"),
+                _(u"Black, perfectly black."),
+            ]
+        elif ebc >= 100:
+            advices = [
+                _(u"An oil well"),
+                _(u"Are you sure this beer should be that dark ?"),
+                _(u"Am I blind or this beer is black ?")
+            ]
+        if advices:
+            return random.choice(advices)
+        else:
+            return ""
 
     @property
     def cache_key(self):

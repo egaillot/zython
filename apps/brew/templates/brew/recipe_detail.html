@@ -15,7 +15,7 @@
 
         {% if object.get_ebc %}
             <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right beer-preview">
-                <a rel="gallery" title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
+                <a data-toggle="lightbox" data-title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" data-footer="{{ object.zython_advice_color }}" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
                     <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
                 </a>
             </div>
@@ -122,8 +122,15 @@
                         <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}
                     </a>
                 </li>
-                <li><a data-toggle="modal" href="#" data-target="#add_misc"><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}</a></li>
-                <li><a data-toggle="modal" href="#" data-target="#add_yeast"><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a></li>
+                <li>
+                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "misc" %}">
+                        <img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "yeast" %}">
+                        <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a>
+                    </li>
               </ul>
             </div>
         {% endif %}

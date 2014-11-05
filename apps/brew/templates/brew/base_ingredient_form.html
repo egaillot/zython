@@ -26,14 +26,7 @@ $(function(){
     $(".search_ingredient").quicksearch('.ingredient_list table tbody tr');
     $('.ingredient_list table').dataTable({
         "bPaginate": false, "bInfo": false, "bFilter": false, 
-        "aoColumns": [
-            null,
-            null,
-            null,
-            null,
-            null,
-            {"sType": "percent",},
-        ]
+        
     }).addClass('table-sorted');
 });
 </script>
