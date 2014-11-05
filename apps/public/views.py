@@ -31,3 +31,11 @@ def comment_delete(request, comment_id, next=None):
             {'comment': comment, "next": next},
             template.RequestContext(request)
         )
+
+
+def no_registration(request):
+    return render_to_response(
+        "public/no_registration.html",
+        {},
+        template.RequestContext(request)
+    )

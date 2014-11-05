@@ -119,7 +119,7 @@ class Recipe(models.Model):
 
     # - - -
     # Preferences
-    private = models.BooleanField(_(u'Private recipe ?'), default=False)
+    private = models.BooleanField(_(u'Private recipe ?'), default=False, help_text=_(u"If checked, this recipe will not be listed to other users."))
     notes = models.TextField(_('Notes'), null=True, blank=True)
     efficiency = models.DecimalField(_('Efficiency'), max_digits=4, decimal_places=1, default="75", help_text="%")
     mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
@@ -328,6 +328,26 @@ class Recipe(models.Model):
             og = ((sum(points) / batch_size) / 1000) + 1
             cache.set(cache_key, og, 60 * 15)
         return "%.3f" % og
+
+    def get_total_mash_time(self):
+        time = 0
+        for mashstep in self.mashstep_set.all():
+            time += mashstep.step_time
+            time += mashstep.rise_time
+        return time
+
+    def get_mash_schedule(self):
+        data = []
+        time = 0
+        data.append([time, 22])
+        for mashstep in self.mashstep_set.all():
+            # data.append([time, int(mashstep.temperature)])
+            time += mashstep.rise_time
+            data.append([time, int(mashstep.temperature)])
+            time += mashstep.step_time
+            data.append([time, int(mashstep.temperature)])
+
+        return data
 
     # - - -
     # Coloration

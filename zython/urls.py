@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^$', RecipeListView.as_view(), name='root_url'),
     (r'^recipe/', include('brew.urls')),
     (r'^units/', include('units.urls')),
+    (r'^accounts/register/', 'public.views.no_registration'),
     (r'^accounts/', include('registration_backend.urls')),
     (r'^comments/', include('django.contrib.comments.urls')),
 

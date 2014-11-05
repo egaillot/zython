@@ -1,10 +1,8 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n form_tags %}
 
 {% block content %}
-<form action="." method="POST" autocomplete="off" class="form-no-block">{% csrf_token %}
-<div class="row">
-  <div class="large-8 large-offset-2">
+<form action="." method="POST" autocomplete="off" class="form-horizontal">{% csrf_token %}
 
 	<h2>{% block title %}
 		{% if form.instance.id %}
@@ -16,115 +14,25 @@
 
 	<div class="vspace"></div>
 
-	<div class="row">
-		<div class="large-2 columns">
-			<label for="{{ form.batch_size.auto_id }}" class='control-label'>{{ form.batch_size.label }}</label> 
-			{{ form.batch_size }}&nbsp;{{ form.batch_size.help_text }}
-			{{ form.batch_size.errors }}
-		</div>
-		<div class="large-9 columns end">
-			<label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
-			{{ form.name }}
-			{{ form.name.errors }}
-		</div>
+	{% for field in form %}
+		{% addFormField field size="S" %}
+	{% endfor %}
+
+	<hr>
+
+	<div class="text-center">
+		<input type="submit" class="btn btn-success btn-lg" value="{% if form.instance %}{% trans "Save" %}{% else %}{% trans "Add a new recipe" %}{% endif %}">
+		{% if form.instance.id %}
+			<a href="{{ form.instance.get_absolute_url }}" class="btn">{% trans "Return to recipe" %}</a>
+		{% endif %}
 	</div>
-
-	<div class="row">
-		<div class="large-2 columns">
-			<label for="{{ form.efficiency.auto_id }}" class='control-label'>{{ form.efficiency.label }}</label> 
-			{{ form.efficiency }}&nbsp;{{ form.efficiency.help_text }}
-			{{ form.efficiency.errors }}
-		</div>
-		<div class="large-3 columns">
-			<label for="{{ form.recipe_type.auto_id }}" class='control-label'>{{ form.recipe_type.label }}</label>
-			{{ form.recipe_type }}
-			{{ form.recipe_type.errors }}
-		</div>
-		<div class="large-4 columns end">
-			<label for="{{ form.recipe_style.auto_id }}" class='control-label'>{{ form.recipe_style.label }}</label>
-			{{ form.recipe_style }}
-			{{ form.recipe_style.errors }}
-		</div>
-	</div>
-	
-	<div class="vspace"></div>
-
-	<div class="row row-private">
-		<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="">
-		{{ form.private }}
-		{% trans "Private recipe ?" %} <span class="help-inline">({% trans "If checked, this recipe will not be listed to other users." %})</span>
-	</div>
-
-	<fieldset class='preferences'>
-		<legend>{% trans "Preferences" %}</legend>
-		<div class="row">
-			<div class="large-3 columns">
-				<label for="{{ form.mash_tun_deadspace.auto_id }}" class="control-label">
-					{{ form.mash_tun_deadspace.label }}
-				</label>
-			</div>
-			<div class="large-6 columns end">
-				{{ form.mash_tun_deadspace }}&nbsp;{{ form.mash_tun_deadspace.help_text }}
-				<span class="help-inline">
-					{% trans "Volume of deadspace in lauter tun" %}
-				</span>
-				{{ form.mash_tun_deadspace.errors }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="large-3 columns">
-				<label for="{{ form.boiler_tun_deadspace.auto_id }}" class="control-label">
-					{{ form.boiler_tun_deadspace.label }}
-				</label>
-			</div>
-			<div class="large-8 columns end">
-				{{ form.boiler_tun_deadspace }}&nbsp;{{ form.boiler_tun_deadspace.help_text }}
-				<span class="help-inline">
-					{% trans "Volume of wort lost due to the boiler tun and chiller deadspace" %}
-				</span>
-
-				{{ form.boiler_tun_deadspace.errors }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="large-3 columns">
-				<label for="{{ form.grain_temperature.auto_id }}" class="control-label">
-					{{ form.grain_temperature.label }}
-				</label>
-			</div>
-			<div class="large-4 columns end">
-				{{ form.grain_temperature }}&nbsp;{{ form.grain_temperature.help_text }}
-				{{ form.grain_temperature.errors }}
-			</div>
-		</div>
-		<div class="row">
-			<div class="large-3 columns">
-				<label for="{{ form.evaporation_rate.auto_id }}" class="control-label">
-					{{ form.evaporation_rate.label }}
-				</label>
-			</div>
-			<div class="large-4 columns end">
-				{{ form.evaporation_rate }}&nbsp;{{ form.evaporation_rate.help_text }}
-				{{ form.evaporation_rate.errors }}
-			</div>
-		</div>
-	</fieldset>
-
-
-<hr>
-
-<div class="center">
-	<input type="submit" class="button success" value="{% if form.instance %}{% trans "Save" %}{% else %}{% trans "Add a new recipe" %}{% endif %}">
-	{% if form.instance.id %}
-		<a href="{{ form.instance.get_absolute_url }}" class="btn">{% trans "Return to recipe" %}</a>
-	{% endif %}
-</div>
-
-	</div>
-</div>
-
 
 </form>
+
+<div class="vspace-xl"></div>
+<hr>
+<div class="vspace-xl"></div>
+
 {% endblock content %}
 
 {% block extrahead %}

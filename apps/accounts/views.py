@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from accounts.forms import UserEditForm
 
+
 class EditUserView(UpdateView):
     template_name = 'accounts/user_form.html'
     form_class = UserEditForm

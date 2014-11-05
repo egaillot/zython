@@ -23,4 +23,5 @@ $(function(){
         event.preventDefault();
         $(this).ekkoLightbox();
     });
+
 })

@@ -29,7 +29,7 @@ def style_choices(qs_kwargs={}):
     return items
 
 
-class RecipeForm(UnitModelForm, LocalizedModelForm):
+class RecipeForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
     unit_fields = {
         'volume': [
             'batch_size',
