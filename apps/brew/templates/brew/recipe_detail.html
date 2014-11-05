@@ -138,7 +138,9 @@
 
         <div class="panel panel-default">
               <div class="panel-heading">
-                    <h3 class="panel-title">{% trans "Indicateurs" %}</h3>
+                    <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-tasks"></i>
+                    {% trans "Indicateurs" %}</h3>
               </div>
               <div class="panel-body">
                 <b>{{ object.get_recipe_type_display }}</b> - 
@@ -349,17 +351,6 @@
             }
         });
 
-        $('#table_grain').dataTable({
-            "bPaginate": false, "bInfo": false, "bFilter": false, 
-            "aoColumns": [
-                null,
-                null,
-                null,
-                null,
-                null,
-                {"sType": "percent",},
-            ]
-        }).addClass('table-sorted');
         $('.select-hop').click(function(){
             $("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
         });
