@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView, UpdateView
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
+from braces.views import LoginRequiredMixin
 from brew.models import *
 from brew.forms import *
 from brew.helpers import import_beer_xml
@@ -49,7 +50,7 @@ R E C I P E
 """
 
 
-class RecipeAuthorMixin(object):
+class RecipeAuthorMixin(LoginRequiredMixin):
     '''
     Mixin object to authorise recipe author
     acessing views (deletion, updates...)
@@ -57,10 +58,23 @@ class RecipeAuthorMixin(object):
     model = Recipe
     pk_url_kwarg = 'recipe_id'
 
-    @method_decorator(login_required)
     @method_decorator(recipe_author)
     def dispatch(self, *args, **kwargs):
         return super(RecipeAuthorMixin, self).dispatch(*args, **kwargs)
+
+
+class RecipeViewableMixin(object):
+    """
+    The recipe can be viewed by the current user
+    """
+    model = Recipe
+    pk_url_kwarg = 'recipe_id'
+
+    def dispatch(self, *args, **kwargs):
+        response = super(RecipeViewableMixin, self).dispatch(*args, **kwargs)
+        if not self.object.can_be_viewed_by_user(self.request.user):
+            raise http.Http404()
+        return response
 
 
 class RecipeListView(ListView):
@@ -94,14 +108,10 @@ class RecipeListView(ListView):
         return context
 
 
-class RecipeCreateView(UnitViewFormMixin, CreateView):
+class RecipeCreateView(LoginRequiredMixin, UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe
     success_url = '/recipe/%(id)d/'
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(RecipeCreateView, self).dispatch(*args, **kwargs)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -122,13 +132,9 @@ class RecipeCreateView(UnitViewFormMixin, CreateView):
         return initial
 
 
-class RecipeImportView(FormView):
+class RecipeImportView(LoginRequiredMixin, FormView):
     form_class = RecipeImportForm
     template_name = "brew/recipe_import_form.html"
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(RecipeImportView, self).dispatch(*args, **kwargs)
 
     def post(self, *args, **kwargs):
         xml_data = self.request.FILES.get('beer_file').read()
@@ -139,14 +145,13 @@ class RecipeImportView(FormView):
         ))
 
 
-class RecipeDetailView(DetailView):
+class RecipeDetailView(RecipeViewableMixin, DetailView):
     model = Recipe
+    pk_url_kwarg = 'pk'
     page = "detail"
 
     def dispatch(self, *args, **kwargs):
         response = super(RecipeDetailView, self).dispatch(*args, **kwargs)
-        if self.object.private and self.request.user != self.object.user and not self.request.user.has_perm('brew.view_recipe', self.object):
-            raise http.Http404()
         if "permissions" in self.template_name_suffix and self.request.user != self.object.user:
             return http.HttpResponseRedirect(self.object.get_absolute_url())
         return response
@@ -191,13 +196,6 @@ class RecipeDetailView(DetailView):
 
 class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
     success_url = "/"
-
-    def dispatch(self, *args, **kwargs):
-        response = super(RecipeDeleteView, self).dispatch(*args, **kwargs)
-        if self.object.private and self.request.user != self.object.user:
-            messages.error(self.request, _("You can't delete this recipe"))
-            return http.HttpResponseRedirect(self.object.get_absolute_url())
-        return response
 
     def get_context_data(self, **kwargs):
         context = super(RecipeDeleteView, self).get_context_data(**kwargs)
@@ -285,6 +283,17 @@ class MashUpdateView(UnitViewFormMixin, UpdateView):
         resp = http.HttpResponse()
         resp.status_code = 202
         return resp
+
+
+class RecipeCloneView(LoginRequiredMixin, RecipeViewableMixin, DetailView):
+    template_name = "brew/recipe_clone.html"
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+        new_recipe = self.object.clone_to_user(self.request.user)
+        response = http.HttpResponse()
+        response['Location'] = new_recipe.get_absolute_url()
+        return response
 
 
 # --------------------

@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'^(?P<pk>\d+)/text/$', RecipeDetailView.as_view(page="text"), name='brew_recipe_text'),
     url(r'^(?P<recipe_id>\d+)/confirm-delete/$', RecipeDeleteView.as_view(), name='brew_recipe_delete'),
     url(r'^(?P<recipe_id>\d+)/edit/$', RecipeUpdateView.as_view(), name='brew_recipe_edit'),
+    url(r'^(?P<recipe_id>\d+)/clone/$', RecipeCloneView.as_view(), name='brew_recipe_clone'),
 
     url(r'^(?P<recipe_id>\d+)/add/(?P<ingredient>\w+)/$', 
         ingredient_form, 

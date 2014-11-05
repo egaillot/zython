@@ -60,6 +60,12 @@
                 </a>
             </li>
             <li>
+                <a href="#" class="open_modal" data-url="{% url "brew_recipe_clone" object.pk %}">
+                    <span class="glyphicon glyphicon-floppy-open"></span>
+                    {% trans "Clone" %}
+                </a>
+            </li>
+            <li>
                 <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
                     <span class="glyphicon glyphicon-print"></span>
                     {% trans "Print" %}
@@ -194,6 +200,21 @@
               </div>
         </div>
 
+        {% if object.forked_from %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                    <i class="glyphicon glyphicon-floppy-save"></i>
+                    {% trans "Clonée à partir de" %}</h3>
+                </div>
+                <div class="panel-body">
+                    <a href="{{ object.forked_from.get_absolute_url }}">{{ object.forked_from }}</a> <br>
+                    de <a href="{{ object.forked_from.user.get_absolute_url }}">@{{ object.forked_from.user.username }}</a> <br>
+
+                </div>
+            </div>
+        {% endif %}
+
 
         {% if can_edit %}
 
@@ -301,10 +322,15 @@
             type: "POST",
             url: url,
             data: $('#' + form_id).serialize(),
-            success: function(data, textStatus, jqXHR){
-                if(jqXHR.status == 202){
+            success: function(data, textStatus, xhr){
+                new_location = xhr.getResponseHeader('Location');
+                if (new_location){
+                    document.location.href = new_location;
+                }
+                if (xhr.status == 202){
                     reload_page();
-                }else if (jqXHR.status == 200){
+                }
+                if (xhr.status == 200){
                     show_ajax_form(data);
                 }
             }

@@ -132,6 +132,28 @@ class Recipe(models.Model):
     # - - -
     # Generic model class/methods
 
+    def can_be_viewed_by_user(self, user):
+        if self.private and user != self.user and not user.has_perm('brew.view_recipe', self):
+            return False
+        else:
+            return True
+
+    def clone_to_user(self, user):
+        this_recipe = Recipe.objects.get(pk=self.pk)
+        new_recipe = self
+        new_recipe.pk = None
+        new_recipe.user = user
+        new_recipe.forked_from = this_recipe
+        new_recipe.save()
+        reversed_relations = ("recipemalt_set", "recipehop_set", "recipeyeast_set", "mashstep_set", "recipemisc_set")
+        for rel in reversed_relations:
+            children = getattr(this_recipe, rel).all()
+            for child in children:
+                child.pk = None
+                child.recipe = new_recipe
+                child.save()
+        return new_recipe
+
     def guess_style(self):
         """
         According to the OG, FG, ABV, IBU and EBC,

@@ -1,5 +1,6 @@
 Django==1.7.1
 Pillow==2.4.0
+django-braces==1.4.0
 django-registration==1.0
 django-reversion==1.6.5
 wsgiref==0.1.2
