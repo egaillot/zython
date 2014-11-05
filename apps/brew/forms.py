@@ -145,7 +145,7 @@ class RecipeYeastForm(RecipeIngredientForm):
         )
 
 
-class MashStepForm(UnitModelForm, LocalizedModelForm):
+class MashStepForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
     unit_fields = {
         'volume': ['water_added', ],
         'temperature': ['temperature', ],

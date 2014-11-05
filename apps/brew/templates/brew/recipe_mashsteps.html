@@ -3,8 +3,6 @@
 
 {% if object.mashstep_set.all %}
     {% cache 600 recipe_mashsteps object.cache_key can_edit %}
-    <h2>{% trans "Mash detail" %}</h2>
-
     <table class="table {% if version == "print" %}table-condensed{% endif %}">
         <thead>
             <tr>
@@ -24,7 +22,7 @@
                 </td>
                 <td>
                     {% if can_edit %}
-                    <a class="edit_ingredient" href="#doform" data-toggle="modal" data-url="{% url "brew_mash_edit" object.id mash.id %}">
+                    <a class="open_modal" href="#" data-url="{% url "brew_mash_edit" object.id mash.id %}">
                     {% endif %}
                     {% if mash.water_added %}
                         {% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.

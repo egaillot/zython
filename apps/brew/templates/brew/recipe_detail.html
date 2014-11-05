@@ -21,7 +21,6 @@
             </div>
         {% endif %}
 
-
         <h1>{{ object.name }} 
             {% if object.style %}
                 <small>
@@ -33,9 +32,9 @@
         <p><a href="{% url "brew_recipe_user" object.user.username %}">@{{ object.user.username }}</a> - {{ object.created|date }}</p>
             
 
-</div>
-<hr class="before-nav">
-<div class="container">
+    </div>
+    <hr class="before-nav">
+    <div class="container">
         <ul class="nav nav-pills" role="tablist">
             <li {% if page == "detail" %}class="active"{% endif %}>
                 <a href="{{ object.get_absolute_url }}">
@@ -108,7 +107,7 @@
 
         {% if can_edit %}
             <div class="btn-group pull-right">
-              <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+              <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                 {% trans "Add ingredient" %} <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
@@ -138,6 +137,16 @@
         <h2>{% trans "Ingredients" %}</h2>
         {% include "brew/recipe_ingredients.html" %}
         <hr>
+
+        {% if can_edit %}
+            <div class="pull-right">
+                <a href="#" data-url="{% url "brew_mash_add" object.id %}" class="btn btn-primary btn-sm open_modal">
+                    {% trans "Add mash step" %} <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </div>
+        {% endif %}
+
+        <h2>{% trans "Mash detail" %}</h2>
         {% include "brew/recipe_mashsteps.html" %}
     </div>
 
@@ -223,22 +232,6 @@
                 </div>
             </div>
         {% endif %}
-
-
-        {% if can_edit %}
-
-
-            <h3 class="subheader">{% trans "Mash" %}</h3>
-            <ul class="side-nav ingredient-list no-padding">
-                <li>
-                <a data-toggle="modal" href="#add_mash">
-                    {# <a href="#doform" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_mash_add" object.id %}"> #}
-                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step"> {% trans "Add mash step" %}</a>
-                </li>
-            </ul>
-        {% endif %}
-
-
 
     </div>
 </div>

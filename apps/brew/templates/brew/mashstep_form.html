@@ -1,85 +1,31 @@
-{% load i18n unit_tags %}
+{% load i18n unit_tags form_tags %}
+
 <form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
-<div class="control-group {% if form.name.errors %}error{% endif %}">
-    <label for="{{ form.name.auto_id }}" class='control-label'>{{ form.name.label }}</label>
-    <div class="controls">
-        {{ form.name }}
-        {% if form.name.help_text %}
-            <span class="help-inline">{{ form.name.help_text }}</span>
-        {% endif %}
-        {{ form.name.errors }}
-    </div>
-</div>
+    {% addFormField form.name size="S" %}
+    {% addFormField form.step_type size="S" %}
 
-<div class="control-group {% if form.step_type.errors %}error{% endif %}">
-    <label for="{{ form.step_type.auto_id }}" class='control-label'>{{ form.step_type.label }}</label>
-    <div class="controls">
-        {{ form.step_type }}
-        {% if form.step_type.help_text %}
-            <span class="help-inline">{{ form.step_type.help_text }}</span>
-        {% endif %}
-        {{ form.step_type.errors }}
-    </div>
-</div>
-
-<div class="row">
-    <div class="span3">
-        <div class="control-group {% if form.temperature.errors %}error{% endif %}">
-            <label for="{{ form.temperature.auto_id }}" class='control-label'>{{ form.temperature.label }}</label>
-            <div class="controls">
-                {{ form.temperature }}
-                {% if form.temperature.help_text %}
-                    <span class="help-inline">{{ form.temperature.help_text }}</span>
-                {% endif %}
-                {{ form.temperature.errors }}
-            </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.temperature size="L" %}
         </div>
-
-        <div class="control-group {% if form.water_added.errors %}error{% endif %}">
-            <label for="{{ form.water_added.auto_id }}" class='control-label'>{{ form.water_added.label }}</label>
-            <div class="controls">
-                {{ form.water_added }}
-                {{ form.water_added.help_text }}
-                {{ form.water_added.errors }}
-                {% if form.instance.is_first_step %}
-                    <div id="id_result_ratio">Ratio : </div>
-                {% endif %}
-            </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.water_added size="L" %}
+            {% if form.instance.is_first_step %}
+                <div style="margin-top:-30px;margin-bottom:10px;" class="col-sm-offset-4 col-md-offset-4 col-lg-offset-4" id="id_result_ratio">{% trans "Ratio water/grain" %}: </div>
+            {% endif %}
         </div>
     </div>
-    <div class="span3">
-        <div class="control-group {% if form.step_time.errors %}error{% endif %}">
-            <label for="{{ form.step_time.auto_id }}" class='control-label'>{{ form.step_time.label }}</label>
-            <div class="controls">
-                {{ form.step_time }}
-                {% if form.step_time.help_text %}
-                    <span class="help-inline">{{ form.step_time.help_text }}</span>
-                {% endif %}
-                {{ form.step_time.errors }}
-            </div>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.step_time size="L" %}
         </div>
-
-        <div class="control-group {% if form.rise_time.errors %}error{% endif %}">
-            <label for="{{ form.rise_time.auto_id }}" class='control-label'>{{ form.rise_time.label }}</label>
-            <div class="controls">
-                {{ form.rise_time }}
-                {% if form.rise_time.help_text %}
-                    <span class="help-inline">{{ form.rise_time.help_text }}</span>
-                {% endif %}
-                {{ form.rise_time.errors }}
-            </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            {% addFormField form.rise_time size="L" %}
         </div>
     </div>
-</div>
 
 </form>
-<style type="text/css">
-    .span3 {width: 250px;}
-    .span3 input{
-        width:45px;
-    }
-    #id_result_ratio{color:#BBB;}
-</style>
+
 <script type="text/javascript">
 $(document).ready(function() { 
     function update_ratio(){
@@ -87,7 +33,7 @@ $(document).ready(function() {
         water = parseFloat($("#id_water_added").val());
         ratio = water/grain;
         ratio = ratio.toFixed(1);
-        $("#id_result_ratio").text("Ratio : " + ratio)
+        $("#id_result_ratio").text("{% trans "Ratio water/grain" %}: " + ratio)
     }
     update_ratio();
     $("#id_water_added").keyup(function(){

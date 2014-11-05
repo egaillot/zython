@@ -30,7 +30,7 @@
                 <td>
 
                     {% if can_edit %}
-                        <a href="#doform" id="malt_{{ ing.id }}" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" ing.id %}">
+                        <a href="#" id="malt_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({% local_unit "color" ing.color %})
                     {% if can_edit %}</a>{% endif %}
@@ -55,7 +55,8 @@
                     {% local_unit "hop" ing.amount 0 %}
                 </td>
                 <td>
-                    {% if can_edit %}<a href="#doform" id="hop_{{ ing.id }}" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
+                    {% if can_edit %}
+                    <a href="#" id="hop_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({{ ing.acid_alpha }}%) - {{ ing.get_usage_display }} {{ ing.unit_time }}
                     {% if can_edit %}</a>{% endif %}
@@ -79,7 +80,7 @@
                     {% local_unit "hop" ing.amount 0 %}
                 </td>
                 <td>
-                    {% if can_edit %}<a href="#doform" id="misc_{{ ing.id }}" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" ing.id %}">
+                    {% if can_edit %}<a href="#" id="misc_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" ing.id %}">
                     {% endif %}
                     {{ ing.name }} - {{ ing.get_use_in_display }} {{ ing.time }} {{ ing.time_unit }}
                     {% if can_edit %}</a>{% endif %}
@@ -102,7 +103,7 @@
                     {% trans "Yeast" %}
                 </td>
                 <td>
-                    {% if can_edit %}<a href="#doform" id="yeast_{{ ing.id }}" class="edit_ingredient" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" ing.id %}">
+                    {% if can_edit %}<a href="#" id="yeast_{{ ing.id }}" class="open_modal" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" ing.id %}">
                     {% endif %}
                     {{ ing.product_id }} {{ ing.name }} - {{ ing.laboratory }}
                     {% if can_edit %}</a>{% endif %}
