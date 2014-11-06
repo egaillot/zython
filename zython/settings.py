@@ -53,6 +53,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -110,6 +111,7 @@ LANGUAGES = (
     ('en', u'English'),
     ('fr', u'Français')
 )
+
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False
@@ -117,7 +119,8 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/medias/static/'
+STATIC_ROOT = '%s/medias/static/' % BASE_DIR
 
 # Third party settings
 ANONYMOUS_USER_ID = -1

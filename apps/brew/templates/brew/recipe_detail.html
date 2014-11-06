@@ -375,44 +375,36 @@
                 $(".ingredient_form input").filter(':visible:first').focus();
             });
         });
-
-
-    {% if object.mashstep_set.all %}
-        
-    $(function() {
-        minutes_array = Array();
-        for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
-        var datas = {{ object.get_mash_schedule }};
-
-        $.plot("#placeholder", [ minutes_array, datas], {
-            yaxis: {
-                tickFormatter: function (v) {return v + " °C";}
-            },
-            xaxis: {
-                tickFormatter: function (v) {return v + " min";}
-            },
-            grid: {
-                backgroundColor: "#fff",
-                borderColor: "#DDD"
-            },
-            series: {
-                lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
-            },
-            colors: ["#31558d"],
-        });
-    });
-    {% endif %}
-
-
     });
 </script>
 {% endif %}
 <script type="text/javascript">
 $(document).ready(function() { 
-    i=0;
-    $('.position').each(function(){
-        i++; $(this).text(i);
-    });
+    {% if object.mashstep_set.all %}
+        
+        $(function() {
+            minutes_array = Array();
+            for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
+            var datas = {{ object.get_mash_schedule }};
+
+            $.plot("#placeholder", [ minutes_array, datas], {
+                yaxis: {
+                    tickFormatter: function (v) {return v + " °C";}
+                },
+                xaxis: {
+                    tickFormatter: function (v) {return v + " min";}
+                },
+                grid: {
+                    backgroundColor: "#fff",
+                    borderColor: "#DDD"
+                },
+                series: {
+                    lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
+                },
+                colors: ["#31558d"],
+            });
+        });
+    {% endif %}
 });
 </script>
 
