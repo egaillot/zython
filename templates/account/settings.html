@@ -17,6 +17,28 @@
 
 
 {% block content %}
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <form action="." method="POST" class='form form-horizontal'>{% csrf_token %}
+            {% for field in form %}
+                {% addFormField field size="XL" %}
+            {% endfor %}
+    
+    <div class="text-center">
+        <div class="vspace-xl"></div>
 
-{{ form }}
+        <input type="submit" value="{% trans "Save" %}" class="btn btn-lg btn-primary" />
+    </div>
+</form>
+    </div>
+
+</div>
+
+<div class="vspace-xl"></div>
+<div class="vspace-xl"></div>
+<div class="vspace-xl"></div>
+<div class="vspace-xl"></div>
 {% endblock content %}

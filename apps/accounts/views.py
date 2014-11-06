@@ -1,9 +1,10 @@
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.views.generic.edit import UpdateView
-from django.utils.translation import ugettext_lazy as _
+from django import http
+from django.contrib.auth.models import User
+from django.views.generic.edit import FormView
 from django.contrib import messages
-from accounts.forms import UserEditForm, ZythonLoginForm
+
+from accounts.forms import ZythonLoginForm, ZythonSettingForm
+from braces.views import LoginRequiredMixin
 import account.views
 
 
@@ -11,20 +12,18 @@ class LoginView(account.views.LoginView):
     form_class = ZythonLoginForm
 
 
-class EditUserView(UpdateView):
-    template_name = 'accounts/user_form.html'
-    form_class = UserEditForm
+class SettingsView(LoginRequiredMixin, FormView):
+    model = User
+    form_class = ZythonSettingForm
+    template_name = "account/settings.html"
+    success_url = "."
 
-    def get_success_url(self):
-        return ""
+    def get_form_kwargs(self):
+        kwargs = super(SettingsView, self).get_form_kwargs()
+        kwargs["instance"] = self.request.user
+        return kwargs
 
     def form_valid(self, form):
-        messages.add_message(self.request, messages.SUCCESS, _(u"Your profile has been updated succesfully"))
-        return super(EditUserView, self).form_valid(form)
-
-    def get_object(self):
-        return self.request.user
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super(EditUserView, self).dispatch(*args, **kwargs)
+        form.save()
+        messages.add_message(self.request, messages.SUCCESS, 'OK !! Cool.')
+        return http.HttpResponseRedirect(".")
