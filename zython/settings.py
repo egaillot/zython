@@ -40,12 +40,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.comments',
 
+    'account',
     'accounts',
     'public',
     'brew',
     'units',
+    'social_auth',
 
-    'registration',
     'inspect_model',
     'avatar',
     'guardian',
@@ -60,6 +61,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "account.middleware.LocaleMiddleware",
+    "account.middleware.TimezoneMiddleware",
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -73,6 +76,12 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     'units.context_processors.user_units',
     'units.context_processors.unit_menu',
+    'account.context_processors.account',
+    'social_auth.context_processors.social_auth_by_name_backends',
+    'social_auth.context_processors.social_auth_backends',
+    'social_auth.context_processors.social_auth_by_type_backends',
+    'social_auth.context_processors.social_auth_login_redirect',
+
 )
 
 ROOT_URLCONF = 'zython.urls'
@@ -84,10 +93,19 @@ TEMPLATE_DIRS = (
 
 )
 
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # this is default
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )
+
 
 # Database
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases

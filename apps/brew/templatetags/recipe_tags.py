@@ -135,4 +135,6 @@ register.tag('recipe_mashsteps_txt', recipe_mashsteps_txt)
 
 @register.filter
 def rangeable(value):
+    if not value:
+        return ""
     return int(float(value) * 1000)

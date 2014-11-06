@@ -3,7 +3,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import UpdateView
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-from accounts.forms import UserEditForm
+from accounts.forms import UserEditForm, ZythonLoginForm
+import account.views
+
+
+class LoginView(account.views.LoginView):
+    form_class = ZythonLoginForm
 
 
 class EditUserView(UpdateView):

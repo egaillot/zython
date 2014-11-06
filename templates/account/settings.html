@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n form_tags %}
+
+{% block page %}
+    <div class="jumbotron ">
+        <div class="container">
+            <h1>
+                {% block title %}
+                    {% trans "My account" %}
+                {% endblock title %}
+            </h1>
+        </div>
+    </div>
+    {{ block.super }}
+{% endblock page %}
+
+
+
+{% block content %}
+
+{{ form }}
+{% endblock content %}
