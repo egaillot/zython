@@ -10,7 +10,6 @@ django-user-accounts==1.0
 https://bitbucket.org/m_clement/djnext/get/34b0e16214c5.zip
 gunicorn==19.1.1
 lxml==2.3.4
-mercurial==2.9.1
 pytz==2014.9
 six==1.6.1
 https://bitbucket.org/m_clement/django-units/get/ede0396ce74c.zip
