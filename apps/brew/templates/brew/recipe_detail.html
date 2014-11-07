@@ -12,7 +12,6 @@
 {% block page %}
 <div class="jumbotron jumbotron-nav ">
     <div class="container">
-
         {% if object.get_ebc %}
             <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right beer-preview">
                 <a data-toggle="lightbox" data-title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" data-footer="{{ object.zython_advice_color }}" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
@@ -177,7 +176,7 @@
                 >
                 
                 
-                    <p>
+                    <p class="indicator_range">
                         <b>{% trans "Est. original gravity" %}</b>: {{ object.get_original_gravity }}<br>
                         <input type="range" 
                             class="indicatorRange"
@@ -185,9 +184,15 @@
                             max="{{ object.style.original_gravity_max|rangeable }}"
                             value="{{ object.get_original_gravity|rangeable }}"
                             disabled="disabled" />
+                        <span class="pull-left mark-indicator">
+                            {{ object.style.original_gravity_min }}
+                        </span>
+                        <span class="pull-right mark-indicator">
+                            {{ object.style.original_gravity_max }}
+                        </span>
                     </p>
 
-                    <p>
+                    <p class="indicator_range">
                         <b>{% trans "Est. final gravity" %}</b>: {{ object.get_final_gravity }}<br>
                         <input type="range" 
                             class="indicatorRange"
@@ -195,9 +200,15 @@
                             max="{{ object.style.final_gravity_max|rangeable }}"
                             value="{{ object.get_final_gravity|rangeable }}"
                             disabled="disabled" />
+                        <span class="pull-left mark-indicator">
+                            {{ object.style.final_gravity_min }}
+                        </span>
+                        <span class="pull-right mark-indicator">
+                            {{ object.style.final_gravity_max }}
+                        </span>
                     </p>
 
-                    <p>
+                    <p class="indicator_range">
                         <b>{% trans "IBU" %}</b>: {{ object.get_ibu }}<br>
                         <input type="range" 
                             class="indicatorRange"
@@ -205,9 +216,15 @@
                             max="{{ object.style.bitterness_max|rangeable }}"
                             value="{{ object.get_ibu|rangeable }}"
                             disabled="disabled" />
+                        <span class="pull-left mark-indicator">
+                            {{ object.style.bitterness_min }}
+                        </span>
+                        <span class="pull-right mark-indicator">
+                            {{ object.style.bitterness_max }}
+                        </span>
                     </p>
 
-                    <p>
+                    <p class="indicator_range">
                         <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %}<br>
                         <input type="range" 
                             class="indicatorRange"
@@ -215,9 +232,15 @@
                             max="{{ object.style.color_max|rangeable }}"
                             value="{{ object.get_ebc|rangeable }}"
                             disabled="disabled" />
+                        <span class="pull-left mark-indicator">
+                            {{ object.style.color_min }}
+                        </span>
+                        <span class="pull-right mark-indicator">
+                            {{ object.style.color_max }}
+                        </span>
                     </p>
 
-                    <p>
+                    <p class="indicator_range">
                         <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:1 }}%<br>
                         <input type="range" 
                             class="indicatorRange"
@@ -225,6 +248,12 @@
                             max="{{ object.style.alcohol_max|rangeable }}"
                             value="{{ object.get_abv|rangeable }}"
                             disabled="disabled" />
+                        <span class="pull-left mark-indicator">
+                            {{ object.style.alcohol_min }}
+                        </span>
+                        <span class="pull-right mark-indicator">
+                            {{ object.style.alcohol_max }}
+                        </span>
                     </p>
                 </div>
 

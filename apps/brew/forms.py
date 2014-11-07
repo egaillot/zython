@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 from brew.models import *
 from brew.settings import MAIN_STYLES
-from brew.fields import LocalizedModelForm
 from units.forms import UnitModelForm
 from brew.utils.forms import BS3FormMixin
 
@@ -29,7 +28,7 @@ def style_choices(qs_kwargs={}):
     return items
 
 
-class RecipeForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
+class RecipeForm(BS3FormMixin, UnitModelForm):
     unit_fields = {
         'volume': [
             'batch_size',
@@ -72,7 +71,7 @@ class RecipeImportForm(forms.Form):
     beer_file = forms.FileField(label=_("Your recipe (BeerXML format)"))
 
 
-class RecipeIngredientForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
+class RecipeIngredientForm(BS3FormMixin, UnitModelForm):
     pass
 
 
@@ -149,7 +148,7 @@ class RecipeYeastForm(RecipeIngredientForm):
         )
 
 
-class MashStepForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
+class MashStepForm(BS3FormMixin, UnitModelForm):
     unit_fields = {
         'volume': ['water_added', ],
         'temperature': ['temperature', ],

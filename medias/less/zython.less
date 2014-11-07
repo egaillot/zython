@@ -7,6 +7,19 @@
     font-family: "lineto-circular", Helvetica, Arial, sans-serif;
 }
 
+
+.text-zython-1{color:@zython-color-1;}
+.text-zython-2{color:@zython-color-2;}
+.text-zython-3{color:@zython-color-3;}
+.text-zython-4{color:@zython-color-4;}
+.text-zython-5{color:@zython-color-5;}
+.bg-zython-1{background-color:@zython-color-1;}
+.bg-zython-2{background-color:@zython-color-2;}
+.bg-zython-3{background-color:@zython-color-3;}
+.bg-zython-4{background-color:@zython-color-4;}
+.bg-zython-5{background-color:@zython-color-5;}
+
+
 .brand-img{
     margin-top:-15px;
     padding-right:0;
@@ -55,6 +68,36 @@
     &.jumbotron-nav{
         padding-bottom:0;
     }
+
+    &.welcome{
+        background-color: #222;
+        padding-top:80px;
+        padding-bottom:80px;
+        margin-bottom:0;
+        h1{
+            margin-bottom:60px;
+            font-size:60px;
+            small{
+                font-size: 25px;
+                color:#CCC;
+            }
+        }
+        h5{
+            color:#BBB;
+            .fa{
+                font-size: 40px;
+                margin-bottom:20px;
+            }
+        }
+
+        hr{
+            border-color:#333;
+            width:75%;
+            margin-top:60px;
+            margin-bottom:60px;
+        }
+
+    }
 }
 
 .vspace {margin-top:15px;}
@@ -90,26 +133,35 @@ h1, h2, h3 {
     overflow-y: scroll;
 }
 
-.indicator-slider{
-    background: none; /* Old browsers */
-    background: -moz-linear-gradient(left, #be4141 0%, #bebc41 25%, #349834 50%, #bebc41 75%, #be4141 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#be4141), color-stop(25%,#bebc41), color-stop(50%,#349834), color-stop(75%,#bebc41), color-stop(100%,#be4141)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* IE10+ */
-    background: linear-gradient(to right, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#be4141', endColorstr='#be4141',GradientType=1 ); /* IE6-9 */
-    box-shadow: inset 1px 1px 4px rgba(0,0,0,0.9);
+.indicator_range{
+    overflow:hidden;
+    clear:both;
+
+    span.mark-indicator{
+        .text-muted;
+        .small;
+    }
+    .indicator-slider{
+        background: none; /* Old browsers */
+        background: -moz-linear-gradient(left, #be4141 0%, #bebc41 25%, #349834 50%, #bebc41 75%, #be4141 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,#be4141), color-stop(25%,#bebc41), color-stop(50%,#349834), color-stop(75%,#bebc41), color-stop(100%,#be4141)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* IE10+ */
+        background: linear-gradient(to right, #be4141 0%,#bebc41 25%,#349834 50%,#bebc41 75%,#be4141 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#be4141', endColorstr='#be4141',GradientType=1 ); /* IE6-9 */
+        box-shadow: inset 1px 1px 4px rgba(0,0,0,0.9);
+    }
+
+    input[type=range].indicatorRange {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        height: 5px;
+        width:100%;
+        .indicator-slider;
+    }
 }
 
-input[type=range].indicatorRange {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    height: 5px;
-    width:100%;
-    .indicator-slider;
-
-}
 
 .row_ingredient{
     .add-this-ingredient{

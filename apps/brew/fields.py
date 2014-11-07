@@ -4,7 +4,7 @@ from django import forms
 
 __all__ = (
     'GravityField', 'BitternessField',
-    'ColorField', 'LocalizedModelForm'
+    'ColorField'
 )
 
 
@@ -39,7 +39,3 @@ class ColorField(models.DecimalField):
             decimal_places=decimal_places,
             *args, **kwargs
         )
-
-
-class LocalizedModelForm(forms.ModelForm):
-    pass

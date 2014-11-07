@@ -44,7 +44,8 @@
   <img src="{{ MEDIA_URL }}images/logo_48.png" alt="Zython">
   </a>
   <a class="navbar-brand" href="/">
-  Zython <small><span style="color:#603180;">2</span><span style="color:#BEBC41;">k</span><span style="color:#349834;">1</span><span style="color:#BE4141;">4</span></small></a>
+  Zython <small><span class="text-zython-1">2</span><span class="text-zython-2">k</span><span class="text-zython-3">1</span><span class="text-zython-4">4</span>
+  </a>
   <ul class="nav navbar-nav navbar-left">
     {% if request.user.is_active %}
         <li>
@@ -140,6 +141,11 @@
   <footer class='text-center'>
     <p>
         <span class="badge"><b>Zython - V 1.2.2</b></span> <br>
+
+        <a href="https://www.facebook.com/Zython" target="_blank"><span class="text-zython-5"><i class="fa fa-facebook-square"></i></span></a>
+        <a href="https://twitter.com/zythonme" target="_blank"><span class="text-zython-5"><i class="fa fa-twitter-square"></i></span></a>
+
+          <br>
         <a href="https://bitbucket.org/m_clement/zython" target="_blank">{% trans "Source code on Bitbucket" %}</a>
         /
         <a href="https://bitbucket.org/m_clement/zython/issues/new" target="_blank">{% trans "Report an issue / contribute" %}</a>

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.contrib import messages
 
-from accounts.forms import ZythonLoginForm, ZythonSettingForm
+from accounts.forms import ZythonLoginForm, ZythonSettingForm, ZythonSignupForm
 from braces.views import LoginRequiredMixin
 import account.views
 
@@ -28,6 +28,10 @@ class SettingsView(LoginRequiredMixin, FormView):
         form.save()
         messages.add_message(self.request, messages.SUCCESS, _("Changes saved"))
         return http.HttpResponseRedirect(".")
+
+
+class SignupView(account.views.SignupView):
+    form_class = ZythonSignupForm
 
 
 def new_socialuser(request):

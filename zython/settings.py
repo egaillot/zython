@@ -134,7 +134,6 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 USE_THOUSAND_SEPARATOR = True
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
@@ -146,7 +145,7 @@ ANONYMOUS_USER_ID = -1
 ACCOUNT_ACTIVATION_DAYS = 7
 AVATAR_ALLOWED_FILE_EXTS = ('.jpg', '.png', '.jpeg', '.gif')
 AVATAR_STORAGE_DIR = "medias/avatars/"
-
+ACCOUNT_EMAIL_CONFIRMATION_EMAIL = False
 
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/account/new-social-auth-user/'
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/account/new-social-auth-user/'

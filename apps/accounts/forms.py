@@ -2,7 +2,11 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm
 from brew.utils.forms import BS3FormMixin
-from account.forms import LoginUsernameForm
+from account.forms import LoginUsernameForm, SignupForm
+
+
+class ZythonSignupForm(BS3FormMixin, SignupForm):
+    pass
 
 
 class ZythonLoginForm(BS3FormMixin, LoginUsernameForm):
