@@ -343,9 +343,9 @@ class Recipe(models.Model):
         for mashstep in self.mashstep_set.all():
             # data.append([time, int(mashstep.temperature)])
             time += mashstep.rise_time
-            data.append([time, int(mashstep.temperature)])
+            data.append([int(time), int(mashstep.temperature)])
             time += mashstep.step_time
-            data.append([time, int(mashstep.temperature)])
+            data.append([int(time), int(mashstep.temperature)])
 
         return data
 
