@@ -46,8 +46,6 @@ INSTALLED_APPS = (
     'brew',
     'units',
     'social_auth',
-
-    'inspect_model',
     'avatar',
     'guardian',
 )
