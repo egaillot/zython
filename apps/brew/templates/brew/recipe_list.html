@@ -14,7 +14,7 @@
 
 {% block page %}
 
-	{% if request.user.is_anonymous %}
+	{% if request.user.is_anonymous and not user_recipe %}
 		<div class="jumbotron welcome">
 			<div class="text-center">
 				<h1>Zython.me <small>- A free beer recipe app - 
