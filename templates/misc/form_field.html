@@ -1,14 +1,15 @@
 
+
 {% block form_field_content %}
     <div class="form-group form-row-{{ field.name }} {% if field.errors %}has-error{% endif %} {{ field.field.required|yesno:"required," }}" id="{{ field.name }}_row">
         {% block form_field_label_tag %}
             <label
                 {% block form_field_label_tag_attrs %}
-                for="{{ field.auto_id }}" class="col-md-{{ size.0 }} control-label"
+                for="{{ field.auto_id }}" class="col-md-{{ size.0 }} col-sm-{{ size.0 }} col-lg-{{ size.0 }} col-xs-{{ size.0 }} control-label"
                 {% endblock form_field_label_tag_attrs %}
             >
                 {% if label %} {{ label }} {% else %} {{ field.label }} {% endif %}
-                {% if field.field.required and fieldset.name != "disciplines" %}
+                {% if field.field.required %}
                     <span class="red"> * </span>
                 {% endif %}
             </label>
@@ -16,7 +17,7 @@
 
         <div 
             {% block form_field_control_attrs %}
-                class="col-md-{{ size.1 }} {{ added_css_class }}"
+                class="col-md-{{ size.1 }} col-lg-{{ size.1 }} col-sm-{{ size.1 }} col-xs-{{ size.1 }} {{ added_css_class }}"
             {% endblock form_field_control_attrs %}
         >
             {% block form_field_control %}

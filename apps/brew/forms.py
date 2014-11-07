@@ -43,6 +43,9 @@ class RecipeForm(BS3FormMixin, UnitModelForm, LocalizedModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RecipeForm, self).__init__(*args, **kwargs)
+        self.fields["batch_size"].widget.attrs["class"] += " input-lg"
+        self.fields["name"].widget.attrs["class"] += " input-lg"
+
         if self.instance.style:
             self.initial['recipe_style'] = str(self.instance.style.pk)
 
@@ -81,6 +84,7 @@ class RecipeMaltForm(RecipeIngredientForm):
 
     def __init__(self, *args, **kwargs):
         super(RecipeMaltForm, self).__init__(*args, **kwargs)
+        print self.instance.potential_gravity
 
     class Meta:
         model = RecipeMalt

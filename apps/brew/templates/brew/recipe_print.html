@@ -25,20 +25,24 @@
 <table class='bigcol'><tr>
     <td>
         <h2>{% trans "Estimated beer profile" %}</h2>
-        <b>{% trans "Pre-boil gravity" %}</b>: {{ object.get_preboil_gravity }} <br>
-        <b>{% trans "Original gravity" %}</b>: {{ object.get_original_gravity }} <br>
-        <b>{% trans "Final gravity" %}</b>: {{ object.get_final_gravity }} <br>
-        <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %} <br>
-        <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:"1" }}%<br>
-        <b>{% trans "Bitterness" %}</b>: {{ object.get_ibu }} IBU<br>
+       <p>
+           <b>{% trans "Pre-boil gravity" %}</b>: {{ object.get_preboil_gravity }} <br>
+           <b>{% trans "Original gravity" %}</b>: {{ object.get_original_gravity }} <br>
+           <b>{% trans "Final gravity" %}</b>: {{ object.get_final_gravity }} <br>
+           <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %} <br>
+           <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:"1" }}%<br>
+           <b>{% trans "Bitterness" %}</b>: {{ object.get_ibu }} IBU<br>
+       </p>
     </td>
     <td>
         <h2>{% trans "Real profile" %}</h2>
-        <b>{% trans "Batch size" %}</b>: .......................<br>
-        <b>{% trans "Pre-boil gravity" %}</b>: .................... <br>
-        <b>{% trans "Original gravity" %}</b>: .................... <br>
-        <b>{% trans "Final gravity" %}</b>: ....................<br>
-        <b>{% trans "ABV" %}</b>: ....................<br>
+        <p>
+            <b>{% trans "Batch size" %}</b>: .......................<br>
+            <b>{% trans "Pre-boil gravity" %}</b>: .................... <br>
+            <b>{% trans "Original gravity" %}</b>: .................... <br>
+            <b>{% trans "Final gravity" %}</b>: ....................<br>
+            <b>{% trans "ABV" %}</b>: ....................<br>
+        </p>
 
     </td>
 </tr></table>

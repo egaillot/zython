@@ -169,56 +169,64 @@
                 {% trans "Batch size" %} : <b>{% local_unit "volume" object.batch_size 0 %}</b>
 
                 <hr>
+                
+                <div
+                {% if not object.recipemalt_set.all %}
+                     class="empty_indicator"
+                {% endif %}
+                >
+                
+                
+                    <p>
+                        <b>{% trans "Est. original gravity" %}</b>: {{ object.get_original_gravity }}<br>
+                        <input type="range" 
+                            class="indicatorRange"
+                            min="{{ object.style.original_gravity_min|rangeable }}"
+                            max="{{ object.style.original_gravity_max|rangeable }}"
+                            value="{{ object.get_original_gravity|rangeable }}"
+                            disabled="disabled" />
+                    </p>
 
-                <p>
-                    <b>{% trans "Est. original gravity" %}</b>: {{ object.get_original_gravity }}<br>
-                    <input type="range" 
-                        class="indicatorRange"
-                        min="{{ object.style.original_gravity_min|rangeable }}"
-                        max="{{ object.style.original_gravity_max|rangeable }}"
-                        value="{{ object.get_original_gravity|rangeable }}"
-                        disabled="disabled" />
-                </p>
+                    <p>
+                        <b>{% trans "Est. final gravity" %}</b>: {{ object.get_final_gravity }}<br>
+                        <input type="range" 
+                            class="indicatorRange"
+                            min="{{ object.style.final_gravity_min|rangeable }}"
+                            max="{{ object.style.final_gravity_max|rangeable }}"
+                            value="{{ object.get_final_gravity|rangeable }}"
+                            disabled="disabled" />
+                    </p>
 
-                <p>
-                    <b>{% trans "Est. final gravity" %}</b>: {{ object.get_final_gravity }}<br>
-                    <input type="range" 
-                        class="indicatorRange"
-                        min="{{ object.style.final_gravity_min|rangeable }}"
-                        max="{{ object.style.final_gravity_max|rangeable }}"
-                        value="{{ object.get_final_gravity|rangeable }}"
-                        disabled="disabled" />
-                </p>
+                    <p>
+                        <b>{% trans "IBU" %}</b>: {{ object.get_ibu }}<br>
+                        <input type="range" 
+                            class="indicatorRange"
+                            min="{{ object.style.bitterness_min|rangeable }}"
+                            max="{{ object.style.bitterness_max|rangeable }}"
+                            value="{{ object.get_ibu|rangeable }}"
+                            disabled="disabled" />
+                    </p>
 
-                <p>
-                    <b>{% trans "IBU" %}</b>: {{ object.get_ibu }}<br>
-                    <input type="range" 
-                        class="indicatorRange"
-                        min="{{ object.style.bitterness_min|rangeable }}"
-                        max="{{ object.style.bitterness_max|rangeable }}"
-                        value="{{ object.get_ibu|rangeable }}"
-                        disabled="disabled" />
-                </p>
+                    <p>
+                        <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %}<br>
+                        <input type="range" 
+                            class="indicatorRange"
+                            min="{{ object.style.color_min|rangeable }}"
+                            max="{{ object.style.color_max|rangeable }}"
+                            value="{{ object.get_ebc|rangeable }}"
+                            disabled="disabled" />
+                    </p>
 
-                <p>
-                    <b>{% trans "Color" %}</b>: {% local_unit "color" object.get_ebc %}<br>
-                    <input type="range" 
-                        class="indicatorRange"
-                        min="{{ object.style.color_min|rangeable }}"
-                        max="{{ object.style.color_max|rangeable }}"
-                        value="{{ object.get_ebc|rangeable }}"
-                        disabled="disabled" />
-                </p>
-
-                <p>
-                    <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:1 }}%<br>
-                    <input type="range" 
-                        class="indicatorRange"
-                        min="{{ object.style.alcohol_min|rangeable }}"
-                        max="{{ object.style.alcohol_max|rangeable }}"
-                        value="{{ object.get_abv|rangeable }}"
-                        disabled="disabled" />
-                </p>
+                    <p>
+                        <b>{% trans "ABV" %}</b>: {{ object.get_abv|floatformat:1 }}%<br>
+                        <input type="range" 
+                            class="indicatorRange"
+                            min="{{ object.style.alcohol_min|rangeable }}"
+                            max="{{ object.style.alcohol_max|rangeable }}"
+                            value="{{ object.get_abv|rangeable }}"
+                            disabled="disabled" />
+                    </p>
+                </div>
 
               </div>
         </div>
@@ -354,9 +362,10 @@
             load_ajax_modal($(this));
         });
 
-        $("#doform form input").on("keypress", function(e){
+        $(document).on("keypress", "#id_ingredient_form input", function(e){
             if(e.keyCode == 13) {
-                $("#model_edit_submit").click();
+                $("#model_edit_submit").click()
+                e.preventDefault();
             }
         });
 

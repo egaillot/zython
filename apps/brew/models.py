@@ -234,7 +234,7 @@ class Recipe(models.Model):
         # I consider modifying the cache_key system to have a unique
         # key each time the object is saved.
         modified = self.modified or datetime.now()
-        return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S'))
+        return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S%f'))
 
     def __unicode__(self):
         return self.name
@@ -573,6 +573,8 @@ class RecipeMalt(UpdateRecipeModel, BaseMalt):
 
     def percent(self):
         total = float(self.recipe.get_total_grain())
+        if not total:
+            return 0
         return "%.1f" % ((float(self.amount) / total) * 100.)
 
 

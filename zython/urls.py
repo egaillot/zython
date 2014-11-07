@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     (r'^units/', include('units.urls')),
     url(r"^account/login/$", accounts.views.LoginView.as_view(), name="account_signup"),
     url(r"^account/settings/$", accounts.views.SettingsView.as_view(), name="account_settings"),
+    url(r"^account/new-social-auth-user/$", accounts.views.new_socialuser, name="account_new_socialuser"),
     url(r"^account/", include("account.urls")),
     (r'^comments/', include('django.contrib.comments.urls')),
 

@@ -15,14 +15,20 @@ COLUMN_SIZES = {
 
 
 @register.simple_tag(takes_context=False)
-def addFormField(field, label=None, added_css_class="", error_field=None,
-                 show_help_text=True, size="M", template_name="misc/form_field.html"):
+def addFormField(field, label=None, added_css_class="", error_field=None, simple=False,
+                 show_help_text=True, size="M", template_name=None):
     """
         Size can be "M" or "L", it plays with the "<label>" column size.
     """
     # Pass this to the context in case you want to extend it
     # and if we want to change the tempalte name later, it will be easier
     base_template_name = "misc/form_field.html"
+
+    if not template_name:
+        if simple:
+            template_name = "misc/form_field_simple.html"
+        else:
+            template_name = "misc/form_field.html"
     return render_to_string(
         template_name,
         {

@@ -3,9 +3,7 @@
     <td>
         <a href="{{ object.get_absolute_url }}">
         {% with object.color_image as image %}
-            {% if image %}
                 <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
-            {% endif %}
         {% endwith %}
         </a>
     </td>
