@@ -314,6 +314,8 @@ def ingredient_form(request, recipe_id, ingredient, object_id=None, response="js
         instance = model_class(recipe=recipe)
     out = {}
     if request.method == "POST":
+        print request.POST
+        print "-" * 90
         form = form_class(data=request.POST, instance=instance, request=request)
         if form.is_valid():
             saved_instance = form.save()
