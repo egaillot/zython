@@ -429,7 +429,7 @@ class Recipe(models.Model):
     def get_abv(self):
         og = float(self.get_original_gravity())
         fg = float(self.get_final_gravity())
-        return formulas.get_abv(ag, abv)
+        return formulas.get_abv(og, fg)
 
     # - - -
     # Ingredients

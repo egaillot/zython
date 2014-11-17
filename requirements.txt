@@ -6,6 +6,7 @@ django-braces==1.4.0
 django-guardian==1.2.0
 django-reversion==1.6.5
 django-social-auth==0.7.28
+django-social-share==0.2.0
 django-user-accounts==1.0
 https://bitbucket.org/m_clement/djnext/get/34b0e16214c5.zip
 gunicorn==19.1.1

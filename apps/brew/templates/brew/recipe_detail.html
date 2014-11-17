@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n unit_tags %}
-{% load comments avatar_tags recipe_tags %}
+{% load comments avatar_tags recipe_tags social_share %}
 {% load url from future %}
 
 
@@ -65,12 +65,6 @@
                 <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
                     <span class="glyphicon glyphicon-print"></span>
                     {% trans "Print" %}
-                </a>
-            </li>
-            <li>
-                <a href="{% url "brew_recipe_text" object.pk %}" target="_blank">
-                    <span class="glyphicon glyphicon-list"></span>
-                    {% trans "Copy (txt)" %}
                 </a>
             </li>
             {% if can_edit and request.user == object.user %}
@@ -287,6 +281,24 @@
                 </div>
             </div>
         {% endif %}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-share"></span>
+                    {% trans "Share this recipe" %}
+                </h3>
+            </div>
+            <div class="panel-body">
+                    {% post_to_facebook object "Facebook" %}
+                    {% post_to_twitter object.title object "Twitter" %}
+
+                    <a href="{% url "brew_recipe_text" object.pk %}" rel="tooltip" title="{% trans "Copy (txt)" %}" target="_blank" style="font-size:24px">
+                        <span class="glyphicon glyphicon-list"></span>
+                    </a>
+
+            </div>
+        </div>
 
     </div>
 </div>
