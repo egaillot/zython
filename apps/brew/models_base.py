@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.core import serializers
 from django.utils.translation import ugettext_lazy as _
@@ -76,6 +77,10 @@ MISC_TYPE_CHOICES = (
 
 
 class BaseIngredientMixin(object):
+
+    def python_dict(self):
+        return json.loads(self.json_object())[0]
+
     def json_object(self):
         return serializers.serialize("json", type(self).objects.filter(pk=self.pk))
 

@@ -5,7 +5,7 @@ from guardian.shortcuts import get_objects_for_user
 
 class RecipeManager(models.Manager):
     def for_user(self, user):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         if user.is_active:
             special_recipes = get_objects_for_user(user, 'brew.view_recipe')
             qs = qs.filter(

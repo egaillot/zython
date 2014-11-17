@@ -81,10 +81,6 @@ class RecipeMaltForm(RecipeIngredientForm):
     def get_ingredient_list(self):
         return Malt.objects.all()
 
-    def __init__(self, *args, **kwargs):
-        super(RecipeMaltForm, self).__init__(*args, **kwargs)
-        print self.instance.potential_gravity
-
     class Meta:
         model = RecipeMalt
         fields = (

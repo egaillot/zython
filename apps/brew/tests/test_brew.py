@@ -11,6 +11,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from brew.models import *
+from public.utils import show_in_browser
 
 
 class RecipeTest(TestCase):
@@ -83,7 +84,14 @@ class RecipeTest(TestCase):
         malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
         url_addition = reverse(
             'brew_recipe_addingredient', args=[self.recipe.id, "malt"])
-        datas = {'amount': "12.5", "malt_id": malt.id, "color": malt.color}
+        datas = malt.python_dict()["fields"]
+
+        datas.update({
+            'amount': "12.5",
+            "malt_id": malt.id,
+            "color": malt.color
+        })
+
 
         # Test with anonymous client
         c = self.client
@@ -93,32 +101,32 @@ class RecipeTest(TestCase):
         # Test with logged in client
         c = self.get_logged_client()
         response = c.post(url_addition, datas)
-        content = json.loads(response.content)
-        self.assertEqual(content.get('valid'), 1)
 
-        # Test with coma amount for FR
+        self.assertEqual(response.status_code, 202)
+
+        # Add another caramel malt
         c = self.i18n_client('fr', c)
-        datas['amount'] = datas['amount'].replace(".", ",")
+        datas['amount'] = "2"
+        datas['color'] = "150"
         response = c.post(url_addition, datas)
-        content = json.loads(response.content)
-        self.assertEqual(content.get('valid'), 1)
+        self.assertEqual(response.status_code, 202)
 
         self.reload_recipe()
 
         # Do we have 2 Malts ?
         self.assertEqual(self.recipe.recipemalt_set.all().count(), 2)
         # We should have an OG > 1.1
-        self.assertGreater(float(self.recipe.get_original_gravity()), 1.1)
+        self.assertEqual(float(self.recipe.get_original_gravity()), 1.069)
         # We should have a color > 16EBC
-        self.assertGreater(float(self.recipe.get_ebc()), 16)
+        self.assertEqual(int(self.recipe.get_ebc()), 31)
         # We should have more than 11% alcool, waw!
-        self.assertGreater(float(self.recipe.get_abv()), 11)
+        self.assertEqual(int(self.recipe.get_abv()), 6)
         # We should have 0 IBU
-        self.assertEqual(float(self.recipe.get_ibu()), 0)
+        self.assertEqual(float(self.recipe.get_ibu()), 0.)
 
-        for malt in self.recipe.recipemalt_set.all():
-            # Both malts should be 50/50%
-            self.assertEqual(float(malt.percent()), 50)
+        malts = self.recipe.recipemalt_set.all()
+        self.assertEqual(float(malts[0].percent()), 86.2)
+        self.assertEqual(float(malts[1].percent()), 13.8)
 
         # Clear all malts
         self.recipe.recipemalt_set.all().delete()
@@ -129,7 +137,7 @@ class RecipeTest(TestCase):
             'brew_recipe_addingredient', args=[self.recipe.id, "hop"])
         datas = {
             'amount': "80.5",
-            "boil_time": "30.5",
+            "boil_time": "45.5",
             "hop_id": hop.id,
             "acid_alpha": hop.acid_alpha,
             "acid_beta": hop.acid_beta,
@@ -149,14 +157,11 @@ class RecipeTest(TestCase):
         c = self.get_logged_client()
         response = c.post(url_addition, datas)
         self.assertEqual(response.status_code, 202)
-        from public.utils import show_in_browser
 
-        # Test with coma amount for FR
+        # Add aroma hop
         c = self.i18n_client('fr', c)
-        datas['amount'] = datas['amount'].replace(".", ",")
-        datas['boil_time'] = datas['boil_time'].replace(".", ",")
+        datas['boil_time'] = "12"
         response = c.post(url_addition, datas)
-        show_in_browser(response)
         self.assertEqual(response.status_code, 202)
 
         self.reload_recipe()
@@ -164,33 +169,28 @@ class RecipeTest(TestCase):
         # Do we have 2 Hops ?
         self.assertEqual(self.recipe.recipehop_set.all().count(), 2)
         # We should have total IBU > 46
-        self.assertGreater(float(self.recipe.get_ibu()), 46)
+        self.assertEqual(float(self.recipe.get_ibu()), 41.9)
         # We should have no color
         self.assertEqual(float(self.recipe.get_ebc()), 0)
         # We should have no alcool :(
         self.assertEqual(float(self.recipe.get_abv()), 0)
 
-        for hop in self.recipe.recipehop_set.all():
-            # Both hops should give more than 22 IBU
-            self.assertGreater(float(hop.ibu()), 22)
-            # We did not change the time unit, so we have minutes and not days
-            self.assertIn("min", hop.unit_time())
-
         # Clear all hops
         self.recipe.recipehop_set.all().delete()
 
     def test_3_misc(self):
-        misc_id = Misc.objects.filter(
-            name__icontains="Coriander").values_list("id", flat=True)[0]
+        misc = Misc.objects.filter(
+            name__icontains="Coriander")[0]
         url_addition = reverse(
             'brew_recipe_addingredient', args=[self.recipe.id, "misc"])
-        datas = {
+        datas = misc.python_dict()["fields"]
+        datas.update({
             "amount": "50.5",
             "use_in": "boil",
             "time": "30.5",
             "time_unit": "min",
-            "misc_id": misc_id
-        }
+            "misc_id": misc.id
+        })
         # Test with anonymous client
         c = self.client
         response = c.post(url_addition, datas)
@@ -199,31 +199,17 @@ class RecipeTest(TestCase):
         # Test with logged in client
         c = self.get_logged_client()
         response = c.post(url_addition, datas)
-        content = json.loads(response.content)
-        self.assertEqual(content.get('valid'), 1)
-
-        # Test with coma amount for FR
-        c = self.i18n_client('fr', c)
-        datas['amount'] = datas['amount'].replace(".", ",")
-        datas['time'] = datas['time'].replace(".", ",")
-        response = c.post(url_addition, datas)
-        content = json.loads(response.content)
-        self.assertEqual(content.get('valid'), 1)
-
-        # Do we have 2 Miscs ?
-        self.assertEqual(self.recipe.recipemisc_set.all().count(), 2)
-
-        # Clear all miscs
-        self.recipe.recipemisc_set.all().delete()
+        self.assertEqual(response.status_code, 202)
 
     def test_4_yeast(self):
-        yeast_id = Yeast.objects.filter(
-            product_id__icontains="58").values_list("id", flat=True)[0]
+        yeast = Yeast.objects.filter(
+            product_id__icontains="58")[0]
         url_addition = reverse(
             'brew_recipe_addingredient', args=[self.recipe.id, "yeast"])
-        datas = {
-            "yeast_id": yeast_id
-        }
+        datas = yeast.python_dict()["fields"]
+        datas.update({
+            "yeast_id": yeast.id
+        })
         # Test with anonymous client
         c = self.client
         response = c.post(url_addition, datas)
@@ -232,8 +218,7 @@ class RecipeTest(TestCase):
         # Test with logged in client
         c = self.get_logged_client()
         response = c.post(url_addition, datas)
-        content = json.loads(response.content)
-        self.assertEqual(content.get('valid'), 1)
+        self.assertEqual(response.status_code, 202)
 
         # Do we have 1 yeast ?
         self.assertEqual(self.recipe.recipeyeast_set.all().count(), 1)
@@ -299,15 +284,17 @@ class RecipeTest(TestCase):
         malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
         url_addition = reverse(
             'brew_recipe_addingredient', args=[self.recipe.id, "malt"])
-        datas = {'amount': "12.5", "malt_id": malt.id, "color": malt.color}
+        datas = malt.python_dict()["fields"]
+        datas["amount"] = "8"
         c = self.get_logged_client()
-        response = client.post(url_addition, datas)
+        response = c.post(url_addition, datas)
+        self.assertEqual(response.status_code, 202)
 
         # In the detail page, we must have the 'edit_ingredient' link
         recipe = self.recipe
         response = client.get(recipe.get_absolute_url())
-        self.assertContains(response, 'class="edit_ingredient"')
+        self.assertContains(response, 'data-url="/recipe/1/edit/malt/1/"')
 
         # In the detail page, we do not get the 'edit_ingredient' link
         response = client.get(reverse('brew_recipe_print', args=[recipe.id, ]))
-        self.assertNotContains(response, 'class="edit_ingredient"')
+        self.assertNotContains(response, 'data-url="/recipe/1/edit/malt/1/"')

@@ -24,4 +24,6 @@ $(function(){
         $(this).ekkoLightbox();
     });
 
+    $('*[rel="tooltip"]').tooltip({html: true});
+
 })

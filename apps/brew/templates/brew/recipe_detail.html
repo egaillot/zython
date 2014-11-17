@@ -338,57 +338,10 @@
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
     <script type="text/javascript">
-    function reload_page(){
-        document.location.href = ".";
-    }
-
-    function show_ajax_form(html){
-        $("#xhr_content").html(html);
-    }
-
-    function load_ajax_modal(elmt){
-        $("#id_main_modal h4").text(elmt.text());
-        data_url = elmt.attr('data-url');
-        $.get(data_url, function(html){
-            show_ajax_form(html);
-            $("#id_main_modal").modal("show");
-            $("#model_edit_submit").click(function(){
-                send_ajax_form();
-            });
-        });
-    }
-
-    function send_ajax_form(elmt){
-        form_id = "id_ingredient_form";
-        form = $("#" + form_id);
-        url = form.attr("action");
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: $('#' + form_id).serialize(),
-            success: function(data, textStatus, xhr){
-                new_location = xhr.getResponseHeader('Location');
-                if (new_location){
-                    document.location.href = new_location;
-                }
-                if (xhr.status == 202){
-                    reload_page();
-                }
-                if (xhr.status == 200){
-                    show_ajax_form(data);
-                }
-            }
-        });
-    }
-
     $(document).ready(function() { 
         $(".popover-menu").popover('show');
         $(document).on("click", ".btn",  function(){
             $(".popover-menu").popover('hide');
-        });
-
-        $('.open_modal').click(function(){
-            load_ajax_modal($(this));
         });
 
         $(document).on("keypress", "#id_ingredient_form input", function(e){
@@ -417,9 +370,56 @@
 </script>
 {% endif %}
 <script type="text/javascript">
+function reload_page(){
+    document.location.href = ".";
+}
+
+function show_ajax_form(html){
+    $("#xhr_content").html(html);
+}
+
+function load_ajax_modal(elmt){
+    $("#id_main_modal h4").text(elmt.text());
+    data_url = elmt.attr('data-url');
+    $.get(data_url, function(html){
+        show_ajax_form(html);
+        $("#id_main_modal").modal("show");
+        $("#model_edit_submit").click(function(){
+            send_ajax_form();
+        });
+    });
+}
+
+function send_ajax_form(elmt){
+    form_id = "id_ingredient_form";
+    form = $("#" + form_id);
+    url = form.attr("action");
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: $('#' + form_id).serialize(),
+        success: function(data, textStatus, xhr){
+            new_location = xhr.getResponseHeader('Location');
+            if (new_location){
+                document.location.href = new_location;
+            }
+            if (xhr.status == 202){
+                reload_page();
+            }
+            if (xhr.status == 200){
+                show_ajax_form(data);
+            }
+        }
+    });
+}
+
 $(document).ready(function() { 
+
+    $('.open_modal').click(function(){
+        load_ajax_modal($(this));
+    });
+
     {% if object.mashstep_set.all %}
-        
         $(function() {
             minutes_array = Array();
             for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};

@@ -22,7 +22,7 @@ def comment_delete(request, comment_id, next=None):
     if request.method == 'POST':
         # Flag the comment as deleted instead of actually deleting it.
         perform_delete(request, comment)
-        return next_redirect(request.POST.copy(), next, delete_done, c=comment.pk)
+        return next_redirect(request, next)
 
     # Render a form on GET
     else:

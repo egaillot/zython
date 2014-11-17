@@ -8,6 +8,8 @@
         </a>
     </td>
     <td>
+        {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" rel="tooltip" title="{% trans "This recipe is private" %}">{% endif %}
+
         <a href="{{ object.get_absolute_url }}">{{ object.name }}</a> <br>
         {{ object.get_recipe_type_display }}
         {% if object.style %}
