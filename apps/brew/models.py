@@ -13,6 +13,7 @@ from django.core.cache import cache
 from public.helpers import send_email_html
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
+from brew import formulas
 from brew.managers import RecipeManager
 from brew import settings as app_settings
 from units.conversions import kg_to_lb, ebc_to_srm, \
@@ -428,8 +429,7 @@ class Recipe(models.Model):
     def get_abv(self):
         og = float(self.get_original_gravity())
         fg = float(self.get_final_gravity())
-        abv = (og - fg) * 129.
-        return abv
+        return formulas.get_abv(ag, abv)
 
     # - - -
     # Ingredients

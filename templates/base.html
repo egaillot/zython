@@ -76,6 +76,7 @@
   </form>
 
    <ul class="nav navbar-nav navbar-right">
+     <li><a href="{% url "calculator_home" %}">Calculator</a></li>
      <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% get_language_info for LANGUAGE_CODE as lang %}
         {{ lang.name_local|title }} <span class="caret"></span></a>
@@ -139,6 +140,8 @@
 
 
   <footer class='text-center'>
+    <div class="vspace">&nbsp;</div>
+    <div class="vspace">&nbsp;</div>
     <p>
         <span class="badge"><b>Zython - V 2.0.14</b></span> <br>
 

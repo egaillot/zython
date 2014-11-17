@@ -42,6 +42,7 @@ INSTALLED_APPS = (
 
     'account',
     'accounts',
+    'calculator',
     'public',
     'brew',
     'units',
