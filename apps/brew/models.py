@@ -10,6 +10,7 @@ from django.contrib.comments.signals import comment_was_posted
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from django.core.cache import cache
+from django.utils.text import slugify
 from public.helpers import send_email_html
 from brew.fields import BitternessField, GravityField, ColorField
 from brew.models_base import *
@@ -73,6 +74,9 @@ class BeerStyle(models.Model):
     profile = models.TextField(blank=True, null=True)
     ingredients = models.TextField(blank=True, null=True)
     examples = models.TextField(blank=True, null=True)
+
+    def get_slug(self):
+        return u"%s" % slugify(self.name)
 
     def get_number(self):
         return "%s.%s" % (self.number, self.sub_number)

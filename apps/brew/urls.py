@@ -11,6 +11,20 @@ urlpatterns = patterns('',
         RecipeListView.as_view(),
         name='brew_recipe_user'
     ),
+    url(r'^user/$', 
+        UserListView.as_view(),
+        name='brew_recipe_users'
+    ),
+
+    url(r'^by-style/$', 
+        StyleRecipesView.as_view(),
+        name="brew_recipe_styles"
+    ),
+
+    url(r'^by-style/(?P<slug>[\w-]+)-(?P<pk>\d+)/$', 
+        StyleRecipeView.as_view(),
+        name="brew_recipe_style"
+    ),
 
     url(r'^(?P<pk>\d+)/$', RecipeDetailView.as_view(), name='brew_recipe_detail'),
     url(r'^(?P<pk>\d+)/comments/$', RecipeDetailView.as_view(page="comments"), name='brew_recipe_comments'),
@@ -60,12 +74,12 @@ urlpatterns = patterns('',
         name="brew_mash_delete"
     ),
 
-    url(r'^style/$', 
+    url(r'^guide/style/$', 
         StyleListView.as_view(),
         name="brew_style_list"
     ),
 
-    url(r'^style/(?P<pk>\d+)/$', 
+    url(r'^guide/style/(?P<pk>\d+)/$', 
         StyleDetailView.as_view(),
         name="brew_style_detail"
     ),

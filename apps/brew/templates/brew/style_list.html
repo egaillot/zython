@@ -1,0 +1,41 @@
+{% extends "brew/base_home.html" %}
+{% load i18n %}
+
+
+{% block title %}
+    {% trans "All beer recipes by style" %}
+{% endblock title %}
+
+
+{% block page_title %}
+    {% trans "By style" %}    
+{% endblock page_title %}
+
+
+{% block page_content %}
+    <div class="well">
+        Here are shown all the styles that have at least 1 recipe on Zython. <br>
+        You can also see <a href="{% url "brew_style_list" %}">all BJCP 2008 styles</a>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>{% trans "Style" %}</th>
+                <th>{% trans "BJCP code" %}</th>
+                <th>{% trans "Recipes" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for object in object_list %}
+                <tr>
+                    <td><a href="{% url "brew_recipe_style" object.get_slug object.pk %}">{{ object }}</a></td>
+                    <td>{{ object.get_number }}
+{{ object.get_slug }}
+                    </td>
+                    <td>{{ object.recipe_set.all.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock page_content %}

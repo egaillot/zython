@@ -108,6 +108,37 @@ class RecipeListView(ListView):
         return context
 
 
+class UserListView(ListView):
+    model = User
+    template_name = "brew/user_list.html"
+
+    def get_queryset(self):
+        qs = super(UserListView, self).get_queryset()
+        return qs.filter(recipe__private=False).distinct().order_by("-date_joined")
+
+
+class StyleRecipesView(ListView):
+    model = BeerStyle
+    template_name = "brew/style_list.html"
+
+    def get_queryset(self):
+        qs = super(StyleRecipesView, self).get_queryset()
+        return qs.filter(recipe__private=False).distinct()
+
+
+class StyleRecipeView(RecipeListView):
+    template_name = "brew/style_recipe_list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(StyleRecipeView, self).get_context_data(**kwargs)
+        context["style"] = get_object_or_404(BeerStyle.objects, pk=self.kwargs["pk"])
+        return context
+
+    def get_queryset(self):
+        qs = super(StyleRecipeView, self).get_queryset().filter(style__pk=self.kwargs["pk"])
+        return qs
+
+
 class RecipeCreateView(LoginRequiredMixin, UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe
