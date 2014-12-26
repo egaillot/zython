@@ -4,9 +4,16 @@
 {% load url from future %}
 
 
+{% block pre_title %}
+{{ object.name }} ({{ object.get_abv|floatformat:1 }}%), {{ object.user.username }}
+{% endblock pre_title %}
+
 {% block title %}
-{{ object.name }}, by {{ object.user.username }} - {{ page }}
+{{ page }}
 {% endblock title %}
+
+
+{% block page_author %}{{ object.user.username }}{% endblock page_author %}
 
 
 {% block page %}
