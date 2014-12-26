@@ -125,6 +125,7 @@ LANGUAGE_CODE = 'en'
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, "locale"),
 )
+
 LANGUAGES = (
     ('en', u'English'),
     ('fr', u'Français')
@@ -138,6 +139,7 @@ USE_TZ = False
 
 STATIC_URL = '/medias/static/'
 STATIC_ROOT = '%s/medias/static/' % BASE_DIR
+MEDIA_ROOT = '%s/medias/' % BASE_DIR
 
 # Third party settings
 ANONYMOUS_USER_ID = -1
