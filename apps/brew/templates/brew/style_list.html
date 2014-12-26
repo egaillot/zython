@@ -14,8 +14,11 @@
 
 {% block page_content %}
     <div class="well">
+        {% url "brew_style_list" as style_list_url %}
+        {% blocktrans %}
         Here are shown all the styles that have at least 1 recipe on Zython. <br>
-        You can also see <a href="{% url "brew_style_list" %}">all BJCP 2008 styles</a>
+        You can also see <a href="{{ style_list_url }}">all BJCP 2008 styles</a>
+        {% endblocktrans %}
     </div>
     <table class="table">
         <thead>

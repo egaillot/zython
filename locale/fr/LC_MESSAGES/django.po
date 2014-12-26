@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-26 14:43+0100\n"
+"POT-Creation-Date: 2014-12-26 19:28+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: \n"
@@ -12,9 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: apps/accounts/forms.py:20
-msgid ""
-"This is what the world will see about you. Choosing a good username is "
-"usually a good thing."
+msgid "This is what the world will see about you. Choosing a good username is usually a good thing."
 msgstr "C'est le nom que le monde verra, choisissez-en un bon !"
 
 #: apps/accounts/views.py:29
@@ -22,11 +20,8 @@ msgid "Changes saved"
 msgstr "Changements enregistrés"
 
 #: apps/accounts/views.py:38
-msgid ""
-"Welcome to you ! Please review your account settings before using Zython"
-msgstr ""
-"Bienvenue à vous ! Merci de vérfier et corriger les paramètres de votr "
-"ecompte avant de continuer"
+msgid "Welcome to you ! Please review your account settings before using Zython"
+msgstr "Bienvenue à vous ! Merci de vérfier et corriger les paramètres de votr ecompte avant de continuer"
 
 #: apps/brew/forms.py:71
 msgid "Your recipe (BeerXML format)"
@@ -36,82 +31,96 @@ msgstr "Votre recette (BeerXML format)"
 msgid "Please enter a number of days of dry hoping"
 msgstr "Merci d'entrer un nombre de jours de houblonnage"
 
-#: apps/brew/forms.py:163 apps/brew/models.py:115
+#: apps/brew/forms.py:163
+#: apps/brew/models.py:119
 #: apps/brew/templates/brew/recipe_detail.txt:6
+#: apps/brew/templates/brew/style_list.html:26
 msgid "Style"
 msgstr "Style"
 
-#: apps/brew/models.py:31
+#: apps/brew/models.py:32
 msgid "All grain"
 msgstr "Tout grain"
 
-#: apps/brew/models.py:32
+#: apps/brew/models.py:33
 msgid "Partial mash"
 msgstr "Partiel"
 
-#: apps/brew/models.py:33 apps/brew/models_base.py:17
+#: apps/brew/models.py:34
+#: apps/brew/models_base.py:17
 msgid "Extract"
 msgstr "Extrait"
 
-#: apps/brew/models.py:34
+#: apps/brew/models.py:35
 msgid "Adjunct"
 msgstr "Ajout"
 
-#: apps/brew/models.py:35 apps/brew/models_base.py:19
+#: apps/brew/models.py:36
+#: apps/brew/models_base.py:19
 msgid "Sugar"
 msgstr "Sucre"
 
-#: apps/brew/models.py:39
+#: apps/brew/models.py:40
 msgid "Mins"
 msgstr "Mins"
 
-#: apps/brew/models.py:40
+#: apps/brew/models.py:41
 msgid "Hours"
 msgstr "Heures"
 
-#: apps/brew/models.py:41
+#: apps/brew/models.py:42
 msgid "Days"
 msgstr "Jours"
 
-#: apps/brew/models.py:42
+#: apps/brew/models.py:43
 msgid "Weeks"
 msgstr "Semaines"
 
-#: apps/brew/models.py:46
+#: apps/brew/models.py:47
 msgid "Infusion"
 msgstr "Infusion"
 
-#: apps/brew/models.py:47
+#: apps/brew/models.py:48
 msgid "Decoction"
 msgstr "Décoction"
 
-#: apps/brew/models.py:48 apps/brew/models.py:656 apps/calculator/forms.py:15
+#: apps/brew/models.py:49
+#: apps/brew/models.py:660
+#: apps/calculator/forms.py:15
 msgid "Temperature"
 msgstr "Température"
 
-#: apps/brew/models.py:110 apps/brew/models.py:654 apps/brew/models_base.py:92
-#: apps/brew/models_base.py:123 apps/brew/models_base.py:143
-#: apps/brew/models_base.py:167 apps/brew/templates/brew/raw_hop_form.html:9
+#: apps/brew/models.py:114
+#: apps/brew/models.py:658
+#: apps/brew/models_base.py:92
+#: apps/brew/models_base.py:123
+#: apps/brew/models_base.py:143
+#: apps/brew/models_base.py:167
+#: apps/brew/templates/brew/raw_hop_form.html:9
 #: apps/brew/templates/brew/raw_malt_form.html:9
 #: apps/brew/templates/brew/raw_misc_form.html:8
 #: apps/brew/templates/brew/raw_yeast_form.html:8
 #: apps/brew/templates/brew/recipe_ingredients.html:11
-#: apps/brew/templates/brew/recipe_list.html:106
+#: apps/brew/templates/brew/recipe_list.part.html:6
 #: apps/brew/templates/brew/recipe_mashsteps.html:9
 msgid "Name"
 msgstr "Nom"
 
-#: apps/brew/models.py:114 apps/brew/templates/brew/recipe_detail.html:162
+#: apps/brew/models.py:118
+#: apps/brew/templates/brew/recipe_detail.html:162
 #: apps/brew/templates/brew/recipe_detail.txt:4
-#: apps/brew/templates/brew/recipe_list.html:109
+#: apps/brew/templates/brew/recipe_list.part.html:9
 #: apps/brew/templates/brew/recipe_print.html:13
 #: apps/brew/templates/brew/recipe_print.html:40
 msgid "Batch size"
 msgstr "Taille du brassin"
 
-#: apps/brew/models.py:116 apps/brew/models_base.py:94
-#: apps/brew/models_base.py:127 apps/brew/models_base.py:146
-#: apps/brew/models_base.py:168 apps/brew/templates/brew/raw_hop_form.html:13
+#: apps/brew/models.py:120
+#: apps/brew/models_base.py:94
+#: apps/brew/models_base.py:127
+#: apps/brew/models_base.py:146
+#: apps/brew/models_base.py:168
+#: apps/brew/templates/brew/raw_hop_form.html:13
 #: apps/brew/templates/brew/raw_malt_form.html:11
 #: apps/brew/templates/brew/raw_misc_form.html:9
 #: apps/brew/templates/brew/raw_yeast_form.html:11
@@ -121,200 +130,204 @@ msgstr "Taille du brassin"
 msgid "Type"
 msgstr "Type"
 
-#: apps/brew/models.py:123
+#: apps/brew/models.py:127
 msgid "Private recipe ?"
 msgstr "Recette privée ?"
 
-#: apps/brew/models.py:123
+#: apps/brew/models.py:127
 msgid "If checked, this recipe will not be listed to other users."
 msgstr "Coché, les autres utililsateurs ne pourront pas voir votre recette"
 
-#: apps/brew/models.py:124 apps/brew/models_base.py:105
-#: apps/brew/models_base.py:130 apps/brew/models_base.py:154
+#: apps/brew/models.py:128
+#: apps/brew/models_base.py:105
+#: apps/brew/models_base.py:130
+#: apps/brew/models_base.py:154
 #: apps/brew/models_base.py:171
 msgid "Notes"
 msgstr "Notes"
 
-#: apps/brew/models.py:125 apps/brew/templates/brew/recipe_print.html:19
+#: apps/brew/models.py:129
+#: apps/brew/templates/brew/recipe_print.html:19
 msgid "Efficiency"
 msgstr "Efficacité"
 
-#: apps/brew/models.py:126
+#: apps/brew/models.py:130
 msgid "Mash tun deadspace"
 msgstr "Espace mort (marmitte empattage)"
 
-#: apps/brew/models.py:127
+#: apps/brew/models.py:131
 msgid "Boiler tun deadspace"
 msgstr "Espace mort (marmitte d'ébu)"
 
-#: apps/brew/models.py:128
+#: apps/brew/models.py:132
 msgid "Evaporation rate"
 msgstr "Taux d'évaporation"
 
-#: apps/brew/models.py:129
+#: apps/brew/models.py:133
 msgid "Grain temperature"
 msgstr "Température du grain"
 
-#: apps/brew/models.py:187
+#: apps/brew/models.py:191
 msgid "Looks so clear !!"
 msgstr "Elle est si claire !!"
 
-#: apps/brew/models.py:188
+#: apps/brew/models.py:192
 msgid "This beer makes me thirsty, almost transparent :)"
 msgstr "Cette bière me donne soif, quasi-transparent :)"
 
-#: apps/brew/models.py:189
+#: apps/brew/models.py:193
 msgid "A brighter beer will be invisible"
 msgstr "Une bière plus claire serait invisible"
 
-#: apps/brew/models.py:193
+#: apps/brew/models.py:197
 msgid "I love blonds !!"
 msgstr "J'adore les bonnes blondes"
 
-#: apps/brew/models.py:194
+#: apps/brew/models.py:198
 msgid "A regular blond beer"
 msgstr "Une blonde classique"
 
-#: apps/brew/models.py:195
+#: apps/brew/models.py:199
 msgid "This color is fine"
 msgstr "Cette couleur est bien."
 
-#: apps/brew/models.py:199
+#: apps/brew/models.py:203
 msgid "Looks like gold, good job !"
 msgstr "Ressemble à de l'or, bravo"
 
-#: apps/brew/models.py:200
+#: apps/brew/models.py:204
 msgid "A fresh light-amber, yummy"
 msgstr "Une belle ambrée légère, miam !"
 
-#: apps/brew/models.py:201
+#: apps/brew/models.py:205
 msgid "This beer looks serious, gold !"
 msgstr "Du lourd cette couleur, doré !"
 
-#: apps/brew/models.py:205
+#: apps/brew/models.py:209
 msgid "This beer has a great amber color"
 msgstr "Ceci est une belle ambrée"
 
-#: apps/brew/models.py:206
+#: apps/brew/models.py:210
 msgid "A fresh dark-amber, sooo yummy"
 msgstr "Une ambrée foncée, un régal visuel"
 
-#: apps/brew/models.py:207
+#: apps/brew/models.py:211
 msgid "This color is perfect for dark ambers"
 msgstr "Cette couleur est parfaite pour des ambrées foncées"
 
-#: apps/brew/models.py:211
+#: apps/brew/models.py:215
 msgid "Yeaahh, a brown beer"
 msgstr "Ouais, une bière brune"
 
-#: apps/brew/models.py:212
+#: apps/brew/models.py:216
 msgid "Nice job, this beer is not that dark, just great !"
 msgstr "Beau travail, ce n'est pas noir, juste parfait !"
 
-#: apps/brew/models.py:213
+#: apps/brew/models.py:217
 msgid "Someone just made a prefect brown beer"
 msgstr "Quelque vient de faire une bière brune parfaite"
 
-#: apps/brew/models.py:217
+#: apps/brew/models.py:221
 msgid "That's pretty dark"
 msgstr "C'est assez foncé"
 
-#: apps/brew/models.py:218
-msgid ""
-"We can't anything see through this beer excepting the fact that it looks dark"
-msgstr ""
-"Il n'y a rien a voir dans cette bière excepté le fait qu'elle est foncée"
+#: apps/brew/models.py:222
+msgid "We can't anything see through this beer excepting the fact that it looks dark"
+msgstr "Il n'y a rien a voir dans cette bière excepté le fait qu'elle est foncée"
 
-#: apps/brew/models.py:219
+#: apps/brew/models.py:223
 msgid "Black, perfectly black."
 msgstr "Noire, toute noire"
 
-#: apps/brew/models.py:223
+#: apps/brew/models.py:227
 msgid "An oil well"
 msgstr "Un puis de pétrol"
 
-#: apps/brew/models.py:224
+#: apps/brew/models.py:228
 msgid "Are you sure this beer should be that dark ?"
 msgstr "Sérieux, une bière aussi noire ??"
 
-#: apps/brew/models.py:225
+#: apps/brew/models.py:229
 msgid "Am I blind or this beer is black ?"
 msgstr "Suis-je aveugle ou cette bière est noire ?"
 
-#: apps/brew/models.py:250
+#: apps/brew/models.py:254
 msgid "View recipe"
 msgstr "Voir la recette"
 
-#: apps/brew/models.py:491
+#: apps/brew/models.py:495
 msgid "Bitterness is too low"
 msgstr "L' amertume est trop basse"
 
-#: apps/brew/models.py:493
+#: apps/brew/models.py:497
 msgid "Bitterness is too high"
 msgstr "L' amertume est trop haute"
 
-#: apps/brew/models.py:498
+#: apps/brew/models.py:502
 msgid "Original gravity is too low"
 msgstr "La densité originale est trop basse"
 
-#: apps/brew/models.py:500
+#: apps/brew/models.py:504
 msgid "Original gravity is too high"
 msgstr "La densité originale est trop haute"
 
-#: apps/brew/models.py:505
+#: apps/brew/models.py:509
 msgid "Final gravity is too low"
 msgstr "La densité finale est trop basse"
 
-#: apps/brew/models.py:507
+#: apps/brew/models.py:511
 msgid "Final gravity is too high"
 msgstr "La densité finale est trop haute"
 
-#: apps/brew/models.py:512
+#: apps/brew/models.py:516
 msgid "Alcohol is too low"
 msgstr "Taux l'acool trop bas"
 
-#: apps/brew/models.py:514
+#: apps/brew/models.py:518
 msgid "Alcohol is too high"
 msgstr "Taux d'alcool trop haut"
 
-#: apps/brew/models.py:519
+#: apps/brew/models.py:523
 msgid "The beer color seems too bright"
 msgstr "La couleur de la bière est trop claire"
 
-#: apps/brew/models.py:521
+#: apps/brew/models.py:525
 msgid "The beer color seems too dark"
 msgstr "La couleur de la bière est trop foncée"
 
-#: apps/brew/models.py:589
+#: apps/brew/models.py:593
 #, python-format
 msgid "%s days"
 msgstr "%s jours"
 
-#: apps/brew/models.py:655
+#: apps/brew/models.py:659
 msgid "Step type"
 msgstr "Type de pallier"
 
-#: apps/brew/models.py:657 apps/brew/templates/brew/recipe_mashsteps.html:12
+#: apps/brew/models.py:661
+#: apps/brew/templates/brew/recipe_mashsteps.html:12
 msgid "Step time"
 msgstr "Temps du pallier"
 
-#: apps/brew/models.py:657 apps/brew/models.py:658
+#: apps/brew/models.py:661
+#: apps/brew/models.py:662
 msgid "min"
 msgstr "min"
 
-#: apps/brew/models.py:658
+#: apps/brew/models.py:662
 msgid "Rise time"
 msgstr "Temps de chauffe"
 
-#: apps/brew/models.py:659
+#: apps/brew/models.py:663
 msgid "Water added"
 msgstr "Eau ajoutée"
 
-#: apps/brew/models.py:701
+#: apps/brew/models.py:705
 msgid "New comment posted"
 msgstr "Nouveau commentaire"
 
-#: apps/brew/models_base.py:16 apps/brew/templates/brew/recipe_detail.html:110
+#: apps/brew/models_base.py:16
+#: apps/brew/templates/brew/recipe_detail.html:110
 #: apps/brew/templatetags/recipe_tags.py:31
 msgid "Grain"
 msgstr "Grain"
@@ -323,7 +336,8 @@ msgstr "Grain"
 msgid "Dry Extract"
 msgstr "Extrait sec"
 
-#: apps/brew/models_base.py:23 apps/brew/models_base.py:63
+#: apps/brew/models_base.py:23
+#: apps/brew/models_base.py:63
 msgid "Boil"
 msgstr "Bouillir"
 
@@ -447,7 +461,8 @@ msgstr "Flaveur"
 msgid "Other"
 msgstr "Autre"
 
-#: apps/brew/models_base.py:93 apps/brew/models_base.py:124
+#: apps/brew/models_base.py:93
+#: apps/brew/models_base.py:124
 #: apps/brew/templates/brew/raw_hop_form.html:10
 #: apps/brew/templates/brew/raw_malt_form.html:10
 msgid "Origin"
@@ -485,11 +500,13 @@ msgstr "Max par brassin"
 msgid "Malt %s"
 msgstr "Malt %s"
 
-#: apps/brew/models_base.py:125 apps/brew/models_base.py:169
+#: apps/brew/models_base.py:125
+#: apps/brew/models_base.py:169
 msgid "Usage"
 msgstr "Utilisation"
 
-#: apps/brew/models_base.py:126 apps/brew/models_base.py:147
+#: apps/brew/models_base.py:126
+#: apps/brew/models_base.py:147
 #: apps/brew/templates/brew/raw_yeast_form.html:12
 msgid "Form"
 msgstr "Formulaire"
@@ -507,7 +524,8 @@ msgstr "Acid beta"
 msgid "Hop %s"
 msgstr "Houblon %s"
 
-#: apps/brew/models_base.py:144 apps/brew/templates/brew/raw_yeast_form.html:9
+#: apps/brew/models_base.py:144
+#: apps/brew/templates/brew/raw_yeast_form.html:9
 msgid "Lab"
 msgstr "Lab"
 
@@ -544,7 +562,8 @@ msgstr "Parfait pour"
 msgid "Yeast %s"
 msgstr "Levure %s"
 
-#: apps/brew/models_base.py:170 apps/brew/templates/brew/raw_misc_form.html:10
+#: apps/brew/models_base.py:170
+#: apps/brew/templates/brew/raw_misc_form.html:10
 msgid "Use for"
 msgstr "Utilisé pour"
 
@@ -552,6 +571,22 @@ msgstr "Utilisé pour"
 #, python-format
 msgid "Misc %s"
 msgstr "Divers %s"
+
+#: apps/brew/templates/brew/base_home.html:17
+#: apps/brew/templates/brew/style_recipe_list.html:6
+msgid "All recipes"
+msgstr "Toutes les recettes"
+
+#: apps/brew/templates/brew/base_home.html:18
+#: apps/brew/templates/brew/user_list.html:11
+msgid "By user"
+msgstr "Par utilisateur"
+
+#: apps/brew/templates/brew/base_home.html:19
+#: apps/brew/templates/brew/style_list.html:11
+#: apps/brew/templates/brew/style_recipe_list.html:11
+msgid "By style"
+msgstr "Par style"
 
 #: apps/brew/templates/brew/base_ingredient_form.html:6
 msgid "Search ingredient here..."
@@ -602,19 +637,21 @@ msgstr "Max."
 #: apps/brew/templates/brew/beerstyle_detail.html:60
 #: apps/brew/templates/brew/recipe_detail.txt:11
 #: apps/brew/templates/brew/recipe_print.html:30
-#: apps/brew/templates/brew/recipe_print.html:42 apps/calculator/forms.py:13
+#: apps/brew/templates/brew/recipe_print.html:42
+#: apps/calculator/forms.py:13
 msgid "Original gravity"
 msgstr "Densité originale"
 
 #: apps/brew/templates/brew/beerstyle_detail.html:65
 #: apps/brew/templates/brew/recipe_detail.txt:12
 #: apps/brew/templates/brew/recipe_print.html:31
-#: apps/brew/templates/brew/recipe_print.html:43 apps/calculator/forms.py:14
+#: apps/brew/templates/brew/recipe_print.html:43
+#: apps/calculator/forms.py:14
 msgid "Final gravity"
 msgstr "Densité finale"
 
 #: apps/brew/templates/brew/beerstyle_detail.html:70
-#: apps/brew/templates/brew/recipe_list.html:108
+#: apps/brew/templates/brew/recipe_list.part.html:8
 #: apps/brew/templates/brew/recipe_print.html:34
 msgid "Bitterness"
 msgstr "Amertume"
@@ -694,14 +731,12 @@ msgstr "Changements"
 msgid ""
 "\n"
 "            You're about to clone the recipe <i>\"%(object)s\"</i>. <br>\n"
-"            After you click [OK], the recipe will be added to your list and "
-"you'll be redirected to your clone. <br>\n"
+"            After you click [OK], the recipe will be added to your list and you'll be redirected to your clone. <br>\n"
 "        "
 msgstr ""
 "\n"
 "            Vous allez cloner la recette <i>\"%(object)s\"</i>. <br>\n"
-"            Après avoir cliqué [OK], cette recette sera copiée dans votre "
-"compte et vous serez redirigé sur votre clone <br>\n"
+"            Après avoir cliqué [OK], cette recette sera copiée dans votre compte et vous serez redirigé sur votre clone <br>\n"
 "        "
 
 #: apps/brew/templates/brew/recipe_comments.html:9
@@ -843,7 +878,7 @@ msgstr "IBU"
 
 #: apps/brew/templates/brew/recipe_detail.html:238
 #: apps/brew/templates/brew/recipe_detail.txt:13
-#: apps/brew/templates/brew/recipe_list.html:107
+#: apps/brew/templates/brew/recipe_list.part.html:7
 #: apps/brew/templates/brew/recipe_print.html:33
 #: apps/brew/templates/brew/recipe_print.html:44
 msgid "ABV"
@@ -927,19 +962,15 @@ msgid "Actions"
 msgstr "Actions"
 
 #: apps/brew/templates/brew/recipe_ingredients.html:128
-msgid ""
-"There are no ingredients yet. Start adding some grain and see the magic "
-"happening."
-msgstr ""
-"Il n'y a encore aucun ingrédient. Pour voir la magie opérer, ajoutez "
-"quelques grains."
+msgid "There are no ingredients yet. Start adding some grain and see the magic happening."
+msgstr "Il n'y a encore aucun ingrédient. Pour voir la magie opérer, ajoutez quelques grains."
 
 #: apps/brew/templates/brew/recipe_ingredients.html:130
 msgid "This beer looks empty :("
 msgstr "Cette bière est vide et ça me rend très triste..."
 
 #: apps/brew/templates/brew/recipe_list.html:8
-#: apps/brew/templates/brew/recipe_list.html:88
+#: apps/brew/templates/brew/recipe_list.html:90
 #, python-format
 msgid "%(name)s recipes"
 msgstr "Recettes de %(name)s"
@@ -952,8 +983,7 @@ msgstr "Vos recette de bière en ligne, pour les brasseurs amateurs"
 msgid ""
 "\n"
 "          \n"
-"          <h5><i class=\"fa fa-unlock-alt\"></i><br>Create public or private "
-"recipe</h5>\n"
+"          <h5><i class=\"fa fa-unlock-alt\"></i><br>Create public or private recipe</h5>\n"
 "\n"
 "          Keep your recipe just for you  <br>or share it with the world\n"
 "          "
@@ -966,8 +996,7 @@ msgstr ""
 #: apps/brew/templates/brew/recipe_list.html:37
 msgid ""
 "\n"
-"          <h5><i class=\"fa fa-database\"></i><br>Add ingredients from our "
-"base</h5>\n"
+"          <h5><i class=\"fa fa-database\"></i><br>Add ingredients from our base</h5>\n"
 "           Grains, hops, misc, yeast. <br>Add also your custom ingredient\n"
 "          "
 msgstr ""
@@ -979,10 +1008,8 @@ msgstr ""
 #: apps/brew/templates/brew/recipe_list.html:43
 msgid ""
 "\n"
-"          <h5><i class=\"fa fa-comments-o\"></i><br>Comment, share, print</"
-"h5>\n"
-"           Simple tools to help you share, <br>print and comment your "
-"recipe\n"
+"          <h5><i class=\"fa fa-comments-o\"></i><br>Comment, share, print</h5>\n"
+"           Simple tools to help you share, <br>print and comment your recipe\n"
 "          "
 msgstr ""
 "\n"
@@ -1007,8 +1034,7 @@ msgstr ""
 #: apps/brew/templates/brew/recipe_list.html:59
 msgid ""
 "\n"
-"          <h5><i class=\"fa fa-cutlery\"></i><br>Adapt for your equipement</"
-"h5>\n"
+"          <h5><i class=\"fa fa-cutlery\"></i><br>Adapt for your equipement</h5>\n"
 "          Specify deadspaces,  evaporation rate, \n"
 "          Zython will adapt your recipe\n"
 "          "
@@ -1032,7 +1058,8 @@ msgstr ""
 "          "
 
 #: apps/brew/templates/brew/recipe_list.html:77
-#: templates/account/signup.html:10 templates/account/signup.html.py:32
+#: templates/account/signup.html:10
+#: templates/account/signup.html.py:32
 msgid "Create my account"
 msgstr "Créer mon compte"
 
@@ -1040,15 +1067,15 @@ msgstr "Créer mon compte"
 msgid "Of course it's free"
 msgstr "Bien sûr, c'est gratuit"
 
-#: apps/brew/templates/brew/recipe_list.html:90
+#: apps/brew/templates/brew/recipe_list.html:92
 msgid "Last recipes"
 msgstr "Dernières recettes"
 
-#: apps/brew/templates/brew/recipe_list.html:105
+#: apps/brew/templates/brew/recipe_list.part.html:5
 msgid "Preview"
 msgstr "Prévisualiser"
 
-#: apps/brew/templates/brew/recipe_list.html:110
+#: apps/brew/templates/brew/recipe_list.part.html:10
 msgid "Created"
 msgstr "Créé"
 
@@ -1141,6 +1168,44 @@ msgstr "Densité avant ébu."
 msgid "Real profile"
 msgstr "Profil noté"
 
+#: apps/brew/templates/brew/style_list.html:6
+msgid "All beer recipes by style"
+msgstr "Toutes les recettes de bière par style"
+
+#: apps/brew/templates/brew/style_list.html:18
+#, python-format
+msgid ""
+"\n"
+"        Here are shown all the styles that have at least 1 recipe on Zython. <br>\n"
+"        You can also see <a href=\"%(style_list_url)s\">all BJCP 2008 styles</a>\n"
+"        "
+msgstr ""
+"\n"
+"        Ici sont affichés les styles ayant au moins 1 recette sur Zython. <br>\n"
+"        Vous pouvez aussi consulter <a href=\"%(style_list_url)s\">tous les styles BJCP 2008</a>\n"
+"        "
+
+#: apps/brew/templates/brew/style_list.html:27
+msgid "BJCP code"
+msgstr "Code BJCP"
+
+#: apps/brew/templates/brew/style_list.html:28
+#: apps/brew/templates/brew/user_list.html:22
+msgid "Recipes"
+msgstr "Recettes"
+
+#: apps/brew/templates/brew/user_list.html:6
+msgid "All beer recipes by user"
+msgstr "Toutes les recettes de bière par utilisateur"
+
+#: apps/brew/templates/brew/user_list.html:20
+msgid "User"
+msgstr "Utilisateur"
+
+#: apps/brew/templates/brew/user_list.html:21
+msgid "Date joined"
+msgstr "Date d'inscription"
+
 #: apps/brew/templatetags/recipe_tags.py:84
 #, python-format
 msgid "Add %(water)s of water"
@@ -1150,17 +1215,17 @@ msgstr "Ajouter %(water)s d'eau"
 msgid "Heat over"
 msgstr "Chauffer"
 
-#: apps/brew/views.py:390
+#: apps/brew/views.py:421
 #, python-format
 msgid "User %s does not exist"
 msgstr "L'utilisateur %s n'existe pas"
 
-#: apps/brew/views.py:401
+#: apps/brew/views.py:432
 #, python-format
 msgid "Permissions added for user %s"
 msgstr "Permission ajoutée pour %s"
 
-#: apps/brew/views.py:403
+#: apps/brew/views.py:434
 #, python-format
 msgid "Permissions removed for user %s"
 msgstr "Permission retirée pour %s"
@@ -1175,9 +1240,7 @@ msgstr "Par exemple : 1,012"
 
 #: apps/calculator/templates/calculator/home.html:10
 msgid "Quickly get the ABV, IBU, Color, life prediction, horoscope etc..."
-msgstr ""
-"Calculez rapidement le taux d'alcool, les IBU, lire l'avenir, marabou, "
-"horoscope etc..."
+msgstr "Calculez rapidement le taux d'alcool, les IBU, lire l'avenir, marabou, horoscope etc..."
 
 #: apps/calculator/views.py:13
 msgid "Average ABV %"
@@ -1204,8 +1267,7 @@ msgstr ""
 "\n"
 "Activer votr ecompte en cliquant ici %(activate_url)s\n"
 "\n"
-"Si vous n'avez pas créé de compte, supprimez ce message, cachez vous sous "
-"votre bureau et retenez votre respiration pendant un ou deux jours.\n"
+"Si vous n'avez pas créé de compte, supprimez ce message, cachez vous sous votre bureau et retenez votre respiration pendant un ou deux jours.\n"
 
 #: templates/account/email/email_confirmation_subject.txt:1
 #, python-format
@@ -1215,15 +1277,12 @@ msgstr "Confirmez l'adresse emai pour le site  %(site_name)s"
 #: templates/account/email/password_reset.txt:1
 #, python-format
 msgid ""
-"You're receiving this email because you or someone else has requested a "
-"password for your user account at %(site_name)s.\n"
-"It can be safely ignored if you did not request a password reset. Click the "
-"link below to reset your password.\n"
+"You're receiving this email because you or someone else has requested a password for your user account at %(site_name)s.\n"
+"It can be safely ignored if you did not request a password reset. Click the link below to reset your password.\n"
 "\n"
 "%(password_reset_url)s\n"
 msgstr ""
-"Vous avez demandé une réinitialisation de votre mot de passe pour le site "
-"%(site_name)s.\n"
+"Vous avez demandé une réinitialisation de votre mot de passe pour le site %(site_name)s.\n"
 "Cliquez sur ce lien pour continuer.\n"
 "\n"
 "%(password_reset_url)s\n"
@@ -1233,11 +1292,13 @@ msgstr ""
 msgid "[%(site_name)s] Password reset"
 msgstr "[%(site_name)s] Réinitialisation de mot de passe"
 
-#: templates/account/login.html:12 templates/registration/login.html:5
+#: templates/account/login.html:12
+#: templates/registration/login.html:5
 msgid "Login"
 msgstr "Connexion"
 
-#: templates/account/login.html:25 templates/registration/login.html:13
+#: templates/account/login.html:25
+#: templates/registration/login.html:13
 msgid "You are logged in."
 msgstr "Vous ête connecté"
 
@@ -1245,13 +1306,15 @@ msgstr "Vous ête connecté"
 msgid "You have a Zython account"
 msgstr "Vous avez un compte sur Zython"
 
-#: templates/account/login.html:45 templates/base.html:66
+#: templates/account/login.html:45
+#: templates/base.html:66
 #: templates/public/invitation_home.html:27
 #: templates/registration/login.html:35
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/account/login.html:46 templates/account/password_reset.html:11
+#: templates/account/login.html:46
+#: templates/account/password_reset.html:11
 msgid "I forgot my password"
 msgstr "Oublié mon mot de passe"
 
@@ -1259,16 +1322,15 @@ msgstr "Oublié mon mot de passe"
 msgid "Connect with a social account"
 msgstr "Connecter avec un réseau social"
 
-#: templates/account/logout.html:11 templates/base.html:115
+#: templates/account/logout.html:11
+#: templates/base.html:115
 #: templates/registration/logout.html:4
 msgid "Log out"
 msgstr "Déconnexion"
 
 #: templates/account/logout.html:25
 msgid "You will log out. Have a nice day."
-msgstr ""
-"Vous allez vous déconnecter, profitez de votre journée d'une manière "
-"positive et constructive"
+msgstr "Vous allez vous déconnecter, profitez de votre journée d'une manière positive et constructive"
 
 #: templates/account/logout.html:35
 msgid "Return home"
@@ -1291,15 +1353,8 @@ msgstr "Réinitialisation du mot de passe envoyée"
 
 #: templates/account/password_reset_sent.html:23
 #, python-format
-msgid ""
-"We have sent you an email. If you do not receive it within a few minutes, "
-"try resending or contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
-"%(THEME_CONTACT_EMAIL)s</a>."
-msgstr ""
-"Nous vous avons envoyé un email. Si vous n'avez rien reçu, attendez un peu, "
-"sinon regardez dans vos courriers indésirables, ou sinon, faites la roue, ou "
-"encore contactez nous à <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
-"%(THEME_CONTACT_EMAIL)s</a>."
+msgid "We have sent you an email. If you do not receive it within a few minutes, try resending or contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">%(THEME_CONTACT_EMAIL)s</a>."
+msgstr "Nous vous avons envoyé un email. Si vous n'avez rien reçu, attendez un peu, sinon regardez dans vos courriers indésirables, ou sinon, faites la roue, ou encore contactez nous à <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">%(THEME_CONTACT_EMAIL)s</a>."
 
 #: templates/account/password_reset_sent.html:32
 msgid "Resend"
@@ -1307,14 +1362,8 @@ msgstr "Ré-envoyer"
 
 #: templates/account/password_reset_sent.html:37
 #, python-format
-msgid ""
-"We have resent the password email. If you do not receive it within a few "
-"minutes, contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
-"%(THEME_CONTACT_EMAIL)s</a>."
-msgstr ""
-"We have sent you an email. If you do not receive it within a few minutes, "
-"try resending or contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">"
-"%(THEME_CONTACT_EMAIL)s</a>."
+msgid "We have resent the password email. If you do not receive it within a few minutes, contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">%(THEME_CONTACT_EMAIL)s</a>."
+msgstr "We have sent you an email. If you do not receive it within a few minutes, try resending or contact us at <a href=\"mailto:%(THEME_CONTACT_EMAIL)s\">%(THEME_CONTACT_EMAIL)s</a>."
 
 #: templates/account/password_reset_token.html:10
 #: templates/account/password_reset_token.html:23
@@ -1328,14 +1377,11 @@ msgstr "Mauvaise clé"
 
 #: templates/account/password_reset_token_fail.html:11
 #, python-format
-msgid ""
-"The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(url)s\">new password reset</a>."
-msgstr ""
-"Ce lien de réinitialisation de mot de passe est mauvais, c'est con.  "
-"Demandez <a href=\"%(url)s\">un nouveau mot de passe</a>."
+msgid "The password reset link was invalid, possibly because it has already been used.  Please request a <a href=\"%(url)s\">new password reset</a>."
+msgstr "Ce lien de réinitialisation de mot de passe est mauvais, c'est con.  Demandez <a href=\"%(url)s\">un nouveau mot de passe</a>."
 
-#: templates/account/settings.html:9 templates/base.html:53
+#: templates/account/settings.html:9
+#: templates/base.html:53
 msgid "My account"
 msgstr "Mon compte"
 
@@ -1347,29 +1393,33 @@ msgstr "Créer un nouveau compte"
 msgid "Signup from a social account"
 msgstr "Créer un compte à partir d'un réseau social"
 
-#: templates/avatar/add.html:5 templates/avatar/avatar/add.html:5
+#: templates/avatar/add.html:5
+#: templates/avatar/avatar/add.html:5
 #: templates/avatar/avatar/change.html:5
 msgid "Your current avatar: "
 msgstr "Votre image actuelle:"
 
-#: templates/avatar/add.html:8 templates/avatar/avatar/add.html:8
+#: templates/avatar/add.html:8
+#: templates/avatar/avatar/add.html:8
 #: templates/avatar/avatar/change.html:8
 msgid "You haven't uploaded an avatar yet. Please upload one now."
 msgstr "Vous n'avez pas chargé d'image pour l'instant."
 
-#: templates/avatar/add.html:12 templates/avatar/avatar/add.html:12
-#: templates/avatar/avatar/change.html:19 templates/avatar/change.html:27
+#: templates/avatar/add.html:12
+#: templates/avatar/avatar/add.html:12
+#: templates/avatar/avatar/change.html:19
+#: templates/avatar/change.html:27
 msgid "Upload New Image"
 msgstr "Charger une nouvelle image"
 
-#: templates/avatar/avatar/change.html:14 templates/avatar/change.html:17
+#: templates/avatar/avatar/change.html:14
+#: templates/avatar/change.html:17
 msgid "Choose new Default"
 msgstr "Choisissez une image par défaut"
 
 #: templates/avatar/change.html:7
 msgid "You do not yet have an avatar.  Please upload one now."
-msgstr ""
-"Vous n'avez toujours pas d'image de profil, vous pouvez en charger une. "
+msgstr "Vous n'avez toujours pas d'image de profil, vous pouvez en charger une. "
 
 #: templates/avatar/change.html:11
 msgid "Your current avatar"
@@ -1397,12 +1447,8 @@ msgstr "Sélectionnez l'image que vous souhaitez supprimer"
 
 #: templates/avatar/confirm_delete.html:8
 #, python-format
-msgid ""
-"You have no avatars to delete. Please <a href=\"%(avatar_change_url)s"
-"\">upload one</a> now."
-msgstr ""
-"Vopus n'avez pas d'image à charger. Merci d'en <a href="
-"\"%(avatar_change_url)s\">charger une</a>."
+msgid "You have no avatars to delete. Please <a href=\"%(avatar_change_url)s\">upload one</a> now."
+msgstr "Vopus n'avez pas d'image à charger. Merci d'en <a href=\"%(avatar_change_url)s\">charger une</a>."
 
 #: templates/avatar/confirm_delete.html:14
 msgid "Delete These"
@@ -1421,12 +1467,8 @@ msgstr ""
 
 #: templates/avatar/notification/avatar_friend_updated/notice.html:2
 #, python-format
-msgid ""
-"<a href=\"%(user_url)s\">%(avatar_creator)s</a> has updated their avatar <a "
-"href=\"%(avatar_url)s\">%(avatar)s</a>."
-msgstr ""
-"<a href=\"%(user_url)s\">%(avatar_creator)s</a> ont mis à jour leur avatar "
-"<a href=\"%(avatar_url)s\">%(avatar)s</a>."
+msgid "<a href=\"%(user_url)s\">%(avatar_creator)s</a> has updated their avatar <a href=\"%(avatar_url)s\">%(avatar)s</a>."
+msgstr "<a href=\"%(user_url)s\">%(avatar_creator)s</a> ont mis à jour leur avatar <a href=\"%(avatar_url)s\">%(avatar)s</a>."
 
 #: templates/avatar/notification/avatar_updated/full.txt:1
 #, python-format
@@ -1442,17 +1484,11 @@ msgstr ""
 #: templates/avatar/notification/avatar_updated/notice.html:2
 #, python-format
 msgid "You have updated your avatar <a href=\"%(avatar_url)s\">%(avatar)s</a>."
-msgstr ""
-"Vous avez mis à jour votre image <a href=\"%(avatar_url)s\">%(avatar)s</a>."
+msgstr "Vous avez mis à jour votre image <a href=\"%(avatar_url)s\">%(avatar)s</a>."
 
 #: templates/base.html:8
-msgid ""
-"Zython helps homebrewer making their recipe. Create your account and start "
-"adding grain, hops, miscs, yeast. It's free and stable."
-msgstr ""
-"Zython aide les brasseurs amateurs à créer leurs recettes de bière. Créer "
-"votre compte, connectez-vous et commencez à brasser ! Ajoutez votre grain, "
-"houblon, épices, levures ... C'est gratuit et stable ! "
+msgid "Zython helps homebrewer making their recipe. Create your account and start adding grain, hops, miscs, yeast. It's free and stable."
+msgstr "Zython aide les brasseurs amateurs à créer leurs recettes de bière. Créer votre compte, connectez-vous et commencez à brasser ! Ajoutez votre grain, houblon, épices, levures ... C'est gratuit et stable ! "
 
 #: templates/base.html:58
 msgid "New recipe"
@@ -1466,7 +1502,8 @@ msgstr "Créer une recette"
 msgid "Import recipe (BeerXML)"
 msgstr "Importer (BeerXML)"
 
-#: templates/base.html:67 templates/registration/login.html:37
+#: templates/base.html:67
+#: templates/registration/login.html:37
 #: templates/registration/registration_form.html:11
 #: templates/registration/registration_form.html:37
 msgid "Register"
@@ -1489,12 +1526,8 @@ msgid "You received a message from Zython"
 msgstr "Message reçu depuis Zython"
 
 #: templates/base_email.html:54
-msgid ""
-"This message is generated by a server, please do not answer this email, "
-"nobody will answer."
-msgstr ""
-"Ce message est envoyé depuis un serveur, merci de ne pas y répondre, ça ne "
-"servira à rien et personne ne pourra lire votre message. "
+msgid "This message is generated by a server, please do not answer this email, nobody will answer."
+msgstr "Ce message est envoyé depuis un serveur, merci de ne pas y répondre, ça ne servira à rien et personne ne pourra lire votre message. "
 
 #: templates/base_printable.html:6
 msgid "Printable"
@@ -1530,8 +1563,7 @@ msgid ""
 "    <p>\n"
 "        <br><br>\n"
 "        <b>Welcome to 2beer !</b> <br>\n"
-"        2Beer is an <b>online software to help homebrewer</b> creating and "
-"sharing their recipes. \n"
+"        2Beer is an <b>online software to help homebrewer</b> creating and sharing their recipes. \n"
 "        <br>&nbsp;\n"
 "    </p>\n"
 "    <p>\n"
@@ -1539,8 +1571,7 @@ msgid ""
 "        <ul>\n"
 "            <li>Being free</li>\n"
 "            <li>Keeping things dead simple</li>\n"
-"            <li>Displaying technical informations for your language and your "
-"units</li>\n"
+"            <li>Displaying technical informations for your language and your units</li>\n"
 "            <li>Getting the most of the community for later updates</li>\n"
 "        </ul>\n"
 "    </p>\n"
@@ -1553,8 +1584,7 @@ msgstr ""
 "    <p>\n"
 "        <br><br>\n"
 "        <b>Bienvenue à toi !</b> <br>\n"
-"        2Beer est un <b>logiciel en ligne d'aide aux brasseurs amateurs</b> "
-"à créer et partager des recettes. \n"
+"        2Beer est un <b>logiciel en ligne d'aide aux brasseurs amateurs</b> à créer et partager des recettes. \n"
 "        <br>&nbsp;\n"
 "    </p>\n"
 "    <p>\n"
@@ -1562,15 +1592,12 @@ msgstr ""
 "        <ul>\n"
 "            <li>D'être libre et gratuit</li>\n"
 "            <li>D'être le plus simple et léger possible</li>\n"
-"            <li>D'afficher et gérer des informations techniques dans votre "
-"langue avec les unités que vous souhaitez</li>\n"
-"            <li>De bénéficier des améliorations de la communauté pour les "
-"prochaines mises à jour</li>\n"
+"            <li>D'afficher et gérer des informations techniques dans votre langue avec les unités que vous souhaitez</li>\n"
+"            <li>De bénéficier des améliorations de la communauté pour les prochaines mises à jour</li>\n"
 "        </ul>\n"
 "    </p>\n"
 "    <p>\n"
-"        ...mais pour le moment, vous devez recevoir une invitation pour "
-"créer un compte.\n"
+"        ...mais pour le moment, vous devez recevoir une invitation pour créer un compte.\n"
 "    </p>\n"
 "    "
 
@@ -1580,15 +1607,13 @@ msgid ""
 "\n"
 "Hi %(prenom)s %(nom)s,\n"
 "\n"
-"You have to finish your registration on %(site)s by click on this link "
-"below : \n"
+"You have to finish your registration on %(site)s by click on this link below : \n"
 "http://%(site)s%(activation_url)s\n"
 "\n"
 "Thank you ! \n"
 msgstr ""
 "\n"
-"Bonjour %(prenom)s %(nom)s, Pour terminer la création de votre compte sur "
-"%(site)s, merci de cliquer sur ce lien : http://%(site)s%(activation_url)s\n"
+"Bonjour %(prenom)s %(nom)s, Pour terminer la création de votre compte sur %(site)s, merci de cliquer sur ce lien : http://%(site)s%(activation_url)s\n"
 "Merci ! \n"
 
 #: templates/registration/activation_email_subject.txt:2
@@ -1605,32 +1630,20 @@ msgid "Your password was changed."
 msgstr "Votre mot de passe a été modifié"
 
 #: templates/registration/password_change_form.html:7
-msgid ""
-"Please enter your old password, for security's sake, and then enter your new "
-"password twice so we can verify you typed it in correctly."
-msgstr ""
-"Saisissez votre ancien mot de passe puis saisissez 2 fois le nouveau mot de "
-"passe. "
+msgid "Please enter your old password, for security's sake, and then enter your new password twice so we can verify you typed it in correctly."
+msgstr "Saisissez votre ancien mot de passe puis saisissez 2 fois le nouveau mot de passe. "
 
 #: templates/registration/password_change_form.html:12
 msgid "Change my password"
 msgstr "Modifier mon mot de passe"
 
 #: templates/registration/password_reset_done.html:7
-msgid ""
-"We've e-mailed you instructions for setting your password to the e-mail "
-"address you submitted. You should be receiving it shortly."
-msgstr ""
-"Nous venons de vous envoyer les instructions pour réinitialiser votre mot de "
-"passe. Vous devrier le recevoir d'ici quelques secondes. "
+msgid "We've e-mailed you instructions for setting your password to the e-mail address you submitted. You should be receiving it shortly."
+msgstr "Nous venons de vous envoyer les instructions pour réinitialiser votre mot de passe. Vous devrier le recevoir d'ici quelques secondes. "
 
 #: templates/registration/password_reset_form.html:6
-msgid ""
-"Forgotten your password? Enter your e-mail address below, and we'll e-mail "
-"instructions for setting a new one."
-msgstr ""
-"Oublié votr emot de passe ? Saisissez votre adresse email ci-dessous, nous "
-"vous enverrons les instructions pour le réinitialiser. "
+msgid "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one."
+msgstr "Oublié votr emot de passe ? Saisissez votre adresse email ci-dessous, nous vous enverrons les instructions pour le réinitialiser. "
 
 #: templates/registration/reactivation_email.txt:4
 #, python-format
@@ -1644,8 +1657,7 @@ msgid ""
 "\n"
 msgstr ""
 "\n"
-"Bonjour %(prenom)s %(nom)s,Nous vous rappelons que vous devez activervotre "
-"compte en cliquant sur ce lien : http://%(site)s%(activation_url)s\n"
+"Bonjour %(prenom)s %(nom)s,Nous vous rappelons que vous devez activervotre compte en cliquant sur ce lien : http://%(site)s%(activation_url)s\n"
 "\n"
 "Merci\n"
 
@@ -1728,9 +1740,6 @@ msgstr "Vous venez de rejoindre le site ! <br> Amusez-vous :)"
 #~ msgid "Design and share your beer recipe"
 #~ msgstr "Créez et partagez vos recettes de bière"
 
-#~ msgid "My recipes"
-#~ msgstr "Mes recettes"
-
 #~ msgid "Change your avatar"
 #~ msgstr "Changer d'image de profil"
 
@@ -1754,9 +1763,6 @@ msgstr "Vous venez de rejoindre le site ! <br> Amusez-vous :)"
 
 #~ msgid "Go to"
 #~ msgstr "Aller à"
-
-#~ msgid "to join!"
-#~ msgstr "pour vous joindre."
 
 #~ msgid ""
 #~ "All the best,\n"
