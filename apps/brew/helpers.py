@@ -1,3 +1,4 @@
+from datetime import datetime
 import time
 import htmlentitydefs
 from cStringIO import StringIO
@@ -69,7 +70,10 @@ def import_beer_xml(datas, user):
                 "Extract": "extract",
                 "Partial Mash": "partial"
             }.get(node.find("TYPE").text, "allgrain")
-            recipe.created = time.strptime(node.find("DATE").text, "%d/%m/%Y")
+            try:
+                recipe.created = time.strptime(node.find("DATE").text, "%d/%m/%Y")
+            except AttributeError:
+                recipe.created = datetime.now()
             equipment = node.find("EQUIPMENT")
             recipe.evaporation_rate = equipment.find("EVAP_RATE").text
             recipe.mash_tun_deadspace = equipment.find("LAUTER_DEADSPACE").text
