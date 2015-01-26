@@ -14,13 +14,15 @@ def populate_object(xml_item, object, fields):
         xml_key = f[0]
         field_name = f[1]
         try:
-            value = xml_item.find(xml_key).text
-            try:
-                custom_func = f[2]
-                value = custom_func(value)
-            except IndexError:
-                pass
-            setattr(object, field_name, value)
+
+            value = getattr(xml_item.find(xml_key), "text", None)
+            if value is not None:
+                try:
+                    custom_func = f[2]
+                    value = custom_func(value)
+                except IndexError:
+                    pass
+                setattr(object, field_name, value)
         except IndexError:
             print "CANT GET FIELD %s" % xml_key
     return object
@@ -75,30 +77,41 @@ def import_beer_xml(datas, user):
             except AttributeError:
                 recipe.created = datetime.now()
             equipment = node.find("EQUIPMENT")
-            recipe.evaporation_rate = equipment.find("EVAP_RATE").text
-            recipe.mash_tun_deadspace = equipment.find("LAUTER_DEADSPACE").text
-            recipe.boiler_tun_deadspace = equipment.find("TRUB_CHILLER_LOSS").text
-            mash = node.find("MASH")
-            recipe.grain_temperature = mash.find('GRAIN_TEMP').text
-            style = node.find("STYLE")
-            style_name = style.find('NAME').text
-            style_num = style.find('CATEGORY_NUMBER').text
-            style_let = style.find('STYLE_LETTER').text
+            if equipment:
+                recipe.evaporation_rate = equipment.find("EVAP_RATE").text
+                recipe.mash_tun_deadspace = equipment.find("LAUTER_DEADSPACE").text
+                recipe.boiler_tun_deadspace = equipment.find("TRUB_CHILLER_LOSS").text
+            else:
+                recipe.evaporation_rate = 8
+                recipe.mash_tun_deadspace = 2
+                recipe.boiler_tun_deadspace = 2
 
-            try:
-                # Frist try to find the exact beer style name
-                bs = BeerStyle.objects.filter(name__icontains=style_name)[0]
-                recipe.style = bs
-            except IndexError:
+            mash = node.find("MASH")
+            if mash:
+                recipe.grain_temperature = mash.find('GRAIN_TEMP').text
+            else:
+                recipe.grain_temperature = 20
+
+            style = node.find("STYLE")
+            if style:
+                style_name = style.find('NAME').text
+                style_num = style.find('CATEGORY_NUMBER').text
+                style_let = style.find('STYLE_LETTER').text
+
                 try:
-                    # Then we get the style number
-                    # Can be wrong as the ref. guide is not always the same
-                    bs = BeerStyle.objects.filter(
-                        number=style_num, sub_number=style_let
-                    )[0]
+                    # Frist try to find the exact beer style name
+                    bs = BeerStyle.objects.filter(name__icontains=style_name)[0]
                     recipe.style = bs
                 except IndexError:
-                    pass
+                    try:
+                        # Then we get the style number
+                        # Can be wrong as the ref. guide is not always the same
+                        bs = BeerStyle.objects.filter(
+                            number=style_num, sub_number=style_let
+                        )[0]
+                        recipe.style = bs
+                    except IndexError:
+                        pass
 
             recipe.save()
 
@@ -136,7 +149,10 @@ def import_beer_xml(datas, user):
                 mash_step.step_type = step.find('TYPE').text.lower()
                 mash_step.temperature = step.find('STEP_TEMP').text
                 mash_step.step_time = step.find('STEP_TIME').text.split('.')[0]
-                mash_step.rise_time = step.find('RAMP_TIME').text.split('.')[0]
+                if step.find('RAMP_TIME'):
+                    mash_step.rise_time = step.find('RAMP_TIME').text.split('.')[0]
+                else:
+                    mash_step.rise_time = 10
                 mash_step.water_added = step.find('INFUSE_AMOUNT').text
                 mash_step.save()
             recipes.append(recipe)

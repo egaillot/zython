@@ -94,14 +94,14 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     malt_type = models.CharField(_('Type'), choices=MALT_TYPE_CHOICES, max_length=50)
 
     # Yield
-    potential_gravity = GravityField(_('Potential gravity'), )
+    potential_gravity = GravityField(_('Potential gravity'), default=1)
     malt_yield = models.DecimalField(_('Yield'), max_digits=5, decimal_places=2, help_text="%")
 
     # Properties
     color = ColorField(_('Color'), )
-    diastatic_power = models.DecimalField(_('Diastatic power'), max_digits=4, decimal_places=1, help_text="Lint.")
-    protein = models.DecimalField(_('Protein'), max_digits=4, decimal_places=1, help_text="%")
-    max_in_batch = models.DecimalField(_('Max in batch'), max_digits=4, decimal_places=1, help_text="%")
+    diastatic_power = models.DecimalField(_('Diastatic power'), max_digits=4, decimal_places=1, help_text="Lint.", default=75)
+    protein = models.DecimalField(_('Protein'), max_digits=4, decimal_places=1, help_text="%", default=10)
+    max_in_batch = models.DecimalField(_('Max in batch'), max_digits=4, decimal_places=1, help_text="%", default=100)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
     class Meta:
@@ -126,7 +126,7 @@ class BaseHop(models.Model, BaseIngredientMixin):
     form = models.CharField(_('Form'), choices=HOP_FORM_CHOICES, default="leaf", max_length=50)
     hop_type = models.CharField(_('Type'), choices=HOP_TYPE_CHOICES, max_length=50)
     acid_alpha = models.DecimalField(_('Acid alpha'), max_digits=4, decimal_places=2)
-    acid_beta = models.DecimalField(_('Acid beta'), max_digits=4, decimal_places=2)
+    acid_beta = models.DecimalField(_('Acid beta'), max_digits=4, decimal_places=2, default=0)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
     def is_dry_hop(self):
@@ -148,8 +148,8 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     flocculation = models.CharField(_('Flocculation'), choices=YEAST_FLOCCULATION_CHOICES, max_length=50)
     min_attenuation = models.DecimalField(_('Min attenuation'), max_digits=5, decimal_places=2)
     max_attenuation = models.DecimalField(_('Max attenuation'), max_digits=5, decimal_places=2)
-    min_temperature = models.DecimalField(_('Min temperature'), max_digits=4, decimal_places=1)
-    max_temperature = models.DecimalField(_('Max temperature'), max_digits=4, decimal_places=1)
+    min_temperature = models.DecimalField(_('Min temperature'), max_digits=4, decimal_places=1, default=15)
+    max_temperature = models.DecimalField(_('Max temperature'), max_digits=4, decimal_places=1, default=25)
     best_for = models.TextField(_('Best for'), null=True, blank=True)
     notes = models.TextField(_('Notes'), null=True, blank=True)
 
