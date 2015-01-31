@@ -28,7 +28,7 @@ urlpatterns = patterns('',
 
     url(r'^(?P<pk>\d+)/$', RecipeDetailView.as_view(), name='brew_recipe_detail'),
     url(r'^(?P<pk>\d+)/comments/$', RecipeDetailView.as_view(page="comments"), name='brew_recipe_comments'),
-    url(r'^(?P<pk>\d+)/changes/$', RecipeDetailView.as_view(page="changes"), name='brew_recipe_changes'),
+    # url(r'^(?P<pk>\d+)/changes/$', RecipeDetailView.as_view(page="changes"), name='brew_recipe_changes'),
     url(r'^(?P<pk>\d+)/permissions/$', RecipeDetailView.as_view(page="permissions"), name='brew_recipe_permissions'),
     url(r'^(?P<recipe_id>\d+)/permissions/set/$', set_user_perm, name='brew_recipe_setperms'),
     url(r'^(?P<pk>\d+)/print/$', RecipeDetailView.as_view(page="print"), name='brew_recipe_print'),

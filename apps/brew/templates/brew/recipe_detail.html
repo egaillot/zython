@@ -62,12 +62,14 @@
                     {% trans "Comments" %} ({{ comment_count }})
                 </a>
             </li>
-            <li>
-                <a href="#" class="open_modal" data-url="{% url "brew_recipe_clone" object.pk %}">
-                    <span class="glyphicon glyphicon-floppy-open"></span>
-                    {% trans "Clone" %}
-                </a>
-            </li>
+            {% if request.user.is_active %}
+                <li>
+                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_clone" object.pk %}">
+                        <span class="glyphicon glyphicon-floppy-open"></span>
+                        {% trans "Clone" %}
+                    </a>
+                </li>
+            {% endif %}
             <li>
                 <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
                     <span class="glyphicon glyphicon-print"></span>
