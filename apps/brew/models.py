@@ -397,7 +397,7 @@ class Recipe(models.Model):
         if boil_time is None:
             hops = self.recipehop_set.all()
             if hops.count():
-                boil_time = float(hops[0].boil_time)
+                boil_time = float(hops[0].boil_time or 0)
             else:
                 boil_time = 60.0
             cache.set(cache_key, boil_time, 60 * 15)
