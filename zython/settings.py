@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'django_social_share',
     'public',
     'brew',
+    'inventory',
     'units',
     'social_auth',
     'avatar',
