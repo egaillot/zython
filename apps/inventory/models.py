@@ -19,12 +19,21 @@ class StockMalt(BaseUserStock):
     malt = models.ForeignKey(Malt)
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg")
 
+    def __unicode__(self):
+        return u"%s - %s EBC" % (self.malt.name, self.malt.color)
+
 
 class StockHop(BaseUserStock):
     hop = models.ForeignKey(Hop)
     amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g")
 
+    def __unicode__(self):
+        return u"%s" % self.hop.name
+
 
 class StockYeast(BaseUserStock):
-    malt = models.ForeignKey(Yeast)
+    yeast = models.ForeignKey(Yeast)
     amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g")
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.yeast.name, self.yeast.product_id)

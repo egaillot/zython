@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block page %}
+    <div class="jumbotron jumbotron-nav">
+        <div class="container">
+            {% block jumbotron %}{% endblock jumbotron %}
+            <h1>
+                {% block title %}{% trans "My stock" %}{% endblock title %}
+            </h1>
+        </div>
+        <hr class="before-nav">
+        <div class="container">
+            <ul class="nav nav-pills">
+                {% for ingd, term in ingredients_dict.items %}
+                    <li role="presentation" {% if ingd in request.path %} class="active"{% endif %}><a href="{% url "inventory_ingredient" ingd %}">{% trans term %}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {{ block.super }}
+
+    <div class="modal fade" id="id_main_modal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title"></h4>
+          </div>
+          <div class="modal-body">
+            <div id="xhr_content"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
+            <a href="#" id="modal_form_submit" class="btn btn-success">{% trans "Save" %}</a>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock page %}
+
+
+{% block extrahead %}
+<link rel="stylesheet" href="{{ MEDIA_URL }}js/select2-3.5.4/select2.css">
+{% endblock extrahead %}
+
+
+{% block js %}
+<script src="{{ MEDIA_URL }}js/inventory.js"></script>
+<script src="{{ MEDIA_URL }}js/select2-3.5.4/select2.min.js"></script>
+{% endblock js %}
