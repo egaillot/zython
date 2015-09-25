@@ -75,6 +75,11 @@
                 <li><a href="{% url "brew_recipe_import" %}">{% trans "Import recipe (BeerXML)" %}</a></li>
             </ul>
         </li>
+        <li>
+          <a href="">
+            {% trans "My stocks" %}
+          </a>
+        </li>
     {% else %}
         <li><a href="/account/login/?next={{ request.path }}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
         <li><a href="/account/signup/">{% trans "Register" %}</a></li>

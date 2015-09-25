@@ -1,11 +1,14 @@
 import json
+from datetime import datetime
 from django.db import models
 from django.core import serializers
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from brew.fields import GravityField, ColorField
 
 
 __all__ = (
+    'BaseStockModel',
     'BaseMalt', 'BaseHop', 'BaseYeast', 'BaseMisc',
     'HOP_USAGE_CHOICES', 'HOP_TYPE_CHOICES', 'YEAST_TYPE_CHOICES',
     'YEAST_FORM_CHOICES', 'YEAST_FLOCCULATION_CHOICES', 'MISC_TYPE_CHOICES',
@@ -86,6 +89,14 @@ class BaseIngredientMixin(object):
 
     def cls_name(self):
         return self.__class__.__name__.lower()
+
+
+class BaseStockModel(models.Model):
+    stock_user = models.ForeignKey(User, null=True, blank=True)
+    stock_added = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        abstract = True
 
 
 class BaseMalt(models.Model, BaseIngredientMixin):

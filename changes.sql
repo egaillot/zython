@@ -1,4 +1,20 @@
 
+-- 2015-09-25
+ALTER TABLE "brew_malt" ADD "stock_user_id" integer REFERENCES "auth_user" ("id");
+ALTER TABLE "brew_malt" ADD "stock_added" datetime;
+ALTER TABLE "brew_malt" ADD "stock_amount" decimal;
+
+ALTER TABLE "brew_hop" ADD "stock_user_id" integer REFERENCES "auth_user" ("id");
+ALTER TABLE "brew_hop" ADD "stock_added" datetime;
+ALTER TABLE "brew_hop" ADD "stock_amount" decimal;
+
+ALTER TABLE "brew_yeast" ADD "stock_user_id" integer REFERENCES "auth_user" ("id");
+ALTER TABLE "brew_yeast" ADD "stock_added" datetime;
+ALTER TABLE "brew_yeast" ADD "stock_amount" integer;
+
+
+
+
 -- 2012-12-26
 ALTER TABLE `brew_recipe` ADD `modified_by_id` integer;
 CREATE INDEX `brew_recipe_6162aa58` ON `brew_recipe` (`modified_by_id`);

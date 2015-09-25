@@ -112,6 +112,7 @@ class Recipe(models.Model):
     The main beer recipe
     """
     name = models.CharField(_('Name'), max_length=100)
+    # url = models.SlugField(null=True, blank=True)
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
@@ -534,19 +535,19 @@ class Recipe(models.Model):
         return results
 
 
-class Malt(BaseMalt):
-    pass
+class Malt(BaseStockModel, BaseMalt):
+    stock_amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg", null=True, blank=True)
 
 
-class Hop(BaseHop):
-    pass
+class Hop(BaseStockModel, BaseHop):
+    stock_amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g", null=True, blank=True)
+
+
+class Yeast(BaseStockModel, BaseYeast):
+    stock_amount = models.IntegerField(help_text="units", null=True, blank=True)
 
 
 class Misc(BaseMisc):
-    pass
-
-
-class Yeast(BaseYeast):
     pass
 
 
