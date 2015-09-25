@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.views.generic import TemplateView, FormView, ListView, CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView,  ListView, CreateView, UpdateView, DeleteView
 from django import http
 from .models import StockHop, StockMalt, StockYeast
 from .forms import StockMaltForm, StockHopForm, StockYeastForm
