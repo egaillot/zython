@@ -13,6 +13,13 @@ __all__ = (
 )
 
 
+def filter_ingredient_by_stock(qs, user):
+    return qs.filter(
+        Q(stock_user__isnull=True) |
+        Q(stock_user=user, stock_amount__gt=0)
+    ).order_by("-stock_user")
+
+
 def style_choices(qs_kwargs={}):
     old_number = 0
     item = ("", "-------")
@@ -79,7 +86,7 @@ class RecipeMaltForm(RecipeIngredientForm):
     unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
 
     def get_ingredient_list(self):
-        return Malt.objects.all()
+        return filter_ingredient_by_stock(Malt.objects.all(), self.request.user)
 
     class Meta:
         model = RecipeMalt

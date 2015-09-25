@@ -21,7 +21,12 @@
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </td>
-            <td>{{ malt.name }}</td>
+            <td>
+                {% if malt.stock_user == request.user %}
+                    <span class="text-success"><i class="fa fa-database"></i> (en stock)</span>
+                {% endif %}
+                {{ malt.name }}
+            </td>
             <td>{{ malt.origin }}</td>
             <td>{{ malt.get_malt_type_display }}</td>
             <td>{% local_unit "color" malt.color -1 %}</td>
