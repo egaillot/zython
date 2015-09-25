@@ -10,6 +10,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^$', RecipeListView.as_view(), name='root_url'),
     (r'^recipe/', include('brew.urls')),
+    (r'^stocks/', include('stocks.urls')),
     (r'^units/', include('units.urls')),
     (r'^calculator/', include('calculator.urls')),
     url(r"^account/login/$", accounts.views.LoginView.as_view(), name="account_login"),

@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'units',
     'social_auth',
     'avatar',
+    'stocks',
     'guardian',
 )
 

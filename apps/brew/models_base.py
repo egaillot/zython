@@ -105,8 +105,8 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     malt_type = models.CharField(_('Type'), choices=MALT_TYPE_CHOICES, max_length=50)
 
     # Yield
-    potential_gravity = GravityField(_('Potential gravity'), default=1)
-    malt_yield = models.DecimalField(_('Yield'), max_digits=5, decimal_places=2, help_text="%")
+    potential_gravity = GravityField(_('Potential gravity'), default=1.036)
+    malt_yield = models.DecimalField(_('Yield'), max_digits=5, decimal_places=2, help_text="%", default=75)
 
     # Properties
     color = ColorField(_('Color'), )
