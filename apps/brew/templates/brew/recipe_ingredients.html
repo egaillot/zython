@@ -4,7 +4,7 @@
 
 {% if object.ingredients %}
     
-<table class='table {% if version == "print" %}table-condensed{% endif %}'>
+<table class='table {% if page == "print" %}table-condensed{% endif %}'>
 <thead>
     <tr>
         <th>{% trans "Amount" %}</th>
@@ -28,13 +28,12 @@
                     {% local_unit "weight" ing.amount 0 %}
                 </td>
                 <td>
-
                     {% if can_edit %}
+                        {% if ing.malt.is_in_stock and page != "print" %}<span rel="tooltip" title="{% trans "In stock" %}" class="text-success"><i class="fa fa-database"></i></span>{% endif %}
                         <a href="#" id="malt_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({% local_unit "color" ing.color %})
                     {% if can_edit %}</a>{% endif %}
-
                 </td>
                 <td>{{ ing.get_malt_type_display }}</td>
                 <td>{{ forloop.counter }}</td>
@@ -56,7 +55,8 @@
                 </td>
                 <td>
                     {% if can_edit %}
-                    <a href="#" id="hop_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
+                        {% if ing.hop.is_in_stock and page != "print" %}<span rel="tooltip" title="{% trans "In stock" %}" class="text-success"><i class="fa fa-database"></i></span>{% endif %}
+                        <a href="#" id="hop_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({{ ing.acid_alpha }}%) - {{ ing.get_usage_display }} {{ ing.unit_time }}
                     {% if can_edit %}</a>{% endif %}

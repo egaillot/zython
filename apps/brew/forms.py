@@ -79,11 +79,29 @@ class RecipeImportForm(forms.Form):
 
 
 class RecipeIngredientForm(BS3FormMixin, UnitModelForm):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(RecipeIngredientForm, self).__init__(*args, **kwargs)
+        if hasattr(self, "addition_stock_field"):
+            self.fields["%s_id" % self.addition_stock_field[0]] = forms.IntegerField(required=False, widget=forms.HiddenInput())
+
+    def save(self, *args, **kwargs):
+        obj = super(RecipeIngredientForm, self).save(*args, **kwargs)
+        if hasattr(self, "addition_stock_field"):
+            obj_id = self.data.get("%s_id" % self.addition_stock_field[0])
+            if obj_id:
+                model_name = self.addition_stock_field[1]
+                try:
+                    source_obj = model_name.objects.get(pk=obj_id, stock_user=self.request.user, stock_amount__gt=0)  # Filter only stocked items
+                    setattr(obj, self.addition_stock_field[0], source_obj)
+                    obj.save()
+                except model_name.DoesNotExist:
+                    pass
+        return obj
 
 
 class RecipeMaltForm(RecipeIngredientForm):
     unit_fields = {'weight': ['amount', ], 'color': ['color', ]}
+    addition_stock_field = ["malt", Malt]
 
     def get_ingredient_list(self):
         return filter_ingredient_by_stock(Malt.objects.all(), self.request.user)
@@ -100,9 +118,10 @@ class RecipeMaltForm(RecipeIngredientForm):
 
 class RecipeHopForm(RecipeIngredientForm):
     unit_fields = {'hop': ['amount', ]}
+    addition_stock_field = ["hop", Hop]
 
     def get_ingredient_list(self):
-        return Hop.objects.all()
+        return filter_ingredient_by_stock(Hop.objects.all(), self.request.user)
 
     def clean(self):
         data = self.cleaned_data
@@ -136,6 +155,7 @@ class RecipeMiscForm(RecipeIngredientForm):
 
 
 class RecipeYeastForm(RecipeIngredientForm):
+    addition_stock_field = ["yeast", Yeast]
 
     def get_ingredient_list(self):
         return Yeast.objects.all()

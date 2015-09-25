@@ -12,6 +12,17 @@ ALTER TABLE "brew_yeast" ADD "stock_user_id" integer REFERENCES "auth_user" ("id
 ALTER TABLE "brew_yeast" ADD "stock_added" datetime;
 ALTER TABLE "brew_yeast" ADD "stock_amount" integer;
 
+ALTER TABLE "brew_recipemalt" ADD "malt_id" integer REFERENCES "brew_malt" ("id");
+ALTER TABLE "brew_recipehop" ADD "hop_id" integer REFERENCES "brew_hop" ("id");
+ALTER TABLE "brew_recipeyeast" ADD "yeast_id" integer REFERENCES "brew_yeast" ("id");
+
+
+CREATE INDEX "brew_malt_20fc80c7" ON "brew_malt" ("stock_user_id");
+CREATE INDEX "brew_hop_20fc80c7" ON "brew_hop" ("stock_user_id");
+CREATE INDEX "brew_yeast_20fc80c7" ON "brew_yeast" ("stock_user_id");
+CREATE INDEX "brew_recipemalt_7ea3b589" ON "brew_recipemalt" ("malt_id");
+CREATE INDEX "brew_recipehop_5a16b9a6" ON "brew_recipehop" ("hop_id");
+CREATE INDEX "brew_recipeyeast_b8100b30" ON "brew_recipeyeast" ("yeast_id");
 
 
 

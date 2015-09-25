@@ -1,5 +1,5 @@
 {% extends "brew/base_ingredient_form.html" %}
-{% load i18n form_tags %}
+{% load i18n form_tags unit_tags %}
 
 
 {% block table_content %}
@@ -21,7 +21,14 @@
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </td>
-            <td>{{ hop.name }}</td>
+            <td>
+                {% if hop.stock_user == request.user %}
+                    <span class="text-success"><i class="fa fa-database"></i>
+                    ({% trans "In stock" %}
+                    {% local_unit "hop" hop.stock_amount 0 %})</span>
+                {% endif %}
+                {{ hop.name }}
+            </td>
             <td>{{ hop.origin }}</td>
             <td>{{ hop.acid_alpha }}</td>
             <td>{{ hop.acid_beta }}</td>
@@ -33,6 +40,7 @@
 
 
 {% block form_content %}
+    {% addFormField form.hop_id %}
     {% addFormField form.name size="S" %}
 
 

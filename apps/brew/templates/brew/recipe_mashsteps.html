@@ -3,7 +3,7 @@
 
 {% if object.mashstep_set.all %}
     {% cache 600 recipe_mashsteps object.cache_key can_edit %}
-    <table class="table {% if version == "print" %}table-condensed{% endif %}">
+    <table class="table {% if page == "print" %}table-condensed{% endif %}">
         <thead>
             <tr>
                 <th>{% trans "Name" %}</th>

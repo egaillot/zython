@@ -57,7 +57,7 @@
   <img src="{{ MEDIA_URL }}images/logo_48.png" alt="Zython">
   </a>
   <a class="navbar-brand" href="/">
-  Zython <small><span class="text-zython-1">2</span><span class="text-zython-2">k</span><span class="text-zython-3">1</span><span class="text-zython-4">4</span>
+  Zython <small><span class="text-zython-1">2</span><span class="text-zython-2">0</span><span class="text-zython-3">1</span><span class="text-zython-4">5</span>
   </a>
   <ul class="nav navbar-nav navbar-left">
     {% if request.user.is_active %}
@@ -77,7 +77,7 @@
         </li>
         <li>
           <a href="{% url "stock_home" %}">
-            {% trans "My stocks" %}
+            <i class="fa fa-database"></i> {% trans "My stocks" %}
           </a>
         </li>
     {% else %}

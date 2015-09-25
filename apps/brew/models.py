@@ -572,6 +572,7 @@ class UpdateRecipeModel(object):
 class RecipeMalt(UpdateRecipeModel, BaseMalt):
     recipe = models.ForeignKey('Recipe')
     amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg")
+    malt = models.ForeignKey(Malt, null=True, blank=True)
 
     class Meta:
         ordering = ('-amount', 'pk')
@@ -588,6 +589,7 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
     amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g")
     boil_time = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
     dry_days = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
+    hop = models.ForeignKey(Hop, null=True, blank=True)
 
     def unit_time(self):
         if self.usage == "dryhop":
@@ -632,6 +634,7 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
 
 class RecipeYeast(UpdateRecipeModel, BaseYeast):
     recipe = models.ForeignKey('Recipe')
+    yeast = models.ForeignKey(Yeast, null=True, blank=True)
 
 
 class RecipeMisc(UpdateRecipeModel, BaseMisc):

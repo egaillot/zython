@@ -23,7 +23,9 @@
             </td>
             <td>
                 {% if malt.stock_user == request.user %}
-                    <span class="text-success"><i class="fa fa-database"></i> (en stock)</span>
+                    <span class="text-success"><i class="fa fa-database"></i>
+                    ({% trans "In stock" %}
+                    {% local_unit "weight" malt.stock_amount 0 %})</span>
                 {% endif %}
                 {{ malt.name }}
             </td>
@@ -38,6 +40,7 @@
 
 
 {% block form_content %}
+    {% addFormField form.malt_id %}
     {% addFormField form.amount size="S" %}
     {% addFormField form.malt_type size="S" %}
 

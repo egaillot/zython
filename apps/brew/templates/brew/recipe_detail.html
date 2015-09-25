@@ -381,6 +381,7 @@
 
         $(document).on("click", ".add-this-ingredient", function(){
             json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
+            console.log(json_object);
             populate($("#id_ingredient_form"), json_object[0]["fields"]);
             $(".ingredient_list").fadeOut(function(){
                 $(".ingredient_form").removeClass("hide");
