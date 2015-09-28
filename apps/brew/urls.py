@@ -56,6 +56,10 @@ urlpatterns = patterns(
         RecipeDeleteView.as_view(),
         name='brew_recipe_delete'),
 
+    url(r'^(?P<recipe_id>\d+)/destock/$',
+        RecipeDestockView.as_view(),
+        name='brew_recipe_destock'),
+
     url(r'^(?P<recipe_id>\d+)/edit/$',
         RecipeUpdateView.as_view(),
         name='brew_recipe_edit'),
@@ -102,5 +106,5 @@ urlpatterns = patterns(
 
     url(r'^guide/style/(?P<pk>\d+)/$',
         StyleDetailView.as_view(),
-        name="brew_style_detail"),
+        name="brew_style_detail")
 )

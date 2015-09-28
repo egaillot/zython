@@ -17,7 +17,7 @@ from brew.models import *
 from brew.forms import *
 from brew.helpers import import_beer_xml
 from brew.decorators import recipe_author
-
+from stocks.choices import INGREDIENTS_DICT
 from units.views import UnitViewFormMixin
 import djnext
 from guardian.shortcuts import get_users_with_perms, assign, get_perms_for_model, remove_perm
@@ -325,6 +325,52 @@ class RecipeCloneView(LoginRequiredMixin, RecipeViewableMixin, DetailView):
         response = http.HttpResponse()
         response['Location'] = new_recipe.get_absolute_url()
         return response
+
+
+class RecipeDestockView(RecipeAuthorMixin, DetailView):
+    template_name = "brew/recipe_destock.html"
+
+    def previsionnal_stocks_ingredient(self, ingredient_slug):
+        model_class = SLUG_MODELROOT[ingredient_slug]
+
+        available_stocks = model_class.objects.filter(
+            **{"recipe%s__recipe" % ingredient_slug: self.object}
+        ).stocked(user=self.request.user).distinct()
+
+        recipeingredients = getattr(self.object, "get_stocked_recipe%ss" % ingredient_slug)()
+        datas = []
+
+        for stocked_ingredient in available_stocks:
+            data = {
+                "object": stocked_ingredient,
+                "initial_amount": stocked_ingredient.stock_amount,
+                "remaining_amount": stocked_ingredient.stock_amount,
+                "errors": False,
+                'recipe_ingredients': []
+            }
+            for ri in recipeingredients.filter(**{ingredient_slug: stocked_ingredient}):
+                data['recipe_ingredients'].append(ri)
+                data['remaining_amount'] -= ri.amount
+            if data['remaining_amount'] < 0:
+                data['remaining_amount'] = 0
+                data["errors"] = True
+            datas.append(data)
+        return datas
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipeDestockView, self).get_context_data(**kwargs)
+        self.object = self.get_object()
+        # malts = self.object.get_stocked_recipemalts()
+        # hops = self.object.get_stocked_recipehops()
+        # yeasts = self.object.get_stocked_recipeyeast()
+        # context["malts"] = malts
+        # context["hops"] = hops
+        # context["yeasts"] = yeasts
+        ingredients = {}
+        for k in INGREDIENTS_DICT.iterkeys():
+            ingredients["%ss" % k] = self.previsionnal_stocks_ingredient(k)
+        context["ingredients"] = ingredients
+        return context
 
 
 # --------------------

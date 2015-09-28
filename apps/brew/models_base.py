@@ -5,7 +5,7 @@ from django.core import serializers
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from brew.fields import GravityField, ColorField
-
+from .managers import IngredientManager
 
 __all__ = (
     'BaseStockModel',
@@ -80,7 +80,6 @@ MISC_TYPE_CHOICES = (
 
 
 class BaseIngredientMixin(object):
-
     def python_dict(self):
         return json.loads(self.json_object())[0]
 
@@ -122,6 +121,8 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     max_in_batch = models.DecimalField(_('Max in batch'), max_digits=4, decimal_places=1, help_text="%", default=100)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
+    objects = IngredientManager()
+
     class Meta:
         abstract = True
 
@@ -147,6 +148,8 @@ class BaseHop(models.Model, BaseIngredientMixin):
     acid_beta = models.DecimalField(_('Acid beta'), max_digits=4, decimal_places=2, default=0)
     notes = models.TextField(_('Notes'), blank=True, null=True)
 
+    objects = IngredientManager()
+
     def is_dry_hop(self):
         return self.usage == 'dryhop'
 
@@ -170,6 +173,8 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     max_temperature = models.DecimalField(_('Max temperature'), max_digits=4, decimal_places=1, default=25)
     best_for = models.TextField(_('Best for'), null=True, blank=True)
     notes = models.TextField(_('Notes'), null=True, blank=True)
+
+    objects = IngredientManager()
 
     def __unicode__(self):
         return _(u"Yeast %s") % self.name

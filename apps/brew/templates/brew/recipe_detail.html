@@ -159,12 +159,11 @@
     </div>
 
     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-        
+
         {% if object.has_stock_ingredients %}
-            <a href="" class="btn btn-block btn-success">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>            
+            <a data-url="{% url "brew_recipe_destock" object.pk %}" href="#" class="btn btn-block btn-success open_modal">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>            
             <hr>
         {% endif %}
-
 
         <div class="panel panel-primary">
               <div class="panel-heading">

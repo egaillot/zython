@@ -543,7 +543,7 @@ class Recipe(models.Model):
     def get_stocked_recipehops(self):
         return self.recipehop_set.filter(hop__stock_user=self.user)
 
-    def get_stocked_recipeyeast(self):
+    def get_stocked_recipeyeasts(self):
         return self.recipeyeast_set.filter(yeast__stock_user=self.user)
 
     def has_stock_ingredients(self):
@@ -556,7 +556,7 @@ class Recipe(models.Model):
             return True
         if self.get_stocked_recipehops():
             return True
-        if self.get_stocked_recipeyeast():
+        if self.get_stocked_recipeyeasts():
             return True
         return False
 

@@ -1,6 +1,23 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.db.models import Q
 from guardian.shortcuts import get_objects_for_user
+
+
+class IngredientQueryset(QuerySet):
+    def stocked(self, user):
+        return self.filter(stock_user=user)
+
+    def public_and_stocked(self, user):
+        return self.filter(
+            Q(stock_user__isnull=True) |
+            Q(stock_user=user, stock_amount__gt=0)
+        ).order_by("-stock_user")
+
+
+class IngredientManager(models.Manager):
+    def get_queryset(self):
+        return IngredientQueryset(self.model, using=self._db)
 
 
 class RecipeManager(models.Manager):
