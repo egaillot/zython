@@ -534,6 +534,32 @@ class Recipe(models.Model):
             results[control] = getattr(self, "style_control_%s" % control)()
         return results
 
+    # - - -
+    # Stock
+
+    def get_stocked_recipemalts(self):
+        return self.recipemalt_set.filter(malt__stock_user=self.user)
+
+    def get_stocked_recipehops(self):
+        return self.recipehop_set.filter(hop__stock_user=self.user)
+
+    def get_stocked_recipeyeast(self):
+        return self.recipeyeast_set.filter(yeast__stock_user=self.user)
+
+    def has_stock_ingredients(self):
+        """Return True is some ingredients
+        used in this recipe come from the
+        user stock"""
+        # Looks a bit weird but these queries are expensive.
+        # we should return True ASAP
+        if self.get_stocked_recipemalts():
+            return True
+        if self.get_stocked_recipehops():
+            return True
+        if self.get_stocked_recipeyeast():
+            return True
+        return False
+
 
 class Malt(BaseStockModel, BaseMalt):
     stock_amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg", null=True, blank=True)
