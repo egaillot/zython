@@ -1,4 +1,6 @@
 {% load i18n %}
+{% load pagination_tags %}
+
 <table class='table'>
     <thead>
         <tr>
@@ -11,8 +13,13 @@
         </tr>
     </thead>
     <tbody>
-    {% for object in object_list %}
-    {% include "brew/recipe_list_row.html" %}
-    {% endfor %}
+        {% autopaginate object_list 50 %}
+        {% for object in object_list %}
+        {% include "brew/recipe_list_row.html" %}
+        {% endfor %}
     </tbody>
 </table>
+    {% if object_list %}
+
+{% paginate %}
+    {% endif %}
