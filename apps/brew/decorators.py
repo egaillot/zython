@@ -9,7 +9,7 @@ def recipe_author(f, redirect_url="/"):
         try:
             recipe = Recipe.objects.get(pk=recipe_id)
             if recipe.user == request.user or request.user.has_perm('change_recipe', recipe):
-                return f(request, *args, **kwargs)
+                return f(request, recipe, *args, **kwargs)
         except Recipe.DoesNotExist:
             pass
         return HttpResponseRedirect("/")

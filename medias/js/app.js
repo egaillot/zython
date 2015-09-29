@@ -26,4 +26,7 @@ $(function(){
 
     $('*[rel="tooltip"]').tooltip({html: true});
 
-})
+    $('.confirm_delete').click(function(){
+        return confirm(CONFIRM_DELETE_MSG);
+    })
+});

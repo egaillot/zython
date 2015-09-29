@@ -22,7 +22,11 @@
                 </td>
                 <td>
                     {% if can_edit %}
-                    <a class="open_modal" href="#" data-url="{% url "brew_mash_edit" object.id mash.id %}">
+                        <a 
+                            class="fm-update"
+                            data-fm-head="{{ mash.name }}"
+                            data-fm-callback="reload"
+                            href="{% url "brew_mash_edit" object.id mash.id %}">
                     {% endif %}
                     {% if mash.water_added %}
                         {% trans "Add" %} {% local_unit "volume" mash.water_added 0 %} {% trans "of water" %}.
@@ -47,7 +51,7 @@
                     {{ mash.step_time }} min
                 </td>
                 {% if can_edit %}<td>
-                    <a href="{% url "brew_mash_delete" object.id mash.id %}">{% trans "Delete" %}</a>
+                    <a href="{% url "brew_mash_delete" object.id mash.id %}" class="confirm_delete">{% trans "Delete" %}</a>
                 </td>{% endif %}
             </tr>
             {% if forloop.last %}

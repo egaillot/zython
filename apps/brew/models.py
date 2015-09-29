@@ -525,15 +525,6 @@ class Recipe(models.Model):
         elif color > float(self.style.color_max):
             return _(u"The beer color seems too dark")
 
-    def all_controls(self):
-        if not self.style:
-            return {}
-        controls = ['ibu', 'og', 'fg', 'abv', 'color']
-        results = {}
-        for control in controls:
-            results[control] = getattr(self, "style_control_%s" % control)()
-        return results
-
     # - - -
     # Stock
 
@@ -563,14 +554,17 @@ class Recipe(models.Model):
 
 class Malt(BaseStockModel, BaseMalt):
     stock_amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg", null=True, blank=True)
+    stock_units = "weight"
 
 
 class Hop(BaseStockModel, BaseHop):
     stock_amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g", null=True, blank=True)
+    stock_units = "hop"
 
 
 class Yeast(BaseStockModel, BaseYeast):
     stock_amount = models.IntegerField(help_text="units", null=True, blank=True)
+    stock_units = "unit"
 
 
 class Misc(BaseMisc):

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load i18n unit_tags %}
+{% load fm_tags %}
+{% load static %}
 {% load comments avatar_tags recipe_tags social_share %}
 {% load url from future %}
 
@@ -64,7 +66,7 @@
             </li>
             {% if request.user.is_active %}
                 <li>
-                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_clone" object.pk %}">
+                    <a class="fm-create" data-fm-head="{% trans "Clone" %}" data-fm-callback="trigger" href="{% url "brew_recipe_clone" object.pk %}">
                         <span class="glyphicon glyphicon-floppy-open"></span>
                         {% trans "Clone" %}
                     </a>
@@ -115,22 +117,22 @@
               </button>
               <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "malt" %}">
+                    <a class="fm-create" data-fm-head="{% trans "Grain" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "malt" %}">
                         <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> {% trans "Grain" %}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "hop" %}">
+                    <a class="fm-create" data-fm-head="{% trans "Hop" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "hop" %}">
                         <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "misc" %}">
+                    <a class="fm-create" data-fm-head="{% trans "Misc" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "misc" %}">
                         <img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="open_modal" data-url="{% url "brew_recipe_addingredient" recipe.id "yeast" %}">
+                    <a class="fm-create" data-fm-head="{% trans "Yeast" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "yeast" %}">
                         <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a>
                     </li>
               </ul>
@@ -148,7 +150,11 @@
                     <span class="popover-menu" tabindex="0" data-trigger="focus" type="button" data-container="body" title="{% trans "Let's finish this" %}" data-toggle="popover" data-placement="left" data-content="{% trans "Fine ! Now let's define our mash steps" %}."></span>                
                 {% endif %}
 
-                <a href="#" data-url="{% url "brew_mash_add" object.id %}" class="btn btn-primary btn-sm open_modal">
+                <a 
+                    class="fm-create btn btn-primary btn-sm"
+                    data-fm-head="{% trans "Add mash step" %}"
+                    data-fm-callback="reload"
+                    href="{% url "brew_mash_add" object.id %}">
                     {% trans "Add mash step" %} <span class="glyphicon glyphicon-plus"></span>
                 </a>
             </div>
@@ -306,51 +312,20 @@
             <div class="panel-body">
                     {% post_to_facebook object "Facebook" %}
                     {% post_to_twitter object.title object "Twitter" %}
-
                     <a href="{% url "brew_recipe_text" object.pk %}" rel="tooltip" title="{% trans "Copy (txt)" %}" target="_blank" style="font-size:24px">
                         <span class="glyphicon glyphicon-list"></span>
                     </a>
-
             </div>
         </div>
 
     </div>
 </div>
 
-<div class="modal hide {% if not open_modal %}fade{% endif %}">
-  <div class="modal-header">
-    <a class="close" data-dismiss="modal">×</a>
-        <h3><span></span></h3>
-  </div>
-  <div class="modal-body"></div>
-  <div class="modal-footer"></div>
-</div>
-
-
-<div class="modal fade" id="id_main_modal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title"></h4>
-      </div>
-      <div class="modal-body">
-        <div id="xhr_content"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Cancel" %}</button>
-        <a href="#" id="model_edit_submit" class="btn btn-success">{% trans "Save" %}</a>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 <p><hr></p>
 
 {% endblock inner_content %}
 
-
-
+{% include "fm/modal.html" %}
 {% endblock content %}
 
 
@@ -358,6 +333,43 @@
 
 
 
+{% block js %}
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
+
+<script type="text/javascript">
+
+    function trigger(){
+        alert("pypypypyp")
+    }
+
+    $(function() {
+        $.fm({debug: true});
+
+        $('.select-hop').click(function(){
+            $("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
+        });
+        $('.select-malt').click(function(){
+            $("#id_color").val($(this).attr("data-color"));
+        });
+
+        $(document).on("click", ".add-this-ingredient", function(){
+            json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
+            populate($("#id_ingredient_form"), json_object[0]["fields"]);
+            $(".ingredient_list").fadeOut(function(){
+                $(".ingredient_form").removeClass("hide");
+                $(".ingredient_form input").filter(':visible:first').focus();
+            });
+        });
+
+    });
+</script>    
+{% endblock js %}
+
+{% comment %}
+    
 {% block js %}
 {% if can_edit %}
     <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
@@ -386,7 +398,6 @@
 
         $(document).on("click", ".add-this-ingredient", function(){
             json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
-            console.log(json_object);
             populate($("#id_ingredient_form"), json_object[0]["fields"]);
             $(".ingredient_list").fadeOut(function(){
                 $(".ingredient_form").removeClass("hide");
@@ -397,6 +408,7 @@
 </script>
 {% endif %}
 <script type="text/javascript">
+
 function reload_page(){
     document.location.href = ".";
 }
@@ -421,6 +433,7 @@ function send_ajax_form(elmt){
     form_id = "id_ingredient_form";
     form = $("#" + form_id);
     url = form.attr("action");
+    
     $.ajax({
         type: "POST",
         url: url,
@@ -444,6 +457,12 @@ $(document).ready(function() {
 
     $('.open_modal').click(function(){
         load_ajax_modal($(this));
+    });
+
+    $('#id_main_modal').on('hidden.bs.modal', function(){
+        console.log("destruction")
+        show_ajax_form("");
+        $(this).data('bs.modal', null);
     });
 
     {% if object.mashstep_set.all %}
@@ -479,16 +498,18 @@ $(document).ready(function() {
 
 
 {% endblock js %}
+{% endcomment %}
 
 
 
 {% block extrahead %}
-    <style type="text/css">
-    .error_frame{
-        text-align:left;
-    }
-    .inline_field input[type="text"]{width:30px;}
-    .inline_field select{width:80px}
-    #id_comment{height:70px;width:500px;}
-    </style>
+{# <link rel="stylesheet" href="{% static "fm/css/modal.css" %}?v={% fm_version %}" /> #}
+<style type="text/css">
+.error_frame{
+    text-align:left;
+}
+.inline_field input[type="text"]{width:30px;}
+.inline_field select{width:80px}
+#id_comment{height:70px;width:500px;}
+</style>
 {% endblock extrahead %}

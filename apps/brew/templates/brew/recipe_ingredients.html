@@ -30,7 +30,11 @@
                 <td>
                     {% if can_edit %}
                         {% if ing.malt.is_in_stock and page != "print" %}<span rel="tooltip" title="{% trans "In stock" %}" class="text-success"><i class="fa fa-database"></i></span>{% endif %}
-                        <a href="#" id="malt_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "malt" ing.id %}">
+                        <a 
+                            class="fm-update"
+                            data-fm-head="{{ ing.name }}"
+                            data-fm-callback="reload"
+                            href="{% url "brew_recipe_editingredient" object.id "malt" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({% local_unit "color" ing.color %})
                     {% if can_edit %}</a>{% endif %}
@@ -39,7 +43,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ ing.percent }}%</td>
                 {% if can_edit %}
-                    <td><a href="{% url "brew_recipe_removeingredient" object.id "malt" ing.id %}">{% trans "Delete" %}</a></td>
+                    <td><a class="confirm_delete" href="{% url "brew_recipe_removeingredient" object.id "malt" ing.id %}">{% trans "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {# - - - - - - - - - #}
@@ -56,17 +60,20 @@
                 <td>
                     {% if can_edit %}
                         {% if ing.hop.is_in_stock and page != "print" %}<span rel="tooltip" title="{% trans "In stock" %}" class="text-success"><i class="fa fa-database"></i></span>{% endif %}
-                        <a href="#" id="hop_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
+                        <a 
+                            class="fm-update"
+                            data-fm-head="{{ ing.name }}"
+                            data-fm-callback="reload"
+                            href="{% url "brew_recipe_editingredient" object.id "hop" ing.id %}">
                     {% endif %}
                     {{ ing.name }} ({{ ing.acid_alpha }}%) - {{ ing.get_usage_display }} {{ ing.unit_time }}
                     {% if can_edit %}</a>{% endif %}
-
                 </td>
                 <td>{% trans "Hop" %}</td>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ ing.ibu|floatformat:1 }} IBU</td>
                 {% if can_edit %}
-                    <td><a href="{% url "brew_recipe_removeingredient" object.id "hop" ing.id %}">{% trans "Delete" %}</a></td>
+                    <td><a class="confirm_delete" href="{% url "brew_recipe_removeingredient" object.id "hop" ing.id %}">{% trans "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {# - - - - - - - - - #}
@@ -80,7 +87,12 @@
                     {% local_unit "hop" ing.amount 0 %}
                 </td>
                 <td>
-                    {% if can_edit %}<a href="#" id="misc_{{ ing.id }}" class="open_modal" data-url="{% url "brew_recipe_editingredient" object.id "misc" ing.id %}">
+                    {% if can_edit %}
+                        <a 
+                            class="fm-update"
+                            data-fm-head="{{ ing.name }}"
+                            data-fm-callback="reload"
+                            href="{% url "brew_recipe_editingredient" object.id "misc" ing.id %}">
                     {% endif %}
                     {{ ing.name }} - {{ ing.get_use_in_display }} {{ ing.time }} {{ ing.time_unit }}
                     {% if can_edit %}</a>{% endif %}
@@ -89,7 +101,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>---</td>
                 {% if can_edit %}
-                    <td><a href="{% url "brew_recipe_removeingredient" object.id "misc" ing.id %}">{% trans "Delete" %}</a></td>
+                    <td><a class="confirm_delete" href="{% url "brew_recipe_removeingredient" object.id "misc" ing.id %}">{% trans "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {# - - - - - - - - - #}
@@ -103,7 +115,12 @@
                     {% trans "Yeast" %}
                 </td>
                 <td>
-                    {% if can_edit %}<a href="#" id="yeast_{{ ing.id }}" class="open_modal" data-toggle="modal" data-url="{% url "brew_recipe_editingredient" object.id "yeast" ing.id %}">
+                    {% if can_edit %}
+                        <a 
+                            class="fm-update"
+                            data-fm-head="{{ ing.name }}"
+                            data-fm-callback="reload"
+                            href="{% url "brew_recipe_editingredient" object.id "yeast" ing.id %}">
                     {% endif %}
                     {{ ing.product_id }} {{ ing.name }} - {{ ing.laboratory }}
                     {% if can_edit %}</a>{% endif %}
@@ -112,7 +129,7 @@
                 <td>{{ forloop.counter }}</td>
                 <td>-</td>
                 {% if can_edit %}
-                    <td><a href="{% url "brew_recipe_removeingredient" object.id "yeast" ing.id %}">{% trans "Delete" %}</a></td>
+                    <td><a class="confirm_delete" href="{% url "brew_recipe_removeingredient" object.id "yeast" ing.id %}">{% trans "Delete" %}</a></td>
                 {% endif %}
             </tr>
             {# - - - - - - - - - #}
