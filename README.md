@@ -1,4 +1,4 @@
-Zython 2.1.0
+Zython 2.1.1
 =============
 
 [http://zython.me](http://zython.me)
