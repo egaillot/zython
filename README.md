@@ -1,5 +1,5 @@
-Zython 1.2.2
-============
+Zython 2.0.14
+=============
 
 [http://zython.me](http://zython.me)
 
@@ -30,6 +30,7 @@ Equivalents
 
 (ceux que je connais) 
 
+ * http://joliebulle.tuxfamily.org/ (français et python (y))
  * http://hopville.com/
  * http://beerrecipes.org/
  * http://beersmith.com/
@@ -47,9 +48,7 @@ Vous pouvez tout simplement en parler à des brasseurs qui pourraient être int�
 TODO (liste des choses à faire)
 ===============================
 
- * Lors d'un ajout d'ingrédient, accéder au formulaire "avancé" automatiquement
- * Dupliquer une recette
- * Améliorer l'alimentation des données ingrédients (proposition d'ajout de malt, houblon etc...)
+ * Ecrire des tests automatiques (bouh)
  * Ajout d'eau dans la recette à n'importe quel moment
  * Ajout de grain pendant l'ébullition
  * Ajout d'épice pendant l'empattage

@@ -1,4 +1,3 @@
-
 -- 2015-09-25
 ALTER TABLE "brew_malt" ADD "stock_user_id" integer REFERENCES "auth_user" ("id");
 ALTER TABLE "brew_malt" ADD "stock_added" datetime;
