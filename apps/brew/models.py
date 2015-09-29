@@ -133,6 +133,7 @@ class Recipe(models.Model):
     evaporation_rate = models.DecimalField(_('Evaporation rate'), max_digits=5, decimal_places=2, help_text="%", default="8")
     grain_temperature = models.DecimalField(_('Grain temperature'), max_digits=3, decimal_places=1, default="22")
     forked_from = models.ForeignKey('self', null=True, blank=True)
+    last_destock_datetime = models.DateTimeField(null=True, blank=True)
 
     objects = RecipeManager()
 
@@ -151,6 +152,7 @@ class Recipe(models.Model):
         new_recipe.pk = None
         new_recipe.user = user
         new_recipe.forked_from = this_recipe
+        new_recipe.last_destock_datetime = None
         new_recipe.save()
         reversed_relations = ("recipemalt_set", "recipehop_set", "recipeyeast_set", "mashstep_set", "recipemisc_set")
         for rel in reversed_relations:

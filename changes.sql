@@ -16,6 +16,8 @@ ALTER TABLE "brew_recipemalt" ADD "malt_id" integer REFERENCES "brew_malt" ("id"
 ALTER TABLE "brew_recipehop" ADD "hop_id" integer REFERENCES "brew_hop" ("id");
 ALTER TABLE "brew_recipeyeast" ADD "yeast_id" integer REFERENCES "brew_yeast" ("id");
 
+ALTER TABLE "brew_recipe" ADD "last_destock_datetime" datetime;
+    
 
 CREATE INDEX "brew_malt_20fc80c7" ON "brew_malt" ("stock_user_id");
 CREATE INDEX "brew_hop_20fc80c7" ON "brew_hop" ("stock_user_id");

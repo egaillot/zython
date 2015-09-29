@@ -167,7 +167,18 @@
     <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
 
         {% if object.has_stock_ingredients %}
-            <a data-url="{% url "brew_recipe_destock" object.pk %}" href="#" class="btn btn-block btn-success open_modal">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>            
+            <a
+                class="fm-update btn btn-block btn-success {% if object.last_destock_datetime %}disabled{% endif %}"
+                data-fm-head="{% trans "Destock" %}"
+                data-fm-callback="trigger" 
+                href="{% url "brew_recipe_destock" object.pk %}">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>
+                
+            {% if object.last_destock_datetime %}
+                <p class="text-muted small text-center">
+                    {% trans "Last destock date :" %}
+                    <strong>{{ object.last_destock_datetime }}</strong>
+                </p>
+            {% endif %}
             <hr>
         {% endif %}
 
@@ -340,21 +351,14 @@
 <script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
 
 <script type="text/javascript">
-
-    function trigger(){
-        alert("pypypypyp")
-    }
-
     $(function() {
         $.fm({debug: true});
-
         $('.select-hop').click(function(){
             $("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
         });
         $('.select-malt').click(function(){
             $("#id_color").val($(this).attr("data-color"));
         });
-
         $(document).on("click", ".add-this-ingredient", function(){
             json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
             populate($("#id_ingredient_form"), json_object[0]["fields"]);
@@ -363,6 +367,29 @@
                 $(".ingredient_form input").filter(':visible:first').focus();
             });
         });
+
+        {% if object.mashstep_set.all %}
+            minutes_array = Array();
+            for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
+            var datas = {{ object.get_mash_schedule }};
+
+            $.plot("#placeholder", [ minutes_array, datas], {
+                yaxis: {
+                    tickFormatter: function (v) {return v + " °C";}
+                },
+                xaxis: {
+                    tickFormatter: function (v) {return v + " min";}
+                },
+                grid: {
+                    backgroundColor: "#fff",
+                    borderColor: "#DDD"
+                },
+                series: {
+                    lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
+                },
+                colors: ["#31558d"],
+            });
+        {% endif %}
 
     });
 </script>    

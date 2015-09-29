@@ -1,4 +1,11 @@
+from datetime import datetime
+
+from django import http
+from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView
+from django.contrib import messages
+
+from fm.views import JSONResponseMixin
 
 from stocks.choices import INGREDIENTS_DICT
 from .base import RecipeAuthorMixin, SLUG_MODELROOT
@@ -7,7 +14,7 @@ from .base import RecipeAuthorMixin, SLUG_MODELROOT
 __all__ = ("RecipeDestockView", )
 
 
-class RecipeDestockView(RecipeAuthorMixin, DetailView):
+class RecipeDestockView(RecipeAuthorMixin, JSONResponseMixin, DetailView):
     template_name = "brew/recipe_destock.html"
 
     def previsionnal_stocks_ingredient(self, ingredient_slug):
@@ -39,11 +46,31 @@ class RecipeDestockView(RecipeAuthorMixin, DetailView):
             datas.append(data)
         return datas
 
-    def get_context_data(self, **kwargs):
-        context = super(RecipeDestockView, self).get_context_data(**kwargs)
-        self.object = self.get_object()
+    def previsionnal_stocks(self):
         ingredients = {}
         for k in INGREDIENTS_DICT.iterkeys():
             ingredients["%ss" % k] = self.previsionnal_stocks_ingredient(k)
-        context["ingredients"] = ingredients
+        return ingredients
+
+    def get_context_data(self, **kwargs):
+        context = super(RecipeDestockView, self).get_context_data(**kwargs)
+        self.object = self.get_object()
+        context["ingredients"] = self.previsionnal_stocks()
         return context
+
+    def post(self, *args, **kwargs):
+        self.object = self.get_object()
+
+        for k, v in self.previsionnal_stocks().items():
+            if v:
+                for data in v:
+                    stocked_ingredient = data["object"]
+                    stocked_ingredient.stock_amount = data["remaining_amount"]
+                    stocked_ingredient.save()
+        self.object.last_destock_datetime = datetime.now()
+        self.object.save()
+        messages.success(self.request, _("Your stock has been adjusted"))
+        url = self.object.get_absolute_url()
+        if self.request.is_ajax():
+            return self.render_json_response({'status': 'redirect', 'message': "<script>window.location='%s'</script>" % url})
+        return http.HttpResponseRedirect(url)
