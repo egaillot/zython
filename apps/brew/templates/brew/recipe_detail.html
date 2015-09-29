@@ -147,7 +147,7 @@
         {% if can_edit %}
             <div class="pull-right">
                 {% if object.recipemalt_set.all and object.recipehop_set.all and not object.mashstep_set.all %}
-                    <span class="popover-menu" tabindex="0" data-trigger="focus" type="button" data-container="body" title="{% trans "Let's finish this" %}" data-toggle="popover" data-placement="left" data-content="{% trans "Fine ! Now let's define our mash steps" %}."></span>                
+                    <span class="popover-menu" tabindex="0" data-trigger="focus" type="button" data-container="body" title="{% trans "Don't forget your mashsteps" %}" data-toggle="popover" data-placement="left" data-content="{% trans "When your recipe will look delicious, don't forget to add your mashstep." %}." ></span>                
                 {% endif %}
 
                 <a 
@@ -186,7 +186,7 @@
               <div class="panel-heading">
                     <h3 class="panel-title">
                     <i class="glyphicon glyphicon-tasks"></i>
-                    {% trans "Indicateurs" %}</h3>
+                    {% trans "Indicators" %}</h3>
               </div>
               <div class="panel-body">
                 <b>{{ object.get_recipe_type_display }}</b> - 
@@ -345,28 +345,32 @@
 
 
 {% block js %}
+<script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
+
+{% if can_edit %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
+<script type="text/javascript">
+$(function() {
+    $.fm();
+    $(".popover-menu").popover('show');
+    $(".btn, a").on("click", function(){$(".popover-menu").popover('hide');});
+    $(document).on("click", ".add-this-ingredient", function(){
+        json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
+        populate($("#id_ingredient_form"), json_object[0]["fields"]);
+        $(".ingredient_list").fadeOut(function(){
+            $(".ingredient_form").removeClass("hide");
+            $(".ingredient_form input").filter(':visible:first').focus();
+        });
+    });
+});
+</script>
+{% endif %}
 
 <script type="text/javascript">
     $(function() {
-        $.fm({debug: true});
-        $('.select-hop').click(function(){
-            $("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
-        });
-        $('.select-malt').click(function(){
-            $("#id_color").val($(this).attr("data-color"));
-        });
-        $(document).on("click", ".add-this-ingredient", function(){
-            json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
-            populate($("#id_ingredient_form"), json_object[0]["fields"]);
-            $(".ingredient_list").fadeOut(function(){
-                $(".ingredient_form").removeClass("hide");
-                $(".ingredient_form input").filter(':visible:first').focus();
-            });
-        });
+        
 
         {% if object.mashstep_set.all %}
             minutes_array = Array();
@@ -395,142 +399,8 @@
 </script>    
 {% endblock js %}
 
-{% comment %}
-    
-{% block js %}
-{% if can_edit %}
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
-    <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function() { 
-        $(".popover-menu").popover('show');
-        $(document).on("click", ".btn",  function(){
-            $(".popover-menu").popover('hide');
-        });
-
-        $(document).on("keypress", "#id_ingredient_form input", function(e){
-            if(e.keyCode == 13) {
-                $("#model_edit_submit").click()
-                e.preventDefault();
-            }
-        });
-
-        $('.select-hop').click(function(){
-            $("#id_acid_alpha").val($(this).attr("data-acid-alpha"));
-        });
-        $('.select-malt').click(function(){
-            $("#id_color").val($(this).attr("data-color"));
-        });
-
-        $(document).on("click", ".add-this-ingredient", function(){
-            json_object = jQuery.parseJSON($(this).parent().parent().attr("data-json-object"));
-            populate($("#id_ingredient_form"), json_object[0]["fields"]);
-            $(".ingredient_list").fadeOut(function(){
-                $(".ingredient_form").removeClass("hide");
-                $(".ingredient_form input").filter(':visible:first').focus();
-            });
-        });
-    });
-</script>
-{% endif %}
-<script type="text/javascript">
-
-function reload_page(){
-    document.location.href = ".";
-}
-
-function show_ajax_form(html){
-    $("#xhr_content").html(html);
-}
-
-function load_ajax_modal(elmt){
-    $("#id_main_modal h4").text(elmt.text());
-    data_url = elmt.attr('data-url');
-    $.get(data_url, function(html){
-        show_ajax_form(html);
-        $("#id_main_modal").modal("show");
-        $("#model_edit_submit").click(function(){
-            send_ajax_form();
-        });
-    });
-}
-
-function send_ajax_form(elmt){
-    form_id = "id_ingredient_form";
-    form = $("#" + form_id);
-    url = form.attr("action");
-    
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: $('#' + form_id).serialize(),
-        success: function(data, textStatus, xhr){
-            new_location = xhr.getResponseHeader('Location');
-            if (new_location){
-                document.location.href = new_location;
-            }
-            if (xhr.status == 202){
-                reload_page();
-            }
-            if (xhr.status == 200){
-                show_ajax_form(data);
-            }
-        }
-    });
-}
-
-$(document).ready(function() { 
-
-    $('.open_modal').click(function(){
-        load_ajax_modal($(this));
-    });
-
-    $('#id_main_modal').on('hidden.bs.modal', function(){
-        console.log("destruction")
-        show_ajax_form("");
-        $(this).data('bs.modal', null);
-    });
-
-    {% if object.mashstep_set.all %}
-        $(function() {
-            minutes_array = Array();
-            for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
-            var datas = {{ object.get_mash_schedule }};
-
-            $.plot("#placeholder", [ minutes_array, datas], {
-                yaxis: {
-                    tickFormatter: function (v) {return v + " °C";}
-                },
-                xaxis: {
-                    tickFormatter: function (v) {return v + " min";}
-                },
-                grid: {
-                    backgroundColor: "#fff",
-                    borderColor: "#DDD"
-                },
-                series: {
-                    lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
-                },
-                colors: ["#31558d"],
-            });
-        });
-    {% endif %}
-});
-</script>
-
-
-
-
-
-
-{% endblock js %}
-{% endcomment %}
-
-
 
 {% block extrahead %}
-{# <link rel="stylesheet" href="{% static "fm/css/modal.css" %}?v={% fm_version %}" /> #}
 <style type="text/css">
 .error_frame{
     text-align:left;

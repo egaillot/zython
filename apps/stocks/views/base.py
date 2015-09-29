@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from brew.models import Malt, Hop, Yeast
 from units.views import UnitViewFormMixin
 # from ..models import StockHop, StockMalt, StockYeast
-from ..forms import StockMaltForm, StockHopForm
+from ..forms import StockMaltForm, StockHopForm, StockYeastForm
 from ..choices import INGREDIENT_MALT, INGREDIENT_HOP, INGREDIENT_YEAST, INGREDIENTS_DICT
 
 
@@ -19,13 +19,13 @@ SLUG_MODELS = {
 SLUG_FORMS = {
     INGREDIENT_MALT: StockMaltForm,
     INGREDIENT_HOP: StockHopForm,
-    INGREDIENT_YEAST: object
+    INGREDIENT_YEAST: StockYeastForm
 }
 
 FORMS_SPLIT_COLUMS = {
     INGREDIENT_MALT: 4,
     INGREDIENT_HOP: 4,
-    INGREDIENT_YEAST: 1
+    INGREDIENT_YEAST: 12
 }
 
 

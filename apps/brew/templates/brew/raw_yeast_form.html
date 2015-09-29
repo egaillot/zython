@@ -20,7 +20,14 @@
                         <span class="glyphicon glyphicon-plus"></span>
                     </a>
                 </td>
-                <td>{{ yeast.name }}</td>
+                <td>
+                    {% if yeast.stock_user == request.user %}
+                        <span class="text-success"><i class="fa fa-database"></i>
+                        ({% trans "In stock" %}:
+                        {{ yeast.stock_amount }})</span>
+                    {% endif %}
+                    {{ yeast.name }}
+                </td>
                 <td>{{ yeast.laboratory }}</td>
                 <td>{{ yeast.product_id }}</td>
                 <td>{{ yeast.get_yeast_type_display }}</td>
@@ -33,6 +40,7 @@
 
 
 {% block form_content %}
+{% addFormField form.yeast_id %}
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         {% addFormField form.name %}

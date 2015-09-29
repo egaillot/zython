@@ -32,3 +32,22 @@ class StockHopForm(BaseStockFormMixin, BS3FormMixin, UnitModelForm):
             'stock_amount', 'name', 'origin', 'form',
             'hop_type', 'acid_alpha', 'notes',
         )
+
+
+class StockYeastForm(BaseStockFormMixin, BS3FormMixin, forms.ModelForm):
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(StockYeastForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Yeast
+        fields = (
+            'stock_amount', 'name', 'laboratory',
+            'product_id', 'min_attenuation', 'max_attenuation',
+            'min_temperature', 'max_temperature',
+            'form',
+            'yeast_type', 'flocculation',
+            
+            'notes',
+        )

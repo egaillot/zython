@@ -2,18 +2,16 @@
 
 <form action="{{ request.path }}" method="POST" id="id_ingredient_form" class="form-horizontal">{% csrf_token %}
     <div class="well">
-        {% blocktrans %}
-            After you click [OK], your stock will be adjusted. 
-        {% endblocktrans %}
+        {% trans "After you click [OK], your stock will be adjusted. " %}
     </div>
     
     <table class="table">
         <thead>
             <tr>
-                <th>Ingrédient</th>
-                <th class="text-right">Stock initial</th>
-                <th class="text-right">Quantité utilisée</th>
-                <th class="text-right">Stock restant</th>
+                <th>{% trans "Ingredient" %}</th>
+                <th class="text-right">{% trans "Initial stock" %}</th>
+                <th class="text-right">{% trans "Used quantity" %}</th>
+                <th class="text-right">{% trans "Remaining stock" %}</th>
             </tr>
         </thead>
         <tbody>
@@ -24,7 +22,7 @@
                         {{ ingredient.object }}
                         {% if ingredient.errors == True %}
                             <br>
-                            <span class="text-danger">(Il semblerait que le stock soit insuffisant)</span>
+                            <span class="text-danger">({% trans "Your stock isn't suffisent, you can go still ahead at your own risk." %})</span>
                         {% endif %}
                     </td>
                     <td class="text-right">
@@ -69,7 +67,6 @@
                 </tr>
             {% endfor %}
         {% endfor %}
-            
         </tbody>
     </table>
 </form>

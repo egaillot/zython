@@ -98,7 +98,6 @@ class BaseStockModel(models.Model):
     stock_added = models.DateTimeField(null=True, blank=True)
 
     def is_in_stock(self):
-        return "YOUPI"
         return self.stock_user is not None and self.stock_amount > 0
 
     class Meta:
@@ -129,6 +128,12 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     def __unicode__(self):
         return _(u"Malt %s") % self.name
 
+    def stock_repr(self):
+        return u"%s (%s)" % (
+            self.name,
+            self.origin
+        )
+
     @property
     def copy_fields(self):
         return (
@@ -156,6 +161,13 @@ class BaseHop(models.Model, BaseIngredientMixin):
     def __unicode__(self):
         return _(u"Hop %s") % self.name
 
+    def stock_repr(self):
+        return u"%s %s%% (%s)" % (
+            self.name,
+            self.acid_alpha,
+            self.origin
+        )
+
     class Meta:
         abstract = True
 
@@ -164,11 +176,11 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     name = models.CharField(_('Name'), max_length=100)
     laboratory = models.CharField(_('Lab'), max_length=100)
     product_id = models.CharField(_('Product id'), max_length=100)
-    yeast_type = models.CharField(_('Type'), choices=YEAST_TYPE_CHOICES, max_length=50)
-    form = models.CharField(_('Form'), choices=YEAST_FORM_CHOICES, max_length=50)
-    flocculation = models.CharField(_('Flocculation'), choices=YEAST_FLOCCULATION_CHOICES, max_length=50)
-    min_attenuation = models.DecimalField(_('Min attenuation'), max_digits=5, decimal_places=2)
-    max_attenuation = models.DecimalField(_('Max attenuation'), max_digits=5, decimal_places=2)
+    yeast_type = models.CharField(_('Type'), choices=YEAST_TYPE_CHOICES, max_length=50, default="ale")
+    form = models.CharField(_('Form'), choices=YEAST_FORM_CHOICES, max_length=50, default="dry")
+    flocculation = models.CharField(_('Flocculation'), choices=YEAST_FLOCCULATION_CHOICES, max_length=50, default="2")
+    min_attenuation = models.DecimalField(_('Min attenuation'), max_digits=5, decimal_places=2, default=72)
+    max_attenuation = models.DecimalField(_('Max attenuation'), max_digits=5, decimal_places=2, default=73)
     min_temperature = models.DecimalField(_('Min temperature'), max_digits=4, decimal_places=1, default=15)
     max_temperature = models.DecimalField(_('Max temperature'), max_digits=4, decimal_places=1, default=25)
     best_for = models.TextField(_('Best for'), null=True, blank=True)
@@ -178,6 +190,14 @@ class BaseYeast(models.Model, BaseIngredientMixin):
 
     def __unicode__(self):
         return _(u"Yeast %s") % self.name
+
+    def stock_repr(self):
+        return u"%s %s %s (%s)" % (
+            self.name,
+            self.laboratory,
+            self.product_id,
+            self.get_form_display()
+        )
 
     def attenuation(self):
         return (self.min_attenuation + self.max_attenuation) / 2

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse
-from public.utils.views import AjaxFormViewMixin
+
+from fm.views import AjaxCreateView, AjaxUpdateView
+
 from .base import BaseStockMixin, BaseIngredientViewMixin, BaseStockIngredientFormMixin
 
 
@@ -18,12 +20,12 @@ class StockIngredientView(BaseStockMixin, BaseIngredientViewMixin, ListView):
 
 
 class StockIngredientAddView(BaseIngredientViewMixin, BaseStockIngredientFormMixin,
-                             BaseStockMixin, AjaxFormViewMixin, CreateView):
+                             BaseStockMixin, AjaxCreateView):
     pass
 
 
 class StockIngredientUpdateView(BaseIngredientViewMixin, BaseStockIngredientFormMixin,
-                                BaseStockMixin, AjaxFormViewMixin, UpdateView):
+                                BaseStockMixin, AjaxUpdateView):
     pass
 
 

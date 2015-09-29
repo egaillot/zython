@@ -116,6 +116,8 @@
                 </td>
                 <td>
                     {% if can_edit %}
+                        {% if ing.yeast.is_in_stock and page != "print" %}<span rel="tooltip" title="{% trans "In stock" %}" class="text-success"><i class="fa fa-database"></i></span>{% endif %}
+
                         <a 
                             class="fm-update"
                             data-fm-head="{{ ing.name }}"

@@ -13,13 +13,6 @@ __all__ = (
 )
 
 
-def filter_ingredient_by_stock(qs, user):
-    return qs.filter(
-        Q(stock_user__isnull=True) |
-        Q(stock_user=user, stock_amount__gt=0)
-    ).order_by("-stock_user")
-
-
 def style_choices(qs_kwargs={}):
     old_number = 0
     item = ("", "-------")
@@ -104,7 +97,7 @@ class RecipeMaltForm(RecipeIngredientForm):
     addition_stock_field = ["malt", Malt]
 
     def get_ingredient_list(self):
-        return filter_ingredient_by_stock(Malt.objects.all(), self.request.user)
+        return Malt.objects.all().public_and_stocked(self.request.user)
 
     class Meta:
         model = RecipeMalt
@@ -121,7 +114,7 @@ class RecipeHopForm(RecipeIngredientForm):
     addition_stock_field = ["hop", Hop]
 
     def get_ingredient_list(self):
-        return filter_ingredient_by_stock(Hop.objects.all(), self.request.user)
+        return Hop.objects.all().public_and_stocked(self.request.user)
 
     def clean(self):
         data = self.cleaned_data
@@ -158,7 +151,7 @@ class RecipeYeastForm(RecipeIngredientForm):
     addition_stock_field = ["yeast", Yeast]
 
     def get_ingredient_list(self):
-        return Yeast.objects.all()
+        return Yeast.objects.all().public_and_stocked(self.request.user)
 
     class Meta:
         model = RecipeYeast

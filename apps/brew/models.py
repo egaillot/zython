@@ -658,6 +658,11 @@ class RecipeYeast(UpdateRecipeModel, BaseYeast):
     recipe = models.ForeignKey('Recipe')
     yeast = models.ForeignKey(Yeast, null=True, blank=True)
 
+    @property
+    def amount(self):
+        # Used for stock compatibility
+        return 1
+
 
 class RecipeMisc(UpdateRecipeModel, BaseMisc):
     recipe = models.ForeignKey('Recipe')
