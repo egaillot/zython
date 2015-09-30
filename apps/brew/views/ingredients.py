@@ -31,6 +31,9 @@ class IngredientFormMixin(RecipeAuthorMixin, FormViewWithRequestMixin):
     def get_form_class(self):
         return SLUG_MODELFORM[self.kwargs["ingredient"]]
 
+    def get_success_url(self):
+        return self.recipe.get_absolute_url()
+
     def get_form_kwargs(self):
         kwargs = super(IngredientFormMixin, self).get_form_kwargs()
         kwargs["instance"] = self.get_instance()

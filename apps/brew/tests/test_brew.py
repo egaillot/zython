@@ -80,6 +80,12 @@ class RecipeTest(TestCase):
         self.recipe.save()
         self.recipe = Recipe.objects.get(pk=self.recipe.pk)
 
+    def is_ajax_response_correct(self, response):
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response._headers["content-type"], ('Content-Type', 'application/json'))
+        json_response = json.loads(response.content)
+        self.assertEqual(json_response["status"], "ok")
+
     def test_1_malt(self):
         malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
         url_addition = reverse(
@@ -92,26 +98,22 @@ class RecipeTest(TestCase):
             "color": malt.color
         })
 
-
         # Test with anonymous client
-        c = self.client
+        c = Client()
         response = c.post(url_addition, datas)
         self.assertEqual(response.status_code, 302)
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas)
-
-        self.assertEqual(response.status_code, 202)
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
         # Add another caramel malt
         c = self.i18n_client('fr', c)
         datas['amount'] = "2"
         datas['color'] = "150"
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
-
-        self.reload_recipe()
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
         # Do we have 2 Malts ?
         self.assertEqual(self.recipe.recipemalt_set.all().count(), 2)
@@ -149,22 +151,20 @@ class RecipeTest(TestCase):
         }
 
         # Test with anonymous client
-        c = self.client
+        c = Client()
         response = c.post(url_addition, datas)
         self.assertEqual(response.status_code, 302)
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
         # Add aroma hop
         c = self.i18n_client('fr', c)
         datas['boil_time'] = "12"
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
-
-        self.reload_recipe()
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
         # Do we have 2 Hops ?
         self.assertEqual(self.recipe.recipehop_set.all().count(), 2)
@@ -192,14 +192,14 @@ class RecipeTest(TestCase):
             "misc_id": misc.id
         })
         # Test with anonymous client
-        c = self.client
+        c = Client()
         response = c.post(url_addition, datas)
         self.assertEqual(response.status_code, 302)
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
     def test_4_yeast(self):
         yeast = Yeast.objects.filter(
@@ -211,14 +211,14 @@ class RecipeTest(TestCase):
             "yeast_id": yeast.id
         })
         # Test with anonymous client
-        c = self.client
+        c = Client()
         response = c.post(url_addition, datas)
         self.assertEqual(response.status_code, 302)
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
+        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.is_ajax_response_correct(response)
 
         # Do we have 1 yeast ?
         self.assertEqual(self.recipe.recipeyeast_set.all().count(), 1)
@@ -287,14 +287,14 @@ class RecipeTest(TestCase):
         datas = malt.python_dict()["fields"]
         datas["amount"] = "8"
         c = self.get_logged_client()
-        response = c.post(url_addition, datas)
-        self.assertEqual(response.status_code, 202)
+        c.post(url_addition, datas)
 
         # In the detail page, we must have the 'edit_ingredient' link
         recipe = self.recipe
         response = client.get(recipe.get_absolute_url())
-        self.assertContains(response, 'data-url="/recipe/1/edit/malt/1/"')
+        check_string = 'href="/recipe/1/edit/malt/1/"'
+        self.assertContains(response, check_string)
 
         # In the detail page, we do not get the 'edit_ingredient' link
         response = client.get(reverse('brew_recipe_print', args=[recipe.id, ]))
-        self.assertNotContains(response, 'data-url="/recipe/1/edit/malt/1/"')
+        self.assertNotContains(response, check_string)

@@ -28,6 +28,9 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = "auth.User"
 
+TEST_RUNNER = "zython.test_runner.ZythonTestRunner"
+
+
 # Application definition
 
 INSTALLED_APPS = (
