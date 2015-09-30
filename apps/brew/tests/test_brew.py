@@ -1,14 +1,13 @@
-import json
-from time import sleep
 from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from brew.models import *
 from public.utils import show_in_browser
+from public.utils.testing import AjaxCallsTestCaseBase
 
 
-class RecipeTest(TestCase):
+class RecipeTest(AjaxCallsTestCaseBase, TestCase):
     user_info = {'username': 'martyn',
                  'password': 'magicpony',
                  'email': 'martyn@example.com'}
@@ -64,22 +63,6 @@ class RecipeTest(TestCase):
         client.post('/i18n/setlang/', {'language': language})
         return client
 
-    def reload_recipe(self):
-        # This hack is used to get a fresh cache_key
-        # Tests are faster than user, the cachekey is a datetime
-        # multiple datas can be saved in the same second in tests.
-        # I consider modifying the cache_key system to have a unique
-        # key each time the object is saved.
-        sleep(0.5)
-        self.recipe.save()
-        self.recipe = Recipe.objects.get(pk=self.recipe.pk)
-
-    def is_ajax_response_correct(self, response):
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response._headers["content-type"], ('Content-Type', 'application/json'))
-        json_response = json.loads(response.content)
-        self.assertEqual(json_response["status"], "ok")
-
     def test_1_malt(self):
         malt = Malt.objects.filter(name__icontains="Maris Otter")[0]
         url_addition = reverse(
@@ -99,14 +82,14 @@ class RecipeTest(TestCase):
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
         # Add another caramel malt
         c = self.i18n_client('fr', c)
         datas['amount'] = "2"
         datas['color'] = "150"
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
         # Do we have 2 Malts ?
@@ -151,13 +134,13 @@ class RecipeTest(TestCase):
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
         # Add aroma hop
         c = self.i18n_client('fr', c)
         datas['boil_time'] = "12"
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
         # Do we have 2 Hops ?
@@ -192,7 +175,7 @@ class RecipeTest(TestCase):
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
     def test_4_yeast(self):
@@ -211,7 +194,7 @@ class RecipeTest(TestCase):
 
         # Test with logged in client
         c = self.get_logged_client()
-        response = c.post(url_addition, datas, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = c.post(url_addition, datas, **self.ajax_post_kwargs())
         self.is_ajax_response_correct(response)
 
         # Do we have 1 yeast ?

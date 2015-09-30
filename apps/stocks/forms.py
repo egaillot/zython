@@ -48,6 +48,5 @@ class StockYeastForm(BaseStockFormMixin, BS3FormMixin, forms.ModelForm):
             'min_temperature', 'max_temperature',
             'form',
             'yeast_type', 'flocculation',
-            
             'notes',
         )
