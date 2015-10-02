@@ -1106,7 +1106,7 @@ msgid ""
 "          "
 msgstr ""
 "\n"
-"          <h2><i class=\"fa fa-file-code-o\"></i><br>Format BeerXml</h5>\n"
+"          <h5><i class=\"fa fa-file-code-o\"></i><br>Format BeerXml</h5>\n"
 "          Importez vos recettes au <br> format BeerXML\n"
 "          "
 
