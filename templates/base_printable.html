@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,7 +11,7 @@
     <!-- Le styles -->
   <link href='http://fonts.googleapis.com/css?family=Averia+Serif+Libre:700' rel='stylesheet' type='text/css'>
 
-    <link href="{{ MEDIA_URL }}css/zython.css" rel="stylesheet">
+    <link href="{% static "css/zython.css" %}" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 10px;

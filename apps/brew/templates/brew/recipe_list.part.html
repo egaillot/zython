@@ -14,12 +14,8 @@
     </thead>
     <tbody>
         {% autopaginate object_list 50 %}
-        {% for object in object_list %}
-        {% include "brew/recipe_list_row.html" %}
-        {% endfor %}
+        {% for object in object_list %}{% include "brew/recipe_list_row.html" %}{% endfor %}
     </tbody>
 </table>
-    {% if object_list %}
-
-{% paginate %}
-    {% endif %}
+{% if object_list %}
+{% paginate %}{% endif %}

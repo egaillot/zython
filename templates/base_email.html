@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n staticfiles %}
 {% spaceless %}
 <body style="padding: 0; margin: 0;">
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
@@ -8,7 +8,7 @@
     <tr>
         <td style="background-color: #2F2F2F;">
             <a style="color:#ffffff; display: block;text-decoration:none;display:block;" href="http://{{ current_site.domain }}">
-              <img alt="Zython" height="55" width="165" src="{{ MEDIA_URL }}images/logo_email.png" style="margin:3px;"/>
+              <img alt="Zython" height="55" width="165" src="{% static "images/logo_email.png" %}" style="margin:3px;"/>
             </a>
         </td>
     </tr>

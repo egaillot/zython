@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.comments',
 
+    "compressor",
     'pagination',
     'account',
     'accounts',
@@ -113,6 +114,12 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleBackend',
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder'
 )
 
 

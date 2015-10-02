@@ -1,4 +1,4 @@
-{% load i18n unit_tags cache %}
+{% load i18n unit_tags cache staticfiles %}
 {% load url from future %}
 
 {% if object.mashstep_set.all %}
@@ -16,7 +16,7 @@
         {% for mash in object.mashstep_set.all %}
             <tr>
                 <td>
-                    <img src="{{ MEDIA_URL }}images/icon_flame.png" alt="Mash step">
+                    <img src="{% static "images/icon_flame.png" %}" alt="Mash step">
                     {{ mash.name }}
                     ({{ mash.get_step_type_display }})
                 </td>
@@ -57,7 +57,7 @@
             {% if forloop.last %}
                 <tr>
                     <td>
-                        <img src="{{ MEDIA_URL }}images/icon_filter.png" alt="Mash step">
+                        <img src="{% static "images/icon_filter.png" %}" alt="Mash step">
                         {% trans "Filtering" %}</td>
                     <td></td>
                     <td></td>
@@ -66,7 +66,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <img src="{{ MEDIA_URL }}images/icon_water.png" alt="Mash step">
+                        <img src="{% static "images/icon_water.png" %}" alt="Mash step">
 
                         {% trans "Fly sparge" %}</td>
                     <td colspan="3">

@@ -1,9 +1,9 @@
 {% extends "base_printable.html" %}
-{% load i18n unit_tags %}
+{% load i18n unit_tags staticfiles %}
 
 {% block content %}
 
-<img class="pull-right" src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:40px;" width="40px" />
+<img class="pull-right" src="{% static "images/beer_colors_50/" %}{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:40px;" width="40px" />
 
 <h1>{% block title %}{{ object.name }}{% endblock title %} <small>- {{ object.style.name }}</small></h1>
 

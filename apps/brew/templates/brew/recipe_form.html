@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n form_tags %}
+{% load i18n form_tags staticfiles %}
 
 
 {% block page %}
@@ -63,7 +63,7 @@
 		</div>
 		
 		<label for="{{ form.private.auto_id }}">
-			<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="">
+			<img src="{% static "images/fugue/lock.png" %}" alt="">
 			{{ form.private }}
 			{{ form.private.label }}
 			<span class="text-muted">{{ form.private.help_text }}</span>

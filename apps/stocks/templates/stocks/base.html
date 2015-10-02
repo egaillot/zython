@@ -29,6 +29,6 @@
 
 {% block js %}
 <script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
-<script src="{{ MEDIA_URL }}js/stocks.js"></script>
+<script src="{% static "js/stocks.js" %}"></script>
 
 {% endblock js %}

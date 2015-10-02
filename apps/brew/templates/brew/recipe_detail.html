@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load i18n unit_tags %}
-{% load fm_tags %}
-{% load static %}
+{% load static staticfiles %}
 {% load comments avatar_tags recipe_tags social_share %}
 {% load url from future %}
 
@@ -23,8 +22,8 @@
     <div class="container">
         {% if object.get_ebc %}
             <div id="gallery" data-toggle="modal-gallery" data-target="#modal-gallery" class="pull-right beer-preview">
-                <a data-toggle="lightbox" data-title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" data-footer="{{ object.zython_advice_color }}" href="{{ MEDIA_URL }}images/beer_colors/{{ object.color_image }}.png">
-                    <img src="{{ MEDIA_URL }}images/beer_colors_50/{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
+                <a data-toggle="lightbox" data-title="{{ object.name }} ({% local_unit "color" object.get_ebc %})" data-footer="{{ object.zython_advice_color }}" href="{% static "images/beer_colors/" %}{{ object.color_image }}.png">
+                    <img src="{% static "images/beer_colors_50/" %}{{ object.color_image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" />
                 </a>
             </div>
         {% endif %}
@@ -35,7 +34,7 @@
                     <a href="{{ object.style.get_absolute_url }}">{{ object.style }}</a>
                 </small>
             {% endif %}
-            {% if object.private %}<img src="{{ MEDIA_URL }}images/fugue/lock.png" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
+            {% if object.private %}<img src="{% static "images/fugue/lock.png" %}" alt="Private" class="tip" title="{% trans "This recipe is private" %}">{% endif %}
         </h1>
         <p><a href="{% url "brew_recipe_user" object.user.username %}">@{{ object.user.username }}</a> - {{ object.created|date }}</p>
     </div>
@@ -118,22 +117,22 @@
               <ul class="dropdown-menu" role="menu">
                 <li>
                     <a class="fm-create" data-fm-head="{% trans "Grain" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "malt" %}">
-                        <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon"> {% trans "Grain" %}
+                        <img src="{% static "images/icon_grain.png" %}" alt="Grain icon"> {% trans "Grain" %}
                     </a>
                 </li>
                 <li>
                     <a class="fm-create" data-fm-head="{% trans "Hop" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "hop" %}">
-                        <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon"> {% trans "Hop" %}
+                        <img src="{% static "images/icon_hop.png" %}" alt="Hop icon"> {% trans "Hop" %}
                     </a>
                 </li>
                 <li>
                     <a class="fm-create" data-fm-head="{% trans "Misc" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "misc" %}">
-                        <img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;{% trans "Misc" %}
+                        <img src="{% static "images/icon_misc.png" %}" alt="Misc icon">&nbsp;{% trans "Misc" %}
                     </a>
                 </li>
                 <li>
                     <a class="fm-create" data-fm-head="{% trans "Yeast" %}" data-fm-callback="reload" href="{% url "brew_recipe_addingredient" recipe.id "yeast" %}">
-                        <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a>
+                        <img src="{% static "images/icon_yeast.png" %}" alt="Yeast icon">&nbsp;{% trans "Yeast" %}</a>
                     </li>
               </ul>
             </div>
@@ -336,7 +335,6 @@
 
 {% endblock inner_content %}
 
-{% include "fm/modal.html" %}
 {% endblock content %}
 
 
@@ -345,15 +343,13 @@
 
 
 {% block js %}
-<script type="text/javascript" src="{% static "fm/js/fm.js" %}?v={% fm_version %}"></script>
 
 {% if can_edit %}
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.quicksearch.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.form.js"></script>
-<script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="{% static "js/jquery.quicksearch.js" %}"></script>
+<script type="text/javascript" src="{% static "js/jquery.form.js" %}"></script>
+<script type="text/javascript" src="{% static "js/jquery.dataTables.min.js" %}"></script>
 <script type="text/javascript">
 $(function() {
-    $.fm();
     $(".popover-menu").popover('show');
     $(".btn, a").on("click", function(){$(".popover-menu").popover('hide');});
     $(document).on("click", ".add-this-ingredient", function(){
@@ -368,35 +364,31 @@ $(function() {
 </script>
 {% endif %}
 
-<script type="text/javascript">
+{% if object.mashstep_set.all and page == "detail" %}
+    <script type="text/javascript">
     $(function() {
-        
-
-        {% if object.mashstep_set.all %}
-            minutes_array = Array();
-            for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
-            var datas = {{ object.get_mash_schedule }};
-
-            $.plot("#placeholder", [ minutes_array, datas], {
-                yaxis: {
-                    tickFormatter: function (v) {return v + " °C";}
-                },
-                xaxis: {
-                    tickFormatter: function (v) {return v + " min";}
-                },
-                grid: {
-                    backgroundColor: "#fff",
-                    borderColor: "#DDD"
-                },
-                series: {
-                    lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
-                },
-                colors: ["#31558d"],
-            });
-        {% endif %}
-
+        minutes_array = Array();
+        for (var i=0 ; i < {{ object.get_total_mash_time }} + 1; i++) {minutes_array.push(i)};
+        var datas = {{ object.get_mash_schedule }};
+        $.plot("#placeholder", [ minutes_array, datas], {
+            yaxis: {
+                tickFormatter: function (v) {return v + " °C";}
+            },
+            xaxis: {
+                tickFormatter: function (v) {return v + " min";}
+            },
+            grid: {
+                backgroundColor: "#fff",
+                borderColor: "#DDD"
+            },
+            series: {
+                lines: { show: true, fill: true, fillColor: "rgba(49, 85, 141, 0.1)", lineWidth: 1 },
+            },
+            colors: ["#31558d"],
+        });
     });
-</script>    
+    </script>    
+{% endif %}
 {% endblock js %}
 
 

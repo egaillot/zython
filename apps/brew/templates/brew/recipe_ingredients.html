@@ -1,4 +1,4 @@
-{% load i18n unit_tags cache %}
+{% load i18n unit_tags cache staticfiles %}
 {% load url from future %}
 
 
@@ -24,7 +24,7 @@
             {# --- M A L T S --- #}
             <tr>
                 <td>
-                    <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="Grain icon">&nbsp;
+                    <img src="{% static "images/icon_grain.png" %}" alt="Grain icon">&nbsp;
                     {% local_unit "weight" ing.amount 0 %}
                 </td>
                 <td>
@@ -54,7 +54,7 @@
             {# --- H O P S --- #}
             <tr>
                 <td>
-                    <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="Hop icon">&nbsp;
+                    <img src="{% static "images/icon_hop.png" %}" alt="Hop icon">&nbsp;
                     {% local_unit "hop" ing.amount 0 %}
                 </td>
                 <td>
@@ -83,7 +83,7 @@
         {% if "misc" in ing.cls_name %}
             {# --- M I S C S --- #}
             <tr>
-                <td><img src="{{ MEDIA_URL }}images/icon_misc.png" alt="Misc icon">&nbsp;
+                <td><img src="{% static "images/icon_misc.png" %}" alt="Misc icon">&nbsp;
                     {% local_unit "hop" ing.amount 0 %}
                 </td>
                 <td>
@@ -111,7 +111,7 @@
         {% if "yeast" in ing.cls_name %}
             {# --- Y E A S T S --- #}
             <tr>
-                <td><img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="Yeast icon">&nbsp;
+                <td><img src="{% static "images/icon_yeast.png" %}" alt="Yeast icon">&nbsp;
                     {% trans "Yeast" %}
                 </td>
                 <td>

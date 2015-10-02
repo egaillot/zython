@@ -1,5 +1,5 @@
 {% extends "brew/recipe_detail.html" %}
-{% load avatar_tags i18n revision_tags %}
+{% load avatar_tags i18n revision_tags staticfiles %}
 {% load url from future %}
 
 
@@ -34,13 +34,13 @@
                                     </span>
                                 {% endif %}
                                 {% if "Hop " in version.object_repr %}
-                                    <img src="{{ MEDIA_URL }}images/icon_hop.png" alt="">
+                                    <img src="{% static "images/icon_hop.png" %}" alt="">
                                 {% endif %}
                                 {% if "Malt " in version.object_repr %}
-                                    <img src="{{ MEDIA_URL }}images/icon_grain.png" alt="">
+                                    <img src="{% static "images/icon_grain.png" %}" alt="">
                                 {% endif %}
                                 {% if "Yeast " in version.object_repr %}
-                                    <img src="{{ MEDIA_URL }}images/icon_yeast.png" alt="">
+                                    <img src="{% static "images/icon_yeast.png" %}" alt="">
                                 {% endif %}
 
                                 {{ version.object_repr }}
