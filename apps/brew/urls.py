@@ -28,43 +28,43 @@ urlpatterns = patterns(
         StyleRecipeView.as_view(),
         name="brew_recipe_style"),
 
-    url(r'^(?P<pk>\d+)/$',
+    url(r'^(?P<pk>\d+)-(?P<slug>[\w-]+)/$',
         RecipeDetailView.as_view(),
         name='brew_recipe_detail'),
 
-    url(r'^(?P<pk>\d+)/comments/$',
+    url(r'^(?P<pk>\d+)-(?P<slug>[\w-]+)/comments/$',
         RecipeDetailView.as_view(page="comments"),
         name='brew_recipe_comments'),
 
-    url(r'^(?P<pk>\d+)/permissions/$',
+    url(r'^(?P<pk>\d+)-(?P<slug>[\w-]+)/permissions/$',
         RecipeDetailView.as_view(page="permissions"),
         name='brew_recipe_permissions'),
 
-    url(r'^(?P<recipe_id>\d+)/permissions/set/$',
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/permissions/set/$',
         set_user_perm,
         name='brew_recipe_setperms'),
 
-    url(r'^(?P<pk>\d+)/print/$',
+    url(r'^(?P<pk>\d+)-(?P<slug>[\w-]+)/print/$',
         RecipeDetailView.as_view(page="print"),
         name='brew_recipe_print'),
 
-    url(r'^(?P<pk>\d+)/text/$',
+    url(r'^(?P<pk>\d+)-(?P<slug>[\w-]+)/text/$',
         RecipeDetailView.as_view(page="text"),
         name='brew_recipe_text'),
 
-    url(r'^(?P<recipe_id>\d+)/confirm-delete/$',
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/confirm-delete/$',
         RecipeDeleteView.as_view(),
         name='brew_recipe_delete'),
 
-    url(r'^(?P<recipe_id>\d+)/destock/$',
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/destock/$',
         RecipeDestockView.as_view(),
         name='brew_recipe_destock'),
 
-    url(r'^(?P<recipe_id>\d+)/edit/$',
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/edit/$',
         RecipeUpdateView.as_view(),
         name='brew_recipe_edit'),
 
-    url(r'^(?P<recipe_id>\d+)/clone/$',
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/clone/$',
         RecipeCloneView.as_view(),
         name='brew_recipe_clone'),
 

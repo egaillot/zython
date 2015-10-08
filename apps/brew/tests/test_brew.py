@@ -48,6 +48,7 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
             efficiency="75",
         )
         recipe.save()
+        recipe.update_slug_url()
         self.recipe = recipe
 
     def get_logged_client(self):
@@ -273,5 +274,5 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
         self.assertContains(response, check_string)
 
         # In the detail page, we do not get the 'edit_ingredient' link
-        response = client.get(reverse('brew_recipe_print', args=[recipe.id, ]))
+        response = client.get(reverse('brew_recipe_print', args=[recipe.id, recipe.slug_url]))
         self.assertNotContains(response, check_string)

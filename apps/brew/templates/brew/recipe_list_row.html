@@ -1,8 +1,14 @@
 {% load i18n unit_tags staticfiles %}
 <tr>
-    <td>
+    <td class="text-center">
         <a href="{{ object.get_absolute_url }}">
-        {% with object.color_image as image %}<img src="{% static "images/beer_colors_50/" %}{{ image }}.png" alt="{{ object.name }} beer color" style="width:50px;" width="50px" height="50px" />{% endwith %}
+        {% with object.color_image as image %}
+        <picture>
+            <source srcset="{% static "images/beer_colors_20/" %}{{ image }}.png"
+            media="(max-width: 500px)" width="20px" height="20px">
+            <img src="{% static "images/beer_colors_50/" %}{{ image }}.png" alt="">
+        </picture>
+        {% endwith %}
         </a>
     </td>
     <td>{% if object.private %}<img src="{% static "images/fugue/lock.png" %}" alt="Private" rel="tooltip" width="16px" height="16px" title="{% trans "This recipe is private" %}">{% endif %}

@@ -21,7 +21,7 @@
 <br><br>
 <i>"{{ comment.comment|linebreaksbr }}"</i>
 <br><br>
-<a href="http://{{ current_site.domain }}{% url "brew_recipe_comments" recipe.id %}" style="color:#3DAFDF;">{% if recipe_author %}
+<a href="http://{{ current_site.domain }}{% url "brew_recipe_comments" recipe.id recipe.slug %}" style="color:#3DAFDF;">{% if recipe_author %}
     {% blocktrans with recipe.name as recipe_name %}Go to the recipe {{ recipe_name }}{% endblocktrans %}
 {% else %}
     {% trans "Go to my recipe" %}

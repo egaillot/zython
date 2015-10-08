@@ -49,7 +49,7 @@
             </li>
             {% if can_edit %}
                 <li {% if page == "edit" %}class="active"{% endif %}>
-                    <a href="{% url "brew_recipe_edit" object.id %}">
+                    <a href="{% url "brew_recipe_edit" object.id object.slug_url %}">
                         <span class="glyphicon glyphicon-pencil"></span>
                         {% trans "Edit" %}
                     </a>
@@ -58,34 +58,34 @@
 
             {% get_comment_count for object as comment_count %}
             <li {% if page == "comments" %}class="active"{% endif %}>
-                <a href="{% url "brew_recipe_comments" object.pk %}">
+                <a href="{% url "brew_recipe_comments" object.pk object.slug_url %}">
                     <span class="glyphicon glyphicon-comment"></span>
                     {% trans "Comments" %} ({{ comment_count }})
                 </a>
             </li>
             {% if request.user.is_active %}
                 <li>
-                    <a class="fm-create" data-fm-head="{% trans "Clone" %}" data-fm-callback="trigger" href="{% url "brew_recipe_clone" object.pk %}">
+                    <a class="fm-create" data-fm-head="{% trans "Clone" %}" data-fm-callback="trigger" href="{% url "brew_recipe_clone" object.pk object.slug_url %}">
                         <span class="glyphicon glyphicon-floppy-open"></span>
                         {% trans "Clone" %}
                     </a>
                 </li>
             {% endif %}
             <li>
-                <a href="{% url "brew_recipe_print" object.pk %}" target="_blank">
+                <a href="{% url "brew_recipe_print" object.pk object.slug_url %}" target="_blank">
                     <span class="glyphicon glyphicon-print"></span>
                     {% trans "Print" %}
                 </a>
             </li>
             {% if can_edit and request.user == object.user %}
                 <li {% if page == "permissions" %}class="active"{% endif %}>
-                    <a href="{% url "brew_recipe_permissions" object.pk %}">
+                    <a href="{% url "brew_recipe_permissions" object.pk object.slug_url %}">
                         <span class="glyphicon glyphicon-eye-open"></span>
                         {% trans "Permissions" %}
                     </a>
                 </li>
                 <li {% if page == "delete" %}class="active"{% endif %}>
-                    <a href="{% url "brew_recipe_delete" object.id %}">
+                    <a href="{% url "brew_recipe_delete" object.id object.slug_url %}">
                         <span class="glyphicon glyphicon-remove"></span>
                         {% trans "Delete" %}
                     </a>
@@ -170,7 +170,7 @@
                 class="fm-update btn btn-block btn-success {% if object.last_destock_datetime %}disabled{% endif %}"
                 data-fm-head="{% trans "Destock" %}"
                 data-fm-callback="trigger" 
-                href="{% url "brew_recipe_destock" object.pk %}">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>
+                href="{% url "brew_recipe_destock" object.pk object.slug_url %}">{% trans "Destock" %} <i class="fa fa-database"></i> <i class="fa fa-share"></i></a>
                 
             {% if object.last_destock_datetime %}
                 <p class="text-muted small text-center">
@@ -322,7 +322,7 @@
             <div class="panel-body">
                     {% post_to_facebook object "Facebook" %}
                     {% post_to_twitter object.title object "Twitter" %}
-                    <a href="{% url "brew_recipe_text" object.pk %}" rel="tooltip" title="{% trans "Copy (txt)" %}" target="_blank" style="font-size:24px">
+                    <a href="{% url "brew_recipe_text" object.pk object.slug_url %}" rel="tooltip" title="{% trans "Copy (txt)" %}" target="_blank" style="font-size:24px">
                         <span class="glyphicon glyphicon-list"></span>
                     </a>
             </div>

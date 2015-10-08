@@ -7,6 +7,36 @@
     font-family: "lineto-circular", Helvetica, Arial, sans-serif;
 }
 
+
+@media (max-width: @screen-xs-max) {
+    .navbar {
+        min-height: 40px;
+        .navbar-brand{
+            height: 40px;
+            padding: 20px 10px;
+        }
+        .navbar-toggle{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .navbar-collapse{
+            clear: both;
+            margin-top: 20px;
+        }
+    }
+}
+
+
+@media (max-width: 1200px) {
+    .hide-midwidth-nav{
+        display: none !important;
+    }
+    .navbar-form input[type="text"]{
+        width:130px;
+    }
+}
+
+
 .zython_colors_row{width:100%;padding:0;margin:0;}
 .text-zython-1{color:@zython-color-1;}
 .text-zython-2{color:@zython-color-2;}

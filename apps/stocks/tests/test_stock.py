@@ -34,7 +34,7 @@ class StockTest(AjaxCallsTestCaseBase, TestCase):
         }
         self.datas = {
             "malt": {
-                'stock_amount': "25",
+                'stock_amount': "25.3",
                 'name': "Paltest",
                 'origin': "Django",
                 'malt_type': "grain",
@@ -82,13 +82,15 @@ class StockTest(AjaxCallsTestCaseBase, TestCase):
         return response
 
     def test_add_ingredients(self):
+        self.client.post('/i18n/setlang/', {'language': "fr"})
         for slug, model_class in self.model_slugs.items():
             self.assertEqual(model_class.objects.all().stocked(self.user).count(), 0)
             response = self.post_view_ingredients(slug)
             self.is_ajax_response_correct(response)
             self.assertEqual(model_class.objects.all().stocked(self.user).count(), 1)
 
-            my_malt = model_class.objects.all().stocked(self.user)[0]
+            my_ingredient = model_class.objects.all().stocked(self.user)[0]
+            self.assertEqual(float(my_ingredient.stock_amount), float(self.datas[slug]["stock_amount"]))
             response = self.client.get(reverse("stock_ingredient", args=[slug]))
-            self.assertTrue(my_malt.is_in_stock())
-            self.assertContains(response, my_malt.stock_repr())
+            self.assertTrue(my_ingredient.is_in_stock())
+            self.assertContains(response, my_ingredient.stock_repr())

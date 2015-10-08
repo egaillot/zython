@@ -14,7 +14,7 @@ from guardian.shortcuts import get_users_with_perms, assign, get_perms_for_model
 from fm.views import JSONResponseMixin
 
 from ..decorators import recipe_author
-from .base import RecipeAuthorMixin, RecipeViewableMixin, SLUG_MODELROOT, SLUG_MODELFORM
+from .base import RecipeAuthorMixin, RecipeSlugUrlMixin, RecipeViewableMixin, SLUG_MODELROOT, SLUG_MODELFORM
 from ..models import Recipe
 from ..forms import RecipeSearchForm, RecipeImportForm, RecipeForm
 from ..helpers import import_beer_xml
@@ -103,7 +103,7 @@ class RecipeImportView(LoginRequiredMixin, FormView):
         ))
 
 
-class RecipeDetailView(RecipeViewableMixin, DetailView):
+class RecipeDetailView(RecipeSlugUrlMixin, RecipeViewableMixin, DetailView):
     model = Recipe
     pk_url_kwarg = 'pk'
     page = "detail"
@@ -147,7 +147,7 @@ class RecipeDetailView(RecipeViewableMixin, DetailView):
         return context
 
 
-class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
+class RecipeDeleteView(RecipeSlugUrlMixin, RecipeAuthorMixin, DeleteView):
     success_url = "/"
 
     def get_context_data(self, **kwargs):
@@ -157,12 +157,12 @@ class RecipeDeleteView(RecipeAuthorMixin, DeleteView):
         return context
 
 
-class RecipeUpdateView(RecipeAuthorMixin, UnitViewFormMixin, UpdateView):
+class RecipeUpdateView(RecipeSlugUrlMixin, RecipeAuthorMixin, UnitViewFormMixin, UpdateView):
     form_class = RecipeForm
     success_url = '/recipe/%(id)d/'
 
 
-class RecipeCloneView(LoginRequiredMixin, RecipeViewableMixin, JSONResponseMixin, DetailView):
+class RecipeCloneView(RecipeSlugUrlMixin, LoginRequiredMixin, RecipeViewableMixin, JSONResponseMixin, DetailView):
     template_name = "brew/recipe_clone.html"
 
     def post(self, *args, **kwargs):
@@ -176,7 +176,7 @@ class RecipeCloneView(LoginRequiredMixin, RecipeViewableMixin, JSONResponseMixin
 
 @login_required
 @recipe_author
-def set_user_perm(request, recipe_id):
+def set_user_perm(request, recipe, recipe_id, slug):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     username = request.POST.get('username')
     try:
@@ -196,4 +196,4 @@ def set_user_perm(request, recipe_id):
             messages.success(request, _("Permissions added for user %s" % username))
         else:
             messages.success(request, _("Permissions removed for user %s" % username))
-    return http.HttpResponseRedirect(reverse('brew_recipe_permissions', args=[recipe_id]))
+    return http.HttpResponseRedirect(reverse('brew_recipe_permissions', args=[recipe_id, recipe.slug_url]))

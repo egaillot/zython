@@ -112,7 +112,7 @@ class Recipe(models.Model):
     The main beer recipe
     """
     name = models.CharField(_('Name'), max_length=100)
-    # url = models.SlugField(null=True, blank=True)
+    slug_url = models.SlugField(null=True, blank=True, default="zython")
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
@@ -139,6 +139,10 @@ class Recipe(models.Model):
 
     # - - -
     # Generic model class/methods
+
+    def update_slug_url(self):
+        self.slug_url = slugify(u"%s" % self.name)[:49]
+        self.save()
 
     def can_be_viewed_by_user(self, user):
         if self.private and user != self.user and not user.has_perm('brew.view_recipe', self):
@@ -249,7 +253,7 @@ class Recipe(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('brew_recipe_detail', [str(self.id)])
+        return ('brew_recipe_detail', [str(self.id), self.slug_url])
 
     class Meta:
         ordering = ('-created',)

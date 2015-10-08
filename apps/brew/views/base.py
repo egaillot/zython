@@ -54,3 +54,14 @@ class RecipeViewableMixin(object):
         if not self.object.can_be_viewed_by_user(self.request.user):
             raise http.Http404()
         return response
+
+
+class RecipeSlugUrlMixin(object):
+    def get_object(self, queryset=None):
+        """
+        Compensate the lack of django 1.7 : it can't query on both pk+slug
+        """
+        if not queryset:
+            queryset = Recipe.objects.all()
+        queryset = queryset.filter(slug_url=self.kwargs["slug"])
+        return super(RecipeSlugUrlMixin, self).get_object(queryset)
