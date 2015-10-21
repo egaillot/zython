@@ -132,7 +132,7 @@ class Recipe(models.Model):
     boiler_tun_deadspace = models.DecimalField(_('Boiler tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
     evaporation_rate = models.DecimalField(_('Evaporation rate'), max_digits=5, decimal_places=2, help_text="%", default="8")
     grain_temperature = models.DecimalField(_('Grain temperature'), max_digits=3, decimal_places=1, default="22")
-    forked_from = models.ForeignKey('self', null=True, blank=True)
+    forked_from = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
     last_destock_datetime = models.DateTimeField(null=True, blank=True)
 
     objects = RecipeManager()

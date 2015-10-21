@@ -38,6 +38,7 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
 
         # Set up the main recipe
         style = BeerStyle.objects.filter(name__icontains="Doppelbock")[0]
+        self.style = style
         recipe = Recipe(
             user=self.user,
             name="Test Recipe PoneyPoneyPoney",
@@ -276,3 +277,28 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
         # In the detail page, we do not get the 'edit_ingredient' link
         response = client.get(reverse('brew_recipe_print', args=[recipe.id, recipe.slug_url]))
         self.assertNotContains(response, check_string)
+
+    def test_cascade_deletion(self):
+        recipe1 = Recipe(
+            user=self.user,
+            name="Test Recipe PoneyPoneyPoney",
+            batch_size="50.3",
+            style=self.style,
+            recipe_type="allgrain",
+            private=False,
+            efficiency="75",
+        )
+        recipe1.save()
+        recipe2 = Recipe(
+            user=self.user,
+            name="Test Clone Recipe",
+            batch_size="50.3",
+            style=self.style,
+            recipe_type="allgrain",
+            private=False,
+            efficiency="75",
+            forked_from=recipe1
+        )
+        recipe2.save()
+        recipe1.delete()
+        self.assertEqual(recipe2, Recipe.objects.get(pk=recipe2.pk))
