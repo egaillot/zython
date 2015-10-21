@@ -22,7 +22,7 @@ ALLOWED_HOSTS = [
     "zython.me",
 ]
 
-DEFAULT_FROM_EMAIL = 'ToBeer <noreply@beer.martync.me>'
+DEFAULT_FROM_EMAIL = 'ToBeer <noreply@zython.me>'
 
 SITE_ID = 1
 

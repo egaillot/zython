@@ -125,7 +125,9 @@
       </li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            {% trans "Unit preferences" %} <span class="caret"></span>
+            <span class="hidden-xs hidden-sm">{% trans "Unit preferences" %}</span>
+            <span class="hidden-md hidden-lg hidden-xl"> <span class="glyphicon glyphicon-cog" aria-hidden="true"></span> </span>
+            <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
             {% for group in unit_menu %}
