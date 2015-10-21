@@ -6,10 +6,12 @@ from .models import *
 urlpatterns = patterns(
     '',
 
-    url(r'^add/$', RecipeCreateView.as_view(),
+    url(r'^add/$',
+        RecipeCreateView.as_view(),
         name='brew_recipe_add'),
 
-    url(r'^import/$', RecipeImportView.as_view(),
+    url(r'^import/$',
+        RecipeImportView.as_view(),
         name='brew_recipe_import'),
 
     url(r'^user/(?P<username>\w+)/$',

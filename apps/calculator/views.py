@@ -28,4 +28,3 @@ class ABVView(FormView):
         form_kwargs = super(ABVView, self).get_form_kwargs(*args, **kwargs)
         form_kwargs["request"] = self.request
         return form_kwargs
-

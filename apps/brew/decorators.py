@@ -1,6 +1,6 @@
 #-*- encoding:utf-8 -*-
 from django.http import HttpResponseRedirect
-from brew.models import Recipe
+from .models import Recipe
 
 
 def recipe_author(f, redirect_url="/"):

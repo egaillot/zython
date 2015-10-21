@@ -4,10 +4,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic.edit import FormView
 from django.contrib import messages
-
-from accounts.forms import ZythonLoginForm, ZythonSettingForm, ZythonSignupForm
 from braces.views import LoginRequiredMixin
 import account.views
+from .forms import ZythonLoginForm, ZythonSettingForm, ZythonSignupForm
 
 
 class LoginView(account.views.LoginView):

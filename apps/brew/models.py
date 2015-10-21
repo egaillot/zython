@@ -12,13 +12,15 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.text import slugify
 from public.helpers import send_email_html
-from brew.fields import BitternessField, GravityField, ColorField
-from brew.models_base import *
-from brew import formulas
-from brew.managers import RecipeManager
-from brew import settings as app_settings
 from units.conversions import kg_to_lb, ebc_to_srm, \
     srm_to_ebc, l_to_gal, g_to_oz, f_to_c, c_to_f
+
+from .fields import BitternessField, GravityField, ColorField
+from .models_base import *
+from . import formulas
+from .managers import RecipeManager
+from . import settings as app_settings
+
 
 __all__ = (
     'RECIPE_TYPE_CHOICES', 'MISC_TIME_CHOICES',

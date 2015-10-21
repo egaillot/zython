@@ -1,10 +1,10 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
-from brew.models import *
-from brew.settings import MAIN_STYLES
 from units.forms import UnitModelForm
-from brew.utils.forms import BS3FormMixin
+from .models import *
+from .settings import MAIN_STYLES
+from .utils.forms import BS3FormMixin
 
 __all__ = (
     'RecipeForm', 'RecipeMaltForm', 'RecipeHopForm',

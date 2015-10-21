@@ -3,9 +3,10 @@ import time
 import htmlentitydefs
 from cStringIO import StringIO
 from lxml import etree
-from brew.models import Recipe, RecipeHop, RecipeMalt,\
+
+from .models import Recipe, RecipeHop, RecipeMalt,\
     RecipeMisc, RecipeYeast, MashStep, BeerStyle
-from brew.beer_xml import FERMENTABLE_FIELDS, HOP_FIELDS,\
+from .beer_xml import FERMENTABLE_FIELDS, HOP_FIELDS,\
     MISC_FIELDS, YEAST_FIELDS, float1
 
 

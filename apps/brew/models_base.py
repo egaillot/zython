@@ -1,11 +1,12 @@
 import json
-from datetime import datetime
 from django.db import models
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from brew.fields import GravityField, ColorField
+
+from .fields import GravityField, ColorField
 from .managers import IngredientManager
+
 
 __all__ = (
     'BaseStockModel',

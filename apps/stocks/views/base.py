@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from brew.models import Malt, Hop, Yeast
 from units.views import UnitViewFormMixin
-# from ..models import StockHop, StockMalt, StockYeast
 from ..forms import StockMaltForm, StockHopForm, StockYeastForm
 from ..choices import INGREDIENT_MALT, INGREDIENT_HOP, INGREDIENT_YEAST, INGREDIENTS_DICT
 
