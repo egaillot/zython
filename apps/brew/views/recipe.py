@@ -69,14 +69,11 @@ class UserListView(ListView):
 class RecipeCreateView(LoginRequiredMixin, UnitViewFormMixin, CreateView):
     form_class = RecipeForm
     model = Recipe
-    success_url = '/recipe/%(id)d/'
 
     def form_valid(self, form):
-        obj = form.save(commit=False)
-        obj.user = self.request.user
-        obj.save()
-        self.object = obj
-        return http.HttpResponseRedirect(self.get_success_url())
+        form.instance.user = self.request.user
+        self.object = form.save()
+        return http.HttpResponseRedirect(self.object.get_absolute_url())
 
     def get_initial(self):
         """Get the previous data used."""
@@ -96,7 +93,7 @@ class RecipeImportView(LoginRequiredMixin, FormView):
 
     def post(self, *args, **kwargs):
         xml_data = self.request.FILES.get('beer_file').read()
-        recipes = import_beer_xml(xml_data, self.request.user)
+        import_beer_xml(xml_data, self.request.user)
         return http.HttpResponseRedirect(reverse(
             'brew_recipe_user',
             args=[self.request.user.username]

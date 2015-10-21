@@ -278,6 +278,33 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
         response = client.get(reverse('brew_recipe_print', args=[recipe.id, recipe.slug_url]))
         self.assertNotContains(response, check_string)
 
+    def test_add_new_recipe(self):
+        recipe_name = "test_add_new_recipe"
+        self.assertEqual(Recipe.objects.filter(name=recipe_name).count(), 0)
+        datas = {
+            "batch_size": "12",
+            "name": recipe_name,
+            "efficiency": "75",
+            "recipe_type": "allgrain",
+            "recipe_style": "68",
+            "private": "on",
+            "mash_tun_deadspace": "2.0",
+            "boiler_tun_deadspace": "4.0",
+            "evaporation_rate": "9",
+            "grain_temperature": "22"
+        }
+        client = self.get_logged_client()
+
+        # Fixed the unit app initialisation crash.
+        # We must run 1 request to set every unit preferences
+        # in session before using it
+        response = client.get("/")
+        # .
+
+        response = client.post(reverse("brew_recipe_add"), datas, follow=True)
+        self.assertTemplateUsed(response, "brew/recipe_detail.html")
+        self.assertEqual(Recipe.objects.filter(name=recipe_name).count(), 1)
+
     def test_cascade_deletion(self):
         recipe1 = Recipe(
             user=self.user,

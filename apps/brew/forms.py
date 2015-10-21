@@ -48,14 +48,12 @@ class RecipeForm(BS3FormMixin, UnitModelForm):
         if self.instance.style:
             self.initial['recipe_style'] = str(self.instance.style.pk)
 
-    def save(self, commit=True, *args, **kwargs):
-        recipe = super(RecipeForm, self).save(commit=commit, *args, **kwargs)
-        recipe.update_slug_url()
+    def save(self, *args, **kwargs):
+        recipe = super(RecipeForm, self).save(*args, **kwargs)
         datas = self.cleaned_data
         if datas['recipe_style']:
             recipe.style = BeerStyle.objects.get(pk=datas['recipe_style'])
-        if commit:
-            recipe.save()
+        recipe.update_slug_url()
         return recipe
 
     class Meta:
