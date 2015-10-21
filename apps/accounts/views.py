@@ -1,6 +1,7 @@
 from django import http
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.contrib.auth import update_session_auth_hash
 from django.views.generic.edit import FormView
 from django.contrib import messages
 
@@ -25,7 +26,8 @@ class SettingsView(LoginRequiredMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
-        form.save()
+        user = form.save()
+        update_session_auth_hash(self.request, user)
         messages.add_message(self.request, messages.SUCCESS, _("Changes saved"))
         return http.HttpResponseRedirect(".")
 

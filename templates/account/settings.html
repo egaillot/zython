@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n form_tags %}
 
+
 {% block page %}
     <div class="jumbotron ">
         <div class="container">
@@ -27,16 +28,13 @@
                 {% addFormField field size="XL" %}
             {% endfor %}
     
-    <div class="text-center">
-        <div class="vspace-xl"></div>
-
-        <input type="submit" value="{% trans "Save" %}" class="btn btn-lg btn-primary" />
+            <div class="text-center">
+                <div class="vspace-xl"></div>
+                <input type="submit" value="{% trans "Save" %}" class="btn btn-lg btn-primary" />
+            </div>
+        </form>
     </div>
-</form>
-    </div>
-
 </div>
-
 <div class="vspace-xl"></div>
 <div class="vspace-xl"></div>
 <div class="vspace-xl"></div>
