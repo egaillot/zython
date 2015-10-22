@@ -40,7 +40,6 @@ class ZythonSettingForm(BS3FormMixin, UserChangeForm):
         user = super(ZythonSettingForm, self).save(*args, **kwargs)
         password1 = self.cleaned_data.get('new_password1')
         if password1:
-            print "jjj %s " % password1
             user.set_password(password1)
             user.save()
         return user
