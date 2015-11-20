@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
 
     "compressor",
-    'pagination',
+    # 'pagination',
     'account',
     'accounts',
     'calculator',
@@ -72,7 +72,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "account.middleware.TimezoneMiddleware",
-    'pagination.middleware.PaginationMiddleware',
+    # 'pagination.middleware.PaginationMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
