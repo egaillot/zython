@@ -83,7 +83,7 @@ class BeerStyle(models.Model):
     def get_number(self):
         return "%s.%s" % (self.number, self.sub_number)
 
-    def __unicode__(self):
+    def __str__(self):
         return "%s - %s" % (self.get_number(), self.name)
 
     @models.permalink
@@ -250,7 +250,7 @@ class Recipe(models.Model):
         modified = self.modified or datetime.now()
         return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S%f'))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     @models.permalink

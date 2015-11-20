@@ -126,7 +126,7 @@ class BaseMalt(models.Model, BaseIngredientMixin):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Malt %s") % self.name
 
     def stock_repr(self):
@@ -159,7 +159,7 @@ class BaseHop(models.Model, BaseIngredientMixin):
     def is_dry_hop(self):
         return self.usage == 'dryhop'
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Hop %s") % self.name
 
     def stock_repr(self):
@@ -189,7 +189,7 @@ class BaseYeast(models.Model, BaseIngredientMixin):
 
     objects = IngredientManager()
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Yeast %s") % self.name
 
     def stock_repr(self):
@@ -214,7 +214,7 @@ class BaseMisc(models.Model, BaseIngredientMixin):
     use_in = models.CharField(_('Use for'), choices=MISC_USEIN_CHOICES, default="boil", max_length=50)
     notes = models.TextField(_('Notes'), null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return _("Misc %s") % self.name
 
     class Meta:
