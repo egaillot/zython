@@ -69,7 +69,7 @@ class StockTest(AjaxCallsTestCaseBase, TestCase):
         }
 
     def test_ingredient_views(self):
-        for k in INGREDIENTS_DICT.iterkeys():
+        for k in INGREDIENTS_DICT.keys():
             url = reverse("stock_ingredient", args=[k])
             response = self.client.get(url)
             self.assertTemplateUsed(response, "stocks/ingredient.html")
@@ -83,7 +83,7 @@ class StockTest(AjaxCallsTestCaseBase, TestCase):
 
     def test_add_ingredients(self):
         self.client.post('/i18n/setlang/', {'language': "fr"})
-        for slug, model_class in self.model_slugs.items():
+        for slug, model_class in list(self.model_slugs.items()):
             self.assertEqual(model_class.objects.all().stocked(self.user).count(), 0)
             response = self.post_view_ingredients(slug)
             self.is_ajax_response_correct(response)
