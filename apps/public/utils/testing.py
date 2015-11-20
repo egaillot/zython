@@ -2,6 +2,7 @@ import json
 import time
 from datetime import datetime
 from subprocess import call
+from django.utils.encoding import force_text
 
 
 def show_in_browser(response):
@@ -27,7 +28,7 @@ class AjaxCallsTestCaseBase(object):
     def is_ajax_response_correct(self, response):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response._headers["content-type"], ('Content-Type', 'application/json'))
-        json_response = json.loads(response.content)
+        json_response = json.loads(force_text(response.content))
         self.assertEqual(json_response["status"], "ok")
 
     def ajax_post_kwargs(self):
