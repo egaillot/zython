@@ -48,11 +48,11 @@ INSTALLED_APPS = (
     'account',
     'accounts',
     'calculator',
-    'django_social_share',
+
     'public',
     'brew',
     'units',
-    'social_auth',
+
     'avatar',
     'stocks',
     'guardian',
