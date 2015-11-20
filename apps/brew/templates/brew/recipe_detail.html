@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n unit_tags %}
 {% load static staticfiles %}
-{% load comments avatar_tags recipe_tags social_share %}
+{% load comments avatar_tags recipe_tags %}
 {% load url from future %}
 
 
@@ -320,8 +320,10 @@
                 </h3>
             </div>
             <div class="panel-body">
+                    {% comment %}
                     {% post_to_facebook object "Facebook" %}
                     {% post_to_twitter object.title object "Twitter" %}
+                    {% endcomment %}
                     <a href="{% url "brew_recipe_text" object.pk object.slug_url %}" rel="tooltip" title="{% trans "Copy (txt)" %}" target="_blank" style="font-size:24px">
                         <span class="glyphicon glyphicon-list"></span>
                     </a>
