@@ -270,8 +270,9 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
 
         # In the detail page, we must have the 'edit_ingredient' link
         recipe = self.recipe
+        malt_recipe = recipe.recipemalt_set.all().order_by("-id")[0]
         response = client.get(recipe.get_absolute_url())
-        check_string = 'href="/recipe/1/edit/malt/1/"'
+        check_string = 'href="/recipe/{}/edit/malt/{}/"'.format(recipe.id, malt_recipe.id)
         self.assertContains(response, check_string)
 
         # In the detail page, we do not get the 'edit_ingredient' link

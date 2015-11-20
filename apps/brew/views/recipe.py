@@ -127,8 +127,8 @@ class RecipeDetailView(RecipeSlugUrlMixin, RecipeViewableMixin, DetailView):
         context = super(RecipeDetailView, self).get_context_data(**kwargs)
         if self.request.user.is_active:
             for key, model in SLUG_MODELROOT.items():
-                context['%s_list' % key] = model.objects.all()
-                context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
+                context['{}_list'.format(key)] = model.objects.all()
+                context['{}_form'.format(key)] = SLUG_MODELFORM[key](request=self.request)
         self.template_name_suffix = "_%s" % self.page
         can_edit = self.request.user == self.object.user or self.request.user.has_perm('change_recipe', self.object)
         if self.page == "print":
@@ -178,7 +178,7 @@ def set_user_perm(request, recipe, recipe_id, slug):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        messages.error(request, _("User %s does not exist" % username))
+        messages.error(request, _("User {} does not exist".format(username)))
     else:
         raw_perms = request.POST.get('perms')
         perms = raw_perms.split("|")
@@ -189,7 +189,7 @@ def set_user_perm(request, recipe, recipe_id, slug):
             if perm:
                 assign(perm, user, recipe)
         if raw_perms:
-            messages.success(request, _("Permissions added for user %s" % username))
+            messages.success(request, _("Permissions added for user {}".format(username)))
         else:
-            messages.success(request, _("Permissions removed for user %s" % username))
+            messages.success(request, _("Permissions removed for user {}".format(username)))
     return http.HttpResponseRedirect(reverse('brew_recipe_permissions', args=[recipe_id, recipe.slug_url]))

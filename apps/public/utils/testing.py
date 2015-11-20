@@ -17,7 +17,7 @@ def show_in_browser(response):
     """
     file_path = '/tmp/django_test_show_in_browser_%s.html' % datetime.now().strftime('%Y%m%d%H%M%S')
     f = open(file_path, 'w')
-    f.write('%s\n' % response.content)
+    f.write('%s\n' % force_text(response.content))
     call(["open", file_path])
     time.sleep(5)
     call(["rm", file_path])

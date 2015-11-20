@@ -78,13 +78,13 @@ class BeerStyle(models.Model):
     examples = models.TextField(blank=True, null=True)
 
     def get_slug(self):
-        return "%s" % slugify(self.name)
+        return slugify(self.name)
 
     def get_number(self):
-        return "%s.%s" % (self.number, self.sub_number)
+        return ".".join([str(self.number), str(self.sub_number)])
 
     def __str__(self):
-        return "%s - %s" % (self.get_number(), self.name)
+        return " - ".join([self.get_number(), self.name])
 
     @models.permalink
     def get_absolute_url(self):
@@ -143,7 +143,7 @@ class Recipe(models.Model):
     # Generic model class/methods
 
     def update_slug_url(self):
-        self.slug_url = slugify("%s" % self.name)[:49]
+        self.slug_url = slugify(self.name)[:49]
         self.save()
 
     def can_be_viewed_by_user(self, user):
@@ -248,7 +248,7 @@ class Recipe(models.Model):
         # I consider modifying the cache_key system to have a unique
         # key each time the object is saved.
         modified = self.modified or datetime.now()
-        return "%s_%s" % (self.id, modified.strftime('%Y%m%d%H%M%S%f'))
+        return "_".join([str(self.id), modified.strftime('%Y%m%d%H%M%S%f')])
 
     def __str__(self):
         return self.name
@@ -328,7 +328,7 @@ class Recipe(models.Model):
         return self.get_original_gravity(cache_key="_pbg", batch_size=batch_size)
 
     def get_original_gravity(self, cache_key="_og", batch_size=None):
-        cache_key = "%s%s" % (self.cache_key, cache_key)
+        cache_key = "{}{}".format(self.cache_key, cache_key)
         og = cache.get(cache_key)
         if og is None:
             points = []
@@ -374,7 +374,7 @@ class Recipe(models.Model):
         return srm
 
     def get_srm(self):
-        cache_key = "%s_get_srm" % self.cache_key
+        cache_key = "{}_get_srm".format(self.cache_key)
         recipe_srm = cache.get(cache_key)
         if recipe_srm is None:
             grain_srm = []
@@ -401,7 +401,7 @@ class Recipe(models.Model):
     # Bitterness and spices
 
     def get_boil_time(self):
-        cache_key = "%s_boil_time" % self.cache_key
+        cache_key = "{}_boil_time".format(self.cache_key)
         boil_time = cache.get(cache_key)
         if boil_time is None:
             hops = self.recipehop_set.all()
@@ -413,7 +413,7 @@ class Recipe(models.Model):
         return boil_time
 
     def get_ibu(self):
-        cache_key = "%s_ibu" % self.cache_key
+        cache_key = "{}_ibu".format(self.cache_key)
         ibu = cache.get(cache_key)
         if ibu is None:
             ibu = 0
@@ -426,7 +426,7 @@ class Recipe(models.Model):
     # After fermentation
 
     def get_final_gravity(self):
-        cache_key = "%s_fg" % self.cache_key
+        cache_key = "{}_fg".format(self.cache_key)
         fg = cache.get(cache_key)
         if fg is None:
             gravity = (float(float(self.get_original_gravity()) - 1.) * 1000)
@@ -447,7 +447,7 @@ class Recipe(models.Model):
     # - - -
     # Ingredients
     def ingredients(self):
-        cache_key = "%s_ingredients" % self.cache_key
+        cache_key = "{}_ingredients".format(self.cache_key)
         ingredients = cache.get(cache_key)
         if ingredients is None:
             ingredients = []
@@ -621,9 +621,9 @@ class RecipeHop(UpdateRecipeModel, BaseHop):
 
     def unit_time(self):
         if self.usage == "dryhop":
-            return _("%s days") % self.dry_days
+            return _("{} days".format(self.dry_days))
         else:
-            return "%s min" % self.boil_time
+            return "{} min".format(self.boil_time)
 
     def get_duration(self):
         # Duration in minutes
