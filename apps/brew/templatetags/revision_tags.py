@@ -13,14 +13,14 @@ def humanize_datas(value):
     fields = py_val['fields']
     error_fields = ('recipe', 'user', 'style')  # Fields that can generate errors are ommited
     for error_field in error_fields:
-        if fields.has_key(error_field):
+        if error_field in fields:
             del fields[error_field]
     human_datas = []
-    for k, v in fields.iteritems():
+    for k, v in fields.items():
         model_field = model._meta.get_field(k)
         human_datas.append({
-            'label': unicode(model_field.verbose_name),
+            'label': str(model_field.verbose_name),
             'value': v,
-            'help_text': unicode(model_field.help_text),
+            'help_text': str(model_field.help_text),
         })
     return human_datas

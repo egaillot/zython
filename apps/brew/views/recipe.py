@@ -126,7 +126,7 @@ class RecipeDetailView(RecipeSlugUrlMixin, RecipeViewableMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(RecipeDetailView, self).get_context_data(**kwargs)
         if self.request.user.is_active:
-            for key, model in SLUG_MODELROOT.iteritems():
+            for key, model in SLUG_MODELROOT.items():
                 context['%s_list' % key] = model.objects.all()
                 context['%s_form' % key] = SLUG_MODELFORM[key](request=self.request)
         self.template_name_suffix = "_%s" % self.page

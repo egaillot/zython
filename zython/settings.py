@@ -87,10 +87,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'units.context_processors.user_units',
     'units.context_processors.unit_menu',
     'account.context_processors.account',
-    'social_auth.context_processors.social_auth_by_name_backends',
-    'social_auth.context_processors.social_auth_backends',
-    'social_auth.context_processors.social_auth_by_type_backends',
-    'social_auth.context_processors.social_auth_login_redirect',
+    # 'social_auth.context_processors.social_auth_by_name_backends',
+    # 'social_auth.context_processors.social_auth_backends',
+    # 'social_auth.context_processors.social_auth_by_type_backends',
+    # 'social_auth.context_processors.social_auth_login_redirect',
 
 )
 

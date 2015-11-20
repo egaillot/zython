@@ -28,11 +28,11 @@ class RecipeIngredientTxt(template.Node):
             line = [
                 get_converted_value(malt.amount, weight_unit, "weight", 0),
                 "%s (%s)" % (malt.name, get_converted_value(malt.color, color_unit, "color")),
-                _(u"Grain"),
+                _("Grain"),
                 i,
                 "%s" % malt.percent() + "%"
             ]
-            lines.append(";".join([unicode(a) for a in line]))
+            lines.append(";".join([str(a) for a in line]))
 
         # --- HOPS ---
         # ------------
@@ -41,11 +41,11 @@ class RecipeIngredientTxt(template.Node):
             line = [
                 get_converted_value(hop.amount, hop_unit, "hop", 0),
                 "%s (%s" % (hop.name, hop.acid_alpha) + "%) " + "- %s %s" % (hop.get_usage_display(), hop.unit_time()),
-                _(u"Hop"),
+                _("Hop"),
                 i,
                 "%.1f" % hop.ibu() + " IBUs"
             ]
-            lines.append(";".join([unicode(a) for a in line]))
+            lines.append(";".join([str(a) for a in line]))
 
         # --- MISC ---
         # ------------
@@ -58,8 +58,8 @@ class RecipeIngredientTxt(template.Node):
                 i,
                 "-"
             ]
-            lines.append(";".join([unicode(a) for a in line]))
-        csv_lines = "\n".join([unicode(a) for a in lines])
+            lines.append(";".join([str(a) for a in line]))
+        csv_lines = "\n".join([str(a) for a in lines])
         csv = CsvToTxt(csv_lines, delimiter=";")
         return csv.render()
 
@@ -81,7 +81,7 @@ class RecipeMashStepsTxt(template.Node):
             description = ""
             if step.water_added:
                 description = _(
-                    u"Add %(water)s of water" % {
+                    "Add %(water)s of water" % {
                         'water':
                         get_converted_value(step.water_added, volume_unit, "volume", 0),
                     }
@@ -91,16 +91,16 @@ class RecipeMashStepsTxt(template.Node):
             temperature = step_temperature
             if i == 1:
                 temperature = get_converted_value(step.initial_heat(), temperature_unit, "temperature", 0)
-            description += u"%s" % _('Heat over') + " "
-            description += unicode(temperature)
+            description += "%s" % _('Heat over') + " "
+            description += str(temperature)
             line = [
                 step.name,
                 description,
                 step_temperature,
                 "%s min" % step.step_time
             ]
-            lines.append(";".join([unicode(a) for a in line]))
-        csv_lines = "\n".join([unicode(a) for a in lines])
+            lines.append(";".join([str(a) for a in line]))
+        csv_lines = "\n".join([str(a) for a in lines])
         csv = CsvToTxt(csv_lines, delimiter=";")
         return csv.render()
 

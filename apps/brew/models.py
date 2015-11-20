@@ -78,7 +78,7 @@ class BeerStyle(models.Model):
     examples = models.TextField(blank=True, null=True)
 
     def get_slug(self):
-        return u"%s" % slugify(self.name)
+        return "%s" % slugify(self.name)
 
     def get_number(self):
         return "%s.%s" % (self.number, self.sub_number)
@@ -127,7 +127,7 @@ class Recipe(models.Model):
 
     # - - -
     # Preferences
-    private = models.BooleanField(_(u'Private recipe ?'), default=False, help_text=_(u"If checked, this recipe will not be listed to other users."))
+    private = models.BooleanField(_('Private recipe ?'), default=False, help_text=_("If checked, this recipe will not be listed to other users."))
     notes = models.TextField(_('Notes'), null=True, blank=True)
     efficiency = models.DecimalField(_('Efficiency'), max_digits=4, decimal_places=1, default="75", help_text="%")
     mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
@@ -143,7 +143,7 @@ class Recipe(models.Model):
     # Generic model class/methods
 
     def update_slug_url(self):
-        self.slug_url = slugify(u"%s" % self.name)[:49]
+        self.slug_url = slugify("%s" % self.name)[:49]
         self.save()
 
     def can_be_viewed_by_user(self, user):
@@ -197,45 +197,45 @@ class Recipe(models.Model):
         advices = []
         if ebc < 3:
             advices = [
-                _(u"Looks so clear !!"),
-                _(u"This beer makes me thirsty, almost transparent :)"),
-                _(u"A brighter beer will be invisible"),
+                _("Looks so clear !!"),
+                _("This beer makes me thirsty, almost transparent :)"),
+                _("A brighter beer will be invisible"),
             ]
         elif ebc < 10:
             advices = [
-                _(u"I love blonds !!"),
-                _(u"A regular blond beer"),
-                _(u"This color is fine"),
+                _("I love blonds !!"),
+                _("A regular blond beer"),
+                _("This color is fine"),
             ]
         elif ebc < 20:
             advices = [
-                _(u"Looks like gold, good job !"),
-                _(u"A fresh light-amber, yummy"),
-                _(u"This beer looks serious, gold !"),
+                _("Looks like gold, good job !"),
+                _("A fresh light-amber, yummy"),
+                _("This beer looks serious, gold !"),
             ]
         elif ebc < 30:
             advices = [
-                _(u"This beer has a great amber color"),
-                _(u"A fresh dark-amber, sooo yummy"),
-                _(u"This color is perfect for dark ambers"),
+                _("This beer has a great amber color"),
+                _("A fresh dark-amber, sooo yummy"),
+                _("This color is perfect for dark ambers"),
             ]
         elif ebc < 50:
             advices = [
-                _(u"Yeaahh, a brown beer"),
-                _(u"Nice job, this beer is not that dark, just great !"),
-                _(u"Someone just made a prefect brown beer"),
+                _("Yeaahh, a brown beer"),
+                _("Nice job, this beer is not that dark, just great !"),
+                _("Someone just made a prefect brown beer"),
             ]
         elif ebc < 100:
             advices = [
-                _(u"That's pretty dark"),
-                _(u"We can't anything see through this beer excepting the fact that it looks dark"),
-                _(u"Black, perfectly black."),
+                _("That's pretty dark"),
+                _("We can't anything see through this beer excepting the fact that it looks dark"),
+                _("Black, perfectly black."),
             ]
         elif ebc >= 100:
             advices = [
-                _(u"An oil well"),
-                _(u"Are you sure this beer should be that dark ?"),
-                _(u"Am I blind or this beer is black ?")
+                _("An oil well"),
+                _("Are you sure this beer should be that dark ?"),
+                _("Am I blind or this beer is black ?")
             ]
         if advices:
             return random.choice(advices)
@@ -260,7 +260,7 @@ class Recipe(models.Model):
     class Meta:
         ordering = ('-created',)
         permissions = (
-            ('view_recipe', _(u'View recipe')),
+            ('view_recipe', _('View recipe')),
         )
 
     # - - -
@@ -501,37 +501,37 @@ class Recipe(models.Model):
     def style_control_ibu(self):
         ibus = float(self.get_ibu())
         if ibus < float(self.style.bitterness_min):
-            return _(u"Bitterness is too low")
+            return _("Bitterness is too low")
         elif ibus > float(self.style.bitterness_max):
-            return _(u"Bitterness is too high")
+            return _("Bitterness is too high")
 
     def style_control_og(self):
         og = float(self.get_original_gravity())
         if og < float(self.style.original_gravity_min):
-            return _(u"Original gravity is too low")
+            return _("Original gravity is too low")
         elif og > float(self.style.original_gravity_max):
-            return _(u"Original gravity is too high")
+            return _("Original gravity is too high")
 
     def style_control_fg(self):
         fg = float(self.get_final_gravity())
         if fg < float(self.style.final_gravity_min):
-            return _(u"Final gravity is too low")
+            return _("Final gravity is too low")
         elif fg > float(self.style.final_gravity_max):
-            return _(u"Final gravity is too high")
+            return _("Final gravity is too high")
 
     def style_control_abv(self):
         abv = float(self.get_abv())
         if abv < float(self.style.alcohol_min):
-            return _(u"Alcohol is too low")
+            return _("Alcohol is too low")
         elif abv > float(self.style.alcohol_max):
-            return _(u"Alcohol is too high")
+            return _("Alcohol is too high")
 
     def style_control_color(self):
         color = float(self.get_ebc())
         if color < float(self.style.color_min):
-            return _(u"The beer color seems too bright")
+            return _("The beer color seems too bright")
         elif color > float(self.style.color_max):
-            return _(u"The beer color seems too dark")
+            return _("The beer color seems too dark")
 
     # - - -
     # Stock
@@ -739,7 +739,7 @@ class MashStep(UpdateRecipeModel, models.Model):
 def comment_notification(sender, comment, request, *args, **kwargs):
     if comment.content_type == ContentType.objects.get_for_model(Recipe):
         context = {'comment': comment, 'recipe': comment.content_object}
-        subject = _(u"New comment posted")
+        subject = _("New comment posted")
         from_email = settings.DEFAULT_FROM_EMAIL
         template_name = "brew/email/recipe_comment_posted.html"
         to = []

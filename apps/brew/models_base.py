@@ -127,10 +127,10 @@ class BaseMalt(models.Model, BaseIngredientMixin):
         abstract = True
 
     def __unicode__(self):
-        return _(u"Malt %s") % self.name
+        return _("Malt %s") % self.name
 
     def stock_repr(self):
-        return u"%s (%s)" % (
+        return "%s (%s)" % (
             self.name,
             self.origin
         )
@@ -160,10 +160,10 @@ class BaseHop(models.Model, BaseIngredientMixin):
         return self.usage == 'dryhop'
 
     def __unicode__(self):
-        return _(u"Hop %s") % self.name
+        return _("Hop %s") % self.name
 
     def stock_repr(self):
-        return u"%s %s%% (%s)" % (
+        return "%s %s%% (%s)" % (
             self.name,
             self.acid_alpha,
             self.origin
@@ -190,10 +190,10 @@ class BaseYeast(models.Model, BaseIngredientMixin):
     objects = IngredientManager()
 
     def __unicode__(self):
-        return _(u"Yeast %s") % self.name
+        return _("Yeast %s") % self.name
 
     def stock_repr(self):
-        return u"%s %s %s (%s)" % (
+        return "%s %s %s (%s)" % (
             self.name,
             self.laboratory,
             self.product_id,
@@ -215,7 +215,7 @@ class BaseMisc(models.Model, BaseIngredientMixin):
     notes = models.TextField(_('Notes'), null=True, blank=True)
 
     def __unicode__(self):
-        return _(u"Misc %s") % self.name
+        return _("Misc %s") % self.name
 
     class Meta:
         abstract = True

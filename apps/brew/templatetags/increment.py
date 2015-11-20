@@ -26,6 +26,6 @@ class IncrementVarNode(template.Node):
         try:
             value = context[self.var_name]
             context[self.var_name] = value + 1
-            return u""
+            return ""
         except:
             raise template.TemplateSyntaxError("The variable does not exist.")

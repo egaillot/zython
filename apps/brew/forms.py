@@ -179,7 +179,7 @@ class MashStepForm(BS3FormMixin, UnitModelForm):
 
 class RecipeSearchForm(forms.Form):
     style = forms.ChoiceField(
-        label=_(u"Style"),
+        label=_("Style"),
         choices=style_choices(qs_kwargs={'recipe__id__isnull': False}),
         required=False
     )

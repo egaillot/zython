@@ -41,7 +41,7 @@ urlpatterns = patterns(
         TemplateView.as_view(template_name="base_email.html"),
         name="dfgfdg"),
 
-    (r'', include('social_auth.urls')),
+    # (r'', include('social_auth.urls')),
     (r"^account/", include("account.urls")),
     (r'^recipe/', include('brew.urls')),
     (r'^stocks/', include('stocks.urls')),

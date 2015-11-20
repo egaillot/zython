@@ -22,9 +22,9 @@ class BS3FormBaseMixin(object):
             field.widget.attrs.update({'class': "%s %s" % (cls.css_class, existing_class)})
 
     def _apply_formatting(self):
-        for k, v in self.fields.iteritems():
+        for k, v in self.fields.items():
             widget = self.fields[k].widget
-            if "Check" in u"%s" % widget.__class__:
+            if "Check" in "%s" % widget.__class__:
                 continue
             for t in BS3_FORM_CONTROL_SUBTYPES:
                 if issubclass(widget.__class__, t):
