@@ -1065,7 +1065,7 @@ msgid ""
 msgstr ""
 "\n"
 "          <h5><i class=\"fa fa-database\"></i><br>Gérez vos stocks</h5>\n"
-"           Ajoutez vos ingrédients, Zython pendra soin de votre stock\n"
+"           Ajoutez vos ingrédients, Zython prendra soin de votre stock\n"
 "          "
 
 #: apps/brew/templates/brew/recipe_list.html:43
