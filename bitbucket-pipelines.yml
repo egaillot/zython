@@ -5,6 +5,6 @@ pipelines:
   default:
     - step:
         script:
-          - pip install -U tox
-          - pip --version
-          - tox --version
+          - pip install -r requirements.txt --use-mirrors
+          - python manage.py migrate --noinput
+          - python manage.py test
