@@ -8,3 +8,4 @@ pipelines:
           - pip install -r requirements.txt --use-mirrors
           - python manage.py migrate --noinput
           - python manage.py test
+
