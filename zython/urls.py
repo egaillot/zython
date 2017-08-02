@@ -37,6 +37,10 @@ urlpatterns = patterns(
         TemplateView.as_view(template_name="how.html"),
         name="how_it_works"),
 
+    url(r'login/recipe/$',
+        RecipeListView.as_view(),
+        name="login_recipe"),
+
     url(r'^email_test/',
         TemplateView.as_view(template_name="base_email.html"),
         name="dfgfdg"),

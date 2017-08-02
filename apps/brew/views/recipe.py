@@ -156,7 +156,6 @@ class RecipeDeleteView(RecipeSlugUrlMixin, RecipeAuthorMixin, DeleteView):
 
 class RecipeUpdateView(RecipeSlugUrlMixin, RecipeAuthorMixin, UnitViewFormMixin, UpdateView):
     form_class = RecipeForm
-    success_url = '/recipe/%(id)d/'
 
 
 class RecipeCloneView(RecipeSlugUrlMixin, LoginRequiredMixin, RecipeViewableMixin, JSONResponseMixin, DetailView):

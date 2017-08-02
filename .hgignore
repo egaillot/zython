@@ -14,4 +14,4 @@ cache/
 medias/css/less/
 projects/dev/zython.sql
 .bumpversion.cfg
-
+tasks.py

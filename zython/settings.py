@@ -167,6 +167,8 @@ ACCOUNT_EMAIL_CONFIRMATION_EMAIL = False
 SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/account/new-social-auth-user/'
 SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/account/new-social-auth-user/'
 
+LOGIN_ERROR_URL = LOGIN_URL
+
 try:
     from local_settings import *
 except ImportError:
