@@ -20,7 +20,7 @@ from ..forms import RecipeSearchForm, RecipeImportForm, RecipeForm
 from ..helpers import import_beer_xml
 
 __all__ = (
-    "RecipeListView", "UserListView", "RecipeCreateView", "RecipeImportView",
+    "RecipeListView", "UserRecipeListView", "UserListView", "RecipeCreateView", "RecipeImportView",
     "RecipeDetailView", "RecipeDeleteView", "RecipeUpdateView", "RecipeCloneView",
     "set_user_perm"
 )
@@ -55,6 +55,12 @@ class RecipeListView(ListView):
         if self.user is None:
             context['search_form'] = getattr(self, 'search_form')
         return context
+
+
+class UserRecipeListView(RecipeListView):
+    def get_queryset(self):
+        qs = Recipe.objects.filter(user=self.request.user).select_related('user', 'style')
+        return self.search_form(qs)
 
 
 class UserListView(ListView):

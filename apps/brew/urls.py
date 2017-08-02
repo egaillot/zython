@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import login_required
 from .views import *
 from .forms import *
 from .models import *
@@ -17,6 +18,10 @@ urlpatterns = patterns(
     url(r'^user/(?P<username>\w+)/$',
         RecipeListView.as_view(),
         name='brew_recipe_user'),
+
+    url(r'^my-recipes/$',
+        login_required(UserRecipeListView.as_view()),
+        name='brew_recipe_owner'),
 
     url(r'^user/$',
         UserListView.as_view(),

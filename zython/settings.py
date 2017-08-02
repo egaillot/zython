@@ -28,6 +28,8 @@ SITE_ID = 1
 
 AUTH_USER_MODEL = "auth.User"
 
+LOGIN_REDIRECT_URL = '/recipe/my-recipes/'
+
 TEST_RUNNER = "zython.test_runner.ZythonTestRunner"
 
 
