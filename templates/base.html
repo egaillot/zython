@@ -163,7 +163,7 @@
           </ul>
         </li>
       {% else %}
-        <li><a href="/account/login/?next={{ request.path }}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
+        <li><a href="/account/login/{% if request.path != "/" %}?next={{ request.path }}{% endif %}"><span class="glyphicon glyphicon-log-in"></span> {% trans "Log in" %}</a></li>
         <li><a href="/account/signup/">{% trans "Register" %}</a></li>
       {% endif %}
   </ul>
