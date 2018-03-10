@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-21 16:09+0200\n"
+"POT-Creation-Date: 2018-03-10 18:18+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Martyn <martyn.clement@gmail.com>\n"
 "Language-Team: \n"
@@ -59,6 +59,14 @@ msgstr "Merci d'entrer un nombre de jours de houblonnage"
 msgid "Style"
 msgstr "Style"
 
+#: apps/brew/forms.py:212
+msgid "Collected Volume"
+msgstr "Volume collecté"
+
+#: apps/brew/forms.py:213
+msgid "Measured OG"
+msgstr "DI mesurée"
+
 #: apps/brew/models.py:34
 msgid "All grain"
 msgstr "Tout grain"
@@ -103,11 +111,11 @@ msgstr "Infusion"
 msgid "Decoction"
 msgstr "Décoction"
 
-#: apps/brew/models.py:51 apps/brew/models.py:697 apps/calculator/forms.py:15
+#: apps/brew/models.py:51 apps/brew/models.py:709 apps/calculator/forms.py:15
 msgid "Temperature"
 msgstr "Température"
 
-#: apps/brew/models.py:116 apps/brew/models.py:695 apps/brew/models_base.py:109
+#: apps/brew/models.py:116 apps/brew/models.py:707 apps/brew/models_base.py:109
 #: apps/brew/models_base.py:148 apps/brew/models_base.py:177
 #: apps/brew/models_base.py:211 apps/brew/templates/brew/raw_hop_form.html:9
 #: apps/brew/templates/brew/raw_malt_form.html:9
@@ -119,7 +127,7 @@ msgstr "Température"
 msgid "Name"
 msgstr "Nom"
 
-#: apps/brew/models.py:121 apps/brew/templates/brew/recipe_detail.html:192
+#: apps/brew/models.py:121 apps/brew/templates/brew/recipe_detail.html:193
 #: apps/brew/templates/brew/recipe_detail.txt:4
 #: apps/brew/templates/brew/recipe_list.part.html:11
 #: apps/brew/templates/brew/recipe_print.html:13
@@ -263,72 +271,72 @@ msgstr "Suis-je aveugle ou cette bière est noire ?"
 msgid "View recipe"
 msgstr "Voir la recette"
 
-#: apps/brew/models.py:504
+#: apps/brew/models.py:516
 msgid "Bitterness is too low"
 msgstr "L' amertume est trop basse"
 
-#: apps/brew/models.py:506
+#: apps/brew/models.py:518
 msgid "Bitterness is too high"
 msgstr "L' amertume est trop haute"
 
-#: apps/brew/models.py:511
+#: apps/brew/models.py:523
 msgid "Original gravity is too low"
 msgstr "La densité originale est trop basse"
 
-#: apps/brew/models.py:513
+#: apps/brew/models.py:525
 msgid "Original gravity is too high"
 msgstr "La densité originale est trop haute"
 
-#: apps/brew/models.py:518
+#: apps/brew/models.py:530
 msgid "Final gravity is too low"
 msgstr "La densité finale est trop basse"
 
-#: apps/brew/models.py:520
+#: apps/brew/models.py:532
 msgid "Final gravity is too high"
 msgstr "La densité finale est trop haute"
 
-#: apps/brew/models.py:525
+#: apps/brew/models.py:537
 msgid "Alcohol is too low"
 msgstr "Taux l'acool trop bas"
 
-#: apps/brew/models.py:527
+#: apps/brew/models.py:539
 msgid "Alcohol is too high"
 msgstr "Taux d'alcool trop haut"
 
-#: apps/brew/models.py:532
+#: apps/brew/models.py:544
 msgid "The beer color seems too bright"
 msgstr "La couleur de la bière est trop claire"
 
-#: apps/brew/models.py:534
+#: apps/brew/models.py:546
 msgid "The beer color seems too dark"
 msgstr "La couleur de la bière est trop foncée"
 
-#: apps/brew/models.py:624
+#: apps/brew/models.py:636
 #, python-format
 msgid "%s days"
 msgstr "%s jours"
 
-#: apps/brew/models.py:696
+#: apps/brew/models.py:708
 msgid "Step type"
 msgstr "Type de pallier"
 
-#: apps/brew/models.py:698 apps/brew/templates/brew/recipe_mashsteps.html:12
+#: apps/brew/models.py:710 apps/brew/templates/brew/recipe_mashsteps.html:12
 msgid "Step time"
 msgstr "Temps du pallier"
 
-#: apps/brew/models.py:698 apps/brew/models.py:699
+#: apps/brew/models.py:710 apps/brew/models.py:711
 msgid "min"
 msgstr "min"
 
-#: apps/brew/models.py:699
+#: apps/brew/models.py:711
 msgid "Rise time"
 msgstr "Temps de chauffe"
 
-#: apps/brew/models.py:700
+#: apps/brew/models.py:712
 msgid "Water added"
 msgstr "Eau ajoutée"
 
-#: apps/brew/models.py:742
+#: apps/brew/models.py:754
 msgid "New comment posted"
 msgstr "Nouveau commentaire"
 
@@ -483,7 +491,7 @@ msgstr "Rendement"
 
 #: apps/brew/models_base.py:118
 #: apps/brew/templates/brew/beerstyle_detail.html:75
-#: apps/brew/templates/brew/recipe_detail.html:252
+#: apps/brew/templates/brew/recipe_detail.html:253
 #: apps/brew/templates/brew/recipe_print.html:32
 msgid "Color"
 msgstr "Couleur"
@@ -908,33 +916,33 @@ msgstr "Ajouter une étape d'empatage"
 msgid "Mash detail"
 msgstr "Détail d'empatage"
 
-#: apps/brew/templates/brew/recipe_detail.html:171
-#: apps/brew/templates/brew/recipe_detail.html:173
+#: apps/brew/templates/brew/recipe_detail.html:172
+#: apps/brew/templates/brew/recipe_detail.html:174
 msgid "Destock"
 msgstr "Déstocker"
 
-#: apps/brew/templates/brew/recipe_detail.html:177
+#: apps/brew/templates/brew/recipe_detail.html:178
 msgid "Last destock date :"
 msgstr "Date du dernier déstockage : "
 
-#: apps/brew/templates/brew/recipe_detail.html:188
+#: apps/brew/templates/brew/recipe_detail.html:189
 msgid "Indicators"
 msgstr "Indicateurs"
 
-#: apps/brew/templates/brew/recipe_detail.html:204
+#: apps/brew/templates/brew/recipe_detail.html:205
 msgid "Est. original gravity"
 msgstr "Densité originale (estimée)"
 
-#: apps/brew/templates/brew/recipe_detail.html:220
+#: apps/brew/templates/brew/recipe_detail.html:221
 msgid "Est. final gravity"
 msgstr "Densité finale (estimée)"
 
-#: apps/brew/templates/brew/recipe_detail.html:236
+#: apps/brew/templates/brew/recipe_detail.html:237
 #: apps/brew/templates/brew/recipe_detail.txt:14
 msgid "IBU"
 msgstr "IBU"
 
-#: apps/brew/templates/brew/recipe_detail.html:268
+#: apps/brew/templates/brew/recipe_detail.html:269
 #: apps/brew/templates/brew/recipe_detail.txt:13
 #: apps/brew/templates/brew/recipe_list.part.html:9
 #: apps/brew/templates/brew/recipe_print.html:33
@@ -942,20 +950,31 @@ msgstr "IBU"
 msgid "ABV"
 msgstr "Alcool"
 
-#: apps/brew/templates/brew/recipe_detail.html:291
+#: apps/brew/templates/brew/recipe_detail.html:295
+#, fuzzy
+#| msgid "Efficiency"
+msgid "Efficiency calculator"
+msgstr "Efficacité"
+
+#: apps/brew/templates/brew/recipe_detail.html:305
+#: apps/stocks/templates/stocks/ingredient.html:53
+msgid "Update"
+msgstr "Mettre à jour"
+
+#: apps/brew/templates/brew/recipe_detail.html:322
 #: apps/brew/templates/brew/recipe_detail.txt:21
 msgid "Mash steps"
 msgstr "Etapes"
 
-#: apps/brew/templates/brew/recipe_detail.html:305
+#: apps/brew/templates/brew/recipe_detail.html:336
 msgid "Clonée à partir de"
 msgstr ""
 
-#: apps/brew/templates/brew/recipe_detail.html:319
+#: apps/brew/templates/brew/recipe_detail.html:350
 msgid "Share this recipe"
 msgstr "Partager cette recette"
 
-#: apps/brew/templates/brew/recipe_detail.html:325
+#: apps/brew/templates/brew/recipe_detail.html:356
 msgid "Copy (txt)"
 msgstr "Copier (txt)"
 
@@ -1290,17 +1309,17 @@ msgstr "Ajouter %(water)s d'eau"
 msgid "Heat over"
 msgstr "Chauffer"
 
-#: apps/brew/views/recipe.py:182
+#: apps/brew/views/recipe.py:203
 #, python-format
 msgid "User %s does not exist"
 msgstr "L'utilisateur %s n'existe pas"
 
-#: apps/brew/views/recipe.py:193
+#: apps/brew/views/recipe.py:214
 #, python-format
 msgid "Permissions added for user %s"
 msgstr "Permission ajoutée pour %s"
 
-#: apps/brew/views/recipe.py:195
+#: apps/brew/views/recipe.py:216
 #, python-format
 msgid "Permissions removed for user %s"
 msgstr "Permission retirée pour %s"
@@ -1338,10 +1357,6 @@ msgstr "Date d'ajout"
 #: apps/stocks/templates/stocks/ingredient.html:42
 msgid "units"
 msgstr "unités"
-
-#: apps/stocks/templates/stocks/ingredient.html:53
-msgid "Update"
-msgstr "Mettre à jour"
 
 #: apps/stocks/templates/stocks/ingredient.html:67
 msgid "Nothing here ...  :("
@@ -1426,7 +1441,7 @@ msgstr "Vous ête connecté"
 msgid "You have a Zython account"
 msgstr "Vous avez un compte sur Zython"
 
-#: templates/account/login.html:45 templates/base.html:164
+#: templates/account/login.html:45 templates/base.html:166
 #: templates/registration/login.html:35
 msgid "Log in"
 msgstr "Connexion"
@@ -1439,7 +1454,7 @@ msgstr "Oublié mon mot de passe"
 msgid "Connect with a social account"
 msgstr "Connecter avec un réseau social"
 
-#: templates/account/logout.html:11 templates/base.html:158
+#: templates/account/logout.html:11 templates/base.html:160
 #: templates/registration/logout.html:4
 msgid "Log out"
 msgstr "Déconnexion"
@@ -1504,7 +1519,7 @@ msgstr ""
 "Ce lien de réinitialisation de mot de passe est mauvais, c'est con.  "
 "Demandez <a href=\"%(url)s\">un nouveau mot de passe</a>."
 
-#: templates/account/settings.html:10 templates/base.html:152
+#: templates/account/settings.html:10 templates/base.html:154
 msgid "My account"
 msgstr "Mon compte"
 
@@ -1655,21 +1670,21 @@ msgstr "Styles"
 msgid "Unit preferences"
 msgstr "Unités"
 
-#: templates/base.html:165 templates/registration/login.html:37
+#: templates/base.html:167 templates/registration/login.html:37
 #: templates/registration/registration_form.html:11
 #: templates/registration/registration_form.html:37
 msgid "Register"
 msgstr "S'enregistrer"
 
-#: templates/base.html:199
+#: templates/base.html:201
 msgid "Source code on Bitbucket"
 msgstr "Code source sur BitBucket"
 
-#: templates/base.html:201
+#: templates/base.html:203
 msgid "Report an issue / contribute"
 msgstr "Reporter un problème / contributer"
 
-#: templates/base.html:210
+#: templates/base.html:212
 msgid "Are you sure you want to delete this ?"
 msgstr "Etes-vous sûr de vouloir supprimer ceci ?"
 

@@ -163,7 +163,7 @@
         {% include "brew/recipe_mashsteps.html" %}
     </div>
 
-    <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+    <div id="right-panels" class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
 
         {% if object.has_stock_ingredients %}
             <a
@@ -284,6 +284,36 @@
               </div>
         </div>
 
+        <div class="panel panel-primary">
+                <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a data-toggle="collapse"
+                           data-parent="#right-panels"
+                           href="#efficiency-form-collapse">
+                        <i class="glyphicon glyphicon-cog"></i>
+                        {% trans "Efficiency calculator" %}</h3>
+                      </a>
+                </div>
+              <div id="efficiency-form-collapse"
+                   class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <form method="POST" id="efficiency-calc-form">
+                  {% csrf_token %}
+                  {{calculator_form.as_p}}
+                  <button type="submit" value="{% trans "Update" %}">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                  </button>
+                </form>
+                <div>
+                  <b>
+                    <span id="efficiency-calc-form-result"></span>
+                    %
+                  </b>
+                </div>
+              </div>
+            </div>
+        </div>
 
         {% if object.mashstep_set.all %}
             <div class="panel panel-primary">
@@ -363,6 +393,22 @@ $(function() {
 });
 </script>
 {% endif %}
+<script type="text/javascript">
+$(function() {
+  $("#efficiency-calc-form").submit(function(e) {
+
+      $.ajax({
+        type:"POST",
+        data: $("#efficiency-calc-form").serialize(),
+        url:"{% url 'brew_recipe_efficiency_calculator' object.id object.slug_url %}",
+        success: function(data) {
+          $("#efficiency-calc-form-result").text(data.efficiency);
+        }
+      });
+      e.preventDefault();
+    });
+});
+</script>
 
 {% if object.mashstep_set.all and page == "detail" %}
     <script type="text/javascript">

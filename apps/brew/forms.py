@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
-from units.forms import UnitModelForm
+from units.forms import UnitModelForm, UnitForm
 from .models import *
 from .settings import MAIN_STYLES
 from .utils.forms import BS3FormMixin
@@ -201,3 +201,13 @@ class RecipeSearchForm(forms.Form):
                 Q(recipeyeast__name__icontains=q)
             )
         return qs.distinct()
+
+
+class EfficiencyCalculatorForm(UnitForm):
+    """ form used for the inline effective efficiency computation"""
+    unit_fields = {
+        "volume": ["collected_volume",]
+        # no unit for density/gravity
+    }
+    collected_volume = forms.FloatField(label=_(u"Collected Volume"))
+    measured_gravity = forms.FloatField(label=_(u"Measured OG"))

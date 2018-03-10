@@ -327,21 +327,33 @@ class Recipe(models.Model):
         batch_size = l_to_gal(float(self.batch_size) + float(self.water_boiloff()) + float(self.boiler_tun_deadspace))
         return self.get_original_gravity(cache_key="_pbg", batch_size=batch_size)
 
+    def _get_potential_gravity(self, batch_size):
+        points = []
+        if not batch_size:
+            batch_size = l_to_gal(self.batch_size)
+        for grain in self.recipemalt_set.all():
+            pounds = kg_to_lb(float(grain.amount))
+            gravity = (grain.potential_gravity - 1) * 1000
+            points.append(float(pounds) * float(gravity))
+        return (sum(points) / batch_size) / 1000
+
+
     def get_original_gravity(self, cache_key="_og", batch_size=None):
         cache_key = "%s%s" % (self.cache_key, cache_key)
         og = cache.get(cache_key)
         if og is None:
-            points = []
-            if not batch_size:
-                batch_size = l_to_gal(self.batch_size)
             efficiency = float(self.efficiency) / 100.0
-            for grain in self.recipemalt_set.all():
-                pounds = kg_to_lb(float(grain.amount))
-                gravity = (grain.potential_gravity - 1) * 1000
-                points.append(float(pounds) * float(gravity) * efficiency)
-            og = ((sum(points) / batch_size) / 1000) + 1
+            og = self._get_potential_gravity(batch_size) * efficiency + 1
             cache.set(cache_key, og, 60 * 15)
         return "%.3f" % og
+
+    def compute_empirical_efficiency(self, collected_volume, measured_og):
+        """ returns the empirical efficiency in % based on collected volume (L),
+            and measured OG (specific gravity). In order to estimate your brewhouse efficiency on that particular recipe.. """
+        pot_gravity =  self._get_potential_gravity(l_to_gal(collected_volume))
+        efficiency = (measured_og - 1.) / pot_gravity
+        return int( efficiency * 100)
+
 
     def get_total_mash_time(self):
         time = 0

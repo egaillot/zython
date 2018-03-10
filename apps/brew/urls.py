@@ -75,6 +75,10 @@ urlpatterns = patterns(
         RecipeCloneView.as_view(),
         name='brew_recipe_clone'),
 
+    url(r'^(?P<recipe_id>\d+)-(?P<slug>[\w-]+)/calculator$',
+        RecipeEfficiencyCalculatorView.as_view(),
+        name='brew_recipe_efficiency_calculator'),
+
     url(r'^(?P<recipe_id>\d+)/add/(?P<ingredient>\w+)/$',
         IngredientCreateView.as_view(),
         name='brew_recipe_addingredient'),

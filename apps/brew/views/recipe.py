@@ -16,12 +16,12 @@ from fm.views import JSONResponseMixin
 from ..decorators import recipe_author
 from .base import RecipeAuthorMixin, RecipeSlugUrlMixin, RecipeViewableMixin, SLUG_MODELROOT, SLUG_MODELFORM
 from ..models import Recipe
-from ..forms import RecipeSearchForm, RecipeImportForm, RecipeForm
+from ..forms import RecipeSearchForm, RecipeImportForm, RecipeForm, EfficiencyCalculatorForm
 from ..helpers import import_beer_xml
 
 __all__ = (
     "RecipeListView", "UserRecipeListView", "UserListView", "RecipeCreateView", "RecipeImportView",
-    "RecipeDetailView", "RecipeDeleteView", "RecipeUpdateView", "RecipeCloneView",
+    "RecipeDetailView", "RecipeDeleteView", "RecipeUpdateView", "RecipeCloneView", "RecipeEfficiencyCalculatorView",
     "set_user_perm"
 )
 
@@ -145,6 +145,10 @@ class RecipeDetailView(RecipeSlugUrlMixin, RecipeViewableMixin, DetailView):
 
         context.update({
             'page': self.page,
+            'calculator_form': EfficiencyCalculatorForm(self.request, initial={
+                "collected_volume":self.object.batch_size,
+                "measured_gravity":self.object.get_original_gravity()
+            }),
             'can_edit': can_edit
         })
         return context
@@ -174,6 +178,18 @@ class RecipeCloneView(RecipeSlugUrlMixin, LoginRequiredMixin, RecipeViewableMixi
         if self.request.is_ajax():
             return self.render_json_response({'status': 'redirect', 'message': "<script>window.location='%s'</script>" % url})
         return http.HttpResponseRedirect(url)
+
+
+class RecipeEfficiencyCalculatorView(UnitViewFormMixin, FormView):
+    form_class=EfficiencyCalculatorForm
+    template_name=None # -> will 500 on get ..
+
+    def form_valid(self, form):
+        recipe = get_object_or_404(Recipe, pk = self.kwargs["recipe_id"])
+        sg = float(form.cleaned_data["measured_gravity"])
+        vol = float(form.cleaned_data["collected_volume"])
+        efficiency = recipe.compute_empirical_efficiency(vol, sg)
+        return http.JsonResponse({"efficiency": efficiency})
 
 
 @login_required

@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from brew.models import *
 from public.utils import show_in_browser
 from public.utils.testing import AjaxCallsTestCaseBase
-
+import json
 
 class RecipeTest(AjaxCallsTestCaseBase, TestCase):
     user_info = {'username': 'martyn',
@@ -108,6 +108,19 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
         malts = self.recipe.recipemalt_set.all()
         self.assertEqual(float(malts[0].percent()), 86.2)
         self.assertEqual(float(malts[1].percent()), 13.8)
+
+        # empirical efficiency
+        self.assertEqual(self.recipe.compute_empirical_efficiency(50.3, 1.069), 75)
+        self.assertEqual(self.recipe.compute_empirical_efficiency(45, 1.055), 53)
+
+        calculator_data = {}
+        calculator_data["collected_volume"] = 55.3
+        calculator_data["measured_gravity"] = 1.071
+        url_efficiency_calculator = reverse(
+            'brew_recipe_efficiency_calculator', args=[self.recipe.id, self.recipe.slug_url])
+        response = c.post(url_efficiency_calculator, calculator_data)
+        result = json.loads(response.content)
+        self.assertEqual(result["efficiency"], 85)
 
         # Clear all malts
         self.recipe.recipemalt_set.all().delete()
