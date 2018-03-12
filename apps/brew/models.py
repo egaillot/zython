@@ -351,7 +351,9 @@ class Recipe(models.Model):
         """ returns the empirical efficiency in % based on collected volume (L),
             and measured OG (specific gravity). In order to estimate your brewhouse efficiency on that particular recipe.. """
         pot_gravity =  self._get_potential_gravity(l_to_gal(collected_volume))
-        efficiency = (measured_og - 1.) / pot_gravity
+        efficiency = 0
+        if pot_gravity > 0 :
+            efficiency = (measured_og - 1.) / pot_gravity
         return int( efficiency * 100)
 
 
