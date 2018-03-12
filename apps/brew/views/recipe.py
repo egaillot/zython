@@ -181,8 +181,8 @@ class RecipeCloneView(RecipeSlugUrlMixin, LoginRequiredMixin, RecipeViewableMixi
 
 
 class RecipeEfficiencyCalculatorView(UnitViewFormMixin, FormView):
+    http_method_names = ['post',] #accept only POSTs 
     form_class=EfficiencyCalculatorForm
-    template_name=None # -> will 500 on get ..
 
     def form_valid(self, form):
         recipe = get_object_or_404(Recipe, pk = self.kwargs["recipe_id"])
