@@ -94,3 +94,26 @@ class StockTest(AjaxCallsTestCaseBase, TestCase):
             response = self.client.get(reverse("stock_ingredient", args=[slug]))
             self.assertTrue(my_ingredient.is_in_stock())
             self.assertContains(response, my_ingredient.stock_repr())
+
+    def test_delete_ingredients(self):
+        stocked_hop = Hop(stock_user=self.user, **self.datas["hop"])
+        stocked_hop.save()
+
+        recipe = Recipe(
+            user=self.user,
+            name="Test Recipe PoneyPoneyPoney",
+            batch_size="50.3",
+            style=BeerStyle.objects.filter(name__icontains="Doppelbock")[0],
+            recipe_type="allgrain",
+            private=False,
+            efficiency="75",
+        )
+        recipe.save()
+
+        recipe_hop_args = self.datas["hop"].copy()
+        del recipe_hop_args["stock_amount"]
+        recipe_hop = RecipeHop(hop=stocked_hop, recipe=recipe, amount=10, **recipe_hop_args)
+        recipe_hop.save()
+
+        stocked_hop.delete()
+        self.assertEqual(recipe_hop, RecipeHop.objects.get(pk=recipe_hop.id))
