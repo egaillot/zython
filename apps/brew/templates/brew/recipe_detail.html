@@ -300,8 +300,16 @@
 
                 <form method="POST" id="efficiency-calc-form">
                   {% csrf_token %}
-                  {{calculator_form.as_p}}
-                  <button type="submit" value="{% trans "Update" %}">
+                  {% for field in calculator_form %}
+                      <div>
+                      {{ field.label_tag }} <br>
+                      {{ field }}
+                      {% if field.errors %}
+                          {{ field.errors }}
+                      {% endif %}
+                      </div>
+                  {% endfor %}
+                  <button class="btn btn-success" type="submit" value="{% trans "Update" %}">
                     <span class="glyphicon glyphicon-refresh"></span>
                   </button>
                 </form>

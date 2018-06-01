@@ -337,7 +337,6 @@ class Recipe(models.Model):
             points.append(float(pounds) * float(gravity))
         return (sum(points) / batch_size) / 1000
 
-
     def get_original_gravity(self, cache_key="_og", batch_size=None):
         cache_key = "%s%s" % (self.cache_key, cache_key)
         og = cache.get(cache_key)
@@ -350,12 +349,11 @@ class Recipe(models.Model):
     def compute_empirical_efficiency(self, collected_volume, measured_og):
         """ returns the empirical efficiency in % based on collected volume (L),
             and measured OG (specific gravity). In order to estimate your brewhouse efficiency on that particular recipe.. """
-        pot_gravity =  self._get_potential_gravity(l_to_gal(collected_volume))
+        pot_gravity = self._get_potential_gravity(l_to_gal(collected_volume))
         efficiency = 0
-        if pot_gravity > 0 :
+        if pot_gravity > 0:
             efficiency = (measured_og - 1.) / pot_gravity
-        return int( efficiency * 100)
-
+        return int(efficiency * 100)
 
     def get_total_mash_time(self):
         time = 0

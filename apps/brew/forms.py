@@ -206,7 +206,7 @@ class RecipeSearchForm(forms.Form):
 class EfficiencyCalculatorForm(UnitForm):
     """ form used for the inline effective efficiency computation"""
     unit_fields = {
-        "volume": ["collected_volume",]
+        "volume": ["collected_volume", ]
         # no unit for density/gravity
     }
     collected_volume = forms.FloatField(label=_(u"Collected Volume"))
