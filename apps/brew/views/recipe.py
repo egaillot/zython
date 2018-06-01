@@ -146,8 +146,8 @@ class RecipeDetailView(RecipeSlugUrlMixin, RecipeViewableMixin, DetailView):
         context.update({
             'page': self.page,
             'calculator_form': EfficiencyCalculatorForm(self.request, initial={
-                "collected_volume":self.object.batch_size,
-                "measured_gravity":self.object.get_original_gravity()
+                "collected_volume": self.object.batch_size,
+                "measured_gravity": self.object.get_original_gravity()
             }),
             'can_edit': can_edit
         })

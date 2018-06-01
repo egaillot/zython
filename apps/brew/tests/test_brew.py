@@ -283,6 +283,7 @@ class RecipeTest(AjaxCallsTestCaseBase, TestCase):
 
         # In the detail page, we must have the 'edit_ingredient' link
         recipe = self.recipe
+        client.get(reverse("unit_set", args=["volume", "l"]), )
         response = client.get(recipe.get_absolute_url())
         check_string = 'href="/recipe/1/edit/malt/1/"'
         self.assertContains(response, check_string)
