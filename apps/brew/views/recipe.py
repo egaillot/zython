@@ -181,11 +181,15 @@ class RecipeCloneView(RecipeSlugUrlMixin, LoginRequiredMixin, RecipeViewableMixi
 
 
 class RecipeEfficiencyCalculatorView(UnitViewFormMixin, FormView):
-    http_method_names = ['post',] #accept only POSTs 
-    form_class=EfficiencyCalculatorForm
+    http_method_names = ['post', ]  # accept only POSTs
+    form_class = EfficiencyCalculatorForm
+
+    def form_invalid(self, form):
+        # TODO : add error output
+        return http.HttpResponse("error")
 
     def form_valid(self, form):
-        recipe = get_object_or_404(Recipe, pk = self.kwargs["recipe_id"])
+        recipe = get_object_or_404(Recipe, pk=self.kwargs["recipe_id"])
         sg = float(form.cleaned_data["measured_gravity"])
         vol = float(form.cleaned_data["collected_volume"])
         efficiency = recipe.compute_empirical_efficiency(vol, sg)
