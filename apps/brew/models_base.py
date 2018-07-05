@@ -28,6 +28,7 @@ HOP_USAGE_CHOICES = (
     ('dryhop', _('Dry Hop')),
     ('firsthop', _('First Wort')),
     ('latehop', _('Late Hop')),
+    ('flameout', _('Flame Out')),
 )
 
 HOP_FORM_CHOICES = (
