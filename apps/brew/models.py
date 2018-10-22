@@ -118,7 +118,7 @@ class Recipe(models.Model):
     user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True, blank=True)
-    batch_size = models.DecimalField(_('Batch size'), max_digits=5, decimal_places=1, help_text="L")
+    batch_size = models.DecimalField(_('Batch size'), max_digits=8, decimal_places=1, help_text="L")
     style = models.ForeignKey('BeerStyle', verbose_name=_('Style'), blank=True, null=True)
     recipe_type = models.CharField(_('Type'), choices=RECIPE_TYPE_CHOICES, default="allgrain", max_length=50)
     mes_original_gravity = GravityField(null=True, blank=True)
@@ -130,8 +130,8 @@ class Recipe(models.Model):
     private = models.BooleanField(_(u'Private recipe ?'), default=False, help_text=_(u"If checked, this recipe will not be listed to other users."))
     notes = models.TextField(_('Notes'), null=True, blank=True)
     efficiency = models.DecimalField(_('Efficiency'), max_digits=4, decimal_places=1, default="75", help_text="%")
-    mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
-    boiler_tun_deadspace = models.DecimalField(_('Boiler tun deadspace'), max_digits=5, decimal_places=1, help_text="L", default="1.5")
+    mash_tun_deadspace = models.DecimalField(_('Mash tun deadspace'), max_digits=7, decimal_places=1, help_text="L", default="1.5")
+    boiler_tun_deadspace = models.DecimalField(_('Boiler tun deadspace'), max_digits=7, decimal_places=1, help_text="L", default="1.5")
     evaporation_rate = models.DecimalField(_('Evaporation rate'), max_digits=5, decimal_places=2, help_text="%", default="8")
     grain_temperature = models.DecimalField(_('Grain temperature'), max_digits=3, decimal_places=1, default="22")
     forked_from = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL)
@@ -573,12 +573,12 @@ class Recipe(models.Model):
 
 
 class Malt(BaseStockModel, BaseMalt):
-    stock_amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg", null=True, blank=True)
+    stock_amount = models.DecimalField(max_digits=8, decimal_places=2, help_text="kg", null=True, blank=True)
     stock_units = "weight"
 
 
 class Hop(BaseStockModel, BaseHop):
-    stock_amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g", null=True, blank=True)
+    stock_amount = models.DecimalField(max_digits=8, decimal_places=2, help_text="g", null=True, blank=True)
     stock_units = "hop"
 
 
@@ -611,7 +611,7 @@ class UpdateRecipeModel(object):
 
 class RecipeMalt(UpdateRecipeModel, BaseMalt):
     recipe = models.ForeignKey('Recipe')
-    amount = models.DecimalField(max_digits=5, decimal_places=2, help_text="kg")
+    amount = models.DecimalField(max_digits=8, decimal_places=2, help_text="kg")
     malt = models.ForeignKey(Malt, null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
@@ -626,8 +626,8 @@ class RecipeMalt(UpdateRecipeModel, BaseMalt):
 
 class RecipeHop(UpdateRecipeModel, BaseHop):
     recipe = models.ForeignKey('Recipe')
-    amount = models.DecimalField(max_digits=6, decimal_places=2, help_text="g")
-    boil_time = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, help_text="g")
+    boil_time = models.DecimalField(max_digits=6, decimal_places=1, null=True, blank=True)
     dry_days = models.DecimalField(max_digits=3, decimal_places=1, null=True, blank=True)
     hop = models.ForeignKey(Hop, null=True, blank=True, on_delete=models.SET_NULL)
 
@@ -709,7 +709,7 @@ class MashStep(UpdateRecipeModel, models.Model):
     temperature = models.DecimalField(_("Temperature"), max_digits=4, decimal_places=1)
     step_time = models.IntegerField(_("Step time"), help_text=_("min"))
     rise_time = models.IntegerField(_("Rise time"), help_text=_("min"))
-    water_added = models.DecimalField(_("Water added"), max_digits=5, decimal_places=2)
+    water_added = models.DecimalField(_("Water added"), max_digits=8, decimal_places=2)
 
     def initial_heat(self):
         # TODO :
