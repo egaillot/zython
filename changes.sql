@@ -6,9 +6,8 @@ ALTER TABLE `brew_malt` change `stock_amount` `stock_amount` numeric(8, 2) NOT N
 ALTER TABLE `brew_hop` change `stock_amount` `stock_amount` numeric(8, 2) NOT NULL;
 ALTER TABLE `brew_recipemalt` change `amount` `amount` numeric(8, 2) NOT NULL;
 ALTER TABLE `brew_recipehop` change `amount` `amount` numeric(8, 2) NOT NULL;
-ALTER TABLE `brew_recipehop` change `boil_time` `boil_time` numeric(8, 2) NOT NULL;
-ALTER TABLE `brew_mashstep` change `water_added` `water_added` numeric(8, 2) NOT NULL;
-
+ALTER TABLE `brew_recipehop` change `boil_time` `boil_time` numeric(8, 2) NULL;
+ALTER TABLE `brew_mashstep` change `water_added` `water_added` numeric(8, 2) NULL;
 
 -- 2015-09-25
 ALTER TABLE `brew_recipe` ADD `slug_url` varchar(50);
