@@ -51,11 +51,10 @@ INSTALLED_APPS = (
     'account',
     'accounts',
     'calculator',
-    'django_social_share',
+    'social_django',
     'public',
     'brew',
     'units',
-    'social_auth',
     'avatar',
     'stocks',
     'guardian',
@@ -110,11 +109,8 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 )

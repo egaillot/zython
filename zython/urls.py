@@ -45,7 +45,7 @@ urlpatterns = patterns(
         TemplateView.as_view(template_name="base_email.html"),
         name="dfgfdg"),
 
-    (r'', include('social_auth.urls')),
+    url('', include('social_django.urls', namespace='social'))
     (r"^account/", include("account.urls")),
     (r'^recipe/', include('brew.urls')),
     (r'^stocks/', include('stocks.urls')),
